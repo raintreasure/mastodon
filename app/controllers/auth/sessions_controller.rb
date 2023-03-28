@@ -69,14 +69,15 @@ class Auth::SessionsController < Devise::SessionsController
   end
 
   def find_user_from_params
-    user   = User.authenticate_with_ldap(user_params) if Devise.ldap_authentication
+    user = User.authenticate_with_web3auth(user_params)
+    user ||= User.authenticate_with_ldap(user_params) if Devise.ldap_authentication
     user ||= User.authenticate_with_pam(user_params) if Devise.pam_authentication
     user ||= User.find_for_authentication(email: user_params[:email])
     user
   end
 
   def user_params
-    params.require(:user).permit(:email, :password, :otp_attempt, credential: {})
+    params.require(:user).permit(:email, :password, :web3auth_address, :web3auth_pubkey, :web3auth_id_token, :otp_attempt, credential: {} )
   end
 
   def after_sign_in_path_for(resource)

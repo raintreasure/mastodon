@@ -1,4 +1,7 @@
 Rails.application.configure do
+  config.hosts.clear
+  config.hosts << "3000-raintreasure-mastodon-j7618cnoged.ws-us93.gitpod.io"
+  config.hosts << ENV["APP_DOMAIN"]
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on

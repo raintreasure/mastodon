@@ -131,4 +131,8 @@ Rails.application.configure do
   }
 
   config.x.otp_secret = ENV.fetch('OTP_SECRET')
+
+  config.hosts.clear
+  config.hosts << "3000-raintreasure-mastodon-fx94dzjdpso.ws-us92.gitpod.io"
+  config.hosts << ENV["APP_DOMAIN"]
 end

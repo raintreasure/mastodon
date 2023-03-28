@@ -86,6 +86,9 @@ module.exports = {
       writeToDisk: true,
       publicPath: true,
     }),
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+    }),
   ],
 
   resolve: {

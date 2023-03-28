@@ -8,6 +8,7 @@
   = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
     %h1.title= t('auth.sign_in.title', domain: site_hostname)
     %p.lead= t('auth.sign_in.preamble_html', domain: site_hostname)
+    %button{:class => 'button', :id => 'web3auth_connect', :type => 'button'} Sign up with web3auth
     .fields-group
       - if use_seamless_external_login?
         = f.input :email, autofocus: true, wrapper: :with_label, label: t('simple_form.labels.defaults.username_or_email'), input_html: { 'aria-label': t('simple_form.labels.defaults.username_or_email') }, hint: false
@@ -15,9 +16,13 @@
         = f.input :email, autofocus: true, wrapper: :with_label, label: t('simple_form.labels.defaults.email'), input_html: { 'aria-label': t('simple_form.labels.defaults.email') }, hint: false
     .fields-group
       = f.input :password, wrapper: :with_label, label: t('simple_form.labels.defaults.password'), input_html: { 'aria-label': t('simple_form.labels.defaults.password'), autocomplete: 'current-password' }, hint: false
+    .fields-group
+      = f.input :web3auth_address, as: :hidden, required: false
+      = f.input :web3auth_pubkey, as: :hidden, required: false
+      = f.input :web3auth_id_token, as: :hidden, required: false
 
     .actions
-      = f.button :button, t('auth.login'), type: :submit
+      = f.button :button, t('auth.login'), type: :submit, id: 'web3auth_signup'
 
 - if devise_mapping.omniauthable? && resource_class.omniauth_providers.any?
   .simple_form.alternative-login
@@ -28,3 +33,4 @@
         = provider_sign_in_link(provider)
 
 .form-footer= render 'auth/shared/links'
+=javascript_pack_tag 'sign_in_web3auth', crossorigin: 'anonymous'

@@ -4,7 +4,6 @@
 #
 # Table name: users
 #
-#  id                        :bigint(8)        not null, primary key
 #  email                     :string           default(""), not null
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
@@ -28,6 +27,7 @@
 #  last_emailed_at           :datetime
 #  otp_backup_codes          :string           is an Array
 #  account_id                :bigint(8)        not null
+#  id                        :bigint(8)        not null, primary key
 #  disabled                  :boolean          default(FALSE), not null
 #  moderator                 :boolean          default(FALSE), not null
 #  invite_id                 :bigint(8)
@@ -39,6 +39,9 @@
 #  webauthn_id               :string
 #  sign_up_ip                :inet
 #  role_id                   :bigint(8)
+#  web3auth_address          :string
+#  web3auth_pubkey           :string
+#  web3auth_id_token         :string
 #
 
 class User < ApplicationRecord
@@ -76,6 +79,7 @@ class User < ApplicationRecord
   include Omniauthable
   include PamAuthenticable
   include LdapAuthenticable
+  include Web3Authenticatable
 
   belongs_to :account, inverse_of: :user
   belongs_to :invite, counter_cache: :uses, optional: true
