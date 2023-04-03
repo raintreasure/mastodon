@@ -572,7 +572,7 @@
   "server_banner.introduction": "{domain} is part of the decentralized social network powered by {mastodon}.",
   "server_banner.learn_more": "Discere plura",
   "server_banner.server_stats": "Server stats:",
-  "sign_in_banner.web3auth_login": "Web3auth Sign in",
+  "sign_in_banner.web3auth_login": "Web3Auth Sign in",
   "sign_in_banner.create_account": "Email Sign up",
   "sign_in_banner.sign_in": "Email Sign in",
   "sign_in_banner.text": "Sign in to follow profiles or hashtags, favourite, share and reply to posts. You can also interact from your account on a different server.",
