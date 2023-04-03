@@ -6,4 +6,5 @@
 
 image: gitpod/workspace-postgres
 tasks:
-  - init: pg_start
+  - init: yarn install && bin/setup
+    command: yarn run start && bin/rails server && pg_start
