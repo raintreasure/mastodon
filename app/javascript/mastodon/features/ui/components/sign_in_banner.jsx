@@ -17,13 +17,13 @@ const SignInBanner = () => {
   if (registrationsOpen) {
     signupButton = (
       <a href='/auth/sign_up' className='button button--block button-tertiary'>
-        <FormattedMessage id='sign_in_banner.create_account' defaultMessage='Create account' />
+        <FormattedMessage id='sign_in_banner.create_account' defaultMessage='Email Sign up' />
       </a>
     );
   } else {
     signupButton = (
       <button className='button button--block button-tertiary' onClick={openClosedRegistrationsModal}>
-        <FormattedMessage id='sign_in_banner.create_account' defaultMessage='Create account' />
+        <FormattedMessage id='sign_in_banner.create_account' defaultMessage='Email Sign up' />
       </button>
     );
   }
@@ -31,7 +31,9 @@ const SignInBanner = () => {
   return (
     <div className='sign-in-banner'>
       <p><FormattedMessage id='sign_in_banner.text' defaultMessage='Sign in to follow profiles or hashtags, favourite, share and reply to posts. You can also interact from your account on a different server.' /></p>
-      <a href='/auth/sign_in' className='button button--block'><FormattedMessage id='sign_in_banner.sign_in' defaultMessage='Sign in' /></a>
+
+      <a href='/auth/sign_in' className='button button--block'><FormattedMessage id='sign_in_banner.web3auth_login' defaultMessage='Web3auth Sign in' /></a>
+      <a href='/auth/sign_in' className='button button--block button-tertiary'><FormattedMessage id='sign_in_banner.sign_in' defaultMessage='Email Sign in' /></a>
       {signupButton}
     </div>
   );

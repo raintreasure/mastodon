@@ -2637,8 +2637,12 @@
         "id": "interaction_modal.description.follow"
       },
       {
-        "defaultMessage": "Create account",
+        "defaultMessage": "Email Sign up",
         "id": "sign_in_banner.create_account"
+      },
+      {
+        "defaultMessage": "Web3auth Sign in",
+        "id": "sign_in_banner.web3auth_login"
       },
       {
         "defaultMessage": "Since Mastodon is decentralized, you can use your existing account hosted by another Mastodon server or compatible platform if you don't have an account on this one.",
@@ -2649,7 +2653,7 @@
         "id": "interaction_modal.on_this_server"
       },
       {
-        "defaultMessage": "Sign in",
+        "defaultMessage": "Email Sign in",
         "id": "sign_in_banner.sign_in"
       },
       {
@@ -4050,12 +4054,16 @@
         "id": "compose_form.publish_form"
       },
       {
-        "defaultMessage": "Create account",
+        "defaultMessage": "Email Sign up",
         "id": "sign_in_banner.create_account"
       },
       {
-        "defaultMessage": "Sign in",
+        "defaultMessage": "Email Sign in",
         "id": "sign_in_banner.sign_in"
+      },
+      {
+        "defaultMessage": "Web3auth Sign in",
+        "id": "sign_in_banner.web3auth_login"
       }
     ],
     "path": "app/javascript/mastodon/features/ui/components/header.json"
@@ -4249,7 +4257,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Create account",
+        "defaultMessage": "Email Sign up",
         "id": "sign_in_banner.create_account"
       },
       {
@@ -4259,6 +4267,10 @@
       {
         "defaultMessage": "Sign in",
         "id": "sign_in_banner.sign_in"
+      },
+      {
+        "defaultMessage": "Web3auth Sign in",
+        "id": "sign_in_banner.web3auth_login"
       }
     ],
     "path": "app/javascript/mastodon/features/ui/components/sign_in_banner.json"

@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
-import { Link } from 'react-router-dom';
-import { domain, version, source_url, statusPageUrl, profile_directory as profileDirectory } from 'mastodon/initial_state';
+import { defineMessages, injectIntl } from 'react-intl';
+// import { Link } from 'react-router-dom';
+// import { domain, version, source_url, statusPageUrl, profile_directory as profileDirectory } from 'mastodon/initial_state';
 import { logOut } from 'mastodon/utils/log_out';
 import { openModal } from 'mastodon/actions/modal';
-import { PERMISSION_INVITE_USERS } from 'mastodon/permissions';
+// import { PERMISSION_INVITE_USERS } from 'mastodon/permissions';
 
 const messages = defineMessages({
   logoutMessage: { id: 'confirmations.logout.message', defaultMessage: 'Are you sure you want to log out?' },
@@ -45,16 +45,16 @@ class LinkFooter extends React.PureComponent {
   };
 
   render () {
-    const { signedIn, permissions } = this.context.identity;
+    // const { signedIn, permissions } = this.context.identity;
 
-    const canInvite = signedIn && ((permissions & PERMISSION_INVITE_USERS) === PERMISSION_INVITE_USERS);
-    const canProfileDirectory = profileDirectory;
+    // const canInvite = signedIn && ((permissions & PERMISSION_INVITE_USERS) === PERMISSION_INVITE_USERS);
+    // const canProfileDirectory = profileDirectory;
 
-    const DividingCircle = <span aria-hidden>{' · '}</span>;
+    // const DividingCircle = <span aria-hidden>{' · '}</span>;
 
     return (
       <div className='link-footer'>
-        <p>
+        {/* <p>
           <strong>{domain}</strong>:
           {' '}
           <Link to='/about'><FormattedMessage id='footer.about' defaultMessage='About' /></Link>
@@ -92,7 +92,7 @@ class LinkFooter extends React.PureComponent {
           <a href={source_url} rel='noopener noreferrer' target='_blank'><FormattedMessage id='footer.source_code' defaultMessage='View source code' /></a>
           {DividingCircle}
           v{version}
-        </p>
+        </p> */}
       </div>
     );
   }
