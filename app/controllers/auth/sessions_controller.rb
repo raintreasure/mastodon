@@ -7,6 +7,8 @@ class Auth::SessionsController < Devise::SessionsController
   skip_before_action :require_functional!
   skip_before_action :update_user_sign_in
 
+ 
+
   prepend_before_action :check_suspicious!, only: [:create]
 
   include TwoFactorAuthenticationConcern
@@ -22,7 +24,10 @@ class Auth::SessionsController < Devise::SessionsController
     user = find_user
     @login_is_suspicious = suspicious_sign_in?(user) unless user.nil?
   end
-
+  def new
+    @login_type = params[:type]
+    super
+  end
   def create
     super do |resource|
       # We only need to call this if this hasn't already been
