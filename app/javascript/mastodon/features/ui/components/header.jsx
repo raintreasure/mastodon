@@ -2,11 +2,12 @@ import React from 'react';
 import Logo from 'mastodon/components/logo';
 import { Link, withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-import { registrationsOpen, me } from 'mastodon/initial_state';
+import { me } from 'mastodon/initial_state';
 import Avatar from 'mastodon/components/avatar';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { openModal } from 'mastodon/actions/modal';
+import Web3authLoginNoBlock from './web3auth_login_noblock';
 
 const Account = connect(state => ({
   account: state.getIn(['accounts', me]),
@@ -33,10 +34,9 @@ class Header extends React.PureComponent {
     location: PropTypes.object,
   };
 
-  render () {
+  render() {
     const { signedIn } = this.context.identity;
-    const { location, openClosedRegistrationsModal } = this.props;
-
+    const { location } = this.props;
     let content;
 
     if (signedIn) {
@@ -47,26 +47,11 @@ class Header extends React.PureComponent {
         </>
       );
     } else {
-      let signupButton;
-
-      if (registrationsOpen) {
-        signupButton = (
-          <a href='/auth/sign_up' className='button button-tertiary'>
-            <FormattedMessage id='sign_in_banner.create_account' defaultMessage='Create account' />
-          </a>
-        );
-      } else {
-        signupButton = (
-          <button className='button button-tertiary' onClick={openClosedRegistrationsModal}>
-            <FormattedMessage id='sign_in_banner.create_account' defaultMessage='Create account' />
-          </button>
-        );
-      }
 
       content = (
         <>
+          <Web3authLoginNoBlock />
           <a href='/auth/sign_in' className='button'><FormattedMessage id='sign_in_banner.sign_in' defaultMessage='Sign in' /></a>
-          {signupButton}
         </>
       );
     }

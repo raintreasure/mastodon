@@ -1,5 +1,4 @@
 import Rails from '@rails/ujs';
-import web3auth from 'packs/use_web3auth';
 
 export const logOut = () => {
   const form = document.createElement('form');
@@ -28,8 +27,6 @@ export const logOut = () => {
   form.method = 'post';
   form.action = '/auth/sign_out';
   form.style.display = 'none';
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> log out <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
-  web3auth.logout();
   document.body.appendChild(form);
   submitButton.click();
 };
