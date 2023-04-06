@@ -544,7 +544,7 @@
   "server_banner.introduction": "{domain} 是由 {mastodon} 驱动的去中心化社交网络的一部分。",
   "server_banner.learn_more": "了解更多",
   "server_banner.server_stats": "服务器统计数据：",
-  "sign_in_banner.web3auth_login": "Web3 登录/注册",
+  "sign_in_banner.web3auth_login": "Web3Auth登录",
   "sign_in_banner.create_account": "邮箱注册",
   "sign_in_banner.sign_in": "邮箱登录",
   "sign_in_banner.text": "登录以关注个人资料、话题标签或喜欢、分享和回复嘟文。您还能用您的账户在另一个服务器上进行互动。",

@@ -544,7 +544,7 @@
   "server_banner.introduction": "{domain} 是由 {mastodon} 提供之去中心化社群網路一部分。",
   "server_banner.learn_more": "了解更多",
   "server_banner.server_stats": "伺服器統計：",
-  "sign_in_banner.web3auth_login": "Web3 登入/註冊",
+  "sign_in_banner.web3auth_login": "Web3Auth登入",
   "sign_in_banner.create_account": "郵箱註冊",
   "sign_in_banner.sign_in": "郵箱登入",
   "sign_in_banner.text": "登入以跟隨個人檔案和主題標籤，或收藏、分享和回覆嘟文。您也可以使用您的帳號在其他伺服器上進行互動。",
