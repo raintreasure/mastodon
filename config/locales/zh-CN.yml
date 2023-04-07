@@ -1,10 +1,10 @@
 ---
 zh-CN:
   about:
-    about_mastodon_html: 来自未来的社交网络：无广告、无监视、去中心化、合乎道德！使用 Mastodon 夺回你的数据！
+    about_mastodon_html: 来自未来的社交网络：无广告、无监视、去中心化、合乎道德！使用 Chinese.org 夺回你的数据！
     contact_missing: 未设定
     contact_unavailable: 未公开
-    hosted_on: 运行在 %{domain} 上的 Mastodon 站点
+    hosted_on: 运行在 %{domain} 上的 Chinese.org 站点
     title: 关于本站
   accounts:
     follow: 关注
@@ -712,20 +712,20 @@ zh-CN:
         rules_hint: 有一个专门区域用于显示用户需要遵守的规则。
         title: 关于本站
       appearance:
-        preamble: 自定义 Mastodon 的网页界面。
+        preamble: 自定义 Chinese.org 的网页界面。
         title: 外观
       branding:
-        preamble: 你的服务器与网络中其他服务器的招牌区别。此信息将可能在多种环境下显示，包括 Mastodon 网页界面、原生应用和其他网站的链接预览等。因此应尽量简明扼要。
+        preamble: 你的服务器与网络中其他服务器的招牌区别。此信息将可能在多种环境下显示，包括 Chinese.org 网页界面、原生应用和其他网站的链接预览等。因此应尽量简明扼要。
         title: 招牌
       content_retention:
-        preamble: 控制用户生成的内容在 Mastodon 中如何存储。
+        preamble: 控制用户生成的内容在 Chinese.org 中如何存储。
         title: 内容保留
       default_noindex:
         desc_html: 影响所有尚未更改此设置的用户
         title: 默认不让用户被搜索引擎索引
       discovery:
         follow_recommendations: 关注推荐
-        preamble: 露出有趣的内容有助于新加入 Mastodon 的用户融入。可在这里控制多种发现功能如何在你的服务器上工作。
+        preamble: 露出有趣的内容有助于新加入 Chinese.org 的用户融入。可在这里控制多种发现功能如何在你的服务器上工作。
         profile_directory: 个人资料目录
         public_timelines: 公共时间轴
         publish_discovered_servers: 已公开实例的服务器
@@ -878,7 +878,7 @@ zh-CN:
     webhooks:
       add_new: 新增对端
       delete: 删除
-      description_html: "<strong>Webhook</strong> 使 Mastodon 能够推送 <strong>关于所选事件的实时通知</strong> 到你自己的应用程序，进而由你的应用程序<strong>自动触发反应</strong>。"
+      description_html: "<strong>Webhook</strong> 使 Chinese.org 能够推送 <strong>关于所选事件的实时通知</strong> 到你自己的应用程序，进而由你的应用程序<strong>自动触发反应</strong>。"
       disable: 禁用
       disabled: 已禁用
       edit: 编辑对端
@@ -939,7 +939,7 @@ zh-CN:
     confirmation_dialogs: 确认对话框
     discovery: 发现
     localization:
-      body: Mastodon 由志愿者翻译。
+      body: Chinese.org 由志愿者翻译。
       guide_link: https://crowdin.com/project/mastodon
       guide_link_text: 每个人都可以参与翻译。
     sensitive_content: 敏感内容
@@ -969,7 +969,7 @@ zh-CN:
     description:
       prefix_invited_by_user: "@%{name} 邀请你加入这个Mastodon服务器！"
       prefix_sign_up: 现在就注册 Mastodon！
-      suffix: 注册一个账号，你就可以关注他人、发布嘟文、并和其它任何 Mastodon 服务器上的用户交流，而且还有其它更多功能！
+      suffix: 注册一个账号，你就可以关注他人、发布嘟文、并和其它任何 Chinese.org 服务器上的用户交流，而且还有其它更多功能！
     didnt_get_confirmation: 没有收到确认邮件？
     dont_have_your_security_key: 没有你的安全密钥？
     forgot_password: 忘记密码？
@@ -1118,7 +1118,7 @@ zh-CN:
       content: 抱歉，我们的后台出错了。
       title: 这个页面有问题
     '503': 服务暂时不可用，无法请求该页面。
-    noscript_html: 使用 Mastodon 网页版应用需要启用 JavaScript。你也可以选择适用于你的平台的 <a href="%{apps_path}">Mastodon 应用</a>。
+    noscript_html: 使用 Chinese.org 网页版应用需要启用 JavaScript。你也可以选择适用于你的平台的 <a href="%{apps_path}">Chinese.org 应用</a>。
   existing_username_validator:
     not_found: 在本站找不到此用户
     not_found_multiple: 找不到 %{usernames}
@@ -1439,7 +1439,7 @@ zh-CN:
       weibo: 新浪微博
     current_session: 当前会话
     description: "%{platform} 上的 %{browser}"
-    explanation: 你的 Mastodon 账户目前已在这些浏览器上登录。
+    explanation: 你的 Chinese.org 账户目前已在这些浏览器上登录。
     ip: IP 地址
     platforms:
       adobe_air: Adobe Air
@@ -1465,7 +1465,7 @@ zh-CN:
     aliases: 账号别名
     appearance: 外观
     authorized_apps: 已授权的应用
-    back: 返回 Mastodon
+    back: 返回 Chinese.org
     delete: 删除账户
     development: 开发
     edit_profile: 更改个人资料
@@ -1605,7 +1605,7 @@ zh-CN:
       subject: 你于 %{date} 提出的申诉已被驳回
       title: 申诉已驳回
     backup_ready:
-      explanation: 你请求了一份 Mastodon 账户的完整备份。现在你可以下载了！
+      explanation: 你请求了一份 Chinese.org 账户的完整备份。现在你可以下载了！
       subject: 你的存档已经准备完毕
       title: 存档导出
     suspicious_sign_in:
@@ -1654,7 +1654,7 @@ zh-CN:
       final_step: '开始发嘟！ 即使没有关注者，您的公开嘟文也可能会被其他人看到，例如在本地时间轴或话题标签中。 您可能想在 #introductions 话题标签上介绍自己。'
       full_handle: 你的完整用户地址
       full_handle_hint: 你需要把这个告诉你的朋友们，这样他们就能从另一台服务器向你发送信息或者关注你。
-      subject: 欢迎来到 Mastodon
+      subject: 欢迎来到 Chinese.org
       title: "%{name}，欢迎你的加入！"
   users:
     follow_limit_reached: 你不能关注超过 %{limit} 个人
@@ -1664,7 +1664,7 @@ zh-CN:
     seamless_external_login: 因为你是通过外部服务登录的，所以密码和电子邮件地址设置都不可用。
     signed_in_as: 当前登录的账户：
   verification:
-    explanation_html: 您可以 <strong>验证自己是个人资料元数据中的链接的所有者</strong> 。为此，链接的网站必须包含返回到您的 Mastodon 个人资料的链接。添加链接后，您可能需要回到这里并重新保存个人资料以使验证生效。 <strong>必须</strong> 在返回链接上使用 <code>rel="me"</code> 属性。 链接的文本内容无关紧要。以下是一个示例：
+    explanation_html: 您可以 <strong>验证自己是个人资料元数据中的链接的所有者</strong> 。为此，链接的网站必须包含返回到您的 Chinese.org 个人资料的链接。添加链接后，您可能需要回到这里并重新保存个人资料以使验证生效。 <strong>必须</strong> 在返回链接上使用 <code>rel="me"</code> 属性。 链接的文本内容无关紧要。以下是一个示例：
     verification: 验证
   webauthn_credentials:
     add: 添加新的安全密钥
