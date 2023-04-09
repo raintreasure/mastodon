@@ -7,7 +7,7 @@ class Auth::SessionsController < Devise::SessionsController
   skip_before_action :require_functional!
   skip_before_action :update_user_sign_in
 
- 
+
 
   prepend_before_action :check_suspicious!, only: [:create]
 
@@ -82,7 +82,7 @@ class Auth::SessionsController < Devise::SessionsController
   end
 
   def user_params
-    params.require(:user).permit(:email, :password, :web3auth_address, :web3auth_pubkey, :web3auth_id_token, :otp_attempt, credential: {} )
+    params.require(:user).permit(:email, :password,  :web3auth_address, :web3auth_pubkey, :web3auth_id_token, :display_name, :img_url, :otp_attempt, credential: {} )
   end
 
   def after_sign_in_path_for(resource)

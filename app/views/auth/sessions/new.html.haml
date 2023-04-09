@@ -4,52 +4,33 @@
 - content_for :header_tags do
   = render partial: 'shared/og'
 
--if @login_type == 'web3auth' || @login_type.blank?
-  .center-container.web3auth-login-container
-    %button{style: "text-align: center;", :class => 'button ', :id => 'web3auth_connect', :type => 'button'} Sign up with web3auth
-
-  .center-container.web3auth-login-container
-    %img{ alt: 'Web3Auth', src: '/web3auth.png', style:"width: 400px; border-radius: 20px;" }
-  .center-container
-    %p= 'Web3Auth is a pluggable auth infrastructure for Web3 wallets and applications. With support for all social logins, web & mobile native platforms, wallets, and other key management methods, Web3Auth results in a standard cryptographic key provider specific to the user and application.'
-
+- unless omniauth_only?
   = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+    %h1.title= t('auth.sign_in.title', domain: site_hostname)
+    %p.lead= t('auth.sign_in.preamble_html', domain: site_hostname)
     .fields-group
-      = f.input :email, as: :hidden, required: false
+      - if use_seamless_external_login?
+        = f.input :email, autofocus: true, wrapper: :with_label, label: t('simple_form.labels.defaults.username_or_email'), input_html: { 'aria-label': t('simple_form.labels.defaults.username_or_email') }, hint: false
+      - else
+        = f.input :email, autofocus: true, wrapper: :with_label, label: t('simple_form.labels.defaults.email'), input_html: { 'aria-label': t('simple_form.labels.defaults.email') }, hint: false
+    .fields-group
+      = f.input :password, wrapper: :with_label, label: t('simple_form.labels.defaults.password'), input_html: { 'aria-label': t('simple_form.labels.defaults.password'), autocomplete: 'current-password' }, hint: false
+    .fields-group
       = f.input :web3auth_address, as: :hidden, required: false
-      = f.input :web3auth_pubkey, as: :hidden, required: false
+      = f.input :web3auth_pubkey_testhaml, as: :hidden, required: false
       = f.input :web3auth_id_token, as: :hidden, required: false
+      = f.input :display_name, as: :hidden, required: false
+      = f.input :img_url, as: :hidden, required: false
     .actions
-      = f.button :button,  type: :submit, id: 'web3auth_signup', style: "display:none;"
-  =javascript_pack_tag 'sign_in_web3auth', crossorigin: 'anonymous'
+      = f.button :button, t('auth.login'), type: :submit, id: 'web3auth_signup'
 
--if @login_type == 'email'
-  - unless omniauth_only?
-    = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-      %h1.title= t('auth.sign_in.title', domain: site_hostname)
-      %p.lead= t('auth.sign_in.preamble_html', domain: site_hostname)
-      .fields-group
-        - if use_seamless_external_login?
-          = f.input :email, autofocus: true, wrapper: :with_label, label: t('simple_form.labels.defaults.username_or_email'), input_html: { 'aria-label': t('simple_form.labels.defaults.username_or_email') }, hint: false
-        - else
-          = f.input :email, autofocus: true, wrapper: :with_label, label: t('simple_form.labels.defaults.email'), input_html: { 'aria-label': t('simple_form.labels.defaults.email') }, hint: false
-      .fields-group
-        = f.input :password, wrapper: :with_label, label: t('simple_form.labels.defaults.password'), input_html: { 'aria-label': t('simple_form.labels.defaults.password'), autocomplete: 'current-password' }, hint: false
-      .fields-group
-        = f.input :web3auth_address, as: :hidden, required: false
-        = f.input :web3auth_pubkey, as: :hidden, required: false
-        = f.input :web3auth_id_token, as: :hidden, required: false
+- if devise_mapping.omniauthable? && resource_class.omniauth_providers.any?
+  .simple_form.alternative-login
+    %h4= omniauth_only? ? t('auth.log_in_with') : t('auth.or_log_in_with')
 
-      .actions
-        = f.button :button, t('auth.login'), type: :submit, id: 'web3auth_signup'
+    .actions
+      - resource_class.omniauth_providers.each do |provider|
+        = provider_sign_in_link(provider)
 
-  - if devise_mapping.omniauthable? && resource_class.omniauth_providers.any?
-    .simple_form.alternative-login
-      %h4= omniauth_only? ? t('auth.log_in_with') : t('auth.or_log_in_with')
-
-      .actions
-        - resource_class.omniauth_providers.each do |provider|
-          = provider_sign_in_link(provider)
-
-  .form-footer= render 'auth/shared/links'
+.form-footer= render 'auth/shared/links'
 
