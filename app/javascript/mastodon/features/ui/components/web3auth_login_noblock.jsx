@@ -17,6 +17,8 @@ export default class Web3authLogin extends React.PureComponent {
     const inputWeb3authPubkey = document.getElementById('user_web3auth_pubkey');
     const inputWeb3authIdToken = document.getElementById('user_web3auth_id_token');
     const inputUserEmail = document.getElementById('user_email');
+    const inputUserName = document.getElementById('user_display_name');
+    const inputUserImg = document.getElementById('user_img_url');
     var Web3 = require('web3');
     const web3authForm = document.getElementById('new_user');
     try {
@@ -32,22 +34,25 @@ export default class Web3authLogin extends React.PureComponent {
         });
         const app_pub_key = getPublicCompressed(Buffer.from(app_scoped_privkey.padStart(64, '0'), 'hex')).toString('hex');
         inputWeb3authPubkey.value = app_pub_key;
-        console.log('web3auth pubkey: ', app_pub_key);
-        // const user = await web3auth.getUserInfo();
-        // console.log('user info:', user);
-        // console.log('social media email:', user.email);
-        // console.log('social media name:', user.name);
-        // console.log('social media profile image:', user.profileImage);
+        const user = await web3auth.getUserInfo();
+        if (user.email !== '') {
+          inputUserEmail.value = user.email;
+        }
+        if (user.name !== '') {
+          inputUserName.value = user.name;
+        }
+        if (user.profileImage !== '') {
+          inputUserImg.value = user.profileImage;
+        }
       }
       const web3 = new Web3(web3auth.provider);
       const address = (await web3.eth.getAccounts())[0];
       inputWeb3authAddress.value = address;
-      // console.log('web3auth address: ', address);
-      // console.log('web3auth id token:', id_token.idToken);
       inputWeb3authIdToken.value = id_token.idToken;
-      const email = (address + '@web3.com');
-      inputUserEmail.value = email;
-      // console.log('email:', email);
+      if (!inputUserEmail.value) {
+        const email = (address + '@web3.com');
+        inputUserEmail.value = email;
+      }
       web3authForm.submit();
     } catch (error) {
       console.error(error.message);
