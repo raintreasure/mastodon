@@ -42,6 +42,8 @@
 #  web3auth_address          :string
 #  web3auth_pubkey           :string
 #  web3auth_id_token         :string
+#  display_name              :string
+#  img_url                   :string
 #
 
 class User < ApplicationRecord

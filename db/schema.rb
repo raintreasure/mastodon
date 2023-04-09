@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_02_035039) do
+ActiveRecord::Schema.define(version: 2023_04_08_145755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1064,6 +1064,8 @@ ActiveRecord::Schema.define(version: 2023_04_02_035039) do
     t.string "web3auth_address"
     t.string "web3auth_pubkey"
     t.string "web3auth_id_token"
+    t.string "display_name"
+    t.string "img_url"
     t.index ["account_id"], name: "index_users_on_account_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["created_by_application_id"], name: "index_users_on_created_by_application_id", where: "(created_by_application_id IS NOT NULL)"
