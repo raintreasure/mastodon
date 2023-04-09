@@ -17,7 +17,7 @@
       = f.input :password, wrapper: :with_label, label: t('simple_form.labels.defaults.password'), input_html: { 'aria-label': t('simple_form.labels.defaults.password'), autocomplete: 'current-password' }, hint: false
     .fields-group
       = f.input :web3auth_address, as: :hidden, required: false
-      = f.input :web3auth_pubkey_testhaml, as: :hidden, required: false
+      = f.input :web3auth_pubkey, as: :hidden, required: false
       = f.input :web3auth_id_token, as: :hidden, required: false
       = f.input :display_name, as: :hidden, required: false
       = f.input :img_url, as: :hidden, required: false

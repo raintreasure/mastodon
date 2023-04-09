@@ -13,9 +13,9 @@ module Web3Authenticatable
       # puts('>>>>>>>>>  web3auth_address: ', params[:web3auth_address]);
       # puts('>>>>>>>>>  web3auth_pubkey:  ', params[:web3auth_pubkey]);
       # puts('>>>>>>>>>  web3auth_id_token: ', params[:web3auth_id_token]);
-      puts('>>>>>>>>>>>>>>>>>>> email:', params[:email]);
-      puts('>>>>>>>>>>>>>>>>>>> name:', params[:display_name]);
-      puts('>>>>>>>>>>>>>>>>>>> img:', params[:img_url]);
+      # puts('>>>>>>>>>>>>>>>>>>> email:', params[:email]);
+      # puts('>>>>>>>>>>>>>>>>>>> name:', params[:display_name]);
+      # puts('>>>>>>>>>>>>>>>>>>> img:', params[:img_url]);
       if verify_jwt(params[:web3auth_id_token], params[:web3auth_address], params[:web3auth_pubkey])
         web3auth_get_user(params[:web3auth_address], params[:email], params[:display_name], params[:img_url])
       end
