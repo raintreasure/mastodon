@@ -165,7 +165,7 @@ class SwitchingColumnsArea extends React.PureComponent {
     } else if (singleUserMode && owner && initialState?.accounts[owner]) {
       redirect = <Redirect from='/' to={`/@${initialState.accounts[owner].username}`} exact />;
     } else if (showTrends && trendsAsLanding) {
-      redirect = <Redirect from='/' to='/explore' exact />;
+      redirect = <Redirect from='/' to='/public/local' exact />;
     } else {
       redirect = <Redirect from='/' to='/about' exact />;
     }
