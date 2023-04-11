@@ -4,7 +4,6 @@ import ReactOnRails from 'react-on-rails';
 // import PropTypes from 'prop-types';
 
 import { getPublicCompressed } from '@toruslabs/eccrypto';
-import web3auth from 'packs/use_web3auth';
 
 export default class Web3authLogin extends React.PureComponent {
 
@@ -13,6 +12,8 @@ export default class Web3authLogin extends React.PureComponent {
   // };
 
   formLogin = async () => {
+    const web3auth = window.web3auth;
+
     const inputWeb3authAddress = document.getElementById('user_web3auth_address');
     const inputWeb3authPubkey = document.getElementById('user_web3auth_pubkey');
     const inputWeb3authIdToken = document.getElementById('user_web3auth_id_token');

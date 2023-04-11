@@ -13,15 +13,13 @@ import { MetamaskAdapter } from '@web3auth/metamask-adapter';
 import { TorusWalletAdapter } from '@web3auth/torus-evm-adapter';
 
 
-let web3auth = null;
-
-
 (async function init() {
   // $(".btn-logged-in").hide();
   // $("#sign-tx").hide();
+  // alert('init web3auth in javasript pack');
 
   const clientId = 'BM8O9IFmbeLZblS4bv6vX87yGiEOdsCPoSSD4QCgtM0I4l1pXz6GzQTwdSAlOelLl_xdYYtFDnIMj1R3uo9jl7M'; // get your clientId from https://dashboard.web3auth.io
-  web3auth = new Web3Auth({
+  window.web3auth = new Web3Auth({
     clientId,
     chainConfig: {
       chainNamespace: 'eip155',
@@ -44,7 +42,7 @@ let web3auth = null;
         enableLogging: true,
       },
     });
-  await web3auth.addPlugin(torusPlugin);
+  await window.web3auth.addPlugin(torusPlugin);
 
   const metamaskAdapter = new MetamaskAdapter({
     clientId,
@@ -56,7 +54,7 @@ let web3auth = null;
       rpcTarget: 'https://rpc.ankr.com/eth', // This is the public RPC we have added, please pass on your own endpoint while creating an app
     },
   });
-  web3auth.configureAdapter(metamaskAdapter);
+  window.web3auth.configureAdapter(metamaskAdapter);
 
   // we can change the above settings using this function
   // metamaskAdapter.setAdapterSettings({
@@ -76,13 +74,13 @@ let web3auth = null;
       },
       clientId,
     });
-  web3auth.configureAdapter(walletConnectAdapter);
+  window.web3auth.configureAdapter(walletConnectAdapter);
   const torusAdapter = new TorusWalletAdapter({
     clientId,
   });
-  web3auth.configureAdapter(torusAdapter);
+  window.web3auth.configureAdapter(torusAdapter);
 
-  await web3auth.initModal();
+  await window.web3auth.initModal();
 })();
 
-export default web3auth;
+export default window.web3auth;
