@@ -2,16 +2,17 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 // import PropTypes from 'prop-types';
 
-import {getPublicCompressed} from '@toruslabs/eccrypto';
-import web3auth from 'packs/use_web3auth';
+import { getPublicCompressed } from '@toruslabs/eccrypto';
+import PropTypes from 'prop-types';
 
 export default class Web3authLogin extends React.PureComponent {
 
-  // static propTypes = {
-  //     formLogin: PropTypes.func.isRequired,
-  // };
+  static contextTypes = {
+    web3auth: PropTypes.object.isRequired,
+  };
 
   formLogin = async () => {
+    const web3auth = window.web3auth;
     const inputWeb3authAddress = document.getElementById('user_web3auth_address');
     const inputWeb3authPubkey = document.getElementById('user_web3auth_pubkey');
     const inputWeb3authIdToken = document.getElementById('user_web3auth_id_token');
@@ -22,6 +23,7 @@ export default class Web3authLogin extends React.PureComponent {
     const web3authForm = document.getElementById('new_user');
     try {
       void await web3auth.connect();
+
       const id_token = await web3auth.authenticateUser();
       const userInfo = await web3auth.getUserInfo();
       if (JSON.stringify(userInfo) === '{}') {

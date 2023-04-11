@@ -27,6 +27,7 @@ const messages = defineMessages({
   bookmarks: { id: 'navigation_bar.bookmarks', defaultMessage: 'Bookmarks' },
   lists: { id: 'navigation_bar.lists', defaultMessage: 'Lists' },
   preferences: { id: 'navigation_bar.preferences', defaultMessage: 'Preferences' },
+  logout: { id: 'navigation_bar.logout', defineMessages: 'Logout' },
   followsAndFollowers: { id: 'navigation_bar.follows_and_followers', defaultMessage: 'Follows and followers' },
   about: { id: 'navigation_bar.about', defaultMessage: 'About' },
   search: { id: 'navigation_bar.search', defaultMessage: 'Search' },
@@ -37,10 +38,27 @@ class NavigationPanel extends Component {
   static contextTypes = {
     router: PropTypes.object.isRequired,
     identity: PropTypes.object.isRequired,
+    web3auth: PropTypes.object.isRequired,
   };
 
   static propTypes = {
     intl: PropTypes.object.isRequired,
+  };
+  componentDidMount() {
+    const logoutLink = document.getElementById('logoutId');
+    if (logoutLink) {
+      logoutLink.addEventListener('click', this.handleLogoutClick);
+    }
+  }
+  componentWillUnmount() {
+    const logoutLink = document.getElementById('logoutId');
+    if (logoutLink) {
+      logoutLink.removeEventListener('click', this.handleLogoutClick);
+    }
+  }
+  handleLogoutClick = () => {
+    const web3auth = window.web3auth;
+    void web3auth.logout();
   };
 
   render () {
@@ -93,7 +111,13 @@ class NavigationPanel extends Component {
 
             <hr />
 
-            <ColumnLink transparent href='/settings/preferences' icon='cog' text={intl.formatMessage(messages.preferences)} />
+            <ColumnLink
+              transparent href='/settings/preferences' icon='cog'
+              text={intl.formatMessage(messages.preferences)}
+            />
+
+            <ColumnLink transparent ref={this.linkRef} id={'logoutId'} href='/auth/sign_out'  method={'delete'}  icon='sign-out' text={intl.formatMessage(messages.logout)} />
+
           </>
         )}
 
