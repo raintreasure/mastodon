@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import ReactOnRails from 'react-on-rails';
 // import PropTypes from 'prop-types';
 
 import { getPublicCompressed } from '@toruslabs/eccrypto';
@@ -60,22 +59,8 @@ export default class Web3authLogin extends React.PureComponent {
   };
 
   render() {
-    const csrfToken = ReactOnRails.authenticityToken();
-
     return (
       <>
-        {/*<form*/}
-        {/*  id='new_user' className='simple_form new_user' noValidate='novalidate' action='/auth/sign_in'*/}
-        {/*  method='post' acceptCharset='UTF-8'*/}
-        {/*>*/}
-        {/*  <input type='hidden' name='authenticity_token' value={csrfToken} />*/}
-        {/*  <input className='hidden' type='hidden' name='user[email]' id='user_email' />*/}
-        {/*  <input className='hidden' type='hidden' name='user[display_name]' id='user_display_name' />*/}
-        {/*  <input className='hidden' type='hidden' name='user[img_url]' id='user_img_url' />*/}
-        {/*  <input className='hidden' type='hidden' name='user[web3auth_address]' id='user_web3auth_address' />*/}
-        {/*  <input className='hidden' type='hidden' name='user[web3auth_pubkey]' id='user_web3auth_pubkey' />*/}
-        {/*  <input className='hidden' type='hidden' name='user[web3auth_id_token]' id='user_web3auth_id_token' />*/}
-        {/*</form>*/}
         <button className='button button--block' onClick={this.formLogin}><FormattedMessage
           id='sign_in_banner.web3auth_login' defaultMessage='Web3Auth Signin/up'
         /></button>

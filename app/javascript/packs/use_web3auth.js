@@ -2,7 +2,9 @@ import { Buffer } from 'buffer';
 // @ts-ignore
 window.Buffer = Buffer;
 
-import { Web3Auth } from '@web3auth/modal';
+// import { Web3Auth } from '@web3auth/modal';  web3auth/modal only appears after 3.0.0, when web3auth started to
+// support react18, since mastodon is using react 16, we use @web3auth/web3auth instead
+import { Web3Auth } from '@web3auth/web3auth';
 import { TorusWalletConnectorPlugin } from '@web3auth/torus-wallet-connector-plugin';
 // Adapters
 
