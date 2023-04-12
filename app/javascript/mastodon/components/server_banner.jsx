@@ -40,7 +40,7 @@ class ServerBanner extends React.PureComponent {
         <div className='server-banner__introduction'>
           <FormattedMessage id='server_banner.introduction' defaultMessage='{domain} is part of the decentralized social network powered by {mastodon}.' values={{ domain: <strong>{domain}</strong>, mastodon: <a href='https://joinmastodon.org' target='_blank'>Chinese.org</a> }} />
         </div>
-
+        {/* 左侧server_banner的插图部分*/}
         <Image blurhash={server.getIn(['thumbnail', 'blurhash'])} src={server.getIn(['thumbnail', 'url'])} className='server-banner__hero' />
 
         <div className='server-banner__description'>
@@ -55,31 +55,31 @@ class ServerBanner extends React.PureComponent {
           ) : server.get('description')}
         </div>
 
-        <div className='server-banner__meta'>
-          <div className='server-banner__meta__column'>
-            <h4><FormattedMessage id='server_banner.administered_by' defaultMessage='Administered by:' /></h4>
+        {/*<div className='server-banner__meta'>*/}
+        {/*  <div className='server-banner__meta__column'>*/}
+        {/*    <h4><FormattedMessage id='server_banner.administered_by' defaultMessage='Administered by:' /></h4>*/}
 
-            <Account id={server.getIn(['contact', 'account', 'id'])} size={36} />
-          </div>
+        {/*    <Account id={server.getIn(['contact', 'account', 'id'])} size={36} />*/}
+        {/*  </div>*/}
 
-          <div className='server-banner__meta__column'>
-            <h4><FormattedMessage id='server_banner.server_stats' defaultMessage='Server stats:' /></h4>
+        {/*  <div className='server-banner__meta__column'>*/}
+        {/*    <h4><FormattedMessage id='server_banner.server_stats' defaultMessage='Server stats:' /></h4>*/}
 
-            {isLoading ? (
-              <>
-                <strong className='server-banner__number'><Skeleton width='10ch' /></strong>
-                <br />
-                <span className='server-banner__number-label'><Skeleton width='5ch' /></span>
-              </>
-            ) : (
-              <>
-                <strong className='server-banner__number'><ShortNumber value={server.getIn(['usage', 'users', 'active_month'])} /></strong>
-                <br />
-                <span className='server-banner__number-label' title={intl.formatMessage(messages.aboutActiveUsers)}><FormattedMessage id='server_banner.active_users' defaultMessage='active users' /></span>
-              </>
-            )}
-          </div>
-        </div>
+        {/*    {isLoading ? (*/}
+        {/*      <>*/}
+        {/*        <strong className='server-banner__number'><Skeleton width='10ch' /></strong>*/}
+        {/*        <br />*/}
+        {/*        <span className='server-banner__number-label'><Skeleton width='5ch' /></span>*/}
+        {/*      </>*/}
+        {/*    ) : (*/}
+        {/*      <>*/}
+        {/*        <strong className='server-banner__number'><ShortNumber value={server.getIn(['usage', 'users', 'active_month'])} /></strong>*/}
+        {/*        <br />*/}
+        {/*        <span className='server-banner__number-label' title={intl.formatMessage(messages.aboutActiveUsers)}><FormattedMessage id='server_banner.active_users' defaultMessage='active users' /></span>*/}
+        {/*      </>*/}
+        {/*    )}*/}
+        {/*  </div>*/}
+        {/*</div>*/}
 
         <hr className='spacer' />
 
