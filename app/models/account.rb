@@ -51,6 +51,7 @@
 #  reviewed_at                   :datetime
 #  requested_review_at           :datetime
 #  eth_address                   :string
+#  balance                       :decimal(, )
 #
 
 class Account < ApplicationRecord

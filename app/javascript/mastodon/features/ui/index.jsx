@@ -58,6 +58,7 @@ import {
 import initialState, { me, owner, singleUserMode, showTrends, trendsAsLanding } from '../../initial_state';
 import { closeOnboarding, INTRODUCTION_VERSION } from 'mastodon/actions/onboarding';
 import Header from './components/header';
+import { increaseBalance } from '../../actions/balance';
 
 // Dummy import, to make sure that <Status /> ends up in the application bundle.
 // Without this it ends up in ~8 very commonly used bundles.
@@ -123,7 +124,7 @@ class SwitchingColumnsArea extends React.PureComponent {
     mobile: PropTypes.bool,
   };
 
-  componentWillMount () {
+  componentWillMount() {
     if (this.props.mobile) {
       document.body.classList.toggle('layout-single-column', true);
       document.body.classList.toggle('layout-multiple-columns', false);
@@ -133,7 +134,7 @@ class SwitchingColumnsArea extends React.PureComponent {
     }
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (![this.props.location.pathname, '/'].includes(prevProps.location.pathname)) {
       this.node.handleChildrenContentChange();
     }
@@ -150,7 +151,7 @@ class SwitchingColumnsArea extends React.PureComponent {
     }
   };
 
-  render () {
+  render() {
     const { children, mobile } = this.props;
     const { signedIn } = this.context.identity;
 
@@ -182,7 +183,10 @@ class SwitchingColumnsArea extends React.PureComponent {
 
           <WrappedRoute path={['/home', '/timelines/home']} component={HomeTimeline} content={children} />
           <WrappedRoute path={['/public', '/timelines/public']} exact component={PublicTimeline} content={children} />
-          <WrappedRoute path={['/public/local', '/timelines/public/local']} exact component={CommunityTimeline} content={children} />
+          <WrappedRoute
+            path={['/public/local', '/timelines/public/local']} exact component={CommunityTimeline}
+            content={children}
+          />
           <WrappedRoute path={['/conversations', '/timelines/direct']} component={DirectTimeline} content={children} />
           <WrappedRoute path='/tags/:id' component={HashtagTimeline} content={children} />
           <WrappedRoute path='/lists/:id' component={ListTimeline} content={children} />
@@ -199,9 +203,18 @@ class SwitchingColumnsArea extends React.PureComponent {
 
           <WrappedRoute path={['/@:acct', '/accounts/:id']} exact component={AccountTimeline} content={children} />
           <WrappedRoute path='/@:acct/tagged/:tagged?' exact component={AccountTimeline} content={children} />
-          <WrappedRoute path={['/@:acct/with_replies', '/accounts/:id/with_replies']} component={AccountTimeline} content={children} componentParams={{ withReplies: true }} />
-          <WrappedRoute path={['/accounts/:id/followers', '/users/:acct/followers', '/@:acct/followers']} component={Followers} content={children} />
-          <WrappedRoute path={['/accounts/:id/following', '/users/:acct/following', '/@:acct/following']} component={Following} content={children} />
+          <WrappedRoute
+            path={['/@:acct/with_replies', '/accounts/:id/with_replies']} component={AccountTimeline}
+            content={children} componentParams={{ withReplies: true }}
+          />
+          <WrappedRoute
+            path={['/accounts/:id/followers', '/users/:acct/followers', '/@:acct/followers']}
+            component={Followers} content={children}
+          />
+          <WrappedRoute
+            path={['/accounts/:id/following', '/users/:acct/following', '/@:acct/following']}
+            component={Following} content={children}
+          />
           <WrappedRoute path={['/@:acct/media', '/accounts/:id/media']} component={AccountGallery} content={children} />
           <WrappedRoute path='/@:acct/:statusId' exact component={Status} content={children} />
           <WrappedRoute path='/@:acct/:statusId/reblogs' component={Reblogs} content={children} />
@@ -367,9 +380,17 @@ class UI extends React.PureComponent {
       this.handleLayoutChange();
     }
   };
+  balanceTicker = () => {
+    this.props.dispatch(increaseBalance(this.context.identity.accountId, 0.1));
+    const _balanceTicker = setInterval(() => {
+      this.props.dispatch(increaseBalance(this.context.identity.accountId, 0.1));
+    }, 5000);
+    return () => clearInterval(_balanceTicker);
+  };
 
-  componentDidMount () {
+  componentDidMount() {
     const { signedIn } = this.context.identity;
+    this.balanceTicker();
 
     window.addEventListener('focus', this.handleWindowFocus, false);
     window.addEventListener('blur', this.handleWindowBlur, false);
@@ -382,7 +403,7 @@ class UI extends React.PureComponent {
     document.addEventListener('dragleave', this.handleDragLeave, false);
     document.addEventListener('dragend', this.handleDragEnd, false);
 
-    if ('serviceWorker' in  navigator) {
+    if ('serviceWorker' in navigator) {
       navigator.serviceWorker.addEventListener('message', this.handleServiceWorkerPostMessage);
     }
 
@@ -406,7 +427,7 @@ class UI extends React.PureComponent {
     };
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener('focus', this.handleWindowFocus);
     window.removeEventListener('blur', this.handleWindowBlur);
     window.removeEventListener('beforeunload', this.handleBeforeUnload);
@@ -454,7 +475,7 @@ class UI extends React.PureComponent {
   };
 
   handleHotkeyFocusColumn = e => {
-    const index  = (e.key * 1) + 1; // First child is drawer, skip that
+    const index = (e.key * 1) + 1; // First child is drawer, skip that
     const column = this.node.querySelector(`.column:nth-child(${index})`);
     if (!column) return;
     const container = column.querySelector('.scrollable');
@@ -539,10 +560,9 @@ class UI extends React.PureComponent {
     this.context.router.history.push('/follow_requests');
   };
 
-  render () {
+  render() {
     const { draggingOver } = this.state;
     const { children, isComposing, location, dropdownMenuIsOpen, layout } = this.props;
-
     const handlers = {
       help: this.handleHotkeyToggleHelp,
       new: this.handleHotkeyNew,
@@ -567,7 +587,10 @@ class UI extends React.PureComponent {
 
     return (
       <HotKeys keyMap={keyMap} handlers={handlers} ref={this.setHotkeysRef} attach={window} focused>
-        <div className={classNames('ui', { 'is-composing': isComposing })} ref={this.setRef} style={{ pointerEvents: dropdownMenuIsOpen ? 'none' : null }}>
+        <div
+          className={classNames('ui', { 'is-composing': isComposing })} ref={this.setRef}
+          style={{ pointerEvents: dropdownMenuIsOpen ? 'none' : null }}
+        >
           <Header />
 
           <SwitchingColumnsArea location={location} mobile={layout === 'mobile' || layout === 'single-column'}>

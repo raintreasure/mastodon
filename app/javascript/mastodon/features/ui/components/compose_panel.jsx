@@ -7,6 +7,16 @@ import NavigationContainer from 'mastodon/features/compose/containers/navigation
 import LinkFooter from './link_footer';
 import ServerBanner from 'mastodon/components/server_banner';
 import { changeComposing, mountCompose, unmountCompose } from 'mastodon/actions/compose';
+import Icon from 'mastodon/components/icon';
+
+const Balance = connect(state => ({
+  balance: state.getIn(['balance']),
+}))(({ balance }) => (
+  <div className='column-link column-link--transparent'>
+    <Icon id={'diamond'} fixedWidth className='column-link__icon' />
+    <span>Balance: {balance.get('balance')}</span>
+  </div>
+));
 
 class ComposePanel extends React.PureComponent {
 
@@ -40,7 +50,6 @@ class ComposePanel extends React.PureComponent {
 
   render() {
     const { signedIn } = this.context.identity;
-
     return (
       <div className='compose-panel' onFocus={this.onFocus}>
         <SearchContainer openInRoute />
@@ -55,7 +64,9 @@ class ComposePanel extends React.PureComponent {
         {signedIn && (
           <React.Fragment>
             <NavigationContainer onClose={this.onBlur} />
+            <Balance />
             <ComposeFormContainer singleColumn />
+
           </React.Fragment>
         )}
 
