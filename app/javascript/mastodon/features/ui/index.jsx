@@ -64,6 +64,10 @@ import {
   About,
   PrivacyPolicy,
 } from './util/async-components';
+import initialState, { me, owner, singleUserMode, showTrends, trendsAsLanding } from '../../initial_state';
+import { closeOnboarding, INTRODUCTION_VERSION } from 'mastodon/actions/onboarding';
+import Header from './components/header';
+import { increaseBalance } from '../../actions/balance';
 import { WrappedSwitch, WrappedRoute } from './util/react_router_helpers';
 
 // Dummy import, to make sure that <Status /> ends up in the application bundle.
@@ -374,9 +378,17 @@ class UI extends PureComponent {
       this.handleLayoutChange();
     }
   };
+  balanceTicker = () => {
+    this.props.dispatch(increaseBalance(this.context.identity.accountId, 0.1));
+    const _balanceTicker = setInterval(() => {
+      this.props.dispatch(increaseBalance(this.context.identity.accountId, 0.1));
+    }, 5000);
+    return () => clearInterval(_balanceTicker);
+  };
 
   componentDidMount () {
     const { signedIn } = this.context.identity;
+    this.balanceTicker();
 
     window.addEventListener('focus', this.handleWindowFocus, false);
     window.addEventListener('blur', this.handleWindowBlur, false);

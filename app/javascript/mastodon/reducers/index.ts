@@ -39,6 +39,7 @@ import status_lists from './status_lists';
 import statuses from './statuses';
 import suggestions from './suggestions';
 import tags from './tags';
+import balance from './balance';
 import timelines from './timelines';
 import trends from './trends';
 import user_lists from './user_lists';
@@ -86,6 +87,7 @@ const reducers = {
   history,
   tags,
   followed_tags,
+  balance,
 };
 
 const rootReducer = combineReducers(reducers);
