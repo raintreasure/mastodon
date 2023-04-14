@@ -6,6 +6,14 @@ $error-red: #df405a !default; // Cerise
 $warning-red: #ff5050 !default; // Sunset Orange
 $gold-star: #ca8f04 !default; // Dark Goldenrod
 
+// Twitter style icon colors
+$twitter-default: #536471;
+$twitter-favorite-red: #F91880;
+$twitter-retweet-green: #00BA7C;
+$twitter-share-blue: #1D9BF0;
+$twitter-reply-blue: $twitter-share-blue;
+$twitter-bookmark-blue: $twitter-share-blue;
+
 $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI

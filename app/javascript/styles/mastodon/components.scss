@@ -1786,11 +1786,11 @@ a.account__display-name {
 }
 
 .icon-button.star-icon.active {
-  color: $gold-star;
+  color: $twitter-favorite-red;
 }
 
 .icon-button.bookmark-icon.active {
-  color: $red-bookmark;
+  color: $twitter-bookmark-blue;
 }
 
 .no-reduce-motion .icon-button.star-icon {
@@ -8769,7 +8769,7 @@ noscript {
 
 .center-container {
    text-align: center;
-   
+
 }
 
 .web3auth-login-container {
