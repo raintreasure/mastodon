@@ -36,7 +36,7 @@ pt-BR:
         status:
           attributes:
             reblog:
-              taken: do toot já existe
+              taken: do tweet já existe
         user:
           attributes:
             email:

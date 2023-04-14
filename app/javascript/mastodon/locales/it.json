@@ -607,7 +607,7 @@
   "status.pin": "Fissa in cima sul profilo",
   "status.pinned": "Post fissato",
   "status.read_more": "Leggi di più",
-  "status.reblog": "Reblog",
+  "status.reblog": "Retweet",
   "status.reblog_private": "Reblog con visibilità originale",
   "status.reblogged_by": "Rebloggato da {name}",
   "status.reblogs.empty": "Ancora nessuno ha rebloggato questo post. Quando qualcuno lo farà, apparirà qui.",

@@ -19,7 +19,7 @@ nl:
     pin_errors:
       following: Je moet dit account wel al volgen, alvorens je het kunt aanbevelen
     posts:
-      one: Toot
+      one: Tweet
       other: Berichten
     posts_tab_heading: Berichten
   admin:
@@ -195,7 +195,7 @@ nl:
         destroy_email_domain_block: Blokkade van e-maildomein verwijderen
         destroy_instance: Domein volledig verwijderen
         destroy_ip_block: IP-regel verwijderen
-        destroy_status: Toot verwijderen
+        destroy_status: Tweet verwijderen
         destroy_unavailable_domain: Niet beschikbaar domein verwijderen
         destroy_user_role: Rol permanent verwijderen
         disable_2fa_user: Tweestapsverificatie uitschakelen

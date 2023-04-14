@@ -178,13 +178,13 @@ pt-BR:
       read:notifications: ver suas notificações
       read:reports: ver suas denúncias
       read:search: pesquisar em seu nome
-      read:statuses: ver todos os toots
+      read:statuses: ver todos os tweets
       write: alterar todos os dados da sua conta
       write:accounts: alterar seu perfil
       write:blocks: bloquear contas e domínios
-      write:bookmarks: salvar toots
+      write:bookmarks: salvar tweets
       write:conversations: silenciar e excluir conversas
-      write:favourites: favoritar toots
+      write:favourites: favoritar tweets
       write:filters: criar filtros
       write:follows: seguir pessoas
       write:lists: criar listas
@@ -192,4 +192,4 @@ pt-BR:
       write:mutes: silenciar pessoas e conversas
       write:notifications: limpar notificações
       write:reports: denunciar outras pessoas
-      write:statuses: postar toots
+      write:statuses: postar tweets

@@ -1,10 +1,10 @@
 ---
 zh-TW:
   about:
-    about_mastodon_html: Mastodon （長毛象）是一個<em>自由、開放原始碼</em>的社群網站。它是一個分散式的服務，避免您的通訊被單一商業機構壟斷操控。請您選擇一家您信任的 Mastodon 站點，在上面建立帳號，然後您就可以和任一 Mastodon 站點上的使用者互通，享受無縫的<em>社群網路</em>交流。
+    about_mastodon_html: Chinese.org （長毛象）是一個<em>自由、開放原始碼</em>的社群網站。它是一個分散式的服務，避免您的通訊被單一商業機構壟斷操控。請您選擇一家您信任的 Chinese.org 站點，在上面建立帳號，然後您就可以和任一 Chinese.org 站點上的使用者互通，享受無縫的<em>社群網路</em>交流。
     contact_missing: 未設定
     contact_unavailable: 未公開
-    hosted_on: 在 %{domain} 運作的 Mastodon 站點
+    hosted_on: 在 %{domain} 運作的 Chinese.org 站點
     title: 關於本站
   accounts:
     follow: 跟隨
@@ -18,8 +18,8 @@ zh-TW:
     pin_errors:
       following: 您只能推薦您正在跟隨的使用者。
     posts:
-      other: 嘟文
-    posts_tab_heading: 嘟文
+      other: 推文
+    posts_tab_heading: 推文
   admin:
     account_actions:
       action: 執行動作
@@ -143,7 +143,7 @@ zh-TW:
         targeted_reports: 由其他人檢舉
       silence: 靜音
       silenced: 已靜音
-      statuses: 嘟文
+      statuses: 推文
       strikes: 先前的警示
       subscribe: 訂閱
       suspend: 停權
@@ -251,7 +251,7 @@ zh-TW:
         destroy_email_domain_block_html: "%{name} 已解除封鎖電子郵件網域 %{target}"
         destroy_instance_html: "%{name} 已清除網域 %{target}"
         destroy_ip_block_html: "%{name} 已刪除 IP %{target} 的規則"
-        destroy_status_html: "%{name} 已刪除 %{target} 的嘟文"
+        destroy_status_html: "%{name} 已刪除 %{target} 的推文"
         destroy_unavailable_domain_html: "%{name} 已恢復對網域 %{target} 的發送"
         destroy_user_role_html: "%{name} 已刪除 %{target} 角色"
         disable_2fa_user_html: "%{name} 已停用使用者 %{target} 的兩階段認證 (2FA) "
@@ -282,7 +282,7 @@ zh-TW:
         update_custom_emoji_html: "%{name} 已更新自訂表情符號 %{target}"
         update_domain_block_html: "%{name} 已更新 %{target} 之網域封鎖"
         update_ip_block_html: "%{name} 已變更 IP %{target} 之規則"
-        update_status_html: "%{name} 已更新 %{target} 的嘟文"
+        update_status_html: "%{name} 已更新 %{target} 的推文"
         update_user_role_html: "%{name} 已變更 %{target} 角色"
       deleted_account: 已刪除帳號
       empty: 找不到 log
@@ -387,7 +387,7 @@ zh-TW:
         create: 新增封鎖
         hint: 站點封鎖動作並不會阻止帳號紀錄被新增至資料庫，但會自動回溯性地對那些帳號套用特定管理設定。
         severity:
-          desc_html: "「<strong>靜音</strong>」令該站點下使用者的嘟文，設定為只對跟隨者顯示，沒有跟隨的人會看不到。「<strong>停權</strong>」會刪除將該站點下使用者的嘟文、媒體檔案和個人檔案。「<strong>無</strong>」則會拒絕接收來自該站點的媒體檔案。"
+          desc_html: "「<strong>靜音</strong>」令該站點下使用者的推文，設定為只對跟隨者顯示，沒有跟隨的人會看不到。「<strong>停權</strong>」會刪除將該站點下使用者的推文、媒體檔案和個人檔案。「<strong>無</strong>」則會拒絕接收來自該站點的媒體檔案。"
           noop: 無
           silence: 靜音
           suspend: 停權
@@ -485,7 +485,7 @@ zh-TW:
         instance_languages_dimension: 熱門語言
         instance_media_attachments_measure: 已儲存多媒體附加檔案
         instance_reports_measure: 關於他們的檢舉報告
-        instance_statuses_measure: 已儲存嘟文
+        instance_statuses_measure: 已儲存推文
       delivery:
         all: 所有
         clear: 清除遞送錯誤
@@ -543,7 +543,7 @@ zh-TW:
     relays:
       add_new: 新增中繼站
       delete: 刪除
-      description_html: "<strong>聯邦中繼站</strong> 是種中繼伺服器，會在訂閱並推送至此中繼站的伺服器之間交換大量的公開嘟文。<strong>中繼站也能協助小型或中型伺服器從聯邦宇宙中探索內容</strong>，而無須本地使用者手動跟隨遠端伺服器的其他使用者。"
+      description_html: "<strong>聯邦中繼站</strong> 是種中繼伺服器，會在訂閱並推送至此中繼站的伺服器之間交換大量的公開推文。<strong>中繼站也能協助小型或中型伺服器從聯邦宇宙中探索內容</strong>，而無須本地使用者手動跟隨遠端伺服器的其他使用者。"
       disable: 停用
       disabled: 停用
       enable: 啟用
@@ -566,8 +566,8 @@ zh-TW:
       action_log: 審計日誌
       action_taken_by: 操作執行者
       actions:
-        delete_description_html: 被檢舉的嘟文將被刪除，並且會被以刪除線標記，幫助您升級同一帳號未來的違規行為。
-        mark_as_sensitive_description_html: 被檢舉的嘟文中的媒體將會被標記為敏感內容，並將會記錄一次警告，以協助您升級同一帳號未來的違規行為。
+        delete_description_html: 被檢舉的推文將被刪除，並且會被以刪除線標記，幫助您升級同一帳號未來的違規行為。
+        mark_as_sensitive_description_html: 被檢舉的推文中的媒體將會被標記為敏感內容，並將會記錄一次警告，以協助您升級同一帳號未來的違規行為。
         other_description_html: 檢視更多控制帳號行為以及自訂檢舉帳號通知之選項。
         resolve_description_html: 被檢舉的帳號將不被採取任何行動，不會加以刪除線標記，並且此份報告將被關閉。
         silence_description_html: 此帳號僅會對已跟隨帳號之使用者或手動查詢可見，將大幅度限制觸及範圍。此設定可隨時被還原。關閉所有對此帳號之檢舉報告。
@@ -588,7 +588,7 @@ zh-TW:
       confirm: 確認
       confirm_action: 確認對 @%{acct} 執行站務動作
       created_at: 日期
-      delete_and_resolve: 刪除嘟文
+      delete_and_resolve: 刪除推文
       forwarded: 已轉寄
       forwarded_to: 轉寄到 %{domain}
       mark_as_resolved: 標記為「已解決」
@@ -613,18 +613,18 @@ zh-TW:
       resolved: 已解決
       resolved_msg: 檢舉報告已處理完成！
       skip_to_actions: 跳過行動
-      status: 嘟文
+      status: 推文
       statuses: 被檢舉的內容
       statuses_description_html: 侵犯性違規內容會被引用在檢舉帳號通知中
       summary:
         action_preambles:
-          delete_html: 您將要 <strong>移除</strong> 某些 <strong>@%{acct}</strong> 之嘟文。此將會：
-          mark_as_sensitive_html: 您將要 <strong>標記</strong> 某些 <strong>@%{acct}</strong> 之嘟文為 <strong>敏感內容 </strong>。此將會：
+          delete_html: 您將要 <strong>移除</strong> 某些 <strong>@%{acct}</strong> 之推文。此將會：
+          mark_as_sensitive_html: 您將要 <strong>標記</strong> 某些 <strong>@%{acct}</strong> 之推文為 <strong>敏感內容 </strong>。此將會：
           silence_html: 您將要 <strong>限制</strong> <strong>@%{acct}</strong> 之帳號。此將會：
           suspend_html: 您將要 <strong>停權</strong> <strong>@%{acct}</strong> 之帳號。此將會：
         actions:
-          delete_html: 移除違反規則之嘟文
-          mark_as_sensitive_html: 將違反規則之嘟文多媒體標記為敏感內容
+          delete_html: 移除違反規則之推文
+          mark_as_sensitive_html: 將違反規則之推文多媒體標記為敏感內容
           silence_html: 藉由標記他們的個人檔案與內容為僅可見於已跟隨帳號或手動查詢此個人檔案，此將嚴格地限制 <strong>@%{acct}</strong> 之觸及率
           suspend_html: 停權 <strong>@%{acct}</strong>，將他們的個人檔案與內容標記為無法存取及無法與之互動
         close_report: '將檢舉報告 #%{id} 標記為已處理'
@@ -652,7 +652,7 @@ zh-TW:
         moderation: 站務
         special: 特殊
       delete: 刪除
-      description_html: 透過<strong>使用者角色</strong>，您可以自訂您的使用者可以存取 Mastodon 的哪些功能與區域。
+      description_html: 透過<strong>使用者角色</strong>，您可以自訂您的使用者可以存取 Chinese.org 的哪些功能與區域。
       edit: 編輯「%{name}」角色
       everyone: 預設權限
       everyone_full_description_html: 這是會影響<strong>所有使用者</strong>的<strong>基本角色</strong>，即使是那些沒有被分配角色的使用者也一樣。其他所有的角色都從它繼承權限。
@@ -714,20 +714,20 @@ zh-TW:
         rules_hint: 這是關於您的使用者應遵循規則之專有區域。
         title: 關於
       appearance:
-        preamble: 客製化 Mastodon 網頁介面。
+        preamble: 客製化 Chinese.org 網頁介面。
         title: 外觀
       branding:
-        preamble: 您的伺服器品牌使之從聯邦宇宙網路中其他伺服器間凸顯自己。此資訊可能於各種不同的環境中顯示，例如 Mastodon 網頁介面、原生應用程式、其他網頁上的連結預覽或是其他通訊應用程式等等。因此，請盡可能保持此資訊簡潔明朗。
+        preamble: 您的伺服器品牌使之從聯邦宇宙網路中其他伺服器間凸顯自己。此資訊可能於各種不同的環境中顯示，例如 Chinese.org 網頁介面、原生應用程式、其他網頁上的連結預覽或是其他通訊應用程式等等。因此，請盡可能保持此資訊簡潔明朗。
         title: 品牌化
       content_retention:
-        preamble: 控制使用者產生內容如何儲存於 Mastodon 上。
+        preamble: 控制使用者產生內容如何儲存於 Chinese.org 上。
         title: 內容保留期間
       default_noindex:
         desc_html: 影響所有沒有變更此設定的使用者
         title: 預設將使用者排除於搜尋引擎索引
       discovery:
         follow_recommendations: 跟隨建議
-        preamble: 呈現有趣的內容有助於 Mastodon 上一人不識的新手上路。控制各種不同的分類在您伺服器上如何被探索到。
+        preamble: 呈現有趣的內容有助於 Chinese.org 上一人不識的新手上路。控制各種不同的分類在您伺服器上如何被探索到。
         profile_directory: 個人檔案目錄
         public_timelines: 公開時間軸
         publish_discovered_servers: 公開已知伺服器列表
@@ -766,20 +766,20 @@ zh-TW:
       media:
         title: 媒體檔案
       metadata: 詮釋資料
-      no_status_selected: 因未選取嘟文，所以什麼事都沒發生。
-      open: 公開嘟文
-      original_status: 原始嘟文
-      reblogs: 轉嘟
-      status_changed: 嘟文已編輯
-      title: 帳號嘟文
+      no_status_selected: 因未選取推文，所以什麼事都沒發生。
+      open: 公開推文
+      original_status: 原始推文
+      reblogs: 轉推
+      status_changed: 推文已編輯
+      title: 帳號推文
       trending: 熱門
       visibility: 可見性
       with_media: 含有媒體檔案
     strikes:
       actions:
-        delete_statuses: "%{name} 已刪除 %{target} 的嘟文"
+        delete_statuses: "%{name} 已刪除 %{target} 的推文"
         disable: "%{name} 已凍結 %{target} 的帳號"
-        mark_statuses_as_sensitive: "%{name} 將 %{target} 的嘟文標記為敏感內容"
+        mark_statuses_as_sensitive: "%{name} 將 %{target} 的推文標記為敏感內容"
         none: "%{name} 已對 %{target} 送出警告"
         sensitive: "%{name} 將 %{target} 的帳號標記為含有敏感內容"
         silence: "%{name} 已限制 %{target} 的帳號"
@@ -807,7 +807,7 @@ zh-TW:
         action: 檢查這裡以取得更多資訊
         message_html: "<strong>您的物件資料儲存空間 (object storage) 設定錯誤。您的使用者隱私正暴露於風險之中。</strong>"
     tags:
-      review: 審核嘟文
+      review: 審核推文
       updated_msg: 成功更新主題標籤設定
     title: 管理介面
     trends:
@@ -817,7 +817,7 @@ zh-TW:
       links:
         allow: 允許連結
         allow_provider: 允許發行者
-        description_html: 這些連結是正在被您伺服器上看到該嘟文之帳號大量分享。這些連結可以幫助您的使用者探索現在世界上正在發生的事情。除非您核准該發行者，連結將不被公開展示。您也可以核准或駁回個別連結。
+        description_html: 這些連結是正在被您伺服器上看到該推文之帳號大量分享。這些連結可以幫助您的使用者探索現在世界上正在發生的事情。除非您核准該發行者，連結將不被公開展示。您也可以核准或駁回個別連結。
         disallow: 不允許連結
         disallow_provider: 不允許發行者
         no_link_selected: 因未選取任何連結，所以什麼事都沒發生
@@ -837,16 +837,16 @@ zh-TW:
         title: 發行者
       rejected: 被拒絕
       statuses:
-        allow: 允許嘟文
+        allow: 允許推文
         allow_account: 允許作者
-        description_html: 這些是您伺服器上已知被正在大量分享及加入最愛之嘟文。這些嘟文能幫助您伺服器上舊雨新知發現更多帳號來跟隨。除非您核准該作者且作者允許他們的帳號被推薦至其他人，嘟文將不被公開展示。您可以核准或駁回個別嘟文。
-        disallow: 不允許嘟文
+        description_html: 這些是您伺服器上已知被正在大量分享及加入最愛之推文。這些推文能幫助您伺服器上舊雨新知發現更多帳號來跟隨。除非您核准該作者且作者允許他們的帳號被推薦至其他人，推文將不被公開展示。您可以核准或駁回個別推文。
+        disallow: 不允許推文
         disallow_account: 不允許作者
-        no_status_selected: 因未選取任何熱門嘟文，所以什麼事都沒發生
-        not_discoverable: 嘟文作者選擇不被發現
+        no_status_selected: 因未選取任何熱門推文，所以什麼事都沒發生
+        not_discoverable: 推文作者選擇不被發現
         shared_by:
           other: 分享過或／及收藏過 %{friendly_count} 次
-        title: 熱門嘟文
+        title: 熱門推文
       tags:
         current_score: 目前分數 %{score} 分
         dashboard:
@@ -855,7 +855,7 @@ zh-TW:
           tag_servers_dimension: 熱門伺服器
           tag_servers_measure: 不同伺服器
           tag_uses_measure: 總使用次數
-        description_html: 這些主題標籤正在您的伺服器上大量嘟文中出現。這些主題標籤能幫助您的使用者發現人們正集中討論的內容。除非您核准，主題標籤將不被公開展示。
+        description_html: 這些主題標籤正在您的伺服器上大量推文中出現。這些主題標籤能幫助您的使用者發現人們正集中討論的內容。除非您核准，主題標籤將不被公開展示。
         listable: 能被建議
         no_tag_selected: 因未選取任何主題標籤，所以什麼事都沒發生
         not_listable: 不能被建議
@@ -880,7 +880,7 @@ zh-TW:
     webhooks:
       add_new: 新增端點
       delete: 刪除
-      description_html: "<strong>Webhook</strong> 讓 Mastodon 可以將關於選定的事件的<strong>即時通知</strong>推送到您自己的應用程式，如此您的應用程式就可以<strong>自動觸發反應</strong>。"
+      description_html: "<strong>Webhook</strong> 讓 Chinese.org 可以將關於選定的事件的<strong>即時通知</strong>推送到您自己的應用程式，如此您的應用程式就可以<strong>自動觸發反應</strong>。"
       disable: 停用
       disabled: 已停用
       edit: 編輯端點
@@ -899,9 +899,9 @@ zh-TW:
   admin_mailer:
     new_appeal:
       actions:
-        delete_statuses: 要刪除他們的嘟文
+        delete_statuses: 要刪除他們的推文
         disable: 要凍結他們的帳號
-        mark_statuses_as_sensitive: 要將他們的嘟文標記為含有敏感內容
+        mark_statuses_as_sensitive: 要將他們的推文標記為含有敏感內容
         none: 警告
         sensitive: 要將他們的帳號標記為含有敏感內容
         silence: 要限制他們的帳號
@@ -921,7 +921,7 @@ zh-TW:
       new_trending_links:
         title: 熱門連結
       new_trending_statuses:
-        title: 熱門嘟文
+        title: 熱門推文
       new_trending_tags:
         no_approved_tags: 這些是目前仍未被審核之熱門主題標籤。
         requirements: '這些候選中的任何一個都可能超過 #%{rank} 已批准的熱門主題標籤，該主題標籤目前是 #%{lowest_tag_name}，得分為 %{lowest_tag_score}。'
@@ -941,18 +941,18 @@ zh-TW:
     confirmation_dialogs: 確認對話框
     discovery: 探索
     localization:
-      body: Mastodon 是由志願者翻譯的。
+      body: Chinese.org 是由志願者翻譯的。
       guide_link: https://crowdin.com/project/mastodon
       guide_link_text: 每個人都能貢獻。
     sensitive_content: 敏感內容
-    toot_layout: 嘟文排版
+    toot_layout: 推文排版
   application_mailer:
     notification_preferences: 變更電子郵件設定
     salutation: "%{name}、"
     settings: 變更電子郵件設定︰%{link}
     view: 進入瀏覽：
     view_profile: 檢視個人檔案
-    view_status: 檢視嘟文
+    view_status: 檢視推文
   applications:
     created: 已建立應用程式
     destroyed: 已刪除應用程式
@@ -968,10 +968,10 @@ zh-TW:
     delete_account: 刪除帳號
     delete_account_html: 如果您欲刪除您的帳號，請<a href="%{path}">點擊這裡繼續</a>。您需要再三確認您的操作。
     description:
-      prefix_invited_by_user: "@%{name} 邀請您加入這個 Mastodon 伺服器！"
-      prefix_sign_up: 馬上註冊 Mastodon 帳號吧！
-      suffix: 有了帳號，就可以從任何 Mastodon 伺服器跟隨任何人、發發廢嘟，並且與任何 Mastodon 伺服器的使用者交流，以及更多！
-    didnt_get_confirmation: 沒有收到確認連結嗎？
+      prefix_invited_by_user: "@%{name} 邀請您加入這個 Chinese.org 伺服器！"
+      prefix_sign_up: 現在就註冊 Chinese.org 帳號吧！
+      suffix: 有了帳號，就可以從任何 Chinese.org 伺服器跟隨任何人、發發廢推，並且與任何 Chinese.org 伺服器的使用者交流，以及更多！
+    didnt_get_confirmation: 沒有收到驗證信?
     dont_have_your_security_key: 找不到您的安全金鑰？
     forgot_password: 忘記密碼？
     invalid_reset_password_token: 密碼重設 token 無效或已過期。請重新設定密碼。
@@ -1014,7 +1014,7 @@ zh-TW:
       title: 登入 %{domain}
     sign_up:
       manual_review: "%{domain} 上的註冊由我們的管理員進行人工審核。為協助我們處理您的註冊，請寫一些關於您自己的資訊以及您想要在 %{domain} 上註冊帳號的原因。"
-      preamble: 於此 Mastodon 伺服器擁有帳號的話，您將能跟隨聯邦宇宙網路中任何一份子，無論他們的帳號託管於何處。
+      preamble: 於此 Chinese.org 伺服器擁有帳號的話，您將能跟隨聯邦宇宙網路中任何一份子，無論他們的帳號託管於何處。
       title: 讓我們一起設定 %{domain} 吧！
     status:
       account_status: 帳號狀態
@@ -1073,7 +1073,7 @@ zh-TW:
     warning:
       before: 在進行下一步驟之前，請詳細閱讀以下説明：
       caches: 已被其他節點快取的內容可能會殘留其中
-      data_removal: 您的嘟文和其他資料將會被永久刪除
+      data_removal: 您的推文和其他資料將會被永久刪除
       email_change_html: 您可以在不刪除帳號的情況下<a href="%{path}">變更您的電子郵件地址</a>
       email_contact_html: 如果您仍然沒有收到郵件，請寄信至 <a href="mailto:%{email}">%{email}</a> 以獲得協助
       email_reconfirmation_html: 如果您沒有收到確認郵件，可以<a href="%{path}">請求再次發送</a>
@@ -1097,13 +1097,13 @@ zh-TW:
       description_html: 這些是 %{instance} 的管理員向您發送的針對您的帳號採取的措施與警告。
       recipient: 此致
       reject_appeal: 駁回申訴
-      status: '嘟文編號 #%{id}'
-      status_removed: 嘟文已從系統中移除
+      status: '推文編號 #%{id}'
+      status_removed: 推文已從系統中移除
       title: "%{action} 來自 %{date}"
       title_actions:
-        delete_statuses: 嘟文移除
+        delete_statuses: 推文移除
         disable: 凍結帳號
-        mark_statuses_as_sensitive: 將嘟文標記為敏感內容
+        mark_statuses_as_sensitive: 將推文標記為敏感內容
         none: 警告
         sensitive: 將帳號標記為敏感內容
         silence: 帳號限制
@@ -1127,7 +1127,7 @@ zh-TW:
       content: 抱歉，我們的後台出現問題了。
       title: 這個頁面有問題
     '503': 此頁面因伺服器暫時發生錯誤而無法提供。
-    noscript_html: 使用 Mastodon 網頁版應用需要啟用 JavaScript。您也可以選擇適用於您的平台的 <a href="%{apps_path}">Mastodon 應用</a>。
+    noscript_html: 使用 Chinese.org 網頁版應用需要啟用 JavaScript。您也可以選擇適用於您的平台的 <a href="%{apps_path}">Chinese.org 應用</a>。
   existing_username_validator:
     not_found: 無法在本站找到這個名稱的使用者
     not_found_multiple: 揣嘸 %{usernames}
@@ -1150,7 +1150,7 @@ zh-TW:
     add_new: 新增
     errors:
       limit: 您所推薦之主題標籤數量已達上限
-    hint_html: "<strong>推薦主題標籤是什麼？</strong> 這些主題標籤將顯示於您的公開個人檔案頁，訪客可以藉此閱覽您標示了這些標籤的嘟文，拿來展示創意作品或者長期更新的專案很好用唷！"
+    hint_html: "<strong>推薦主題標籤是什麼？</strong> 這些主題標籤將顯示於您的公開個人檔案頁，訪客可以藉此閱覽您標示了這些標籤的推文，拿來展示創意作品或者長期更新的專案很好用唷！"
   filters:
     contexts:
       account: 個人檔案
@@ -1161,8 +1161,8 @@ zh-TW:
     edit:
       add_keyword: 新增關鍵字
       keywords: 關鍵字
-      statuses: 各別嘟文
-      statuses_hint_html: 此過濾器會套用至所選之各別嘟文，無論其是否符合下列關鍵字。<a href="%{path}">審閱或從過濾條件移除嘟文</a>。
+      statuses: 各別推文
+      statuses_hint_html: 此過濾器會套用至所選之各別推文，無論其是否符合下列關鍵字。<a href="%{path}">審閱或從過濾條件移除推文</a>。
       title: 編輯過濾條件
     errors:
       deprecated_api_multiple_keywords: 這些參數無法從此應用程式中更改，因為它們適用於一或多個過濾器關鍵字。請使用較新的應用程式或是網頁介面。
@@ -1176,9 +1176,9 @@ zh-TW:
       keywords:
         other: "%{count} 個關鍵字"
       statuses:
-        other: "%{count} 則嘟文"
+        other: "%{count} 則推文"
       statuses_long:
-        other: "%{count} 則各別嘟文被隱藏"
+        other: "%{count} 則各別推文被隱藏"
       title: 過濾器
     new:
       save: 儲存新過濾器
@@ -1188,8 +1188,8 @@ zh-TW:
       batch:
         remove: 從過濾器中移除
       index:
-        hint: 此過濾器會套用至所選之各別嘟文，不管它們有無符合其他條件。您可以從網頁介面中將更多嘟文加入至此過濾器。
-        title: 已過濾之嘟文
+        hint: 此過濾器會套用至所選之各別推文，不管它們有無符合其他條件。您可以從網頁介面中將更多推文加入至此過濾器。
+        title: 已過濾之推文
   generic:
     all: 全部
     all_items_on_page_selected_html:
@@ -1312,8 +1312,8 @@ zh-TW:
       sign_up:
         subject: "%{name} 已進行註冊"
     favourite:
-      body: 您的嘟文被 %{name} 加入了最愛：
-      subject: "%{name} 將您的嘟文加入了最愛"
+      body: 您的推文被 %{name} 加入了最愛：
+      subject: "%{name} 將您的推文加入了最愛"
       title: 新的最愛
     follow:
       body: "%{name} 開始跟隨您！"
@@ -1326,19 +1326,19 @@ zh-TW:
       title: 新的跟隨請求
     mention:
       action: 回覆
-      body: "%{name} 在嘟文中提及您:"
-      subject: "%{name} 在嘟文中提及您"
+      body: "%{name} 在推文中提及您:"
+      subject: "%{name} 在推文中提及您"
       title: 新的提及
     poll:
       subject: 由 %{name} 發起的投票已結束
     reblog:
-      body: 您的嘟文被 %{name} 轉嘟：
-      subject: "%{name} 已轉嘟您的嘟文"
-      title: 新的轉嘟
+      body: 您的推文被 %{name} 轉推：
+      subject: "%{name} 轉推了您的推文"
+      title: 新的轉推
     status:
-      subject: "%{name} 剛剛嘟文"
+      subject: "%{name} 剛剛推文"
     update:
-      subject: "%{name} 已編輯嘟文"
+      subject: "%{name} 已編輯推文"
   notifications:
     email_events: 電子郵件通知設定
     email_events_hint: 選取您想接收通知的事件：
@@ -1380,7 +1380,7 @@ zh-TW:
       too_many_options: 不能包含多於 %{max} 個項目
   preferences:
     other: 其他
-    posting_defaults: 嘟文預設值
+    posting_defaults: 推文預設值
     public_timelines: 公開時間軸
   privacy_policy:
     title: 隱私權政策
@@ -1417,12 +1417,12 @@ zh-TW:
   rss:
     content_warning: 內容警告：
     descriptions:
-      account: 來自 @%{acct} 之公開嘟文
-      tag: '帶有 #%{hashtag} 之公開嘟文'
+      account: 來自 @%{acct} 之公開推文
+      tag: '帶有 #%{hashtag} 之公開推文'
   scheduled_statuses:
-    over_daily_limit: 您已經超過了本日排定發嘟的限額 (%{limit})
-    over_total_limit: 您已經超過排程發嘟的限額 (%{limit})
-    too_soon: 嘟文不可以改變過去哦，只能預定未來 (咦)
+    over_daily_limit: 您已經超過了本日排定發推的限額 (%{limit})
+    over_total_limit: 您已經超過排程發推的限額 (%{limit})
+    too_soon: 推文不可以改變過去哦，只能預定未來 (咦)
   sessions:
     activity: 最近活動
     browser: 瀏覽器
@@ -1448,7 +1448,7 @@ zh-TW:
       weibo: 新浪微博
     current_session: 目前的 session
     description: "%{platform} 上的 %{browser}"
-    explanation: 這些是現在正登入於您 Mastodon 帳號的瀏覽器。
+    explanation: 這些是現在正登入於您 Chinese.org 帳號的瀏覽器。
     ip: IP 位址
     platforms:
       adobe_air: Adobe Air
@@ -1474,7 +1474,7 @@ zh-TW:
     aliases: 帳號別名
     appearance: 外觀
     authorized_apps: 已授權應用程式
-    back: 回到 Mastodon
+    back: 回到 Chinese.org
     delete: 刪除帳號
     development: 開發者
     edit_profile: 編輯個人檔案
@@ -1487,7 +1487,7 @@ zh-TW:
     preferences: 偏好設定
     profile: 個人檔案
     relationships: 跟隨中與跟隨者
-    statuses_cleanup: 自動嘟文刪除
+    statuses_cleanup: 自動推文刪除
     strikes: 管理警告
     two_factor_authentication: 兩階段認證
     webauthn_authentication: 安全金鑰
@@ -1500,21 +1500,21 @@ zh-TW:
         other: "%{count} 張圖片"
       video:
         other: "%{count} 段影片"
-    boosted_from_html: 轉嘟自 %{acct_link}
+    boosted_from_html: 轉推自 %{acct_link}
     content_warning: 內容警告： %{warning}
     default_language: 與介面語言相同
     disallowed_hashtags:
       other: 含有不得使用的標籤： %{tags}
     edited_at_html: 編輯於 %{date}
     errors:
-      in_reply_not_found: 您嘗試回覆的嘟文看起來不存在。
+      in_reply_not_found: 您嘗試回覆的推文看起來不存在。
     open_in_web: 以網頁開啟
     over_character_limit: 已超過 %{max} 字的限制
     pin_errors:
-      direct: 無法釘選只有僅提及使用者可見之嘟文
-      limit: 釘選嘟文的數量已達上限
-      ownership: 不能釘選他人的嘟文
-      reblog: 不能釘選轉嘟
+      direct: 無法釘選只有僅提及使用者可見之推文
+      limit: 釘選推文的數量已達上限
+      ownership: 不能釘選他人的推文
+      reblog: 不能釘選轉推
     poll:
       total_people:
         other: "%{count} 個人"
@@ -1522,8 +1522,8 @@ zh-TW:
         other: "%{count} 票"
       vote: 投票
     show_more: 顯示更多
-    show_newer: 顯示較新嘟文
-    show_older: 顯示較舊嘟文
+    show_newer: 顯示較新推文
+    show_older: 顯示較舊推文
     show_thread: 顯示討論串
     sign_in_to_participate: 登入以加入討論
     title: "%{name}：「%{quote}」"
@@ -1536,26 +1536,26 @@ zh-TW:
       unlisted: 不在公開時間軸顯示
       unlisted_long: 所有人都能看到，但不會出現在公開時間軸上
   statuses_cleanup:
-    enabled: 自動刪除舊嘟文
-    enabled_hint: 一旦達到指定的保存期限，就會自動刪除您的嘟文，除非該嘟文符合下列例外
+    enabled: 自動刪除舊推文
+    enabled_hint: 一旦達到指定的保存期限，就會自動刪除您的推文，除非該推文符合下列例外
     exceptions: 例外
-    explanation: 因為刪除嘟文是耗費資源的操作，當伺服器不那麼忙碌時才會慢慢完成。因此，您的嘟文會在到達保存期限後一段時間才會被刪除。
+    explanation: 因為刪除推文是耗費資源的操作，當伺服器不那麼忙碌時才會慢慢完成。因此，您的推文會在到達保存期限後一段時間才會被刪除。
     ignore_favs: 忽略最愛數
-    ignore_reblogs: 忽略轉嘟數
+    ignore_reblogs: 忽略轉推數
     interaction_exceptions: 基於互動的例外規則
-    interaction_exceptions_explanation: 請注意嘟文是無法保證被刪除的，如果在一次處理過後嘟文低於最愛或轉嘟的門檻。
+    interaction_exceptions_explanation: 請注意推文是無法保證被刪除的，如果在一次處理過後推文低於最愛或轉推的門檻。
     keep_direct: 保留私訊
     keep_direct_hint: 不會刪除任何您的私訊
-    keep_media: 保留包含多媒體附加檔案之嘟文
-    keep_media_hint: 不會刪除您包含多媒體附加檔案之嘟文
-    keep_pinned: 保留釘選嘟文
-    keep_pinned_hint: 不會刪除您的釘選嘟文
+    keep_media: 保留包含媒體內容的推文
+    keep_media_hint: 不會刪除您包含媒體內容之推文
+    keep_pinned: 保留釘選推文
+    keep_pinned_hint: 不會刪除您的釘選推文
     keep_polls: 保留投票
     keep_polls_hint: 不會刪除您的投票
-    keep_self_bookmark: 保留您已標記為書籤之嘟文
-    keep_self_bookmark_hint: 不會刪除您已標記為書籤之嘟文
-    keep_self_fav: 保留您已標記為最愛之嘟文
-    keep_self_fav_hint: 不會刪除您已標記為最愛之嘟文
+    keep_self_bookmark: 保留您已標記為書籤之推文
+    keep_self_bookmark_hint: 不會刪除您已標記為書籤之推文
+    keep_self_fav: 保留您已標記為最愛之推文
+    keep_self_fav_hint: 不會刪除您已標記為最愛之推文
     min_age:
       '1209600': 2 週
       '15778476': 6 個月
@@ -1566,13 +1566,13 @@ zh-TW:
       '63113904': 2 年
       '7889238': 3 個月
     min_age_label: 保存期限
-    min_favs: 保留超過嘟文最愛門檻
-    min_favs_hint: 如果您嘟文已收到超過最愛門檻則不會刪除。留白表示不論最愛數量皆刪除該嘟文。
-    min_reblogs: 保留超過嘟文轉嘟門檻
-    min_reblogs_hint: 如果您嘟文已收到超過轉嘟門檻則不會刪除。留白表示不論轉嘟數量皆刪除該嘟文。
+    min_favs: 保留超過推文最愛門檻
+    min_favs_hint: 如果您推文已收到超過最愛門檻則不會刪除。留白表示不論最愛數量皆刪除該推文。
+    min_reblogs: 保留超過推文轉推門檻
+    min_reblogs_hint: 如果您推文已收到超過轉推門檻則不會刪除。留白表示不論轉推數量皆刪除該推文。
   stream_entries:
-    pinned: 釘選嘟文
-    reblogged: 轉嘟
+    pinned: 釘選推文
+    reblogged: 轉推
     sensitive_content: 敏感內容
   strikes:
     errors:
@@ -1614,7 +1614,7 @@ zh-TW:
       subject: 您在 %{date} 提出的申訴已被駁回
       title: 申訴被駁回
     backup_ready:
-      explanation: 您要求的 Mastodon 帳號完整備份檔案現已就緒，可供下載！
+      explanation: 您要求的 Chinese.org 帳號完整備份檔案現已就緒，可供下載！
       subject: 您的備份檔已可供下載
       title: 檔案匯出
     suspicious_sign_in:
@@ -1631,26 +1631,26 @@ zh-TW:
         spam: 垃圾訊息
         violation: 該內容違反以下社群規章
       explanation:
-        delete_statuses: 您的某些嘟文被發現已違反一項或多項社群準則，隨後已被 %{instance} 的管理員刪除。
+        delete_statuses: 您的某些推文被發現已違反一項或多項社群準則，隨後已被 %{instance} 的管理員刪除。
         disable: 您無法繼續使用您的帳號，但您的個人頁面及其他資料內容保持不變。您可以要求一份您的資料備份，帳號異動設定，或是刪除帳號。
-        mark_statuses_as_sensitive: 您的部份嘟文已被 %{instance} 的管理員標記為敏感內容。這代表了人們必須在顯示預覽前點擊嘟文中的媒體。您可以在將來嘟文時自己將媒體標記為敏感內容。
+        mark_statuses_as_sensitive: 您的部份推文已被 %{instance} 的管理員標記為敏感內容。這代表了人們必須在顯示預覽前點擊推文中的媒體。您可以在將來推文時自己將媒體標記為敏感內容。
         sensitive: 您之後上傳的所有媒體檔案會被標為敏感內容，並且被隱藏起來，須點擊警告按鈕才會顯示。
-        silence: 您仍然可以使用您的帳號，但僅有已跟隨您的人才能看到您在此伺服器的嘟文，您也可能會從各式探索功能中被排除。但其他人仍可手動跟隨您。
+        silence: 您仍然可以使用您的帳號，但僅有已跟隨您的人才能看到您在此伺服器的推文，您也可能會從各式探索功能中被排除。但其他人仍可手動跟隨您。
         suspend: 您將不能使用您的帳號，您的個人檔案頁面及其他資料將不再能被存取。您仍可於約 30 日內資料被完全刪除前要求下載您的資料，但我們仍會保留一部份基本資料，以防止有人規避停權處罰。
       reason: 原因：
-      statuses: 引用的嘟文：
+      statuses: 引用的推文：
       subject:
-        delete_statuses: 您於 %{acct} 之嘟文已被移除
+        delete_statuses: 您於 %{acct} 之推文已被移除
         disable: 您的帳號 %{acct} 已被凍結
-        mark_statuses_as_sensitive: 您在 %{acct} 上的嘟文已被標記為敏感內容
+        mark_statuses_as_sensitive: 您在 %{acct} 上的推文已被標記為敏感內容
         none: 對 %{acct} 的警告
-        sensitive: 從現在開始，您在 %{acct} 上的嘟文將會被標記為敏感內容
+        sensitive: 從現在開始，您在 %{acct} 上的推文將會被標記為敏感內容
         silence: 您的帳號 %{acct} 已被限制
         suspend: 您的帳號 %{acct} 已被停權
       title:
-        delete_statuses: 嘟文已移除
+        delete_statuses: 推文已移除
         disable: 帳號已被涷結
-        mark_statuses_as_sensitive: 嘟文已標記為敏感內容
+        mark_statuses_as_sensitive: 推文已標記為敏感內容
         none: 警告
         sensitive: 帳號已標記為敏感內容
         silence: 帳號已被限制
@@ -1659,11 +1659,11 @@ zh-TW:
       edit_profile_action: 設定個人檔案
       edit_profile_step: 您可以設定您的個人檔案，包括上傳大頭貼、變更顯示名稱等等。您也可以選擇在新的跟隨者跟隨前，先對他們進行審核。
       explanation: 下面是幾個小幫助，希望它們能幫到您
-      final_action: 開始嘟嘟
-      final_step: '開始嘟嘟吧！即使您現在沒有跟隨者，其他人仍然能在本站時間軸、主題標籤等地方，看到您的公開嘟文。試著用 #introductions 這個主題標籤介紹一下自己吧。'
+      final_action: 開始发推
+      final_step: '開始推推吧！即使您現在沒有跟隨者，其他人仍然能在本站時間軸、主題標籤等地方，看到您的公開推文。試著用 #introductions 這個主題標籤介紹一下自己吧。'
       full_handle: 您的完整帳號名稱
       full_handle_hint: 您需要將這告訴您的朋友們，這樣他們就能從另一個伺服器向您發送訊息或跟隨您。
-      subject: 歡迎來到 Mastodon
+      subject: 歡迎來到 Chinese.org
       title: "%{name} 誠摯歡迎您的加入！"
   users:
     follow_limit_reached: 您無法跟隨多於 %{limit} 個人

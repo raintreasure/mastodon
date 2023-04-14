@@ -36,7 +36,7 @@ zh-TW:
         status:
           attributes:
             reblog:
-              taken: 嘟文已經存在
+              taken: 推文已經存在
         user:
           attributes:
             email:

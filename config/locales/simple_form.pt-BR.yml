@@ -7,12 +7,12 @@ pt-BR:
       account_migration:
         acct: Especifique o usuário@domínio para onde vai
       account_warning_preset:
-        text: Você pode usar a sintaxe do toot, como links, hashtags e menções
+        text: Você pode usar a sintaxe do tweet, como links, hashtags e menções
         title: Opcional. Não visível para o destinatário
       admin_account_action:
-        include_statuses: O usuário verá quais toots causaram a advertência ou ação da moderação
+        include_statuses: O usuário verá quais tweets causaram a advertência ou ação da moderação
         send_email_notification: O usuário receberá uma explicação do que aconteceu com a própria conta
-        text_html: Opcional. Você pode usar a sintaxe do toot ou pode poupar tempo <a href="%{path}">adicionando advertências pré-definidas</a>
+        text_html: Opcional. Você pode usar a sintaxe do tweet ou pode poupar tempo <a href="%{path}">adicionando advertências pré-definidas</a>
         type_html: Decida o que fazer com <strong>%{acct}</strong>
         types:
           disable: Impede o usuário de usar a conta, porém sem excluí-la ou suspendê-la.
@@ -26,7 +26,7 @@ pt-BR:
         ends_at: Opcional. O comunicado sairá do ar automaticamente
         scheduled_at: Deixe em branco para publicar o comunicado agora
         starts_at: Opcional. Caso o comunicado esteja vinculado a um período específico
-        text: Você pode usar a sintaxe do toot. Considere o espaço que o comunicado ocupará na tela do usuário
+        text: Você pode usar a sintaxe do tweet. Considere o espaço que o comunicado ocupará na tela do usuário
       appeal:
         text: Você só pode solicitar uma revisão uma vez
       defaults:
@@ -45,7 +45,7 @@ pt-BR:
         locale: O idioma da interface do usuário, e-mails e notificações
         locked: Requer aprovação manual de seguidores
         password: Use pelo menos 8 caracteres
-        phrase: Corresponderá independente de maiúsculas ou minúsculas, no texto ou no Aviso de Conteúdo de um toot
+        phrase: Corresponderá independente de maiúsculas ou minúsculas, no texto ou no Aviso de Conteúdo de um tweet
         scopes: Quais APIs o aplicativo vai ter permissão de acessar. Se você selecionar uma autorização de alto nível, você não precisa selecionar individualmente os outros.
         setting_aggregate_reblogs: Não mostra novos impulsos para publicações já receberam recentemente (afeta somente os impulsos mais recentes)
         setting_always_send_emails: Normalmente, as notificações por e-mail não serão enviadas enquanto você estiver usando ativamente o Mastodon
@@ -143,7 +143,7 @@ pt-BR:
         text: Advertência pré-definida
         title: Título
       admin_account_action:
-        include_statuses: Incluir toots denunciados no e-mail
+        include_statuses: Incluir tweets denunciados no e-mail
         send_email_notification: Notificar o usuário por e-mail
         text: Advertência personalizada
         type: Ação
@@ -195,16 +195,16 @@ pt-BR:
         setting_auto_play_gif: Reproduzir GIFs automaticamente
         setting_boost_modal: Solicitar confirmação antes de dar boost
         setting_crop_images: Cortar imagens no formato 16x9 em publicações não expandidas
-        setting_default_language: Idioma dos toots
-        setting_default_privacy: Privacidade dos toots
+        setting_default_language: Idioma dos tweets
+        setting_default_privacy: Privacidade dos tweets
         setting_default_sensitive: Sempre marcar mídia como sensível
-        setting_delete_modal: Solicitar confirmação antes de excluir toot
+        setting_delete_modal: Solicitar confirmação antes de excluir tweet
         setting_disable_swiping: Desabilitar movimentos deslizantes
         setting_display_media: Exibição das mídias
         setting_display_media_default: Padrão
         setting_display_media_hide_all: Ocultar tudo
         setting_display_media_show_all: Mostrar tudo
-        setting_expand_spoilers: Sempre expandir toots com Aviso de Conteúdo
+        setting_expand_spoilers: Sempre expandir tweets com Aviso de Conteúdo
         setting_hide_network: Ocultar suas relações
         setting_noindex: Não quero ser indexado por mecanismos de pesquisa
         setting_reduce_motion: Reduzir animações
@@ -261,7 +261,7 @@ pt-BR:
       interactions:
         must_be_follower: Bloquear notificações de não-seguidores
         must_be_following: Bloquear notificações de não-seguidos
-        must_be_following_dm: Bloquear toots diretos de não-seguidos
+        must_be_following_dm: Bloquear tweets diretos de não-seguidos
       invite:
         comment: Comentário
       invite_request:
@@ -277,12 +277,12 @@ pt-BR:
       notification_emails:
         appeal: Alguém solicitou uma revisão de uma decisão da moderação
         digest: Enviar e-mails de resumo
-        favourite: Enviar e-mail quando alguém favoritar teus toots
+        favourite: Enviar e-mail quando alguém favoritar teus tweets
         follow: Enviar e-mail quando alguém te seguir
         follow_request: Enviar e-mail quando alguém quiser te seguir
         mention: Enviar e-mail quando alguém te mencionar
         pending_account: Enviar e-mail quando uma nova conta precisa ser revisada
-        reblog: Enviar e-mail quando alguém der boost nos teus toots
+        reblog: Enviar e-mail quando alguém der boost nos teus tweets
         report: Nova denúncia foi enviada
         trending_tag: Uma nova tendência requer revisão
       rule:
@@ -291,7 +291,7 @@ pt-BR:
         listable: Permitir que esta hashtag apareça em pesquisas e sugestões
         name: Hashtag
         trendable: Permitir que esta hashtag fique em alta
-        usable: Permitir que toots usem esta hashtag
+        usable: Permitir que tweets usem esta hashtag
       user:
         role: Cargo
       user_role:
