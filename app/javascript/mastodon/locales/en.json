@@ -579,7 +579,7 @@
   "status.pin": "Pin on profile",
   "status.pinned": "Pinned post",
   "status.read_more": "Read more",
-  "status.reblog": "Boost",
+  "status.reblog": "Retweet",
   "status.reblog_private": "Boost with original visibility",
   "status.reblogged_by": "{name} boosted",
   "status.reblogs.empty": "No one has boosted this post yet. When someone does, they will show up here.",

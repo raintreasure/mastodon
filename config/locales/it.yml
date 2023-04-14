@@ -19,9 +19,9 @@ it:
     pin_errors:
       following: Devi già seguire la persona che desideri promuovere
     posts:
-      one: Toot
-      other: Toot
-    posts_tab_heading: Toot
+      one: Tweet
+      other: Tweet
+    posts_tab_heading: Tweet
   admin:
     account_actions:
       action: Esegui azione
@@ -146,7 +146,7 @@ it:
         targeted_reports: Segnalato da altri
       silence: Silenzia
       silenced: Silenziato
-      statuses: Toot
+      statuses: Tweet
       strikes: Provvedimenti precedenti
       subscribe: Iscriviti
       suspend: Sospendi
@@ -195,7 +195,7 @@ it:
         destroy_email_domain_block: Elimina Blocco del Dominio Email
         destroy_instance: Elimina Dominio
         destroy_ip_block: Elimina regola IP
-        destroy_status: Elimina Toot
+        destroy_status: Elimina Tweet
         destroy_unavailable_domain: Elimina Dominio Non Disponibile
         destroy_user_role: Distruggi Ruolo
         disable_2fa_user: Disabilita A2F
@@ -226,7 +226,7 @@ it:
         update_custom_emoji: Aggiorna Emoji Personalizzata
         update_domain_block: Aggiorna Blocco del Dominio
         update_ip_block: Aggiorna regola IP
-        update_status: Aggiorna Toot
+        update_status: Aggiorna Tweet
         update_user_role: Aggiorna Ruolo
       actions:
         approve_appeal_html: "%{name} ha approvato il ricorso sulla decisione di moderazione da %{target}"
@@ -254,7 +254,7 @@ it:
         destroy_email_domain_block_html: "%{name} ha sbloccato il dominio email %{target}"
         destroy_instance_html: "%{name} ha eliminato il dominio %{target}"
         destroy_ip_block_html: "%{name} ha eliminato la regola per l'IP %{target}"
-        destroy_status_html: "%{name} ha rimosso il toot di %{target}"
+        destroy_status_html: "%{name} ha rimosso il tweet di %{target}"
         destroy_unavailable_domain_html: "%{name} ha ripreso la consegna al dominio %{target}"
         destroy_user_role_html: "%{name} ha eliminato il ruolo %{target}"
         disable_2fa_user_html: "%{name} ha disabilitato l'autenticazione a due fattori per l'utente %{target}"
@@ -552,11 +552,11 @@ it:
     relays:
       add_new: Aggiungi ripetitore
       delete: Cancella
-      description_html: Un <strong>ripetitore di federazione</strong> è un server che fa da intermediario e scambia grandi quantità di toot pubblici tra server che si collegano e pubblicano su di esso. <strong>Può aiutare server piccoli e medi a ottenere contenuti dal fediverse</strong>, che altrimenti riceverebbero solo se i loro utenti locali seguissero altre persone su server remoti.
+      description_html: Un <strong>ripetitore di federazione</strong> è un server che fa da intermediario e scambia grandi quantità di tweet pubblici tra server che si collegano e pubblicano su di esso. <strong>Può aiutare server piccoli e medi a ottenere contenuti dal fediverse</strong>, che altrimenti riceverebbero solo se i loro utenti locali seguissero altre persone su server remoti.
       disable: Disabilita
       disabled: Disabilitato
       enable: Abilita
-      enable_hint: Dopo l'attivazione, il vostro server riceverà tutti i toot pubblici da questo ripetitore, e inizierà a inviargli i suoi toot pubblici.
+      enable_hint: Dopo l'attivazione, il vostro server riceverà tutti i tweet pubblici da questo ripetitore, e inizierà a inviargli i suoi tweet pubblici.
       enabled: Abilitato
       inbox_url: Url Relay
       pending: In attesa dell'approvazione del ripetitore
@@ -963,7 +963,7 @@ it:
       guide_link: https://it.crowdin.com/project/mastodon
       guide_link_text: Tutti possono contribuire.
     sensitive_content: Contenuto sensibile
-    toot_layout: Layout dei toot
+    toot_layout: Layout dei tweet
   application_mailer:
     notification_preferences: Cambia preferenze email
     salutation: "%{name},"
@@ -1537,7 +1537,7 @@ it:
       direct: I messaggi visibili solo agli utenti citati non possono essere fissati in cima
       limit: Hai già fissato in cima il massimo numero di post
       ownership: Non puoi fissare in cima un post di qualcun altro
-      reblog: Un toot condiviso non può essere fissato in cima
+      reblog: Un tweet condiviso non può essere fissato in cima
     poll:
       total_people:
         one: "%{count} persona"

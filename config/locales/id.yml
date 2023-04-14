@@ -541,7 +541,7 @@ id:
       disable: Matikan
       disabled: Dimatikan
       enable: Aktifkan
-      enable_hint: Saat diaktifkan, server Anda akan melanggan semua kiriman publik dari relai ini, dan akan mengirim toot publik server ini ke sana.
+      enable_hint: Saat diaktifkan, server Anda akan melanggan semua kiriman publik dari relai ini, dan akan mengirim tweet publik server ini ke sana.
       enabled: Diaktifkan
       inbox_url: URL Relai
       pending: Menunggu persetujuan relai

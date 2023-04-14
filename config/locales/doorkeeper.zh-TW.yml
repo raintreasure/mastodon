@@ -138,7 +138,7 @@ zh-TW:
         push: 推播通知
         reports: 檢舉報告
         search: 搜尋
-        statuses: 嘟文
+        statuses: 推文
     layouts:
       admin:
         nav:
@@ -178,7 +178,7 @@ zh-TW:
       read:notifications: 檢視您的通知
       read:reports: 檢視您的檢舉
       read:search: 以您的身份搜尋
-      read:statuses: 檢視所有嘟文
+      read:statuses: 檢視所有推文
       write: 修改您帳號的所有資料
       write:accounts: 修改您的個人檔案
       write:blocks: 封鎖帳號及站台
@@ -192,4 +192,4 @@ zh-TW:
       write:mutes: 靜音使用者及對話
       write:notifications: 清除您的通知
       write:reports: 檢舉其他人
-      write:statuses: 發表嘟文
+      write:statuses: 發表推文

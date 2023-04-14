@@ -19,7 +19,7 @@ fy:
     pin_errors:
       following: Jo moatte dizze account wol al folgje, eardat jo it oanrekommandearje kinne
     posts:
-      one: Toot
+      one: tweet
       other: Berjochten
     posts_tab_heading: Berjochten
   admin:
@@ -195,7 +195,7 @@ fy:
         destroy_email_domain_block: E-maildomeinblokkade fuortsmite
         destroy_instance: Domein folslein fuortsmite
         destroy_ip_block: IP-rigel fuortsmite
-        destroy_status: Toot fuortsmite
+        destroy_status: Tweet fuortsmite
         destroy_unavailable_domain: Net beskikber domein fuortsmite
         destroy_user_role: Rol permanint fuortsmite
         disable_2fa_user: Twa-stapsferifikaasje útskeakelje
