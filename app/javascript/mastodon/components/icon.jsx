@@ -11,7 +11,9 @@ export default class Icon extends React.PureComponent {
   };
 
   render () {
-    const { id, className, fixedWidth, ...other } = this.props;
+    var { id, className, fixedWidth, ...other } = this.props;
+    if (id === 'star')
+      id = 'heart';
 
     return (
       <i className={classNames('fa', `fa-${id}`, className, { 'fa-fw': fixedWidth })} {...other} />
