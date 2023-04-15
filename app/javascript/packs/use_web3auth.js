@@ -18,7 +18,7 @@ import { TorusWalletAdapter } from '@web3auth/torus-evm-adapter';
   // $("#sign-tx").hide();
   // alert('init web3auth in javasript pack');
 
-  const clientId = 'BM8O9IFmbeLZblS4bv6vX87yGiEOdsCPoSSD4QCgtM0I4l1pXz6GzQTwdSAlOelLl_xdYYtFDnIMj1R3uo9jl7M'; // get your clientId from https://dashboard.web3auth.io
+  const clientId = 'BAqTBAVYaw6XPqsGyr_4Mk4hMnSI7XIC4PEueaJBRlDH008L9982XbPs0IjW04S4Xy21TGnMVvPbmxwfTVwmeJo'; // get your clientId from https://dashboard.web3auth.io
   window.web3auth = new Web3Auth({
     clientId,
     chainConfig: {
@@ -26,7 +26,7 @@ import { TorusWalletAdapter } from '@web3auth/torus-evm-adapter';
       chainId: '0x1',
       rpcTarget: 'https://rpc.ankr.com/eth', // This is the public RPC we have added, please pass on your own endpoint while creating an app
     },
-    web3AuthNetwork: 'testnet',
+    // web3AuthNetwork: 'testnet',
   });
   // Add Torus Wallet Connector Plugin
   const torusPlugin =
@@ -47,7 +47,7 @@ import { TorusWalletAdapter } from '@web3auth/torus-evm-adapter';
   const metamaskAdapter = new MetamaskAdapter({
     clientId,
     sessionTime: 86400, // 1 hour in seconds
-    web3AuthNetwork: 'testnet',
+    // web3AuthNetwork: 'testnet',
     chainConfig: {
       chainNamespace: 'eip155',
       chainId: '0x1',

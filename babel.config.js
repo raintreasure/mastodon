@@ -20,6 +20,9 @@ module.exports = (api) => {
       ['react-intl', { messagesDir: './build/messages' }],
       'preval',
       '@babel/plugin-proposal-nullish-coalescing-operator',
+      '@babel/plugin-transform-react-jsx',
+      '@babel/plugin-proposal-optional-chaining',
+      '@babel/plugin-proposal-class-properties',
     ],
     overrides: [
       {
