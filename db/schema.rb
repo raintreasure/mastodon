@@ -448,7 +448,7 @@ ActiveRecord::Schema.define(version: 2023_06_05_085711) do
     t.decimal "earn"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["account_id", "target_id", "op_type"], name: "index_earn_records_on_account_id_and_target_id_and_op_type"
+    t.index ["account_id", "op_type"], name: "index_earn_records_on_account_id_and_op_type"
   end
 
   create_table "email_domain_blocks", force: :cascade do |t|
@@ -991,6 +991,8 @@ ActiveRecord::Schema.define(version: 2023_06_05_085711) do
     t.datetime "edited_at"
     t.boolean "trendable"
     t.bigint "ordered_media_attachment_ids", array: true
+    t.decimal "new_balance"
+    t.decimal "balance_increment"
     t.index ["account_id", "id", "visibility", "updated_at"], name: "index_statuses_20190820", order: { id: :desc }, where: "(deleted_at IS NULL)"
     t.index ["account_id"], name: "index_statuses_on_account_id"
     t.index ["deleted_at"], name: "index_statuses_on_deleted_at", where: "(deleted_at IS NOT NULL)"

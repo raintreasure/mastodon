@@ -27,6 +27,7 @@ module.exports = (api) => {
     plugins: [
       ['formatjs'],
       'preval',
+      '@babel/plugin-proposal-optional-chaining',
       '@babel/plugin-proposal-nullish-coalescing-operator',
     ],
     overrides: [

@@ -27,6 +27,8 @@
 #  edited_at                    :datetime
 #  trendable                    :boolean
 #  ordered_media_attachment_ids :bigint(8)        is an Array
+#  new_balance                  :decimal(, )
+#  balance_increment            :decimal(, )
 #
 
 class Status < ApplicationRecord

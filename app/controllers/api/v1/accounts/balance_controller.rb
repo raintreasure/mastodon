@@ -6,12 +6,14 @@ class Api::V1::Accounts::BalanceController < Api::BaseController
   before_action :require_user!
   before_action :set_account, only: [:update]
 
-  def update
-    current_account.increment(:balance, params[:increment])
+  def earn_online
+    current_account.increment(:balance, ONLINE_REWARD)
     current_account.save!
+    render json: {'new_balance': current_account.balance}
+  end
+  def get_balance
     render json: {'balance': current_account.balance}
   end
-
 
   private
 

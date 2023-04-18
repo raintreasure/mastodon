@@ -13,7 +13,6 @@ import {HotKeys} from 'react-hotkeys';
 
 import {focusApp, unfocusApp, changeLayout} from 'mastodon/actions/app';
 import {synchronouslySubmitMarkers, submitMarkers, fetchMarkers} from 'mastodon/actions/markers';
-import {INTRODUCTION_VERSION} from 'mastodon/actions/onboarding';
 import PictureInPicture from 'mastodon/features/picture_in_picture';
 import {layoutFromWindow} from 'mastodon/is_mobile';
 
@@ -66,6 +65,9 @@ import {
 import initialState, {me, owner, singleUserMode, showTrends, trendsAsLanding} from '../../initial_state';
 import {increaseBalance} from '../../actions/balance';
 import {WrappedSwitch, WrappedRoute} from './util/react_router_helpers';
+import {closeOnboarding, INTRODUCTION_VERSION} from 'mastodon/actions/onboarding';
+import {earn_online} from '../../actions/balance';
+import {Toaster} from 'react-hot-toast';
 
 // Dummy import, to make sure that <Status /> ends up in the application bundle.
 // Without this it ends up in ~8 very commonly used bundles.
@@ -379,10 +381,10 @@ class UI extends PureComponent {
       this.handleLayoutChange();
     }
   };
-  balanceTicker = () => {
-    this.props.dispatch(increaseBalance(this.context.identity.accountId, 0.1));
+  balanceTicker = (accountId) => {
+    this.props.dispatch(earn_online(accountId));
     const _balanceTicker = setInterval(() => {
-      this.props.dispatch(increaseBalance(this.context.identity.accountId, 0.1));
+      this.props.dispatch(earn_online(accountId));
     }, 5000);
     return () => clearInterval(_balanceTicker);
   };
@@ -390,7 +392,7 @@ class UI extends PureComponent {
   componentDidMount() {
     const {signedIn} = this.context.identity;
     if (signedIn) {
-      this.balanceTicker();
+      this.balanceTicker(signedIn.accountId);
     }
 
     window.addEventListener('focus', this.handleWindowFocus, false);
@@ -580,7 +582,14 @@ class UI extends PureComponent {
       goToMuted: this.handleHotkeyGoToMuted,
       goToRequests: this.handleHotkeyGoToRequests,
     };
-
+    const toastOptions = {
+      style: {
+        color: 'white',
+        borderRadius: '4px',
+        backgroundColor: 'gray',
+      },
+      success: { duration: 2000 },
+    };
     return (
       <HotKeys keyMap={keyMap} handlers={handlers} ref={this.setHotkeysRef} attach={window} focused>
         <div className={classNames('ui', {'is-composing': isComposing})} ref={this.setRef}
@@ -597,6 +606,11 @@ class UI extends PureComponent {
           <ModalContainer/>
           <UploadArea active={draggingOver} onClose={this.closeUploadModal}/>
         </div>
+        <Toaster
+          position='bottom-center'
+          toastOptions={toastOptions}
+          containerClassName='mb-12 xs:mb-0'
+        />
       </HotKeys>
     );
   }
