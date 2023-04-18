@@ -36,10 +36,7 @@ export default class Counter extends React.PureComponent {
     target: PropTypes.string,
   };
 
-  state = {
-    loading: true,
-    data: null,
-  };
+  state={ loading:true, data:null };
 
   componentDidMount () {
     const { measure, start_at, end_at, params } = this.props;

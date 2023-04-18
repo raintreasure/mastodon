@@ -9,6 +9,18 @@ class Api::V1::Statuses::FavouritesController < Api::BaseController
 
   def create
     FavouriteService.new.call(current_account, @status)
+    # update earn token
+    previous_op = EarnRecord.find_by(account_id: current_account.id, target_id: @status.id, op_type: :favourite)
+    should_reward = false
+    if !previous_op.present?
+      # first execute this op, reward token
+      current_account.increment(:balance, FAVOURITE_REWARD)
+      current_account.save!
+      should_reward = true
+    end
+    EarnRecord.create!(account_id: current_account.id, target_id: @status.id, op_type: :favourite, earn: FAVOURITE_REWARD);
+    @status.new_balance = current_account.balance
+    @status.balance_increment = should_reward ? FAVOURITE_REWARD : 0
     render json: @status, serializer: REST::StatusSerializer
   end
 

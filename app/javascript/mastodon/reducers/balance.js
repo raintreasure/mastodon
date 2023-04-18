@@ -1,6 +1,5 @@
 import {
-  BALANCE_UPDATE_SUCCESS,
-  BALANCE_UPDATE_FAIL,
+  BALANCE_UPDATE_FAIL, UPDATE_BALANCE,
 } from '../actions/balance';
 
 import { Map as ImmutableMap } from 'immutable';
@@ -9,10 +8,10 @@ const initialState = ImmutableMap();
 
 export default function balance(state = initialState, action) {
   switch (action.type) {
-  case BALANCE_UPDATE_SUCCESS:
+  case UPDATE_BALANCE:
     return state.withMutations((state) => {
-      console.log('balance sotred:', action.newBalance);
-      state.setIn(['balance'], action.newBalance);
+      state.setIn(['new_balance'], action.new_balance);
+      state.setIn(['balance_increment'], action.balance_increment);
     });
   case BALANCE_UPDATE_FAIL:
     return state;

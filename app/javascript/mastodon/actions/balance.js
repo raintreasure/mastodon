@@ -3,6 +3,7 @@ import api from '../api';
 export const BALANCE_UPDATE_REQUEST = 'BALANCE_UPDATE_REQUEST';
 export const BALANCE_UPDATE_SUCCESS = 'BALANCE_UPDATE_SUCCESS';
 export const BALANCE_UPDATE_FAIL = 'BALANCE_UPDATE_FAIL';
+export const UPDATE_BALANCE = 'UPDATE_BALANCE';
 
 export function balanceUpdateRequest(accountId) {
   return {
@@ -11,10 +12,10 @@ export function balanceUpdateRequest(accountId) {
   };
 }
 
-export function balanceUpdateSuccess(newBalance) {
+export function balanceUpdateSuccess(new_balance) {
   return {
     type: BALANCE_UPDATE_SUCCESS,
-    newBalance: newBalance,
+    new_balance: new_balance,
   };
 }
 
@@ -24,14 +25,23 @@ export function balanceUpdateFail(error) {
     error: error,
   };
 }
+export function updateBalance(new_balance, balance_increment) {
+  return {
+    type: UPDATE_BALANCE,
+    new_balance: new_balance,
+    balance_increment: balance_increment,
+  };
+}
 
-export function increaseBalance(accountId, increment) {
+export function earn_online(accountId) {
   return function (dispatch, getState) {
-    // dispatch(balanceUpdateRequest(accountId));
-    api(getState).patch(`/api/v1/accounts/${accountId}/balance`, { increment }).then(function (response) {
-      dispatch(balanceUpdateSuccess(response.data.balance));
+    api(getState).patch(`/api/v1/accounts/${accountId}/balance` ).then(function (response) {
+      // console.log('update balance returns:', response.data);
+      // console.log('update balance returns:', response.data.new_balance);
+      dispatch(updateBalance(response.data.new_balance, 0));
     }).catch(function (error) {
       dispatch(balanceUpdateFail(error));
     });
   };
 }
+

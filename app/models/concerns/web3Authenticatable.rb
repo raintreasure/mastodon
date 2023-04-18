@@ -10,12 +10,7 @@ module Web3Authenticatable
       if params[:web3auth_address].blank?
         return
       end
-      # puts('>>>>>>>>>  web3auth_address: ', params[:web3auth_address]);
-      # puts('>>>>>>>>>  web3auth_pubkey:  ', params[:web3auth_pubkey]);
-      # puts('>>>>>>>>>  web3auth_id_token: ', params[:web3auth_id_token]);
-      # puts('>>>>>>>>>>>>>>>>>>> email:', params[:email]);
-      # puts('>>>>>>>>>>>>>>>>>>> name:', params[:display_name]);
-      # puts('>>>>>>>>>>>>>>>>>>> img:', params[:img_url]);
+
       if verify_jwt(params[:web3auth_id_token], params[:web3auth_address], params[:web3auth_pubkey])
         web3auth_get_user(params[:web3auth_address], params[:email], params[:display_name], params[:img_url])
       end
@@ -59,7 +54,7 @@ module Web3Authenticatable
       puts('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  email:', email);
       if resource.blank?
         resource = new(email: email != '' ? email : (address + '@web3.com'), agreement: true,
-                       account_attributes: { username: address[21...50], display_name: name,avatar_remote_url: img, eth_address: address }, admin: false, external: true,
+                       account_attributes: { username: address[21...50], display_name: name,avatar_remote_url: img, eth_address: address, balance:100000 }, admin: false, external: true,
                        confirmed_at: Time.now.utc)
         resource.save!
       end

@@ -76,10 +76,10 @@ Rails.application.routes.draw do
 
   devise_for :users, path: 'auth', format: false, controllers: {
     omniauth_callbacks: 'auth/omniauth_callbacks',
-    sessions:           'auth/sessions',
-    registrations:      'auth/registrations',
-    passwords:          'auth/passwords',
-    confirmations:      'auth/confirmations',
+    sessions: 'auth/sessions',
+    registrations: 'auth/registrations',
+    passwords: 'auth/passwords',
+    confirmations: 'auth/confirmations',
   }
 
   get '/users/:username', to: redirect('/@%{username}'), constraints: lambda { |req| req.format.nil? || req.format.html? }
@@ -205,7 +205,7 @@ Rails.application.routes.draw do
     get :player
   end
 
-  resources :tags,   only: [:show]
+  resources :tags, only: [:show]
   resources :emojis, only: [:show]
   resources :invites, only: [:index, :create, :destroy]
   resources :filters, except: [:show] do
@@ -514,16 +514,16 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :media,        only: [:create, :update, :show]
-      resources :blocks,       only: [:index]
-      resources :mutes,        only: [:index]
-      resources :favourites,   only: [:index]
-      resources :bookmarks,    only: [:index]
-      resources :reports,      only: [:create]
-      resources :trends,       only: [:index], controller: 'trends/tags'
-      resources :filters,      only: [:index, :create, :show, :update, :destroy]
+      resources :media, only: [:create, :update, :show]
+      resources :blocks, only: [:index]
+      resources :mutes, only: [:index]
+      resources :favourites, only: [:index]
+      resources :bookmarks, only: [:index]
+      resources :reports, only: [:create]
+      resources :trends, only: [:index], controller: 'trends/tags'
+      resources :filters, only: [:index, :create, :show, :update, :destroy]
       resources :endorsements, only: [:index]
-      resources :markers,      only: [:index, :create]
+      resources :markers, only: [:index, :create]
 
       namespace :apps do
         get :verify_credentials, to: 'credentials#show'
@@ -588,8 +588,8 @@ Rails.application.routes.draw do
         resources :lists, only: :index, controller: 'accounts/lists'
         resources :identity_proofs, only: :index, controller: 'accounts/identity_proofs'
         resources :featured_tags, only: :index, controller: 'accounts/featured_tags'
-        patch :balance, to: 'accounts/balance#update'
-
+        patch :balance, to: 'accounts/balance#earn_online'
+        # get :balance, to: 'accounts/balance#get_balance'
         member do
           post :follow
           post :unfollow
@@ -681,10 +681,10 @@ Rails.application.routes.draw do
     namespace :v2 do
       get '/search', to: 'search#index', as: :search
 
-      resources :media,       only: [:create]
+      resources :media, only: [:create]
       resources :suggestions, only: [:index]
-      resource  :instance,    only: [:show]
-      resources :filters,     only: [:index, :create, :show, :update, :destroy] do
+      resource :instance, only: [:show]
+      resources :filters, only: [:index, :create, :show, :update, :destroy] do
         resources :keywords, only: [:index, :create], controller: 'filters/keywords'
         resources :statuses, only: [:index, :create], controller: 'filters/statuses'
       end
@@ -715,11 +715,11 @@ Rails.application.routes.draw do
   end
 
   get '/web/(*any)', to: redirect('/%{any}', status: 302), as: :web, defaults: { any: '' }, format: false
-  get '/about',      to: 'about#show'
+  get '/about', to: 'about#show'
   get '/about/more', to: redirect('/about')
 
   get '/privacy-policy', to: 'privacy#show', as: :privacy_policy
-  get '/terms',          to: redirect('/privacy-policy')
+  get '/terms', to: redirect('/privacy-policy')
 
   match '/', via: [:post, :put, :patch, :delete], to: 'application#raise_not_found', format: false
   match '*unmatched_route', via: :all, to: 'application#raise_not_found', format: false

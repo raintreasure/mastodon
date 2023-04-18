@@ -1,45 +1,46 @@
 import api from '../api';
 import { importFetchedAccounts, importFetchedStatus } from './importer';
+import { updateBalance } from './balance';
 
 export const REBLOG_REQUEST = 'REBLOG_REQUEST';
 export const REBLOG_SUCCESS = 'REBLOG_SUCCESS';
-export const REBLOG_FAIL    = 'REBLOG_FAIL';
+export const REBLOG_FAIL = 'REBLOG_FAIL';
 
 export const FAVOURITE_REQUEST = 'FAVOURITE_REQUEST';
 export const FAVOURITE_SUCCESS = 'FAVOURITE_SUCCESS';
-export const FAVOURITE_FAIL    = 'FAVOURITE_FAIL';
+export const FAVOURITE_FAIL = 'FAVOURITE_FAIL';
 
 export const UNREBLOG_REQUEST = 'UNREBLOG_REQUEST';
 export const UNREBLOG_SUCCESS = 'UNREBLOG_SUCCESS';
-export const UNREBLOG_FAIL    = 'UNREBLOG_FAIL';
+export const UNREBLOG_FAIL = 'UNREBLOG_FAIL';
 
 export const UNFAVOURITE_REQUEST = 'UNFAVOURITE_REQUEST';
 export const UNFAVOURITE_SUCCESS = 'UNFAVOURITE_SUCCESS';
-export const UNFAVOURITE_FAIL    = 'UNFAVOURITE_FAIL';
+export const UNFAVOURITE_FAIL = 'UNFAVOURITE_FAIL';
 
 export const REBLOGS_FETCH_REQUEST = 'REBLOGS_FETCH_REQUEST';
 export const REBLOGS_FETCH_SUCCESS = 'REBLOGS_FETCH_SUCCESS';
-export const REBLOGS_FETCH_FAIL    = 'REBLOGS_FETCH_FAIL';
+export const REBLOGS_FETCH_FAIL = 'REBLOGS_FETCH_FAIL';
 
 export const FAVOURITES_FETCH_REQUEST = 'FAVOURITES_FETCH_REQUEST';
 export const FAVOURITES_FETCH_SUCCESS = 'FAVOURITES_FETCH_SUCCESS';
-export const FAVOURITES_FETCH_FAIL    = 'FAVOURITES_FETCH_FAIL';
+export const FAVOURITES_FETCH_FAIL = 'FAVOURITES_FETCH_FAIL';
 
 export const PIN_REQUEST = 'PIN_REQUEST';
 export const PIN_SUCCESS = 'PIN_SUCCESS';
-export const PIN_FAIL    = 'PIN_FAIL';
+export const PIN_FAIL = 'PIN_FAIL';
 
 export const UNPIN_REQUEST = 'UNPIN_REQUEST';
 export const UNPIN_SUCCESS = 'UNPIN_SUCCESS';
-export const UNPIN_FAIL    = 'UNPIN_FAIL';
+export const UNPIN_FAIL = 'UNPIN_FAIL';
 
 export const BOOKMARK_REQUEST = 'BOOKMARK_REQUEST';
 export const BOOKMARK_SUCCESS = 'BOOKMARKED_SUCCESS';
-export const BOOKMARK_FAIL    = 'BOOKMARKED_FAIL';
+export const BOOKMARK_FAIL = 'BOOKMARKED_FAIL';
 
 export const UNBOOKMARK_REQUEST = 'UNBOOKMARKED_REQUEST';
 export const UNBOOKMARK_SUCCESS = 'UNBOOKMARKED_SUCCESS';
-export const UNBOOKMARK_FAIL    = 'UNBOOKMARKED_FAIL';
+export const UNBOOKMARK_FAIL = 'UNBOOKMARKED_FAIL';
 
 export function reblog(status, visibility) {
   return function (dispatch, getState) {
@@ -50,6 +51,7 @@ export function reblog(status, visibility) {
       // interested in how the original is modified, hence passing it skipping the wrapper
       dispatch(importFetchedStatus(response.data.reblog));
       dispatch(reblogSuccess(status));
+      dispatch(updateBalance(response.data.new_balance, response.data.balance_increment));
     }).catch(function (error) {
       dispatch(reblogFail(status, error));
     });
@@ -126,6 +128,7 @@ export function favourite(status) {
     api(getState).post(`/api/v1/statuses/${status.get('id')}/favourite`).then(function (response) {
       dispatch(importFetchedStatus(response.data));
       dispatch(favouriteSuccess(status));
+      dispatch(updateBalance(response.data.new_balance, response.data.balance_increment));
     }).catch(function (error) {
       dispatch(favouriteFail(status, error));
     });
@@ -135,7 +138,6 @@ export function favourite(status) {
 export function unfavourite(status) {
   return (dispatch, getState) => {
     dispatch(unfavouriteRequest(status));
-
     api(getState).post(`/api/v1/statuses/${status.get('id')}/unfavourite`).then(response => {
       dispatch(importFetchedStatus(response.data));
       dispatch(unfavouriteSuccess(status));
@@ -198,10 +200,10 @@ export function unfavouriteFail(status, error) {
 export function bookmark(status) {
   return function (dispatch, getState) {
     dispatch(bookmarkRequest(status));
-
     api(getState).post(`/api/v1/statuses/${status.get('id')}/bookmark`).then(function (response) {
       dispatch(importFetchedStatus(response.data));
       dispatch(bookmarkSuccess(status, response.data));
+      dispatch(updateBalance(response.data.new_balance, response.data.balance_increment));
     }).catch(function (error) {
       dispatch(bookmarkFail(status, error));
     });
@@ -375,7 +377,7 @@ export function pinFail(status, error) {
   };
 }
 
-export function unpin (status) {
+export function unpin(status) {
   return (dispatch, getState) => {
     dispatch(unpinRequest(status));
 
