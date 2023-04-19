@@ -1,5 +1,6 @@
 import api, { getLinks } from '../api';
 import { importFetchedAccount, importFetchedAccounts } from './importer';
+import { updateBalance } from './balance';
 
 export const ACCOUNT_FETCH_REQUEST = 'ACCOUNT_FETCH_REQUEST';
 export const ACCOUNT_FETCH_SUCCESS = 'ACCOUNT_FETCH_SUCCESS';
@@ -152,6 +153,8 @@ export function followAccount(id, options = { reblogs: true }) {
 
     api(getState).post(`/api/v1/accounts/${id}/follow`, options).then(response => {
       dispatch(followAccountSuccess(response.data, alreadyFollowing));
+      dispatch(updateBalance(response.data.new_balance, response.data.balance_increment));
+
     }).catch(error => {
       dispatch(followAccountFail(error, locked));
     });

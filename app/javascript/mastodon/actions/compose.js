@@ -9,6 +9,7 @@ import { useEmoji } from './emojis';
 import { importFetchedAccounts, importFetchedStatus } from './importer';
 import { openModal } from './modal';
 import { updateTimeline } from './timelines';
+import { updateBalance } from './balance';
 
 /** @type {AbortController | undefined} */
 let fetchComposeSuggestionsAccountsController;
@@ -203,6 +204,7 @@ export function submitCompose(routerHistory) {
 
       dispatch(insertIntoTagHistory(response.data.tags, status));
       dispatch(submitComposeSuccess({ ...response.data }));
+      dispatch(updateBalance(response.data.new_balance, response.data.balance_increment));
 
       // To make the app more responsive, immediately push the status
       // into the columns

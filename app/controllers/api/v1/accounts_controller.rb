@@ -37,7 +37,19 @@ class Api::V1::AccountsController < Api::BaseController
     follow  = FollowService.new.call(current_user.account, @account, reblogs: params.key?(:reblogs) ? truthy_param?(:reblogs) : nil, notify: params.key?(:notify) ? truthy_param?(:notify) : nil, languages: params.key?(:languages) ? params[:languages] : nil, with_rate_limit: true)
     options = @account.locked? || current_user.account.silenced? ? {} : { following_map: { @account.id => { reblogs: follow.show_reblogs?, notify: follow.notify?, languages: follow.languages } }, requested_map: { @account.id => false } }
 
-    render json: @account, serializer: REST::RelationshipSerializer, relationships: relationships(**options)
+    # update earn token
+    previous_op = EarnRecord.find_by(account_id: current_account.id, target_id: @account.id, op_type: :follow)
+    should_reward = false
+    if !previous_op.present?
+      # first execute this op, reward token
+      current_account.increment(:balance, FOLLOW_REWARD)
+      current_account.save!
+      should_reward = true
+    end
+    EarnRecord.create!(account_id: current_account.id, target_id: @account.id, op_type: :follow, earn: FOLLOW_REWARD);
+
+    render json: @account, serializer: REST::RelationshipSerializer, relationships: relationships(**options),
+           new_balance: current_account.balance, balance_increment: should_reward ? FOLLOW_REWARD : 0
   end
 
   def block

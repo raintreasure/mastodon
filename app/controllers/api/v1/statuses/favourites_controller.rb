@@ -19,9 +19,8 @@ class Api::V1::Statuses::FavouritesController < Api::BaseController
       should_reward = true
     end
     EarnRecord.create!(account_id: current_account.id, target_id: @status.id, op_type: :favourite, earn: FAVOURITE_REWARD);
-    @status.new_balance = current_account.balance
-    @status.balance_increment = should_reward ? FAVOURITE_REWARD : 0
-    render json: @status, serializer: REST::StatusSerializer
+
+    render json: @status, serializer: REST::StatusSerializer, new_balance: current_account.balance, balance_increment:should_reward ? FAVOURITE_REWARD : 0
   end
 
   def destroy

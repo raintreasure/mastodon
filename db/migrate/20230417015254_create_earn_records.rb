@@ -9,6 +9,6 @@ class CreateEarnRecords < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
-    add_index :earn_records, [:account_id, :op_type], unique: false, algorithm: :concurrently
+    add_index :earn_records, [:account_id, :target_id, :op_type], unique: false, algorithm: :concurrently
   end
 end

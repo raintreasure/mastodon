@@ -21,10 +21,9 @@ class Api::V1::Statuses::ReblogsController < Api::BaseController
       current_account.save!
       should_reward = true
     end
-    EarnRecord.create!(account_id: current_account.id, target_id: @status.id, op_type: :favourite, earn: RETWEET_REWARD);
-    @status.new_balance = current_account.balance
-    @status.balance_increment = should_reward ? RETWEET_REWARD : 0
-    render json: @status, serializer: REST::StatusSerializer
+    EarnRecord.create!(account_id: current_account.id, target_id: @status.id, op_type: :retweet, earn: RETWEET_REWARD);
+
+    render json: @status, serializer: REST::StatusSerializer, new_balance: current_account.balance, balance_increment: should_reward ? RETWEET_REWARD : 0
   end
 
   def destroy

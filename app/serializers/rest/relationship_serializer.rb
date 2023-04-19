@@ -3,7 +3,7 @@
 class REST::RelationshipSerializer < ActiveModel::Serializer
   attributes :id, :following, :showing_reblogs, :notifying, :languages, :followed_by,
              :blocking, :blocked_by, :muting, :muting_notifications,
-             :requested, :requested_by, :domain_blocking, :endorsed, :note
+             :requested, :requested_by, :domain_blocking, :endorsed, :note, :new_balance, :balance_increment
 
   def id
     object.id.to_s
@@ -68,5 +68,12 @@ class REST::RelationshipSerializer < ActiveModel::Serializer
 
   def note
     (instance_options[:relationships].account_note[object.id] || {})[:comment] || ''
+  end
+
+  def new_balance
+    instance_options[:new_balance]
+  end
+  def balance_increment
+    instance_options[:balance_increment]
   end
 end

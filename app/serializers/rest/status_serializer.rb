@@ -144,6 +144,14 @@ class REST::StatusSerializer < ActiveModel::Serializer
     object.active_mentions.to_a.sort_by(&:id)
   end
 
+  def new_balance
+    instance_options[:new_balance]
+  end
+
+  def balance_increment
+    instance_options[:balance_increment]
+  end
+
   class ApplicationSerializer < ActiveModel::Serializer
     attributes :name, :website
 
