@@ -7,22 +7,28 @@ import { toast } from 'react-hot-toast';
 
 const mapStateToProps = state => ({
   new_balance: state.getIn(['balance', 'new_balance']),
-  // balance_increment: state.getIn(['balance', 'new_balance', 'balance_increment']),
 });
 
 class Balance extends React.PureComponent {
 
   static propTypes = {
     new_balance: PropTypes.object,
-    // balance_increment: PropTypes.number,
   };
+
+  componentDidUpdate(prevProps) {
+    const { new_balance } = this.props;
+    if (new_balance && new_balance.balance_increment > 0 && new_balance.balance_increment !==
+      prevProps.new_balance.balance_increment) {
+      toast.success('you will receive a reward of ' + new_balance.balance_increment + '$CHINESE');
+    }
+  }
 
   render() {
     const { new_balance } = this.props;
 
-    if (new_balance && new_balance.balance_increment > 0) {
-      toast.success('you will be reward ' + new_balance.balance_increment + '$CHINESE');
-    }
+    // if (new_balance && new_balance.balance_increment > 0) {
+    //   toast.success('you will be reward ' + new_balance.balance_increment + '$CHINESE');
+    // }
     return (
       <div className='balance-text'>
         <div>
