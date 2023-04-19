@@ -25,7 +25,7 @@ class Api::V1::Statuses::BookmarksController < Api::BaseController
   end
 
   def destroy
-    bookmark = current_acjicount.bookmarks.find_by(status_id: params[:status_id])
+    bookmark = current_account.bookmarks.find_by(status_id: params[:status_id])
 
     if bookmark
       @status = bookmark.status
