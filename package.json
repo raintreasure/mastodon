@@ -108,6 +108,7 @@
     "react-intl": "^2.9.0",
     "react-motion": "^0.5.2",
     "react-notification": "^6.8.5",
+    "react-on-rails": "^13.3.3",
     "react-overlays": "^5.2.1",
     "react-redux": "^7.2.9",
     "react-redux-loading-bar": "^5.0.4",
