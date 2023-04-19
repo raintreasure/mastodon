@@ -13,7 +13,7 @@ class Api::V1::Statuses::ReblogsController < Api::BaseController
     @status = ReblogService.new.call(current_account, @reblog, reblog_params)
 
     # update earn token
-    previous_op = EarnRecord.find_by(account_id: current_account.id, target_id: @status.id, op_type: :retweet)
+    previous_op = EarnRecord.find_by(account_id: current_account.id, target_id: @reblog.id, op_type: :retweet)
     should_reward = false
     if !previous_op.present?
       # first execute this op, reward token
@@ -21,7 +21,7 @@ class Api::V1::Statuses::ReblogsController < Api::BaseController
       current_account.save!
       should_reward = true
     end
-    EarnRecord.create!(account_id: current_account.id, target_id: @status.id, op_type: :retweet, earn: RETWEET_REWARD);
+    EarnRecord.create!(account_id: current_account.id, target_id: @reblog.id, op_type: :retweet, earn: RETWEET_REWARD);
 
     render json: @status, serializer: REST::StatusSerializer, new_balance: current_account.balance, balance_increment: should_reward ? RETWEET_REWARD : 0
   end
