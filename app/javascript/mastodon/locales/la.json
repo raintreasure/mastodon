@@ -563,7 +563,7 @@
   "status.edited": "Recultum {date}",
   "status.edited_x_times": "Edited {count, plural, one {{count} time} other {{count} times}}",
   "status.embed": "Embed",
-  "status.favourite": "Favourite",
+  "status.favourite": "Like",
   "status.filter": "Filter this post",
   "status.filtered": "Filtered",
   "status.hide": "Hide post",

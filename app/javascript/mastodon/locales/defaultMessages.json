@@ -608,7 +608,7 @@
         "id": "status.cannot_reblog"
       },
       {
-        "defaultMessage": "Favourite",
+        "defaultMessage": "Like",
         "id": "status.favourite"
       },
       {
@@ -3241,7 +3241,7 @@
         "id": "status.cannot_reblog"
       },
       {
-        "defaultMessage": "Favourite",
+        "defaultMessage": "Like",
         "id": "status.favourite"
       },
       {
@@ -3582,7 +3582,7 @@
         "id": "status.cannot_reblog"
       },
       {
-        "defaultMessage": "Favourite",
+        "defaultMessage": "Like",
         "id": "status.favourite"
       },
       {
