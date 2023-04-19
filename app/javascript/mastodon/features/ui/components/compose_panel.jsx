@@ -59,7 +59,7 @@ class ComposePanel extends PureComponent {
         {signedIn && (
           <>
             <NavigationContainer onClose={this.onBlur} />
-            <Balance />
+            <Balance is_side_bar />
             <ComposeFormContainer singleColumn />
           </>
         )}

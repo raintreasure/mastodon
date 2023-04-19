@@ -85,16 +85,20 @@ class Header extends PureComponent {
     }
 
     return (
-      <div className='ui__header'>
-        <Link to='/' className='ui__header__logo'>
-          <WordmarkLogo />
-          <SymbolLogo />
-        </Link>
-
-        <div className='ui__header__links'>
-          {content}
+      <>
+        <div className='ui__header'>
+          <div className={'ui__header__upper'}>
+            <Link to='/' className='ui__header__logo'>
+              <WordmarkLogo />
+              <SymbolLogo />
+            </Link>
+            <div className='ui__header__links'>
+              {content}
+            </div>
+          </div>
+          <Balance is_side_bar={false} />
         </div>
-      </div>
+      </>
     );
   }
 
