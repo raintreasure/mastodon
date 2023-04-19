@@ -55,7 +55,7 @@ class ComposePanel extends React.PureComponent {
         {signedIn && (
           <React.Fragment>
             <NavigationContainer onClose={this.onBlur} />
-            <Balance />
+            <Balance is_side_bar />
             <ComposeFormContainer singleColumn />
 
           </React.Fragment>
