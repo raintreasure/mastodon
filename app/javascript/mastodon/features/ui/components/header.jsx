@@ -14,6 +14,7 @@ import { Icon } from 'mastodon/components/icon';
 import { WordmarkLogo, SymbolLogo } from 'mastodon/components/logo';
 import { me } from 'mastodon/initial_state';
 import Web3authLoginNoBlock from './web3auth_login_noblock';
+import Balance from './balance';
 
 const Account = connect(state => ({
   account: state.getIn(['accounts', me]),
