@@ -17,7 +17,7 @@ class Api::V1::Statuses::ReblogsController < Api::BaseController
     end
 
     # update earn token
-    previous_op = EarnRecord.find_by(account_id: current_account.id, target_id: @status.id, op_type: :retweet)
+    previous_op = EarnRecord.find_by(account_id: current_account.id, target_id: @reblog.id, op_type: :retweet)
     should_reward = false
     if !previous_op.present?
       # first execute this op, reward token
