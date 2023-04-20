@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { registrationsOpen } from 'mastodon/initial_state';
 import { connect } from 'react-redux';
 import Icon from 'mastodon/components/icon';
 import classNames from 'classnames';
 import { openModal, closeModal } from 'mastodon/actions/modal';
+import Web3authLogin from '../ui/components/web3auth_login';
 
 const mapStateToProps = (state, { accountId }) => ({
   displayNameHtml: state.getIn(['accounts', accountId, 'display_name_html']),
@@ -47,11 +47,11 @@ class Copypaste extends React.PureComponent {
     this.timeout = setTimeout(() => this.setState({ copied: false }), 700);
   };
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (this.timeout) clearTimeout(this.timeout);
   }
 
-  render () {
+  render() {
     const { value } = this.props;
     const { copied } = this.state;
 
@@ -66,7 +66,8 @@ class Copypaste extends React.PureComponent {
         />
 
         <button className='button' onClick={this.handleButtonClick}>
-          {copied ? <FormattedMessage id='copypaste.copied' defaultMessage='Copied' /> : <FormattedMessage id='copypaste.copy' defaultMessage='Copy' />}
+          {copied ? <FormattedMessage id='copypaste.copied' defaultMessage='Copied' /> :
+          <FormattedMessage id='copypaste.copy' defaultMessage='Copy' />}
         </button>
       </div>
     );
@@ -87,64 +88,74 @@ class InteractionModal extends React.PureComponent {
     this.props.onSignupClick();
   };
 
-  render () {
+  render() {
     const { url, type, displayNameHtml } = this.props;
 
     const name = <bdi dangerouslySetInnerHTML={{ __html: displayNameHtml }} />;
 
     let title, actionDescription, icon;
 
-    switch(type) {
+    switch (type) {
     case 'reply':
       icon = <Icon id='reply' />;
-      title = <FormattedMessage id='interaction_modal.title.reply' defaultMessage="Reply to {name}'s post" values={{ name }} />;
-      actionDescription = <FormattedMessage id='interaction_modal.description.reply' defaultMessage='With an account on Mastodon, you can respond to this post.' />;
+      title = (<FormattedMessage
+        id='interaction_modal.title.reply' defaultMessage="Reply to {name}'s post"
+        values={{ name }}
+      />);
+      actionDescription = (<FormattedMessage
+        id='interaction_modal.description.reply'
+        defaultMessage='With an account on Mastodon, you can respond to this post.'
+      />);
       break;
     case 'reblog':
       icon = <Icon id='retweet' />;
-      title = <FormattedMessage id='interaction_modal.title.reblog' defaultMessage="Boost {name}'s post" values={{ name }} />;
-      actionDescription = <FormattedMessage id='interaction_modal.description.reblog' defaultMessage='With an account on Mastodon, you can boost this post to share it with your own followers.' />;
+      title =
+        <FormattedMessage id='interaction_modal.title.reblog' defaultMessage="Boost {name}'s post" values={{ name }} />;
+      actionDescription = (<FormattedMessage
+        id='interaction_modal.description.reblog'
+        defaultMessage='With an account on Mastodon, you can boost this post to share it with your own followers.'
+      />);
       break;
     case 'favourite':
       icon = <Icon id='star' />;
-      title = <FormattedMessage id='interaction_modal.title.favourite' defaultMessage="Favourite {name}'s post" values={{ name }} />;
-      actionDescription = <FormattedMessage id='interaction_modal.description.favourite' defaultMessage='With an account on Mastodon, you can favourite this post to let the author know you appreciate it and save it for later.' />;
+      title = (<FormattedMessage
+        id='interaction_modal.title.favourite' defaultMessage="Favourite {name}'s post"
+        values={{ name }}
+      />);
+      actionDescription = (<FormattedMessage
+        id='interaction_modal.description.favourite'
+        defaultMessage='With an account on Mastodon, you can favourite this post to let the author know you appreciate it and save it for later.'
+      />);
       break;
     case 'follow':
       icon = <Icon id='user-plus' />;
       title = <FormattedMessage id='interaction_modal.title.follow' defaultMessage='Follow {name}' values={{ name }} />;
-      actionDescription = <FormattedMessage id='interaction_modal.description.follow' defaultMessage='With an account on Mastodon, you can follow {name} to receive their posts in your home feed.' values={{ name }} />;
+      actionDescription = (<FormattedMessage
+        id='interaction_modal.description.follow'
+        defaultMessage='With an account on Mastodon, you can follow {name} to receive their posts in your home feed.'
+        values={{ name }}
+      />);
       break;
-    }
-
-    let signupButton;
-
-    if (registrationsOpen) {
-      signupButton = (
-        <a href='/auth/sign_up' className='button button--block button-tertiary'>
-          <FormattedMessage id='sign_in_banner.create_account' defaultMessage='Create account' />
-        </a>
-      );
-    } else {
-      signupButton = (
-        <button className='button button--block button-tertiary' onClick={this.handleSignupClick}>
-          <FormattedMessage id='sign_in_banner.create_account' defaultMessage='Create account' />
-        </button>
-      );
     }
 
     return (
       <div className='modal-root__modal interaction-modal'>
         <div className='interaction-modal__lead'>
           <h3><span className='interaction-modal__icon'>{icon}</span> {title}</h3>
-          <p>{actionDescription} <FormattedMessage id='interaction_modal.preamble' defaultMessage="Since Mastodon is decentralized, you can use your existing account hosted by another Mastodon server or compatible platform if you don't have an account on this one." /></p>
+          <p>{actionDescription} <FormattedMessage
+            id='interaction_modal.preamble'
+            defaultMessage="Since Mastodon is decentralized, you can use your existing account hosted by another Mastodon server or compatible platform if you don't have an account on this one."
+          />
+          </p>
         </div>
 
         <div className='interaction-modal__choices'>
           <div className='interaction-modal__choices__choice'>
             <h3><FormattedMessage id='interaction_modal.on_this_server' defaultMessage='On this server' /></h3>
-            <a href='/auth/sign_in' className='button button--block'><FormattedMessage id='sign_in_banner.sign_in' defaultMessage='Sign in' /></a>
-            {signupButton}
+            <Web3authLogin />
+            <a href='/auth/sign_in' className='button button--block button-tertiary'><FormattedMessage
+              id='sign_in_banner.sign_in' defaultMessage='Web2 Email  Signin/up'
+            /></a>
           </div>
 
           <div className='interaction-modal__choices__choice'>
