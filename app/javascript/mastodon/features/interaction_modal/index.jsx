@@ -1,13 +1,10 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-
 import { FormattedMessage } from 'react-intl';
-
 import classNames from 'classnames';
-
 import { connect } from 'react-redux';
-
 import { openModal, closeModal } from 'mastodon/actions/modal';
+import Web3authLogin from '../ui/components/web3auth_login';
 import { Icon }  from 'mastodon/components/icon';
 import { registrationsOpen } from 'mastodon/initial_state';
 
@@ -74,7 +71,8 @@ class Copypaste extends PureComponent {
         />
 
         <button className='button' onClick={this.handleButtonClick}>
-          {copied ? <FormattedMessage id='copypaste.copied' defaultMessage='Copied' /> : <FormattedMessage id='copypaste.copy' defaultMessage='Copy' />}
+          {copied ? <FormattedMessage id='copypaste.copied' defaultMessage='Copied' /> :
+          <FormattedMessage id='copypaste.copy' defaultMessage='Copy' />}
         </button>
       </div>
     );
@@ -126,34 +124,24 @@ class InteractionModal extends PureComponent {
       break;
     }
 
-    let signupButton;
-
-    if (registrationsOpen) {
-      signupButton = (
-        <a href={signupUrl} className='button button--block button-tertiary'>
-          <FormattedMessage id='sign_in_banner.create_account' defaultMessage='Create account' />
-        </a>
-      );
-    } else {
-      signupButton = (
-        <button className='button button--block button-tertiary' onClick={this.handleSignupClick}>
-          <FormattedMessage id='sign_in_banner.create_account' defaultMessage='Create account' />
-        </button>
-      );
-    }
-
     return (
       <div className='modal-root__modal interaction-modal'>
         <div className='interaction-modal__lead'>
           <h3><span className='interaction-modal__icon'>{icon}</span> {title}</h3>
-          <p>{actionDescription} <FormattedMessage id='interaction_modal.preamble' defaultMessage="Since Mastodon is decentralized, you can use your existing account hosted by another Mastodon server or compatible platform if you don't have an account on this one." /></p>
+          <p>{actionDescription} <FormattedMessage
+            id='interaction_modal.preamble'
+            defaultMessage="Since Mastodon is decentralized, you can use your existing account hosted by another Mastodon server or compatible platform if you don't have an account on this one."
+          />
+          </p>
         </div>
 
         <div className='interaction-modal__choices'>
           <div className='interaction-modal__choices__choice'>
             <h3><FormattedMessage id='interaction_modal.on_this_server' defaultMessage='On this server' /></h3>
-            <a href='/auth/sign_in' className='button button--block'><FormattedMessage id='sign_in_banner.sign_in' defaultMessage='Login' /></a>
-            {signupButton}
+            <Web3authLogin />
+            <a href='/auth/sign_in' className='button button--block button-tertiary'><FormattedMessage
+              id='sign_in_banner.sign_in' defaultMessage='Web2 Email  Signin/up'
+            /></a>
           </div>
 
           <div className='interaction-modal__choices__choice'>
