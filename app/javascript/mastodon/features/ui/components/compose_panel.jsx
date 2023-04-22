@@ -8,7 +8,6 @@ import LinkFooter from './link_footer';
 import ServerBanner from 'mastodon/components/server_banner';
 import { changeComposing, mountCompose, unmountCompose } from 'mastodon/actions/compose';
 import Balance from './balance';
-import WithdrawButton from './withdraw';
 
 class ComposePanel extends React.PureComponent {
 
@@ -57,9 +56,7 @@ class ComposePanel extends React.PureComponent {
           <React.Fragment>
             <NavigationContainer onClose={this.onBlur} />
             <Balance is_side_bar />
-            <WithdrawButton />
             <ComposeFormContainer singleColumn />
-
           </React.Fragment>
         )}
 
