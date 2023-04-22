@@ -9,6 +9,7 @@ class TransactionsController < ApplicationController
   def withdraw
     transfer_fsn
     transfer_chinese
+    render json: {}, status: 200
   end
 
   def set_client
@@ -24,7 +25,7 @@ class TransactionsController < ApplicationController
           current_account.save!
         end
       rescue StandardError => e
-        puts "Error transferring fsn: #{e.message}"
+        render json: { error: "Error transferring fsn: #{e.message}" }, status: 500
       end
     end
   end
@@ -40,7 +41,7 @@ class TransactionsController < ApplicationController
         current_account.save!
       end
     rescue StandardError => e
-      puts "Error transferring chinese: #{e.message}"
+      render json: { error: "Error transferring fsn: #{e.message}" }, status: 500
     end
   end
 
