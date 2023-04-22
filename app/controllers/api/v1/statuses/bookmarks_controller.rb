@@ -13,10 +13,14 @@ class Api::V1::Statuses::BookmarksController < Api::BaseController
     previous_op = EarnRecord.find_by(account_id: current_account.id, target_id: @status.id, op_type: :bookmark)
     should_reward = false
     if !previous_op.present?
-      # first execute this op, reward token
-      current_account.increment(:balance, BOOKMARK_REWARD)
-      current_account.save!
-      should_reward = true
+      # check if reach the daily reward limit
+      earned = EarnRecord.where("created_at >= ?", 24.hours.ago).where(account_id: current_account.id).sum(:earn)
+      if (earned < DAILY_REWARD_LIMIT)
+        # not reach daily limit & first execute this op, reward token
+        current_account.increment(:balance, BOOKMARK_REWARD)
+        current_account.save!
+        should_reward = true
+      end
     end
     EarnRecord.create!(account_id: current_account.id, target_id: @status.id, op_type: :favourite, earn: BOOKMARK_REWARD);
     @status.new_balance = current_account.balance
