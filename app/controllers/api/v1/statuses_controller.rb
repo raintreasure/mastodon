@@ -4,10 +4,10 @@ class Api::V1::StatusesController < Api::BaseController
   include Authorization
 
   before_action -> { authorize_if_got_token! :read, :'read:statuses' }, except: [:create, :update, :destroy]
-  before_action -> { doorkeeper_authorize! :write, :'write:statuses' }, only:   [:create, :update, :destroy]
-  before_action :require_user!, except:  [:show, :context]
-  before_action :set_status, only:       [:show, :context]
-  before_action :set_thread, only:       [:create]
+  before_action -> { doorkeeper_authorize! :write, :'write:statuses' }, only: [:create, :update, :destroy]
+  before_action :require_user!, except: [:show, :context]
+  before_action :set_status, only: [:show, :context]
+  before_action :set_thread, only: [:create]
 
   override_rate_limit_headers :create, family: :statuses
   override_rate_limit_headers :update, family: :statuses
@@ -19,8 +19,8 @@ class Api::V1::StatusesController < Api::BaseController
   CONTEXT_LIMIT = 4_096
 
   # This remains expensive and we don't want to show everything to logged-out users
-  ANCESTORS_LIMIT         = 40
-  DESCENDANTS_LIMIT       = 60
+  ANCESTORS_LIMIT = 40
+  DESCENDANTS_LIMIT = 60
   DESCENDANTS_DEPTH_LIMIT = 20
 
   def show
@@ -29,20 +29,20 @@ class Api::V1::StatusesController < Api::BaseController
   end
 
   def context
-    ancestors_limit         = CONTEXT_LIMIT
-    descendants_limit       = CONTEXT_LIMIT
+    ancestors_limit = CONTEXT_LIMIT
+    descendants_limit = CONTEXT_LIMIT
     descendants_depth_limit = nil
 
     if current_account.nil?
-      ancestors_limit         = ANCESTORS_LIMIT
-      descendants_limit       = DESCENDANTS_LIMIT
+      ancestors_limit = ANCESTORS_LIMIT
+      descendants_limit = DESCENDANTS_LIMIT
       descendants_depth_limit = DESCENDANTS_DEPTH_LIMIT
     end
 
-    ancestors_results   = @status.in_reply_to_id.nil? ? [] : @status.ancestors(ancestors_limit, current_account)
+    ancestors_results = @status.in_reply_to_id.nil? ? [] : @status.ancestors(ancestors_limit, current_account)
     descendants_results = @status.descendants(descendants_limit, current_account, descendants_depth_limit)
-    loaded_ancestors    = cache_collection(ancestors_results, Status)
-    loaded_descendants  = cache_collection(descendants_results, Status)
+    loaded_ancestors = cache_collection(ancestors_results, Status)
+    loaded_descendants = cache_collection(descendants_results, Status)
 
     @context = Context.new(ancestors: loaded_ancestors, descendants: loaded_descendants)
     statuses = [@status] + @context.ancestors + @context.descendants
@@ -71,10 +71,14 @@ class Api::V1::StatusesController < Api::BaseController
     previous_op = EarnRecord.find_by(account_id: current_account.id, target_id: @status.id, op_type: :publish)
     should_reward = false
     if !previous_op.present?
-      # first execute this op, reward token
-      current_account.increment(:balance, PUBLISH_REWARD)
-      current_account.save!
-      should_reward = true
+      # check if reach the daily reward limit
+      earned = EarnRecord.where("created_at >= ?", 24.hours.ago).where(account_id: current_account.id).sum(:earn)
+      if (earned < DAILY_REWARD_LIMIT)
+        # not reach daily limit & first execute this op, reward token
+        current_account.increment(:balance, PUBLISH_REWARD)
+        current_account.save!
+        should_reward = true
+      end
     end
     EarnRecord.create!(account_id: current_account.id, target_id: @status.id, op_type: :publish, earn: PUBLISH_REWARD);
 

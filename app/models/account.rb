@@ -52,6 +52,7 @@
 #  requested_review_at           :datetime
 #  eth_address                   :string
 #  balance                       :decimal(, )
+#  given_fsn                     :boolean
 #
 
 class Account < ApplicationRecord

@@ -391,8 +391,8 @@ class UI extends React.PureComponent {
   };
 
   componentDidMount() {
-    const { signedIn } = this.context.identity;
-    if (signedIn) this.balanceTicker(signedIn.accountId);
+    const { signedIn, accountId } = this.context.identity;
+    if (signedIn) this.balanceTicker(accountId);
 
     window.addEventListener('focus', this.handleWindowFocus, false);
     window.addEventListener('blur', this.handleWindowBlur, false);

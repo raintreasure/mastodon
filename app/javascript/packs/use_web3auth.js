@@ -26,7 +26,6 @@ import { TorusWalletAdapter } from '@web3auth/torus-evm-adapter';
       chainId: '0x1',
       rpcTarget: 'https://rpc.ankr.com/eth', // This is the public RPC we have added, please pass on your own endpoint while creating an app
     },
-    // web3AuthNetwork: 'testnet',
   });
   // Add Torus Wallet Connector Plugin
   const torusPlugin =
@@ -81,6 +80,8 @@ import { TorusWalletAdapter } from '@web3auth/torus-evm-adapter';
   window.web3auth.configureAdapter(torusAdapter);
 
   await window.web3auth.initModal();
+  var Web3 = require('web3');
+  window.web3 = new Web3(window.web3auth.provider);
 })();
 
 export default window.web3auth;

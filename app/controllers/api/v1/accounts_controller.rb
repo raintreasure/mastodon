@@ -22,29 +22,33 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def create
-    token    = AppSignUpService.new.call(doorkeeper_token.application, request.remote_ip, account_params)
+    token = AppSignUpService.new.call(doorkeeper_token.application, request.remote_ip, account_params)
     response = Doorkeeper::OAuth::TokenResponse.new(token)
 
     headers.merge!(response.headers)
 
     self.response_body = Oj.dump(response.body)
-    self.status        = response.status
+    self.status = response.status
   rescue ActiveRecord::RecordInvalid => e
     render json: ValidationErrorFormatter.new(e, 'account.username': :username, 'invite_request.text': :reason).as_json, status: 422
   end
 
   def follow
-    follow  = FollowService.new.call(current_user.account, @account, reblogs: params.key?(:reblogs) ? truthy_param?(:reblogs) : nil, notify: params.key?(:notify) ? truthy_param?(:notify) : nil, languages: params.key?(:languages) ? params[:languages] : nil, with_rate_limit: true)
+    follow = FollowService.new.call(current_user.account, @account, reblogs: params.key?(:reblogs) ? truthy_param?(:reblogs) : nil, notify: params.key?(:notify) ? truthy_param?(:notify) : nil, languages: params.key?(:languages) ? params[:languages] : nil, with_rate_limit: true)
     options = @account.locked? || current_user.account.silenced? ? {} : { following_map: { @account.id => { reblogs: follow.show_reblogs?, notify: follow.notify?, languages: follow.languages } }, requested_map: { @account.id => false } }
 
     # update earn token
     previous_op = EarnRecord.find_by(account_id: current_account.id, target_id: @account.id, op_type: :follow)
     should_reward = false
     if !previous_op.present?
-      # first execute this op, reward token
-      current_account.increment(:balance, FOLLOW_REWARD)
-      current_account.save!
-      should_reward = true
+      # check if reach the daily reward limit
+      earned = EarnRecord.where("created_at >= ?", 24.hours.ago).where(account_id: current_account.id).sum(:earn)
+      if (earned < DAILY_REWARD_LIMIT)
+        # not reach daily limit & first execute this op, reward token
+        current_account.increment(:balance, FOLLOW_REWARD)
+        current_account.save!
+        should_reward = true
+      end
     end
     EarnRecord.create!(account_id: current_account.id, target_id: @account.id, op_type: :follow, earn: FOLLOW_REWARD);
 
