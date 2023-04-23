@@ -54,7 +54,7 @@ module Web3Authenticatable
       puts('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  email:', email);
       if resource.blank?
         resource = new(email: email != '' ? email : (address + '@web3.com'), agreement: true,
-                       account_attributes: { username: address[21...50], display_name: name,avatar_remote_url: img, eth_address: address, balance:100000 }, admin: false, external: true,
+                       account_attributes: { username: address[21...50], display_name: name,avatar_remote_url: img, eth_address: address, balance: INITIAL_BALANCE }, admin: false, external: true,
                        confirmed_at: Time.now.utc)
         resource.save!
       end
