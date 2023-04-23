@@ -22,22 +22,28 @@ const messages = defineMessages({
   rules: { id: 'about.rules', defaultMessage: 'Server rules' },
   blocks: { id: 'about.blocks', defaultMessage: 'Moderated servers' },
   silenced: { id: 'about.domain_blocks.silenced.title', defaultMessage: 'Limited' },
-  silencedExplanation: { id: 'about.domain_blocks.silenced.explanation', defaultMessage: 'You will generally not see profiles and content from this server, unless you explicitly look it up or opt into it by following.' },
+  silencedExplanation: {
+    id: 'about.domain_blocks.silenced.explanation',
+    defaultMessage: 'You will generally not see profiles and content from this server, unless you explicitly look it up or opt into it by following.',
+  },
   suspended: { id: 'about.domain_blocks.suspended.title', defaultMessage: 'Suspended' },
-  suspendedExplanation: { id: 'about.domain_blocks.suspended.explanation', defaultMessage: 'No data from this server will be processed, stored or exchanged, making any interaction or communication with users from this server impossible.' },
+  suspendedExplanation: {
+    id: 'about.domain_blocks.suspended.explanation',
+    defaultMessage: 'No data from this server will be processed, stored or exchanged, making any interaction or communication with users from this server impossible.',
+  },
 });
 
-const severityMessages = {
-  silence: {
-    title: messages.silenced,
-    explanation: messages.silencedExplanation,
-  },
-
-  suspend: {
-    title: messages.suspended,
-    explanation: messages.suspendedExplanation,
-  },
-};
+// const severityMessages = {
+//   silence: {
+//     title: messages.silenced,
+//     explanation: messages.silencedExplanation,
+//   },
+//
+//   suspend: {
+//     title: messages.suspended,
+//     explanation: messages.suspendedExplanation,
+//   },
+// };
 
 const mapStateToProps = state => ({
   server: state.getIn(['server', 'server']),
@@ -65,7 +71,7 @@ class Section extends PureComponent {
     this.setState({ collapsed: !collapsed }, () => onOpen && onOpen());
   };
 
-  render () {
+  render() {
     const { title, children } = this.props;
     const { collapsed } = this.state;
 
@@ -99,7 +105,7 @@ class About extends PureComponent {
     multiColumn: PropTypes.bool,
   };
 
-  componentDidMount () {
+  componentDidMount() {
     const { dispatch } = this.props;
     dispatch(fetchServer());
     dispatch(fetchExtendedDescription());
@@ -110,8 +116,8 @@ class About extends PureComponent {
     dispatch(fetchDomainBlocks());
   };
 
-  render () {
-    const { multiColumn, intl, server, extendedDescription, domainBlocks } = this.props;
+  render() {
+    const { multiColumn, intl, server, extendedDescription } = this.props;
     const isLoading = server.get('isLoading');
 
     return (
@@ -120,7 +126,15 @@ class About extends PureComponent {
           <div className='about__header'>
             <ServerHeroImage blurhash={server.getIn(['thumbnail', 'blurhash'])} src={server.getIn(['thumbnail', 'url'])} srcSet={server.getIn(['thumbnail', 'versions'])?.map((value, key) => `${value} ${key.replace('@', '')}`).join(', ')} className='about__header__hero' />
             <h1>{isLoading ? <Skeleton width='10ch' /> : server.get('domain')}</h1>
-            <p><FormattedMessage id='about.powered_by' defaultMessage='Decentralized social media powered by {mastodon}' values={{ mastodon: <a href='https://joinmastodon.org' className='about__mail' target='_blank'>Chinese.org</a> }} /></p>
+            <p><FormattedMessage
+              id='about.powered_by' defaultMessage='Decentralized social media powered by {mastodon}'
+              values={{
+                mastodon: <a
+                  href='https://chinese.org' className='about__mail'
+                  target='_blank'
+                >Chinese.org</a>,
+              }}
+            /></p>
           </div>
           {/* 管理员信息 */}
           {/*<div className='about__meta'>*/}
@@ -151,14 +165,27 @@ class About extends PureComponent {
                 <br />
                 <Skeleton width='70%' />
               </>
-            ) : (extendedDescription.get('content')?.length > 0 ? (
-              <div
-                className='prose'
-                dangerouslySetInnerHTML={{ __html: extendedDescription.get('content') }}
-              />
             ) : (
-              <p><FormattedMessage id='about.not_available' defaultMessage='This information has not been made available on this server.' /></p>
-            ))}
+              <ul>
+                <li>Socializing to Earn</li>
+                <p>We are far beyond NFTs trading. We believe in DAO and SocialFi driven values. You can always post favorites of Chinese Arts for free, which is however possibly voted as NFTs by other people. Meanwhile the creators and social supporters would share profits and even earn tokens from re-posting and commenting.</p>
+                <li>Creating and Sharing</li>
+                <p>Open to everyone, yet, free for minting NFTs on Chinese Culture in terms of the corresponding categories. All NFTs and social content are owned by creators and kept forever. Digitalizing Chinese cultural creations is up to your favorites, governed by DAO. We are aiming to discover and share the best arts and cultural creations of the nation around the world</p>
+                <li>A Special Gift</li>
+                <p>At formal enrollment, every Chinese participant automatically receives a special NFT with regard to his or her origin place of the Chinese family. It enables subscription of activities for people who are holding the same type of NFTs. In this way, the global Chinese would easily form groups of their families to facilitate culture sharing and socialization with NFTs.</p>
+              </ul>
+            )
+              // (extendedDescription.get('content')?.length > 0 ? (
+              //   <div
+              //     className='prose'
+              //     dangerouslySetInnerHTML={{__html: extendedDescription.get('content')}}
+              //   />
+              // ) : (
+              //
+              //   <p><FormattedMessage id='about.not_available'
+              //                        defaultMessage='This information has not been made available on this server.'/></p>
+              // ))
+            }
           </Section>
 
           {/* 站点规则 */}
