@@ -8561,6 +8561,14 @@ noscript {
 .about {
   padding: 20px;
 
+  li {
+    margin: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    color: $darker-text-color;
+    list-style-type: disc;
+  }
+
   @media screen and (min-width: $no-gap-breakpoint) {
     border-radius: 4px;
   }
