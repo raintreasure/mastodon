@@ -78,9 +78,6 @@ import { TorusWalletAdapter } from '@web3auth/torus-evm-adapter';
   });
   window.web3auth.configureAdapter(torusAdapter);
   await window.web3auth.initModal();
-
-  const Web3 = require('web3');
-  window.web3 = new Web3(window.web3auth.provider);
 })();
 
 export default window.web3auth;

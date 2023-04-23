@@ -46,14 +46,15 @@ class Balance extends React.PureComponent {
   };
   handleWithdrawClick = async () => {
     const { intl, dispatch } = this.props;
-    const web3 = window.web3;
+    const Web3 = require('web3');
+    const web3 = new Web3(window.web3auth.provider);
     const to_address = (await web3.eth.getAccounts())[0];
     const link = 'https://fsnscan.com/tokenholdings/' + `${to_address}#token`;
     dispatch(openModal('CONFIRM', {
       message:
   <div>
     <p style={{ textAlign: 'left' }}>{intl.formatMessage(messages.withdrawText)}</p>
-    <a href={link} target={'_blank'} style={{ wordWrap:'break-word' }}>{link}</a>
+    <a href={link} target={'_blank'} style={{ wordWrap: 'break-word' }}>{link}</a>
   </div>,
       confirm: intl.formatMessage(messages.confirmWithdraw),
       link: 'test',
