@@ -54,7 +54,7 @@ export default class Web3authLogin extends React.PureComponent {
   render() {
     return (
       <button className='button button--block' onClick={this.formLogin}><FormattedMessage
-        id='sign_in_banner.web3auth_login' defaultMessage='Web3Auth Signin/up'/></button>
+        id='sign_in_banner.web3auth_login' defaultMessage='Web3Auth Signin'/></button>
     );
   }
 
