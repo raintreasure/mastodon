@@ -96,7 +96,7 @@ class Header extends PureComponent {
               {content}
             </div>
           </div>
-          <Balance is_side_bar={false} />
+          {signedIn && <Balance is_side_bar={false} />}
         </div>
       </>
     );
