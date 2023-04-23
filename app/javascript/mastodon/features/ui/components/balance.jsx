@@ -12,8 +12,8 @@ const mapStateToProps = state => ({
   new_balance: state.getIn(['balance', 'new_balance']),
 });
 
-const defaultMessage = 'Withdraw ALL your $CHINESE to your wallet, you will receive 0.01 FSN for the first the withdrawal.' +
-  ' After withdrawal, you can check your token at';
+const defaultMessage = 'Withdraw ALL your $CHINESE to your wallet, you will receive 0.01 FSN for the first time withdraw.' +
+  ' After withdraw, you can check your token at';
 const messages = defineMessages({
   withdrawTitle: { id: 'balance.withdraw.title', defaultMessage: 'Withdraw' },
   withdrawingTitle: { id: 'balance.withdraw.withdrawing_title', defaultMessage: 'Withdrawing' },

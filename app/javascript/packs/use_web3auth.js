@@ -12,7 +12,6 @@ import { WalletConnectV1Adapter } from '@web3auth/wallet-connect-v1-adapter';
 import { MetamaskAdapter } from '@web3auth/metamask-adapter';
 import { TorusWalletAdapter } from '@web3auth/torus-evm-adapter';
 
-
 (async function init() {
   // $(".btn-logged-in").hide();
   // $("#sign-tx").hide();
@@ -78,9 +77,9 @@ import { TorusWalletAdapter } from '@web3auth/torus-evm-adapter';
     clientId,
   });
   window.web3auth.configureAdapter(torusAdapter);
-
   await window.web3auth.initModal();
-  var Web3 = require('web3');
+
+  const Web3 = require('web3');
   window.web3 = new Web3(window.web3auth.provider);
 })();
 
