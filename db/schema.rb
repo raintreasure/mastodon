@@ -1073,6 +1073,7 @@ ActiveRecord::Schema.define(version: 2023_04_21_133053) do
     t.inet "sign_up_ip"
     t.boolean "skip_sign_in_token"
     t.bigint "role_id"
+    t.text "settings"
     t.string "web3auth_address"
     t.string "web3auth_pubkey"
     t.string "web3auth_id_token"
