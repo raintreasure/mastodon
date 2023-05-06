@@ -60,13 +60,17 @@ import {
   NOTIFICATIONS_UPDATE,
 } from '../actions/notifications';
 import {
+  FEATURED_TAGS_FETCH_REQUEST,
+  FEATURED_TAGS_FETCH_SUCCESS,
+  FEATURED_TAGS_FETCH_FAIL,
+} from 'mastodon/actions/featured_tags';
+import { Map as ImmutableMap, List as ImmutableList, fromJS } from 'immutable';
+import {
   TOKENS_CHINESE_FETCH_SUCCESS,
   TOKENS_CHNG_FETCH_SUCCESS, TOKENS_ETH_FETCH_SUCCESS,
   TOKENS_FETCH_REQUEST,
   TOKENS_FSN_FETCH_SUCCESS, TOKENS_USDC_FETCH_SUCCESS, TOKENS_USDT_FETCH_SUCCESS
 } from "mastodon/actions/tokens";
-
-
 
 const initialListState = ImmutableMap({
   next: null,
@@ -118,7 +122,7 @@ const normalizeFeaturedTags = (state, path, featuredTags, accountId) => {
 };
 
 export default function userLists(state = initialState, action) {
-  switch(action.type) {
+  switch (action.type) {
   case FOLLOWERS_FETCH_SUCCESS:
     return normalizeList(state, ['followers', action.id], action.accounts, action.next);
   case FOLLOWERS_EXPAND_SUCCESS:

@@ -7620,6 +7620,25 @@ noscript {
   &__extra {
     margin-top: 16px;
 
+    &__tokens {
+      font-size: min(3vw, 16px);
+      color: $darker-text-color;
+      margin: 5px 0;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      background: darken($ui-base-color, 4%);
+      display: flex;
+      justify-content: space-evenly;
+
+      a {
+        display: inline-block;
+        color: $darker-text-color;
+        text-decoration: none;
+        padding: 5px;
+        font-weight: 500;
+      }
+    }
+
     &__links {
       font-size: 14px;
       color: $darker-text-color;

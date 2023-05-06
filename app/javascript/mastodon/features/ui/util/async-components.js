@@ -185,3 +185,17 @@ export function About () {
 export function PrivacyPolicy () {
   return import(/*webpackChunkName: "features/privacy_policy" */'../../privacy_policy');
 }
+
+export function Tokens () {
+  return import(/*webpackChunkName: "features/tokens" */'../../tokens');
+}
+
+export function NFTs () {
+  return import(/*webpackChunkName: "features/nfts" */'../../nfts');
+}
+export function Earnings () {
+  return import(/*webpackChunkName: "features/earnings" */'../../earnings');
+}
+export function Transactions () {
+  return import(/*webpackChunkName: "features/transactions" */'../../transactions');
+}

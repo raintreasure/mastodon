@@ -115,7 +115,7 @@ class NavigationPanel extends Component {
               text={intl.formatMessage(messages.preferences)}
             />
 
-            <ColumnLink transparent ref={this.linkRef} id={'logoutId'} href='/auth/sign_out'  method={'delete'}  icon='sign-out' text={intl.formatMessage(messages.logout)} />
+            <ColumnLink transparent id={'logoutId'} href='/auth/sign_out'  method={'delete'}  icon='sign-out' text={intl.formatMessage(messages.logout)} />
 
           </>
         )}

@@ -61,6 +61,10 @@ const messages = defineMessages({
   admin_domain: { id: 'status.admin_domain', defaultMessage: 'Open moderation interface for {domain}' },
   languages: { id: 'account.languages', defaultMessage: 'Change subscribed languages' },
   openOriginalPage: { id: 'account.open_original_page', defaultMessage: 'Open original page' },
+  tab_tokens: { id: 'account.tab_tokens', defaultMessage: 'Tokens' },
+  tab_nfts: { id: 'account.tab_nfts', defaultMessage: 'NFTs' },
+  tab_earnings: { id: 'account.tab_earnings', defaultMessage: 'Earnings' },
+  tab_transactions: { id: 'account.tab_transactions', defaultMessage: 'Transactions' },
 });
 
 const titleFromAccount = account => {
@@ -429,11 +433,38 @@ class Header extends ImmutablePureComponent {
 
                 {account.get('note').length > 0 && account.get('note') !== '<p></p>' && <div className='account__header__content translate' dangerouslySetInnerHTML={content} />}
 
-                <div className='account__header__fields'>
-                  <dl>
-                    <dt><FormattedMessage id='account.joined_short' defaultMessage='Joined' /></dt>
-                    <dd>{intl.formatDate(account.get('created_at'), { year: 'numeric', month: 'short', day: '2-digit' })}</dd>
-                  </dl>
+                <div className='account__header__extra__tokens'>
+                  <NavLink
+                    isActive={this.isStatusesPageActive} activeClassName='active' to={`/@${account.get('acct')}/tokens`}
+                    title={intl.formatMessage(messages.tab_tokens)}
+                  >
+                    {intl.formatMessage(messages.tab_tokens)}
+                  </NavLink>
+
+                  <NavLink
+                    exact activeClassName='active' to={`/@${account.get('acct')}/nfts`}
+                    title={intl.formatMessage(messages.tab_nfts)}
+                  >
+                    {intl.formatMessage(messages.tab_nfts)}
+                  </NavLink>
+
+                  <NavLink
+                    exact activeClassName='active' to={`/@${account.get('acct')}/earnings`}
+                    title={intl.formatMessage(messages.tab_earnings)}
+                  >
+                    {intl.formatMessage(messages.tab_earnings)}
+                  </NavLink>
+                  <NavLink
+                    exact activeClassName='active' to={`/@${account.get('acct')}/transactions`}
+                    title={intl.formatMessage(messages.tab_transactions)}
+                  >
+                    {intl.formatMessage(messages.tab_transactions)}
+                  </NavLink>
+
+                  {/*<dl>*/}
+                  {/*  <dt><FormattedMessage id='account.joined_short' defaultMessage='Joined' /></dt>*/}
+                  {/*  <dd>{intl.formatDate(account.get('created_at'), { year: 'numeric', month: 'short', day: '2-digit' })}</dd>*/}
+                  {/*</dl>*/}
 
                   {fields.map((pair, i) => (
                     <dl key={i} className={classNames({ verified: pair.get('verified_at') })}>
