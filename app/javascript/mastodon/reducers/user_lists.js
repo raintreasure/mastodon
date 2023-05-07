@@ -141,21 +141,27 @@ export default function userLists(state = initialState, action) {
     return state.setIn(['tokens', action.accountId, 'isLoading'], true);
   case TOKENS_FSN_FETCH_SUCCESS:
     return state.setIn(['tokens', action.accountId, 'balance', 'FSN'], action.balance)
+      .setIn(['tokens', action.accountId, 'value', 'FSN'], action.value)
       .setIn(['tokens', action.accountId, 'isLoading'], false);
   case TOKENS_CHINESE_FETCH_SUCCESS:
     return state.setIn(['tokens', action.accountId, 'balance', 'CHINESE'], action.balance)
+      .setIn(['tokens', action.accountId, 'value', 'CHINESE'], action.value)
       .setIn(['tokens', action.accountId, 'isLoading'], false);
   case TOKENS_CHNG_FETCH_SUCCESS:
     return state.setIn(['tokens', action.accountId, 'balance', 'CHNG'], action.balance)
+      .setIn(['tokens', action.accountId, 'value', 'CHNG'], action.value)
       .setIn(['tokens', action.accountId, 'isLoading'], false);
   case TOKENS_ETH_FETCH_SUCCESS:
     return state.setIn(['tokens', action.accountId, 'balance', 'ETH'], action.balance)
+      .setIn(['tokens', action.accountId, 'value', 'ETH'], action.value)
       .setIn(['tokens', action.accountId, 'isLoading'], false);
   case TOKENS_USDT_FETCH_SUCCESS:
     return state.setIn(['tokens', action.accountId, 'balance', 'USDT'], action.balance)
+      .setIn(['tokens', action.accountId, 'value', 'USDT'], action.value)
       .setIn(['tokens', action.accountId, 'isLoading'], false);
   case TOKENS_USDC_FETCH_SUCCESS:
     return state.setIn(['tokens', action.accountId, 'balance', 'USDC'], action.balance)
+      .setIn(['tokens', action.accountId, 'value', 'USDC'], action.value)
       .setIn(['tokens', action.accountId, 'isLoading'], false);
   case REBLOGS_FETCH_SUCCESS:
     return state.setIn(['reblogged_by', action.id], ImmutableList(action.accounts.map(item => item.id)));
