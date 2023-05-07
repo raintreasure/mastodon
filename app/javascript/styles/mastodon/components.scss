@@ -1390,21 +1390,37 @@ body > [data-popper-placement] {
   &__item {
     display: flex;
     justify-content: space-between;
-    padding: 16px;
+    padding: 16px 20px;
+
     border-bottom: 1px solid lighten($ui-base-color, 8%);
   }
 
   &__symbol {
     display: flex;
     justify-content: center;
-    align-content: center;
+    align-items: center;
     gap: 10px;
+    color: $darker-text-color;
+    font-weight: 500;
   }
 
   &__icon {
     width: 30px;
     border-radius: 15px;
     object-fit: contain;
+  }
+  &__nums {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    min-width: 80px;
+    &__balance {
+      font-weight: 300;
+    }
+    &__value {
+      font-weight: 200;
+      color: $darker-text-color;
+    }
   }
 }
 

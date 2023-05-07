@@ -36,11 +36,17 @@ const mapStateToProps = (state, { params: { acct, id } }) => {
     hasMore: !!state.getIn(['user_lists', 'following', accountId, 'next']),
     isLoading: state.getIn(['user_lists', 'tokens', accountId, 'isLoading'], true),
     balanceFSN: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'FSN'], '0'),
+    valueFSN: state.getIn(['user_lists', 'tokens', accountId, 'value', 'FSN'], '0'),
     balanceCHINESE: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'CHINESE'], '0'),
+    valueCHINESE: state.getIn(['user_lists', 'tokens', accountId, 'value', 'CHINESE'], '0'),
     balanceCHNG: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'CHNG'], '0'),
+    valueCHNG: state.getIn(['user_lists', 'tokens', accountId, 'value', 'CHNG'], '0'),
     balanceETH: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'ETH'], '0'),
+    valueETH: state.getIn(['user_lists', 'tokens', accountId, 'value', 'ETH'], '0'),
     balanceUSDT: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'USDT'], '0'),
+    valueUSDT: state.getIn(['user_lists', 'tokens', accountId, 'value', 'USDT'], '0'),
     balanceUSDC: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'USDC'], '0'),
+    valueUSDC: state.getIn(['user_lists', 'tokens', accountId, 'value', 'USDC'], '0'),
     suspended: state.getIn(['accounts', accountId, 'suspended'], false),
     hidden: getAccountHidden(state, accountId),
     blockedBy: state.getIn(['relationships', accountId, 'blocked_by'], false),
@@ -113,6 +119,7 @@ class Tokens extends ImmutablePureComponent {
     const {
       accountId, blockedBy, isAccount, multiColumn, isLoading, suspended, hidden,
       remote, remoteUrl, balanceFSN, balanceCHINESE, balanceCHNG, balanceETH, balanceUSDT, balanceUSDC,
+      valueFSN, valueCHINESE, valueCHNG, valueETH, valueUSDT, valueUSDC,
     } = this.props;
     console.log('isLoading is :', isLoading);
     if (!isAccount) {
@@ -156,29 +163,30 @@ class Tokens extends ImmutablePureComponent {
                   <img src={FSN_ICON} className={'token__icon'} alt={'FSN_ICON'} />
                   <span>FSN</span>
                 </div>
-                <div>
-                  <p>{balanceFSN}</p>
-                  <p>$ 0.01</p>
+                <div className={'token__nums'}>
+                  <p className={'token__nums__balance'}>{balanceFSN}</p>
+                  <p className={'token__nums__value'}>$ {valueFSN}</p>
                 </div>
               </div>
               <div className={'token__item'}>
                 <div className={'token__symbol'}>
-                  <img src={CHINESE_ICON} className={'token__icon'}  alt={'CHINESE_ICON'} />
+                  <img src={CHINESE_ICON} className={'token__icon'} alt={'CHINESE_ICON'} />
                   <span>CHINESE</span>
                 </div>
-                <div>
-                  <p>{balanceCHINESE}</p>
-                  <p>$ 0.01</p>
+                <div className={'token__nums'}>
+                  <p className={'token__nums__balance'}>{balanceCHINESE}</p>
+                  <p className={'token__nums__value'}>$ {valueCHINESE}</p>
                 </div>
+
               </div>
               <div className={'token__item'}>
                 <div className={'token__symbol'}>
                   <img src={CHNG_ICON} className={'token__icon'} alt={'CHNG_ICON'} />
                   <span>CHNG</span>
                 </div>
-                <div>
-                  <p>{balanceCHNG}</p>
-                  <p>$ 0.01</p>
+                <div className={'token__nums'}>
+                  <p className={'token__nums__balance'}>{balanceCHNG}</p>
+                  <p className={'token__nums__value'}>$ {valueCHNG}</p>
                 </div>
               </div>
               <div className={'token__item'}>
@@ -186,9 +194,9 @@ class Tokens extends ImmutablePureComponent {
                   <img src={ETH_ICON} className={'token__icon'} alt={'ETH_ICON'} />
                   <span>ETH</span>
                 </div>
-                <div>
-                  <p>{balanceETH}</p>
-                  <p>$ 0.01</p>
+                <div className={'token__nums'}>
+                  <p className={'token__nums__balance'}>{balanceETH}</p>
+                  <p className={'token__nums__value'}>$ {valueETH}</p>
                 </div>
               </div>
               <div className={'token__item'}>
@@ -196,9 +204,9 @@ class Tokens extends ImmutablePureComponent {
                   <img src={USDT_ICON} className={'token__icon'} alt={'USDT_ICON'} />
                   <span>USDT</span>
                 </div>
-                <div>
-                  <p>{balanceUSDT}</p>
-                  <p>$ 0.01</p>
+                <div className={'token__nums'}>
+                  <p className={'token__nums__balance'}>{balanceUSDT}</p>
+                  <p className={'token__nums__value'}>$ {valueUSDT}</p>
                 </div>
               </div>
               <div className={'token__item'}>
@@ -206,9 +214,9 @@ class Tokens extends ImmutablePureComponent {
                   <img src={USDC_ICON} className={'token__icon'} alt={'USDC_ICON'} />
                   <span>USDC</span>
                 </div>
-                <div>
-                  <p>{balanceUSDC}</p>
-                  <p>$ 0.01</p>
+                <div className={'token__nums'}>
+                  <p className={'token__nums__balance'}>{balanceUSDC}</p>
+                  <p className={'token__nums__value'}>$ {valueUSDC}</p>
                 </div>
               </div>
             </div>
