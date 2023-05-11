@@ -57,6 +57,14 @@ import {
   FEATURED_TAGS_FETCH_FAIL,
 } from 'mastodon/actions/featured_tags';
 import { Map as ImmutableMap, List as ImmutableList, fromJS } from 'immutable';
+import {
+  TOKENS_FETCH_REQUEST,
+  TOKENS_FSN_FETCH_SUCCESS,
+  TOKENS_CHNG_FETCH_SUCCESS,
+  TOKENS_ETH_FETCH_SUCCESS,
+  TOKENS_USDT_FETCH_SUCCESS,
+  TOKENS_USDC_FETCH_SUCCESS, TOKENS_CHINESE_FETCH_SUCCESS,
+} from '../actions/tokens';
 
 const initialListState = ImmutableMap({
   next: null,
@@ -108,7 +116,7 @@ const normalizeFeaturedTags = (state, path, featuredTags, accountId) => {
 };
 
 export default function userLists(state = initialState, action) {
-  switch(action.type) {
+  switch (action.type) {
   case FOLLOWERS_FETCH_SUCCESS:
     return normalizeList(state, ['followers', action.id], action.accounts, action.next);
   case FOLLOWERS_EXPAND_SUCCESS:
@@ -129,6 +137,26 @@ export default function userLists(state = initialState, action) {
   case FOLLOWING_FETCH_FAIL:
   case FOLLOWING_EXPAND_FAIL:
     return state.setIn(['following', action.id, 'isLoading'], false);
+  case TOKENS_FETCH_REQUEST:
+    return state.setIn(['tokens', action.accountId, 'isLoading'], true);
+  case TOKENS_FSN_FETCH_SUCCESS:
+    return state.setIn(['tokens', action.accountId, 'balance', 'FSN'], action.balance)
+      .setIn(['tokens', action.accountId, 'isLoading'], false);
+  case TOKENS_CHINESE_FETCH_SUCCESS:
+    return state.setIn(['tokens', action.accountId, 'balance', 'CHINESE'], action.balance)
+      .setIn(['tokens', action.accountId, 'isLoading'], false);
+  case TOKENS_CHNG_FETCH_SUCCESS:
+    return state.setIn(['tokens', action.accountId, 'balance', 'CHNG'], action.balance)
+      .setIn(['tokens', action.accountId, 'isLoading'], false);
+  case TOKENS_ETH_FETCH_SUCCESS:
+    return state.setIn(['tokens', action.accountId, 'balance', 'ETH'], action.balance)
+      .setIn(['tokens', action.accountId, 'isLoading'], false);
+  case TOKENS_USDT_FETCH_SUCCESS:
+    return state.setIn(['tokens', action.accountId, 'balance', 'USDT'], action.balance)
+      .setIn(['tokens', action.accountId, 'isLoading'], false);
+  case TOKENS_USDC_FETCH_SUCCESS:
+    return state.setIn(['tokens', action.accountId, 'balance', 'USDC'], action.balance)
+      .setIn(['tokens', action.accountId, 'isLoading'], false);
   case REBLOGS_FETCH_SUCCESS:
     return state.setIn(['reblogged_by', action.id], ImmutableList(action.accounts.map(item => item.id)));
   case FAVOURITES_FETCH_SUCCESS:

@@ -54,6 +54,10 @@ import {
   FollowRecommendations,
   About,
   PrivacyPolicy,
+  Tokens,
+  NFTs,
+  Earnings,
+  Transactions,
 } from './util/async-components';
 import initialState, { me, owner, singleUserMode, showTrends, trendsAsLanding } from '../../initial_state';
 import { closeOnboarding, INTRODUCTION_VERSION } from 'mastodon/actions/onboarding';
@@ -217,6 +221,12 @@ class SwitchingColumnsArea extends React.PureComponent {
             path={['/accounts/:id/following', '/users/:acct/following', '/@:acct/following']}
             component={Following} content={children}
           />
+
+          <WrappedRoute path='/@:acct/tokens' component={Tokens} content={children} />
+          <WrappedRoute path={'/@:acct/nfts'} component={NFTs} content={children} />
+          <WrappedRoute path='/@:acct/earnings' component={Earnings} content={children} />
+          <WrappedRoute path='/@:acct/transactions' component={Transactions} content={children} />
+
           <WrappedRoute path={['/@:acct/media', '/accounts/:id/media']} component={AccountGallery} content={children} />
           <WrappedRoute path='/@:acct/:statusId' exact component={Status} content={children} />
           <WrappedRoute path='/@:acct/:statusId/reblogs' component={Reblogs} content={children} />

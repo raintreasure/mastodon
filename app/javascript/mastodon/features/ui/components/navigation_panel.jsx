@@ -56,7 +56,6 @@ class NavigationPanel extends React.Component {
     void web3auth.logout();
   };
 
-  linkRef = React.createRef(null);
   render() {
     const { intl } = this.props;
     const { signedIn, disabledAccountId } = this.context.identity;
@@ -115,7 +114,7 @@ class NavigationPanel extends React.Component {
               text={intl.formatMessage(messages.preferences)}
             />
 
-            <ColumnLink transparent ref={this.linkRef} id={'logoutId'} href='/auth/sign_out'  method={'delete'}  icon='sign-out' text={intl.formatMessage(messages.logout)} />
+            <ColumnLink transparent id={'logoutId'} href='/auth/sign_out'  method={'delete'}  icon='sign-out' text={intl.formatMessage(messages.logout)} />
 
           </React.Fragment>
         )}
