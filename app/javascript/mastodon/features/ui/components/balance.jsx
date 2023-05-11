@@ -46,8 +46,7 @@ class Balance extends React.PureComponent {
     this.setState({ loading: true });
     api().get('/withdraw', {
       params: { to_address },
-    }).then(res => {
-      console.log(res);
+    }).then(() => {
       this.setState({ loading: false });
     }).catch(err => {
       console.error(err);
@@ -56,7 +55,6 @@ class Balance extends React.PureComponent {
   };
   handleWithdrawClick = async () => {
     const { intl, dispatch } = this.props;
-    console.log('state account: ', this.props.account.get('eth_address'));
     const eth_address = this.props.account.get('eth_address');
 
     if (eth_address) {

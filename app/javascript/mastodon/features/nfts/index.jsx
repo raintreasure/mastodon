@@ -104,10 +104,9 @@ class NFTs extends ImmutablePureComponent {
 
   render () {
     const {
-      accountId, address, blockedBy, isAccount, multiColumn, isLoading, suspended, hidden,
+      accountId, address, blockedBy, isAccount, multiColumn, suspended, hidden,
       remote, remoteUrl,
     } = this.props;
-    console.log('isLoading is :', isLoading);
     if (!isAccount) {
       return (
         <Column>
