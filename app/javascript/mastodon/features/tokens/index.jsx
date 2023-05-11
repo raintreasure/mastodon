@@ -117,11 +117,10 @@ class Tokens extends ImmutablePureComponent {
 
   render() {
     const {
-      accountId, blockedBy, isAccount, multiColumn, isLoading, suspended, hidden,
+      accountId, blockedBy, isAccount, multiColumn, suspended, hidden,
       remote, remoteUrl, balanceFSN, balanceCHINESE, balanceCHNG, balanceETH, balanceUSDT, balanceUSDC,
       valueFSN, valueCHINESE, valueCHNG, valueETH, valueUSDT, valueUSDC,
     } = this.props;
-    console.log('isLoading is :', isLoading);
     if (!isAccount) {
       return (
         <BundleColumnError multiColumn={multiColumn} errorType='routing' />
