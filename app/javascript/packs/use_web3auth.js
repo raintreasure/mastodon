@@ -22,10 +22,19 @@ import { TorusWalletAdapter } from '@web3auth/torus-evm-adapter';
     clientId,
     chainConfig: {
       chainNamespace: 'eip155',
-      chainId: '0x1',
-      rpcTarget: 'https://rpc.ankr.com/eth', // This is the public RPC we have added, please pass on your own endpoint while creating an app
+      chainId: '0x38',
+      // chainId: '0x1',
+      rpcTarget: 'https://rpc.ankr.com/bsc', // This is the public RPC we have added, please pass on your own endpoint while creating an app
     },
   });
+  // window.web3auth = new Web3Auth({
+  //   clientId,
+  //   chainConfig: {
+  //     chainNamespace: 'eip155',
+  //     chainId: '0x7f93',
+  //     rpcTarget: 'https://mainnet.fusionnetwork.io', // This is the public RPC we have added, please pass on your own endpoint while creating an app
+  //   },
+  // });
   // Add Torus Wallet Connector Plugin
   const torusPlugin =
     new TorusWalletConnectorPlugin({
@@ -45,25 +54,14 @@ import { TorusWalletAdapter } from '@web3auth/torus-evm-adapter';
   const metamaskAdapter = new MetamaskAdapter({
     clientId,
     sessionTime: 86400, // 1 hour in seconds
-    // web3AuthNetwork: 'testnet',
-    chainConfig: {
-      chainNamespace: 'eip155',
-      chainId: '0x1',
-      rpcTarget: 'https://rpc.ankr.com/eth', // This is the public RPC we have added, please pass on your own endpoint while creating an app
-    },
+    // // web3AuthNetwork: 'testnet',
+    // chainConfig: {
+    //   chainNamespace: 'eip155',
+    //   chainId: '0x7f93',
+    //   rpcTarget: 'https://mainnet.fusionnetwork.io', // This is the public RPC we have added, please pass on your own endpoint while creating an app
+    // },
   });
   window.web3auth.configureAdapter(metamaskAdapter);
-
-  // we can change the above settings using this function
-  // metamaskAdapter.setAdapterSettings({
-  //   sessionTime: 86400, // 1 day in seconds
-  //   chainConfig: {
-  //     chainNamespace: 'eip155',
-  //     chainId: '0x1',
-  //     rpcTarget: 'https://rpc.ankr.com/eth', // This is the public RPC we have added, please pass on your own endpoint while creating an app
-  //   },
-  //   web3AuthNetwork: 'testnet',
-  // });
 
   const walletConnectAdapter =
     new WalletConnectV1Adapter({
@@ -79,5 +77,3 @@ import { TorusWalletAdapter } from '@web3auth/torus-evm-adapter';
   window.web3auth.configureAdapter(torusAdapter);
   await window.web3auth.initModal();
 })();
-
-export default window.web3auth;

@@ -1,3 +1,7 @@
+import { openModal } from './modal';
+import { toast } from 'react-hot-toast';
+import React from 'react';
+
 const axios = require('axios').default;
 
 const chaingeAPIBaseUrl = 'https://openapi.chainge.finance';
@@ -20,6 +24,8 @@ export const USDT_DECIMALS = 1e6;
 export const TOKENS_USDC_FETCH_SUCCESS = 'TOKENS_USDC_FETCH_SUCCESS';
 export const USDC_CONTRACT_ADDR = '0x6b52048a01c41d1625a6893c80fbe4aa2c22bb54';
 export const USDC_DECIMALS = 1e6;
+
+
 const TOKEN_SHOWN_DECIMALS = 2;
 const VALUE_SHOWN_DECIMALS = 3;
 
@@ -44,6 +50,31 @@ const balanceOfAbi = [{
   'stateMutability': 'view',
   'type': 'function',
 }];
+const transferAbi = [
+  {
+    'constant': false,
+    'inputs': [
+      {
+        'name': '_to',
+        'type': 'address',
+      },
+      {
+        'name': '_value',
+        'type': 'uint256',
+      },
+    ],
+    'name': 'transfer',
+    'outputs': [
+      {
+        'name': '',
+        'type': 'bool',
+      },
+    ],
+    'payable': false,
+    'stateMutability': 'nonpayable',
+    'type': 'function',
+  },
+];
 
 async function getFSNBalance(accountId, address, dispatch) {
   const Web3 = require('web3');
@@ -150,6 +181,78 @@ async function getUSDCBalance(accountId, address, dispatch) {
       console.log('get USDC balance error:', error);
     }
   });
+}
+
+export async function transferChinese(address, amount) {
+  const Web3 = require('web3');
+  let web3 = new Web3(window.web3auth.provider);
+  const sender = (await web3.eth.getAccounts())[0];
+  const amountWithDecimals = new BigNumber(amount).multipliedBy(CHINESE_DECIMALS);
+  const contractAddress = CHINESE_CONTRACT_ADDR;
+  const contract = new web3.eth.Contract(transferAbi, contractAddress);
+  return new Promise((resolve, reject) => {
+    contract.methods.transfer(address, amountWithDecimals).send({
+      chainId: '0x38',
+      from: sender,
+      gasLimit: 60000,
+    }).on('confirmation', function () {
+      resolve();
+    }).on('error', function (error) {
+      reject(error);
+    });
+  });
+}
+
+export function transferModal(intl, dispatch, to_account, messages) {
+  if (to_account.get('eth_address') === null || to_account.get('eth_address') === undefined) {
+    dispatch(openModal('CONFIRM', {
+      message:
+      /* eslint-disable react/jsx-filename-extension */
+  <p style={{ textAlign: 'left' }}>{intl.formatMessage(messages.transferToAccountNoAddress)}</p>,
+      confirm: intl.formatMessage(messages.transferEmptyConfirm),
+      onConfirm: () => {
+      },
+    }));
+  } else if (window.web3auth.provider) {
+    dispatch(openModal('CONFIRM', {
+      message:
+  <div className={'transfer__modal'}>
+    <div>
+      <span style={{ textAlign: 'center' }}>{intl.formatMessage(messages.transferText)}</span>
+      {to_account.get('username')}
+    </div>
+    <div className={'transfer__modal__input'}>
+      <input type={'number'} min={0} id={'transfer_input'} />
+      <span style={{ color: 'grey' }}>$CHINESE</span>
+    </div>
+  </div>,
+      confirm: intl.formatMessage(messages.transferConfirm),
+      link: 'test',
+      onConfirm: async () => {
+        const transferAmount = document.getElementById('transfer_input').value;
+        transferChinese(to_account.get('eth_address'), transferAmount).then(() => {
+          toast.success(`You transferred ${transferAmount} $CHINESE to ${to_account.get('username')}`);
+        },
+        ).catch((error) => {
+          toast.error(`Transfer failed. ${error.message}`);
+        });
+      },
+    }));
+  } else {
+    dispatch(openModal('CONFIRM', {
+      message:
+  <div style={{ textAlign: 'left' }}>
+    <span>{intl.formatMessage(messages.transferWeb2LoggedIn)}</span>
+    <a
+      id={'logoutId'} href={'/auth/sign_out'}
+      data-method={'delete'}
+    >{intl.formatMessage(messages.transferWeb2Logout)}</a>
+  </div>,
+      confirm: intl.formatMessage(messages.transferEmptyConfirm),
+      onConfirm: () => {
+      },
+    }));
+  }
 }
 
 export function fetchTokens(accountId, address) {
