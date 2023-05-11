@@ -1386,13 +1386,14 @@ body > [data-popper-placement] {
     flex-direction: column;
     gap: 10px;
   }
+
   &__item {
     display: flex;
     justify-content: space-between;
     padding: 16px 20px;
-
     border-bottom: 1px solid lighten($ui-base-color, 8%);
   }
+
   &__symbol {
     display: flex;
     justify-content: center;
@@ -1401,19 +1402,23 @@ body > [data-popper-placement] {
     color: $darker-text-color;
     font-weight: 500;
   }
+
   &__icon {
     width: 30px;
     border-radius: 15px;
     object-fit: contain;
   }
+
   &__nums {
     display: flex;
     flex-direction: column;
     align-items: start;
     min-width: 80px;
+
     &__balance {
       font-weight: 300;
     }
+
     &__value {
       font-weight: 200;
       color: $darker-text-color;
@@ -2332,6 +2337,7 @@ a.account__display-name {
 }
 
 $ui-header-height: 85px;
+
 .ui__header {
   display: none;
   box-sizing: border-box;
@@ -2355,6 +2361,7 @@ $ui-header-height: 85px;
     display: flex;
     flex-direction: row;
   }
+
   &__logo {
     display: inline-flex;
     padding: 15px;
@@ -7164,6 +7171,19 @@ noscript {
   }
 }
 
+.transfer__modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__input {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
 .account__header {
   overflow: hidden;
   background: lighten($ui-base-color, 4%);
@@ -7365,7 +7385,7 @@ noscript {
     &__tokens {
       font-size: min(3vw, 16px);
       color: $darker-text-color;
-      margin: 5px 0px;
+      margin: 5px 0;
       padding-top: 10px;
       padding-bottom: 10px;
       background: darken($ui-base-color, 4%);
@@ -7376,7 +7396,7 @@ noscript {
         display: inline-block;
         color: $darker-text-color;
         text-decoration: none;
-        padding: 5px 5px;
+        padding: 5px;
         font-weight: 500;
       }
     }

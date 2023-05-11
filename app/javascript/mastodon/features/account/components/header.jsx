@@ -17,6 +17,7 @@ import AccountNoteContainer from '../containers/account_note_container';
 import FollowRequestNoteContainer from '../containers/follow_request_note_container';
 import { PERMISSION_MANAGE_USERS, PERMISSION_MANAGE_FEDERATION } from 'mastodon/permissions';
 import { Helmet } from 'react-helmet';
+import TransferToken from '../../ui/components/transfer';
 
 const messages = defineMessages({
   unfollow: { id: 'account.unfollow', defaultMessage: 'Unfollow' },
@@ -26,7 +27,10 @@ const messages = defineMessages({
   unblock: { id: 'account.unblock', defaultMessage: 'Unblock @{name}' },
   edit_profile: { id: 'account.edit_profile', defaultMessage: 'Edit profile' },
   linkVerifiedOn: { id: 'account.link_verified_on', defaultMessage: 'Ownership of this link was checked on {date}' },
-  account_locked: { id: 'account.locked_info', defaultMessage: 'This account privacy status is set to locked. The owner manually reviews who can follow them.' },
+  account_locked: {
+    id: 'account.locked_info',
+    defaultMessage: 'This account privacy status is set to locked. The owner manually reviews who can follow them.',
+  },
   mention: { id: 'account.mention', defaultMessage: 'Mention @{name}' },
   direct: { id: 'account.direct', defaultMessage: 'Direct message @{name}' },
   unmute: { id: 'account.unmute', defaultMessage: 'Unmute @{name}' },
@@ -61,6 +65,7 @@ const messages = defineMessages({
   tab_nfts: { id: 'account.tab_nfts', defaultMessage: 'NFTs' },
   tab_earnings: { id: 'account.tab_earnings', defaultMessage: 'Earnings' },
   tab_transactions: { id: 'account.tab_transactions', defaultMessage: 'Transactions' },
+  transfer: { id: 'account.transfer_button', defaultMessage: 'Transfer' },
 });
 
 const titleFromAccount = account => {
@@ -166,7 +171,7 @@ class Header extends ImmutablePureComponent {
     });
   };
 
-  render () {
+  render() {
     const { account, hidden, intl, domain } = this.props;
     const { signedIn, permissions } = this.context.identity;
 
@@ -174,44 +179,80 @@ class Header extends ImmutablePureComponent {
       return null;
     }
 
-    const suspended    = account.get('suspended');
-    const isRemote     = account.get('acct') !== account.get('username');
+    const suspended = account.get('suspended');
+    const isRemote = account.get('acct') !== account.get('username');
     const remoteDomain = isRemote ? account.get('acct').split('@')[1] : null;
 
-    let info        = [];
-    let actionBtn   = '';
-    let bellBtn     = '';
-    let lockedIcon  = '';
-    let menu        = [];
+    let info = [];
+    let actionBtn = '';
+    let bellBtn = '';
+    let lockedIcon = '';
+    let menu = [];
 
     if (me !== account.get('id') && account.getIn(['relationship', 'followed_by'])) {
-      info.push(<span key='followed_by' className='relationship-tag'><FormattedMessage id='account.follows_you' defaultMessage='Follows you' /></span>);
+      info.push(<span key='followed_by' className='relationship-tag'><FormattedMessage
+        id='account.follows_you'
+        defaultMessage='Follows you'
+      /></span>);
     } else if (me !== account.get('id') && account.getIn(['relationship', 'blocking'])) {
-      info.push(<span key='blocked' className='relationship-tag'><FormattedMessage id='account.blocked' defaultMessage='Blocked' /></span>);
+      info.push(<span key='blocked' className='relationship-tag'><FormattedMessage
+        id='account.blocked'
+        defaultMessage='Blocked'
+      /></span>);
     }
 
     if (me !== account.get('id') && account.getIn(['relationship', 'muting'])) {
-      info.push(<span key='muted' className='relationship-tag'><FormattedMessage id='account.muted' defaultMessage='Muted' /></span>);
+      info.push(<span key='muted' className='relationship-tag'><FormattedMessage
+        id='account.muted'
+        defaultMessage='Muted'
+      /></span>);
     } else if (me !== account.get('id') && account.getIn(['relationship', 'domain_blocking'])) {
-      info.push(<span key='domain_blocked' className='relationship-tag'><FormattedMessage id='account.domain_blocked' defaultMessage='Domain blocked' /></span>);
+      info.push(<span key='domain_blocked' className='relationship-tag'><FormattedMessage
+        id='account.domain_blocked'
+        defaultMessage='Domain blocked'
+      /></span>);
     }
 
     if (account.getIn(['relationship', 'requested']) || account.getIn(['relationship', 'following'])) {
-      bellBtn = <IconButton icon={account.getIn(['relationship', 'notifying']) ? 'bell' : 'bell-o'} size={24} active={account.getIn(['relationship', 'notifying'])} title={intl.formatMessage(account.getIn(['relationship', 'notifying']) ? messages.disableNotifications : messages.enableNotifications, { name: account.get('username') })} onClick={this.props.onNotifyToggle} />;
+      bellBtn = (<IconButton
+        icon={account.getIn(['relationship', 'notifying']) ? 'bell' : 'bell-o'} size={24}
+        active={account.getIn(['relationship', 'notifying'])}
+        title={intl.formatMessage(account.getIn(['relationship', 'notifying']) ? messages.disableNotifications : messages.enableNotifications, { name: account.get('username') })}
+        onClick={this.props.onNotifyToggle}
+      />);
     }
 
     if (me !== account.get('id')) {
       if (signedIn && !account.get('relationship')) { // Wait until the relationship is loaded
         actionBtn = '';
       } else if (account.getIn(['relationship', 'requested'])) {
-        actionBtn = <Button className={classNames('logo-button', { 'button--with-bell': bellBtn !== '' })} text={intl.formatMessage(messages.cancel_follow_request)} title={intl.formatMessage(messages.requested)} onClick={this.props.onFollow} />;
+        actionBtn = (<Button
+          className={classNames('logo-button', { 'button--with-bell': bellBtn !== '' })}
+          text={intl.formatMessage(messages.cancel_follow_request)}
+          title={intl.formatMessage(messages.requested)} onClick={this.props.onFollow}
+        />);
       } else if (!account.getIn(['relationship', 'blocking'])) {
-        actionBtn = <Button disabled={account.getIn(['relationship', 'blocked_by'])} className={classNames('logo-button', { 'button--destructive': account.getIn(['relationship', 'following']), 'button--with-bell': bellBtn !== '' })} text={intl.formatMessage(account.getIn(['relationship', 'following']) ? messages.unfollow : messages.follow)} onClick={signedIn ? this.props.onFollow : this.props.onInteractionModal} />;
+        actionBtn = (<Button
+          disabled={account.getIn(['relationship', 'blocked_by'])}
+          className={classNames('logo-button', {
+            'button--destructive': account.getIn(['relationship', 'following']),
+            'button--with-bell': bellBtn !== '',
+          })}
+          text={intl.formatMessage(account.getIn(['relationship', 'following']) ? messages.unfollow : messages.follow)}
+          onClick={signedIn ? this.props.onFollow : this.props.onInteractionModal}
+        />);
       } else if (account.getIn(['relationship', 'blocking'])) {
-        actionBtn = <Button className='logo-button' text={intl.formatMessage(messages.unblock, { name: account.get('username') })} onClick={this.props.onBlock} />;
+        actionBtn =
+          (<Button
+            className='logo-button' text={intl.formatMessage(messages.unblock, { name: account.get('username') })}
+            onClick={this.props.onBlock}
+          />);
       }
     } else {
-      actionBtn = <Button className='logo-button' text={intl.formatMessage(messages.edit_profile)} onClick={this.openEditProfile} />;
+      actionBtn = (<Button
+        className='logo-button' text={intl.formatMessage(messages.edit_profile)}
+        onClick={this.openEditProfile}
+      />);
     }
 
     if (account.get('moved') && !account.getIn(['relationship', 'following'])) {
@@ -223,8 +264,14 @@ class Header extends ImmutablePureComponent {
     }
 
     if (signedIn && account.get('id') !== me) {
-      menu.push({ text: intl.formatMessage(messages.mention, { name: account.get('username') }), action: this.props.onMention });
-      menu.push({ text: intl.formatMessage(messages.direct, { name: account.get('username') }), action: this.props.onDirect });
+      menu.push({
+        text: intl.formatMessage(messages.mention, { name: account.get('username') }),
+        action: this.props.onMention,
+      });
+      menu.push({
+        text: intl.formatMessage(messages.direct, { name: account.get('username') }),
+        action: this.props.onDirect,
+      });
       menu.push(null);
     }
 
@@ -255,87 +302,133 @@ class Header extends ImmutablePureComponent {
       if (account.getIn(['relationship', 'following'])) {
         if (!account.getIn(['relationship', 'muting'])) {
           if (account.getIn(['relationship', 'showing_reblogs'])) {
-            menu.push({ text: intl.formatMessage(messages.hideReblogs, { name: account.get('username') }), action: this.props.onReblogToggle });
+            menu.push({
+              text: intl.formatMessage(messages.hideReblogs, { name: account.get('username') }),
+              action: this.props.onReblogToggle,
+            });
           } else {
-            menu.push({ text: intl.formatMessage(messages.showReblogs, { name: account.get('username') }), action: this.props.onReblogToggle });
+            menu.push({
+              text: intl.formatMessage(messages.showReblogs, { name: account.get('username') }),
+              action: this.props.onReblogToggle,
+            });
           }
 
           menu.push({ text: intl.formatMessage(messages.languages), action: this.props.onChangeLanguages });
           menu.push(null);
         }
 
-        menu.push({ text: intl.formatMessage(account.getIn(['relationship', 'endorsed']) ? messages.unendorse : messages.endorse), action: this.props.onEndorseToggle });
+        menu.push({
+          text: intl.formatMessage(account.getIn(['relationship', 'endorsed']) ? messages.unendorse : messages.endorse),
+          action: this.props.onEndorseToggle,
+        });
         menu.push({ text: intl.formatMessage(messages.add_or_remove_from_list), action: this.props.onAddToList });
         menu.push(null);
       }
 
       if (account.getIn(['relationship', 'muting'])) {
-        menu.push({ text: intl.formatMessage(messages.unmute, { name: account.get('username') }), action: this.props.onMute });
+        menu.push({
+          text: intl.formatMessage(messages.unmute, { name: account.get('username') }),
+          action: this.props.onMute,
+        });
       } else {
-        menu.push({ text: intl.formatMessage(messages.mute, { name: account.get('username') }), action: this.props.onMute });
+        menu.push({
+          text: intl.formatMessage(messages.mute, { name: account.get('username') }),
+          action: this.props.onMute,
+        });
       }
 
       if (account.getIn(['relationship', 'blocking'])) {
-        menu.push({ text: intl.formatMessage(messages.unblock, { name: account.get('username') }), action: this.props.onBlock });
+        menu.push({
+          text: intl.formatMessage(messages.unblock, { name: account.get('username') }),
+          action: this.props.onBlock,
+        });
       } else {
-        menu.push({ text: intl.formatMessage(messages.block, { name: account.get('username') }), action: this.props.onBlock });
+        menu.push({
+          text: intl.formatMessage(messages.block, { name: account.get('username') }),
+          action: this.props.onBlock,
+        });
       }
 
-      menu.push({ text: intl.formatMessage(messages.report, { name: account.get('username') }), action: this.props.onReport });
+      menu.push({
+        text: intl.formatMessage(messages.report, { name: account.get('username') }),
+        action: this.props.onReport,
+      });
     }
 
     if (signedIn && isRemote) {
       menu.push(null);
 
       if (account.getIn(['relationship', 'domain_blocking'])) {
-        menu.push({ text: intl.formatMessage(messages.unblockDomain, { domain: remoteDomain }), action: this.props.onUnblockDomain });
+        menu.push({
+          text: intl.formatMessage(messages.unblockDomain, { domain: remoteDomain }),
+          action: this.props.onUnblockDomain,
+        });
       } else {
-        menu.push({ text: intl.formatMessage(messages.blockDomain, { domain: remoteDomain }), action: this.props.onBlockDomain });
+        menu.push({
+          text: intl.formatMessage(messages.blockDomain, { domain: remoteDomain }),
+          action: this.props.onBlockDomain,
+        });
       }
     }
 
     if ((account.get('id') !== me && (permissions & PERMISSION_MANAGE_USERS) === PERMISSION_MANAGE_USERS) || (isRemote && (permissions & PERMISSION_MANAGE_FEDERATION) === PERMISSION_MANAGE_FEDERATION)) {
       menu.push(null);
       if ((permissions & PERMISSION_MANAGE_USERS) === PERMISSION_MANAGE_USERS) {
-        menu.push({ text: intl.formatMessage(messages.admin_account, { name: account.get('username') }), href: `/admin/accounts/${account.get('id')}` });
+        menu.push({
+          text: intl.formatMessage(messages.admin_account, { name: account.get('username') }),
+          href: `/admin/accounts/${account.get('id')}`,
+        });
       }
       if (isRemote && (permissions & PERMISSION_MANAGE_FEDERATION) === PERMISSION_MANAGE_FEDERATION) {
-        menu.push({ text: intl.formatMessage(messages.admin_domain, { domain: remoteDomain }), href: `/admin/instances/${remoteDomain}` });
+        menu.push({
+          text: intl.formatMessage(messages.admin_domain, { domain: remoteDomain }),
+          href: `/admin/instances/${remoteDomain}`,
+        });
       }
     }
 
-    const content         = { __html: account.get('note_emojified') };
+    const content = { __html: account.get('note_emojified') };
     const displayNameHtml = { __html: account.get('display_name_html') };
-    const fields          = account.get('fields');
-    const isLocal         = account.get('acct').indexOf('@') === -1;
-    const acct            = isLocal && domain ? `${account.get('acct')}@${domain}` : account.get('acct');
-    const isIndexable     = !account.get('noindex');
+    const fields = account.get('fields');
+    const isLocal = account.get('acct').indexOf('@') === -1;
+    const acct = isLocal && domain ? `${account.get('acct')}@${domain}` : account.get('acct');
+    const isIndexable = !account.get('noindex');
 
     let badge;
 
     if (account.get('bot')) {
-      badge = (<div className='account-role bot'><FormattedMessage id='account.badges.bot' defaultMessage='Bot' /></div>);
+      badge = (
+        <div className='account-role bot'><FormattedMessage id='account.badges.bot' defaultMessage='Bot' /></div>);
     } else if (account.get('group')) {
-      badge = (<div className='account-role group'><FormattedMessage id='account.badges.group' defaultMessage='Group' /></div>);
+      badge = (
+        <div className='account-role group'><FormattedMessage id='account.badges.group' defaultMessage='Group' /></div>);
     } else {
       badge = null;
     }
 
     return (
-      <div className={classNames('account__header', { inactive: !!account.get('moved') })} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
-        {!(suspended || hidden || account.get('moved')) && account.getIn(['relationship', 'requested_by']) && <FollowRequestNoteContainer account={account} />}
+      <div
+        className={classNames('account__header', { inactive: !!account.get('moved') })}
+        onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}
+      >
+        {!(suspended || hidden || account.get('moved')) && account.getIn(['relationship', 'requested_by']) &&
+          <FollowRequestNoteContainer account={account} />}
 
         <div className='account__header__image'>
           <div className='account__header__info'>
             {!suspended && info}
           </div>
 
-          {!(suspended || hidden) && <img src={autoPlayGif ? account.get('header') : account.get('header_static')} alt='' className='parallax' />}
+          {!(suspended || hidden) &&
+            <img src={autoPlayGif ? account.get('header') : account.get('header_static')} alt='' className='parallax' />}
         </div>
 
         <div className='account__header__bar'>
           <div className='account__header__tabs'>
-            <a className='avatar' href={account.get('avatar')} rel='noopener noreferrer' target='_blank' onClick={this.handleAvatarClick}>
+            <a
+              className='avatar' href={account.get('avatar')} rel='noopener noreferrer' target='_blank'
+              onClick={this.handleAvatarClick}
+            >
               <Avatar account={suspended || hidden ? undefined : account} size={90} />
             </a>
 
@@ -348,7 +441,10 @@ class Header extends ImmutablePureComponent {
                   </React.Fragment>
                 )}
 
-                <DropdownMenuContainer disabled={menu.length === 0} items={menu} icon='ellipsis-v' size={24} direction='right' />
+                <DropdownMenuContainer
+                  disabled={menu.length === 0} items={menu} icon='ellipsis-v' size={24}
+                  direction='right'
+                />
               </div>
             )}
           </div>
@@ -361,75 +457,105 @@ class Header extends ImmutablePureComponent {
               </small>
             </h1>
           </div>
-
+          {account.get('id') !== me &&
+            <div>
+              <TransferToken to_account={account} />
+              {/*<Button className='logo-button' text={intl.formatMessage(messages.transfer)}*/}
+              {/*        onClick={() => {*/}
+              {/*          alert('test click button');*/}
+              {/*        }}>*/}
+              {/*</Button>*/}
+            </div>
+          }
           {!(suspended || hidden) && (
             <div className='account__header__extra'>
               <div className='account__header__bio'>
                 {(account.get('id') !== me && signedIn) && <AccountNoteContainer account={account} />}
 
-                {account.get('note').length > 0 && account.get('note') !== '<p></p>' && <div className='account__header__content translate' dangerouslySetInnerHTML={content} />}
+                {account.get('note').length > 0 && account.get('note') !== '<p></p>' &&
+                  <div className='account__header__content translate' dangerouslySetInnerHTML={content} />}
+                {account.get('id') === me &&
+                  <div className='account__header__extra__tokens'>
+                    <NavLink
+                      isActive={this.isStatusesPageActive} activeClassName='active'
+                      to={`/@${account.get('acct')}/tokens`}
+                      title={intl.formatMessage(messages.tab_tokens)}
+                    >
+                      {intl.formatMessage(messages.tab_tokens)}
+                    </NavLink>
 
-                <div className='account__header__extra__tokens'>
-                  <NavLink
-                    isActive={this.isStatusesPageActive} activeClassName='active' to={`/@${account.get('acct')}/tokens`}
-                    title={intl.formatMessage(messages.tab_tokens)}
-                  >
-                    {intl.formatMessage(messages.tab_tokens)}
-                  </NavLink>
+                    <NavLink
+                      exact activeClassName='active' to={`/@${account.get('acct')}/nfts`}
+                      title={intl.formatMessage(messages.tab_nfts)}
+                    >
+                      {intl.formatMessage(messages.tab_nfts)}
+                    </NavLink>
 
-                  <NavLink
-                    exact activeClassName='active' to={`/@${account.get('acct')}/nfts`}
-                    title={intl.formatMessage(messages.tab_nfts)}
-                  >
-                    {intl.formatMessage(messages.tab_nfts)}
-                  </NavLink>
+                    <NavLink
+                      exact activeClassName='active' to={`/@${account.get('acct')}/earnings`}
+                      title={intl.formatMessage(messages.tab_earnings)}
+                    >
+                      {intl.formatMessage(messages.tab_earnings)}
+                    </NavLink>
+                    <NavLink
+                      exact activeClassName='active' to={`/@${account.get('acct')}/transactions`}
+                      title={intl.formatMessage(messages.tab_transactions)}
+                    >
+                      {intl.formatMessage(messages.tab_transactions)}
+                    </NavLink>
 
-                  <NavLink
-                    exact activeClassName='active' to={`/@${account.get('acct')}/earnings`}
-                    title={intl.formatMessage(messages.tab_earnings)}
-                  >
-                    {intl.formatMessage(messages.tab_earnings)}
-                  </NavLink>
-                  <NavLink
-                    exact activeClassName='active' to={`/@${account.get('acct')}/transactions`}
-                    title={intl.formatMessage(messages.tab_transactions)}
-                  >
-                    {intl.formatMessage(messages.tab_transactions)}
-                  </NavLink>
+                    {/*<dl>*/}
+                    {/*  <dt><FormattedMessage id='account.joined_short' defaultMessage='Joined' /></dt>*/}
+                    {/*  <dd>{intl.formatDate(account.get('created_at'), { year: 'numeric', month: 'short', day: '2-digit' })}</dd>*/}
+                    {/*</dl>*/}
 
-                  {/*<dl>*/}
-                  {/*  <dt><FormattedMessage id='account.joined_short' defaultMessage='Joined' /></dt>*/}
-                  {/*  <dd>{intl.formatDate(account.get('created_at'), { year: 'numeric', month: 'short', day: '2-digit' })}</dd>*/}
-                  {/*</dl>*/}
+                    {fields.map((pair, i) => (
+                      <dl key={i} className={classNames({ verified: pair.get('verified_at') })}>
+                        <dt
+                          dangerouslySetInnerHTML={{ __html: pair.get('name_emojified') }} title={pair.get('name')}
+                          className='translate'
+                        />
 
-                  {fields.map((pair, i) => (
-                    <dl key={i} className={classNames({ verified: pair.get('verified_at') })}>
-                      <dt dangerouslySetInnerHTML={{ __html: pair.get('name_emojified') }} title={pair.get('name')} className='translate' />
-
-                      <dd className='translate' title={pair.get('value_plain')}>
-                        {pair.get('verified_at') && <span title={intl.formatMessage(messages.linkVerifiedOn, { date: intl.formatDate(pair.get('verified_at'), dateFormatOptions) })}><Icon id='check' className='verified__mark' /></span>} <span dangerouslySetInnerHTML={{ __html: pair.get('value_emojified') }} />
-                      </dd>
-                    </dl>
-                  ))}
-                </div>
+                        <dd className='translate' title={pair.get('value_plain')}>
+                          {pair.get('verified_at') &&
+                            <span
+                              title={intl.formatMessage(messages.linkVerifiedOn, { date: intl.formatDate(pair.get('verified_at'), dateFormatOptions) })}
+                            ><Icon id='check' className='verified__mark' />
+                            </span>
+                          }
+                          <span dangerouslySetInnerHTML={{ __html: pair.get('value_emojified') }} />
+                        </dd>
+                      </dl>
+                    ))}
+                  </div>
+                }
               </div>
 
               <div className='account__header__extra__links'>
-                <NavLink isActive={this.isStatusesPageActive} activeClassName='active' to={`/@${account.get('acct')}`} title={intl.formatNumber(account.get('statuses_count'))}>
+                <NavLink
+                  isActive={this.isStatusesPageActive} activeClassName='active' to={`/@${account.get('acct')}`}
+                  title={intl.formatNumber(account.get('statuses_count'))}
+                >
                   <ShortNumber
                     value={account.get('statuses_count')}
                     renderer={counterRenderer('statuses')}
                   />
                 </NavLink>
 
-                <NavLink exact activeClassName='active' to={`/@${account.get('acct')}/following`} title={intl.formatNumber(account.get('following_count'))}>
+                <NavLink
+                  exact activeClassName='active' to={`/@${account.get('acct')}/following`}
+                  title={intl.formatNumber(account.get('following_count'))}
+                >
                   <ShortNumber
                     value={account.get('following_count')}
                     renderer={counterRenderer('following')}
                   />
                 </NavLink>
 
-                <NavLink exact activeClassName='active' to={`/@${account.get('acct')}/followers`} title={intl.formatNumber(account.get('followers_count'))}>
+                <NavLink
+                  exact activeClassName='active' to={`/@${account.get('acct')}/followers`}
+                  title={intl.formatNumber(account.get('followers_count'))}
+                >
                   <ShortNumber
                     value={account.get('followers_count')}
                     renderer={counterRenderer('followers')}
