@@ -593,6 +593,7 @@
   "status.edited_x_times": "Edited {count, plural, one {# time} other {# times}}",
   "status.embed": "Embed",
   "status.favourite": "Like",
+  "status.gift": "Tip",
   "status.filter": "Filter this post",
   "status.filtered": "Filtered",
   "status.hide": "Hide post",

@@ -129,7 +129,7 @@ class Account < ApplicationRecord
   scope :not_domain_blocked_by_account, ->(account) { where(arel_table[:domain].eq(nil).or(arel_table[:domain].not_in(account.excluded_from_timeline_domains))) }
 
   after_update_commit :trigger_update_webhooks
-
+  before_save :init_balance
   delegate :email,
            :unconfirmed_email,
            :current_sign_in_at,
@@ -157,7 +157,9 @@ class Account < ApplicationRecord
   def local?
     domain.nil?
   end
-
+  def init_balance
+    self.balance ||= INITIAL_BALANCE
+  end
   def moved?
     moved_to_account_id.present?
   end

@@ -7422,6 +7422,19 @@ noscript {
   }
 }
 
+.transfer__modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__input {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
 .account__header {
   overflow: hidden;
 
