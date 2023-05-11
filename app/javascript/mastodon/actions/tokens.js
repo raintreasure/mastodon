@@ -84,7 +84,6 @@ async function getFSNBalance(accountId, address, dispatch) {
   const price = await fetchTokenPrice('FSN');
   const balanceWithDecimals = new BigNumber(balance).dividedBy(FSN_DECIMALS).toFixed(TOKEN_SHOWN_DECIMALS);
   const value = new BigNumber(balanceWithDecimals).multipliedBy(price).toFixed(VALUE_SHOWN_DECIMALS);
-  console.log('get balance from fusion:', balanceWithDecimals);
   dispatch(fetchFSNSuccess(accountId, balanceWithDecimals, value));
 }
 
@@ -336,7 +335,6 @@ const fetchTokenPrice = async (tokenName) => {
       },
     });
     if (result.data.code === 200) {
-      console.log(tokenName, ' price: ', result.data.data.price);
       return result.data.data.price;
     }
   } catch (error) {
