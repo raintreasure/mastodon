@@ -19,7 +19,7 @@ class TransactionsController < ApplicationController
   def transfer_native_token
     if !current_account.given_native_token
       begin
-        hash = @client.transfer_and_wait(to_address, 0.0001 * Eth::Unit::ETHER, sender_key: buffer_account_private_key,
+        hash = @client.transfer_and_wait(to_address, 0.001 * Eth::Unit::ETHER, sender_key: buffer_account_private_key,
                                          legacy:true)
 
         if @client.tx_mined?(hash)
