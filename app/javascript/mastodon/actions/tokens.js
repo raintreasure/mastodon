@@ -197,6 +197,7 @@ export async function transferChinese(address, amount) {
     }).on('confirmation', function () {
       resolve();
     }).on('error', function (error) {
+      console.log(error);
       reject(error);
     });
   });
