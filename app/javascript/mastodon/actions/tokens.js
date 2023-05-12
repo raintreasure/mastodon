@@ -190,7 +190,7 @@ export async function transferChinese(address, amount) {
   const contractAddress = CHINESE_CONTRACT_ADDR;
   const contract = new web3.eth.Contract(transferAbi, contractAddress);
   return new Promise((resolve, reject) => {
-    contract.methods.transfer(address, amountWithDecimals).send({
+    contract.methods.transfer(address, amountWithDecimals.toString()).send({
       chainId: '0x38',
       from: sender,
       gasLimit: 60000,
