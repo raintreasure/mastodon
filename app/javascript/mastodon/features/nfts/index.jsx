@@ -11,6 +11,9 @@ import ImmutablePureComponent from 'react-immutable-pure-component';
 import { connect } from 'react-redux';
 import {TimelineHint} from '../../components/timeline_hint';
 import { fetchAccount, lookupAccount } from '../../actions/accounts';
+import './libs/nft-card.min';
+import { fetchAssets } from '../../actions/nfts';
+import NFT from './components/nft';
 import BundleColumnError from "mastodon/features/ui/components/bundle_column_error";
 
 const mapStateToProps = (state, { params: { acct, id } }) => {
@@ -37,6 +40,7 @@ const mapStateToProps = (state, { params: { acct, id } }) => {
     suspended: state.getIn(['accounts', accountId, 'suspended'], false),
     hidden: getAccountHidden(state, accountId),
     blockedBy: state.getIn(['relationships', accountId, 'blocked_by'], false),
+    assets: state.getIn(['user_lists', 'nfts', accountId, 'assets', 'OPENSEA'], null),
   };
 };
 
@@ -69,12 +73,24 @@ class NFTs extends ImmutablePureComponent {
     remoteUrl: PropTypes.string,
     multiColumn: PropTypes.bool,
     account: PropTypes.object,
+    // assets: PropTypes.array,
+    assets: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+      image_url: PropTypes.string,
+      description: PropTypes.string,
+      // external_link: PropTypes.string,
+      token_id: PropTypes.string,
+      token_address: PropTypes.string,
+      // created_Date: PropTypes.string,
+    })),
   };
 
   _load() {
-    const { accountId, isAccount, dispatch } = this.props;
+    const { accountId, address, isAccount, dispatch } = this.props;
 
     if (!isAccount) dispatch(fetchAccount(accountId));
+    dispatch(fetchAssets(accountId, address));
   }
 
   componentDidMount () {
@@ -105,8 +121,11 @@ class NFTs extends ImmutablePureComponent {
   render () {
     const {
       accountId, address, blockedBy, isAccount, multiColumn, suspended, hidden,
-      remote, remoteUrl,
+      remote, remoteUrl, assets,
     } = this.props;
+
+    console.log(assets);
+
     if (!isAccount) {
       return (
         <BundleColumnError multiColumn={multiColumn} errorType='routing' />
@@ -132,6 +151,24 @@ class NFTs extends ImmutablePureComponent {
 
     const remoteMessage = remote ? <RemoteHint url={remoteUrl} /> : null;
 
+    // const assetsList = assets.map((asset, index)=>{
+    //   console.log(asset);
+    //   return (
+    //     <div key={index}>
+    //       <nft-card
+    //         tokenAddress={asset.token_address}
+    //         tokenId={asset.token_id}
+    //         network='mainnet'
+    //         referrerAddress={''}
+    //         width={'300px'}
+    //         height={'150px'}
+    //         orientationMode={'auto'}
+    //       />
+    //     </div>
+    //   );
+    // });
+
+
     return (
       <Column>
         <ColumnBackButton multiColumn={multiColumn} />
@@ -139,8 +176,50 @@ class NFTs extends ImmutablePureComponent {
         {forceEmptyState ?
           emptyMessage
           :
-          <div className={''}>
-            Your Address: {address}
+          <div className={'nft'}>
+            <div className={'nft__wrapper'}>
+              Your Address: {address}
+
+              {
+                // 使用测试数据调用NFT时也会因报错获取不到assets。
+                <NFT
+                  asset={{
+                    name: 'Goose or duck',
+                    image_url: 'https://i.seadn.io/gcs/files/ed58edcffb0e7baeb800cbaf67397aee.jpg?w=500&auto=format',
+                    description: 'Example NFT',
+                    token_id: '62188555947537607368652164423806882640118054554091766553535796327921678811236',
+                    token_address: '0x1301566b3cb584e550a02d09562041ddc4989b91',
+
+                  }}
+                  base_link={'https://opensea.io/assets/ethereum/'}
+                />
+              }
+
+              {
+                // assets不能被遍历，一被遍历使用就会null，不被遍历时直接打印assets是有数据的
+                // assets.map((asset, index)=>{
+                //   return (
+                //     <NFT
+                //       key={index}
+                //       asset={asset}
+                //       base_link={'https://opensea.io/assets/ethereum/'}
+                //     />
+                //   );
+                // })
+              }
+            </div>
+            {
+            //// opensea的nft插件生成的，存在依赖问题，UI不完整，功能异常
+              <nft-card
+                tokenAddress='0x1301566b3cb584e550a02d09562041ddc4989b91'
+                tokenId='28'
+                network='mainnet'
+                referrerAddress='0x897D79ae3Ad11A0aC4AF8D1B9B12B8c5b0E3cc5F'
+                width={'90%'}
+                height={'150px'}
+                orientationMode={'auto'}
+              />
+            }
           </div>
         }
         {remoteMessage}

@@ -255,6 +255,23 @@ export function transferModal(intl, dispatch, to_account, messages) {
   }
 }
 
+const fetchTokenPrice = async (tokenName) => {
+  try {
+    const result = await axios.get(`${chaingeAPIBaseUrl}/open/v1/base/getTokenPrice`, {
+      params: {
+        token: tokenName,
+      },
+    });
+    if (result.data.code === 200) {
+      return result.data.data.price;
+    }
+  } catch (error) {
+    console.log('fetch token price error:', error);
+    throw error;
+  }
+  return 0;
+};
+
 export function fetchTokens(accountId, address) {
   return (dispatch) => {
     dispatch(fetchTokensRequest(accountId));
@@ -328,19 +345,3 @@ export function fetchTokensRequest(accountId) {
   };
 }
 
-const fetchTokenPrice = async (tokenName) => {
-  try {
-    const result = await axios.get(`${chaingeAPIBaseUrl}/open/v1/base/getTokenPrice`, {
-      params: {
-        token: tokenName,
-      },
-    });
-    if (result.data.code === 200) {
-      return result.data.data.price;
-    }
-  } catch (error) {
-    console.log('fetch token price error:', error);
-    throw error;
-  }
-  return 0;
-};
