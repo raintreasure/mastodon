@@ -32,7 +32,7 @@ class NFT extends React.PureComponent {
     return (
       <div className={'nft__item'}>
         <div className={'nft__image'}>
-          <img src={image_url} alt={name}>{description}</img>
+          <img src={image_url} title={name} alt={name} />
         </div>
         <div className={'nft__info'}>
           <p className={'nft__info__name'}>{name}</p>
