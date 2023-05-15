@@ -79,7 +79,9 @@ class Header extends PureComponent {
       content = (
         <>
           <Web3authLoginNoBlock />
-          <a href='/auth/sign_in' className='button' style={{ maxWidth:'40%' }}><FormattedMessage id='sign_in_banner.sign_in' defaultMessage='Sign in' /></a>
+          {/*<a href='/auth/sign_in' className='button' style={{ maxWidth: '40%' }}><FormattedMessage*/}
+          {/*  id='sign_in_banner.sign_in' defaultMessage='Sign in'*/}
+          {/*/></a>*/}
         </>
       );
     }

@@ -139,9 +139,9 @@ class InteractionModal extends PureComponent {
           <div className='interaction-modal__choices__choice'>
             <h3><FormattedMessage id='interaction_modal.on_this_server' defaultMessage='On this server' /></h3>
             <Web3authLogin />
-            <a href='/auth/sign_in' className='button button--block button-tertiary'><FormattedMessage
-              id='sign_in_banner.sign_in' defaultMessage='Web2 Email  Signin'
-            /></a>
+            {/*<a href='/auth/sign_in' className='button button--block button-tertiary'><FormattedMessage*/}
+            {/*  id='sign_in_banner.sign_in' defaultMessage='Web2 Email  Signin'*/}
+            {/*/></a>*/}
           </div>
 
           <div className='interaction-modal__choices__choice'>

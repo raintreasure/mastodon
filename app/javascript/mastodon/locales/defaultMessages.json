@@ -2641,7 +2641,7 @@
         "id": "sign_in_banner.create_account"
       },
       {
-        "defaultMessage": "Web3Auth Signin",
+        "defaultMessage": "Sign in",
         "id": "sign_in_banner.web3auth_login"
       },
       {
@@ -4062,7 +4062,7 @@
         "id": "sign_in_banner.sign_in"
       },
       {
-        "defaultMessage": "Web3Auth Signin",
+        "defaultMessage": "Sign in",
         "id": "sign_in_banner.web3auth_login"
       }
     ],
@@ -4269,7 +4269,7 @@
         "id": "sign_in_banner.sign_in"
       },
       {
-        "defaultMessage": "Web3Auth Signin",
+        "defaultMessage": "Sign in",
         "id": "sign_in_banner.web3auth_login"
       }
     ],

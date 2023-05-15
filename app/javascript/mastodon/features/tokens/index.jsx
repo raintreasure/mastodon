@@ -15,8 +15,8 @@ import LimitedAccountHint from '../account_timeline/components/limited_account_h
 import { getAccountHidden } from 'mastodon/selectors';
 import { normalizeForLookup } from 'mastodon/reducers/accounts_map';
 import { fetchTokens } from '../../actions/tokens';
-import { FSN_ICON, CHNG_ICON, ETH_ICON, USDT_ICON, USDC_ICON, CHINESE_ICON } from '../../../icons/data';
 import BundleColumnError from "mastodon/features/ui/components/bundle_column_error";
+import { ETH_ICON, USDT_ICON, USDC_ICON, CHINESE_ICON, BNB_ICON } from '../../../icons/data';
 
 const mapStateToProps = (state, { params: { acct, id } }) => {
   const accountId = id || state.getIn(['accounts_map', normalizeForLookup(acct)]);
@@ -35,8 +35,8 @@ const mapStateToProps = (state, { params: { acct, id } }) => {
     isAccount: !!state.getIn(['accounts', accountId]),
     hasMore: !!state.getIn(['user_lists', 'following', accountId, 'next']),
     isLoading: state.getIn(['user_lists', 'tokens', accountId, 'isLoading'], true),
-    balanceFSN: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'FSN'], '0'),
-    valueFSN: state.getIn(['user_lists', 'tokens', accountId, 'value', 'FSN'], '0'),
+    balanceBNB: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'BNB'], '0'),
+    valueBNB: state.getIn(['user_lists', 'tokens', accountId, 'value', 'BNB'], '0'),
     balanceCHINESE: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'CHINESE'], '0'),
     valueCHINESE: state.getIn(['user_lists', 'tokens', accountId, 'value', 'CHINESE'], '0'),
     balanceCHNG: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'CHNG'], '0'),
@@ -80,7 +80,7 @@ class Tokens extends ImmutablePureComponent {
     remoteUrl: PropTypes.string,
     multiColumn: PropTypes.bool,
     account: PropTypes.object,
-    balanceFSN: PropTypes.string,
+    balanceBNB: PropTypes.string,
     balanceCHNG: PropTypes.string,
     balanceETH: PropTypes.string,
     balanceUSDT: PropTypes.string,
@@ -118,8 +118,8 @@ class Tokens extends ImmutablePureComponent {
   render() {
     const {
       accountId, blockedBy, isAccount, multiColumn, suspended, hidden,
-      remote, remoteUrl, balanceFSN, balanceCHINESE, balanceCHNG, balanceETH, balanceUSDT, balanceUSDC,
-      valueFSN, valueCHINESE, valueCHNG, valueETH, valueUSDT, valueUSDC,
+      remote, remoteUrl, balanceBNB, balanceCHINESE, balanceETH, balanceUSDT, balanceUSDC,
+      valueBNB, valueCHINESE, valueETH, valueUSDT, valueUSDC,
     } = this.props;
     if (!isAccount) {
       return (
@@ -157,12 +157,12 @@ class Tokens extends ImmutablePureComponent {
             <div className={'token__wrapper'}>
               <div className={'token__item'}>
                 <div className={'token__symbol'}>
-                  <img src={FSN_ICON} className={'token__icon'} alt={'FSN_ICON'} />
-                  <span>FSN</span>
+                  <img src={BNB_ICON} className={'token__icon'} alt={'BNB_ICON'} />
+                  <span>BNB</span>
                 </div>
                 <div className={'token__nums'}>
-                  <p className={'token__nums__balance'}>{balanceFSN}</p>
-                  <p className={'token__nums__value'}>$ {valueFSN}</p>
+                  <p className={'token__nums__balance'}>{balanceBNB}</p>
+                  <p className={'token__nums__value'}>$ {valueBNB}</p>
                 </div>
               </div>
               <div className={'token__item'}>
@@ -174,18 +174,17 @@ class Tokens extends ImmutablePureComponent {
                   <p className={'token__nums__balance'}>{balanceCHINESE}</p>
                   <p className={'token__nums__value'}>$ {valueCHINESE}</p>
                 </div>
-
               </div>
-              <div className={'token__item'}>
-                <div className={'token__symbol'}>
-                  <img src={CHNG_ICON} className={'token__icon'} alt={'CHNG_ICON'} />
-                  <span>CHNG</span>
-                </div>
-                <div className={'token__nums'}>
-                  <p className={'token__nums__balance'}>{balanceCHNG}</p>
-                  <p className={'token__nums__value'}>$ {valueCHNG}</p>
-                </div>
-              </div>
+              {/*<div className={'token__item'}>*/}
+              {/*  <div className={'token__symbol'}>*/}
+              {/*    <img src={CHNG_ICON} className={'token__icon'} alt={'CHNG_ICON'} />*/}
+              {/*    <span>CHNG</span>*/}
+              {/*  </div>*/}
+              {/*  <div className={'token__nums'}>*/}
+              {/*    <p className={'token__nums__balance'}>{balanceCHNG}</p>*/}
+              {/*    <p className={'token__nums__value'}>$ {valueCHNG}</p>*/}
+              {/*  </div>*/}
+              {/*</div>*/}
               <div className={'token__item'}>
                 <div className={'token__symbol'}>
                   <img src={ETH_ICON} className={'token__icon'} alt={'ETH_ICON'} />

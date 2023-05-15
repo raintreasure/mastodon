@@ -17,14 +17,14 @@ const mapStateToProps = state => ({
 
 const defaultMessage = 'Withdraw ALL your $CHINESE to your wallet, you will receive 0.001 BNB for the first time withdraw.' +
   ' After withdraw, you can check your token at';
-const noAddrMessage = 'You haven\'t set your wallet address yet, please go to profile page to set your address. If you don\'t have a wallet, you can create one for free: ';
+const noAddrMessage = 'wallet address has not loaded, please try again or refresh the page';
 const messages = defineMessages({
   withdrawTitle: { id: 'balance.withdraw.title', defaultMessage: 'Withdraw' },
   withdrawingTitle: { id: 'balance.withdraw.withdrawing_title', defaultMessage: 'Withdrawing' },
   withdrawText: { id: 'balance.withdraw.text', defaultMessage: defaultMessage },
   confirmWithdraw: { id: 'balance.withdraw.confirm', defaultMessage: 'Confirm Withdraw' },
   withdrawNoAddrText: { id: 'balance.withdraw.no_addr', defaultMessage: noAddrMessage },
-  withdrawSetAddr: { id: 'balance.withdraw.set_addr', defaultMessage: 'Go to Profile Page' },
+  withdrawSetAddr: { id: 'balance.withdraw.empty_confirm', defaultMessage: 'Confirm' },
 });
 
 class Balance extends React.PureComponent {
@@ -69,16 +69,14 @@ class Balance extends React.PureComponent {
         },
       }));
     } else {
-      const link = 'https://metamask.io/';
       dispatch(openModal('CONFIRM', {
         message:
   <div style={{ textAlign: 'left' }}>
     <span style={{ alignSelf: 'left' }}>{intl.formatMessage(messages.withdrawNoAddrText)}</span>
-    <a href={link} target={'_blank'} style={{ wordWrap: 'break-word' }}>{link}</a>
   </div>,
         confirm: intl.formatMessage(messages.withdrawSetAddr),
         onConfirm: () => {
-          window.open('/settings/profile', '_blank');
+
         },
       }));
     }
