@@ -181,31 +181,31 @@ class NFTs extends ImmutablePureComponent {
               Your Address: {address}
 
               {
-                // 使用测试数据调用NFT时也会因报错获取不到assets。
-                <NFT
-                  asset={{
-                    name: 'Goose or duck',
-                    image_url: 'https://i.seadn.io/gcs/files/ed58edcffb0e7baeb800cbaf67397aee.jpg?w=500&auto=format',
-                    description: 'Example NFT',
-                    token_id: '62188555947537607368652164423806882640118054554091766553535796327921678811236',
-                    token_address: '0x1301566b3cb584e550a02d09562041ddc4989b91',
-
-                  }}
-                  base_link={'https://opensea.io/assets/ethereum/'}
-                />
+                // 使用测试数据调用NFT时也会因报错获取不到assets。(bug已修复，可以生成)
+                // <NFT
+                //   asset={{
+                //     name: 'Goose or duck',
+                //     image_url: 'https://i.seadn.io/gcs/files/ed58edcffb0e7baeb800cbaf67397aee.jpg?w=500&auto=format',
+                //     description: 'Example NFT',
+                //     token_id: '62188555947537607368652164423806882640118054554091766553535796327921678811236',
+                //     token_address: '0x1301566b3cb584e550a02d09562041ddc4989b91',
+                //
+                //   }}
+                //   base_link={'https://opensea.io/assets/ethereum/'}
+                // />
               }
 
               {
                 // assets不能被遍历，一被遍历使用就会null，不被遍历时直接打印assets是有数据的
-                // assets.map((asset, index)=>{
-                //   return (
-                //     <NFT
-                //       key={index}
-                //       asset={asset}
-                //       base_link={'https://opensea.io/assets/ethereum/'}
-                //     />
-                //   );
-                // })
+                assets.map((asset, index)=>{
+                  return (
+                    <NFT
+                      key={index}
+                      asset={asset}
+                      base_link={'https://opensea.io/assets/ethereum/'}
+                    />
+                  );
+                })
               }
             </div>
             {
