@@ -26,6 +26,12 @@ import { TorusWalletAdapter } from '@web3auth/torus-evm-adapter';
       // chainId: '0x1',
       rpcTarget: 'https://rpc.ankr.com/bsc', // This is the public RPC we have added, please pass on your own endpoint while creating an app
     },
+    uiConfig: {
+      appName:'Chinese.org',
+      appLogo:'/images/icon.png',
+      theme:'light',
+      loginMethodsOrder: ['twitter', 'google'],
+    },
   });
   // window.web3auth = new Web3Auth({
   //   clientId,
