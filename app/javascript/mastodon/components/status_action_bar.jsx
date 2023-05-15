@@ -12,7 +12,7 @@ import { PERMISSION_MANAGE_USERS, PERMISSION_MANAGE_FEDERATION } from 'mastodon/
 import { transferModal } from '../actions/tokens';
 
 const web2LoggedInMessage = 'It seems that you logged in by web2, only web3 logged user can transfer $CHINESE. You can switch account after ';
-const toAccountNoAddress = 'The account you transferred to has no wallet address, you may remind the account owner to set wallet address in profile page';
+const toAccountNoAddress = 'The account you transferred to has no wallet address, you may remind the account owner to set wallet address';
 
 const messages = defineMessages({
   delete: { id: 'status.delete', defaultMessage: 'Delete' },

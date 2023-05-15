@@ -69,7 +69,7 @@ export default class Web3authLogin extends React.PureComponent {
           <input className='hidden' type='hidden' name='user[display_name]' id='user_display_name' />
           <input className='hidden' type='hidden' name='user[img_url]' id='user_img_url' />
         </form>
-        <button className='button' style={{ maxWidth:'40%' }} onClick={this.formLogin}><FormattedMessage id='sign_in_banner.web3auth_login' defaultMessage='Web3Auth Signin/up' /></button>
+        <button className='button' onClick={this.formLogin}><FormattedMessage id='sign_in_banner.web3auth_login' defaultMessage='Sign in/up' /></button>
       </>
     );
   }

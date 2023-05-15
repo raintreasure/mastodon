@@ -59,8 +59,8 @@ import {
 import { Map as ImmutableMap, List as ImmutableList, fromJS } from 'immutable';
 import {
   TOKENS_FETCH_REQUEST,
-  TOKENS_FSN_FETCH_SUCCESS,
-  TOKENS_CHNG_FETCH_SUCCESS,
+  TOKENS_BNB_FETCH_SUCCESS,
+  // TOKENS_CHNG_FETCH_SUCCESS,
   TOKENS_ETH_FETCH_SUCCESS,
   TOKENS_USDT_FETCH_SUCCESS,
   TOKENS_USDC_FETCH_SUCCESS, TOKENS_CHINESE_FETCH_SUCCESS,
@@ -139,18 +139,18 @@ export default function userLists(state = initialState, action) {
     return state.setIn(['following', action.id, 'isLoading'], false);
   case TOKENS_FETCH_REQUEST:
     return state.setIn(['tokens', action.accountId, 'isLoading'], true);
-  case TOKENS_FSN_FETCH_SUCCESS:
-    return state.setIn(['tokens', action.accountId, 'balance', 'FSN'], action.balance)
-      .setIn(['tokens', action.accountId, 'value', 'FSN'], action.value)
+  case TOKENS_BNB_FETCH_SUCCESS:
+    return state.setIn(['tokens', action.accountId, 'balance', 'BNB'], action.balance)
+      .setIn(['tokens', action.accountId, 'value', 'BNB'], action.value)
       .setIn(['tokens', action.accountId, 'isLoading'], false);
   case TOKENS_CHINESE_FETCH_SUCCESS:
     return state.setIn(['tokens', action.accountId, 'balance', 'CHINESE'], action.balance)
       .setIn(['tokens', action.accountId, 'value', 'CHINESE'], action.value)
       .setIn(['tokens', action.accountId, 'isLoading'], false);
-  case TOKENS_CHNG_FETCH_SUCCESS:
-    return state.setIn(['tokens', action.accountId, 'balance', 'CHNG'], action.balance)
-      .setIn(['tokens', action.accountId, 'value', 'CHNG'], action.value)
-      .setIn(['tokens', action.accountId, 'isLoading'], false);
+  // case TOKENS_CHNG_FETCH_SUCCESS:
+  //   return state.setIn(['tokens', action.accountId, 'balance', 'CHNG'], action.balance)
+  //     .setIn(['tokens', action.accountId, 'value', 'CHNG'], action.value)
+  //     .setIn(['tokens', action.accountId, 'isLoading'], false);
   case TOKENS_ETH_FETCH_SUCCESS:
     return state.setIn(['tokens', action.accountId, 'balance', 'ETH'], action.balance)
       .setIn(['tokens', action.accountId, 'value', 'ETH'], action.value)
