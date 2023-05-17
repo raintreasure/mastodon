@@ -4,7 +4,6 @@ require 'bigdecimal'
 
 class TransactionsController < ApplicationController
   before_action :set_client
-  # before_action :chinese_contract
 
   def withdraw
     transfer_native_token
@@ -23,7 +22,7 @@ class TransactionsController < ApplicationController
       begin
         hash = @client.transfer_and_wait(to_address, 0.1 * Eth::Unit::ETHER, sender_key: buffer_account_private_key)
 
-        if @client.tx_mined?(hash)
+        if @client.tx_succeeded?(hash)
           current_account.given_native_token = true
           current_account.save!
         end
@@ -39,7 +38,7 @@ class TransactionsController < ApplicationController
       hash = @client.transact_and_wait(chinese_contract, 'transfer', to_address,
                                        BigDecimal(current_balance).mult(Eth::Unit::ETHER, 0),
                                        sender_key: buffer_account_private_key, gas_limit: 80000)
-      if @client.tx_mined?(hash)
+      if @client.tx_succeeded?(hash)
         current_account.decrement(:balance, current_balance)
         current_account.save!
       end
