@@ -85,16 +85,20 @@ class Balance extends React.PureComponent {
     }
   };
 
-
+  componentDidUpdate(prevProps) {
+    const { new_balance, is_side_bar } = this.props;
+    if (this.props.new_balance !== prevProps.new_balance) {
+      //Balance will be load into both sidebar and header, but toast should show once
+      if (!is_side_bar && new_balance && new_balance.balance_increment > 0) {
+        toast.success('you will receive a reward of ' + new_balance.balance_increment + '$CHINESE');
+      }
+    }
+  }
   render() {
     const { new_balance, is_side_bar, intl } = this.props;
     let withdrawTitle = intl.formatMessage(messages.withdrawTitle);
     let withdrawingTitle = intl.formatMessage(messages.withdrawingTitle);
 
-    //Balance will be load into both sidebar and header, but toast should show once
-    if (!is_side_bar && new_balance && new_balance.balance_increment > 0) {
-      toast.success('you will receive a reward of ' + new_balance.balance_increment + '$CHINESE');
-    }
     return (
       <div
         className='balance-text' style={{
