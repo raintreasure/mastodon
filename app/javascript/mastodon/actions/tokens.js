@@ -7,19 +7,24 @@ const axios = require('axios').default;
 const chaingeAPIBaseUrl = 'https://openapi.chainge.finance';
 
 export const TOKENS_FETCH_REQUEST = 'TOKENS_FETCH_REQUEST';
-export const TOKENS_BNB_FETCH_SUCCESS = 'TOKENS_BNB_FETCH_SUCCESS';
-export const BNB_DECIMALS = 1e18;
+// export const TOKENS_BNB_FETCH_SUCCESS = 'TOKENS_BNB_FETCH_SUCCESS';
+// export const BNB_DECIMALS = 1e18;
+export const TOKENS_POL_FETCH_SUCCESS = 'TOKENS_POL_FETCH_SUCCESS';
+export const POL_DECIMALS = 1e18;
 export const TOKENS_CHINESE_FETCH_SUCCESS = 'TOKENS_CHINESE_FETCH_SUCCESS';
 export const CHINESE_CONTRACT_ADDR = '0x03a6eed53b5dcb0395dfbecf4cbc816dc6f93790';
 export const CHINESE_DECIMALS = 1e18;
 export const TOKENS_ETH_FETCH_SUCCESS = 'TOKENS_ETH_FETCH_SUCCESS';
-export const ETH_CONTRACT_ADDR = '0x2170ed0880ac9a755fd29b2688956bd959f933f8';
+// export const BSC_ETH_CONTRACT_ADDR = '0x2170ed0880ac9a755fd29b2688956bd959f933f8';
+export const POL_ETH_CONTRACT_ADDR = '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619';
 export const ETH_DECIMALS = 1e18;
 export const TOKENS_USDT_FETCH_SUCCESS = 'TOKENS_USDT_FETCH_SUCCESS';
-export const USDT_CONTRACT_ADDR = '0x55d398326f99059ff775485246999027b3197955';
+// export const BSC_USDT_CONTRACT_ADDR = '0x55d398326f99059ff775485246999027b3197955';
+export const POL_USDT_CONTRACT_ADDR = '0xc2132D05D31c914a87C6611C10748AEb04B58e8F';
 export const USDT_DECIMALS = 1e6;
 export const TOKENS_USDC_FETCH_SUCCESS = 'TOKENS_USDC_FETCH_SUCCESS';
-export const USDC_CONTRACT_ADDR = '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d';
+// export const BSC_USDC_CONTRACT_ADDR = '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d';
+export const POL_USDC_CONTRACT_ADDR = '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174';
 export const USDC_DECIMALS = 1e6;
 
 // export const TOKENS_CHNG_FETCH_SUCCESS = 'TOKENS_CHNG_FETCH_SUCCESS';
@@ -78,16 +83,27 @@ const transferAbi = [
   },
 ];
 
-async function getBNBBalance(accountId, address, dispatch) {
+async function getPOLBalance(accountId, address, dispatch) {
   const Web3 = require('web3');
   const provider = new Web3.providers.HttpProvider('https://polygon-rpc.com');
   const web3 = new Web3(provider);
   const balance = await web3.eth.getBalance(address);
-  const price = await fetchTokenPrice('BNB');
-  const balanceWithDecimals = new BigNumber(balance).dividedBy(BNB_DECIMALS).toFixed(TOKEN_SHOWN_DECIMALS);
+  const price = await fetchTokenPrice('POL');
+  const balanceWithDecimals = new BigNumber(balance).dividedBy(POL_DECIMALS).toFixed(TOKEN_SHOWN_DECIMALS);
   const value = new BigNumber(balanceWithDecimals).multipliedBy(price).toFixed(VALUE_SHOWN_DECIMALS);
-  dispatch(fetchBNBSuccess(accountId, balanceWithDecimals, value));
+  dispatch(fetchPOLSuccess(accountId, balanceWithDecimals, value));
 }
+
+// async function getBNBBalance(accountId, address, dispatch) {
+//   const Web3 = require('web3');
+//   const provider = new Web3.providers.HttpProvider('https://bsc-dataseed.binance.org');
+//   const web3 = new Web3(provider);
+//   const balance = await web3.eth.getBalance(address);
+//   const price = await fetchTokenPrice('BNB');
+//   const balanceWithDecimals = new BigNumber(balance).dividedBy(BNB_DECIMALS).toFixed(TOKEN_SHOWN_DECIMALS);
+//   const value = new BigNumber(balanceWithDecimals).multipliedBy(price).toFixed(VALUE_SHOWN_DECIMALS);
+//   dispatch(fetchBNBSuccess(accountId, balanceWithDecimals, value));
+// }
 
 async function getCHINESEBalance(accountId, address, dispatch) {
   const Web3 = require('web3');
@@ -131,7 +147,7 @@ async function getETHBalance(accountId, address, dispatch) {
   const Web3 = require('web3');
   const provider = new Web3.providers.HttpProvider('https://polygon-rpc.com');
   const web3 = new Web3(provider);
-  const contractAddress = ETH_CONTRACT_ADDR;
+  const contractAddress = POL_ETH_CONTRACT_ADDR;
   const contract = new web3.eth.Contract(balanceOfAbi, contractAddress);
   const price = await fetchTokenPrice('ETH');
   contract.methods.balanceOf(address).call((error, result) => {
@@ -150,7 +166,7 @@ async function getUSDTBalance(accountId, address, dispatch) {
   const Web3 = require('web3');
   const provider = new Web3.providers.HttpProvider('https://polygon-rpc.com');
   const web3 = new Web3(provider);
-  const contractAddress = USDT_CONTRACT_ADDR;
+  const contractAddress = POL_USDT_CONTRACT_ADDR;
   const contract = new web3.eth.Contract(balanceOfAbi, contractAddress);
   const price = await fetchTokenPrice('USDT');
   contract.methods.balanceOf(address).call((error, result) => {
@@ -169,7 +185,7 @@ async function getUSDCBalance(accountId, address, dispatch) {
   const Web3 = require('web3');
   const provider = new Web3.providers.HttpProvider('https://polygon-rpc.com');
   const web3 = new Web3(provider);
-  const contractAddress = USDC_CONTRACT_ADDR;
+  const contractAddress = POL_USDC_CONTRACT_ADDR;
   const contract = new web3.eth.Contract(balanceOfAbi, contractAddress);
   const price = await fetchTokenPrice('USDC');
   contract.methods.balanceOf(address).call((error, result) => {
@@ -279,7 +295,8 @@ const fetchTokenPrice = async (tokenName) => {
 export function fetchTokens(accountId, address) {
   return (dispatch) => {
     dispatch(fetchTokensRequest(accountId));
-    void getBNBBalance(accountId, address, dispatch);
+    // void getBNBBalance(accountId, address, dispatch);
+    void getPOLBalance(accountId, address, dispatch);
     void getCHINESEBalance(accountId, address, dispatch);
     // void getCHNGBalance(accountId, address, dispatch);
     void getETHBalance(accountId, address, dispatch);
@@ -288,9 +305,18 @@ export function fetchTokens(accountId, address) {
   };
 }
 
-export function fetchBNBSuccess(accountId, balance, value) {
+// export function fetchBNBSuccess(accountId, balance, value) {
+//   return {
+//     type: TOKENS_BNB_FETCH_SUCCESS,
+//     accountId,
+//     balance,
+//     value,
+//   };
+// }
+
+export function fetchPOLSuccess(accountId, balance, value) {
   return {
-    type: TOKENS_BNB_FETCH_SUCCESS,
+    type: TOKENS_POL_FETCH_SUCCESS,
     accountId,
     balance,
     value,

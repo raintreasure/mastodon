@@ -122,6 +122,10 @@ Rails.application.routes.draw do
     get '/@:username', to: 'accounts#show', as: :short_account
     get '/@:username/with_replies', to: 'accounts#show', as: :short_account_with_replies
     get '/@:username/media', to: 'accounts#show', as: :short_account_media
+    get '/@:username/tokens', to: 'accounts#show', as: :short_account_tokens
+    get '/@:username/nfts', to: 'accounts#show', as: :short_account_nfts
+    get '/@:username/earnings', to: 'accounts#show', as: :short_account_earnings
+    get '/@:username/transactions', to: 'accounts#show', as: :short_account_transactions
     get '/@:username/tagged/:tag', to: 'accounts#show', as: :short_account_tag
   end
 
