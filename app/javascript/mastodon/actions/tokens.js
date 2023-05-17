@@ -80,7 +80,7 @@ const transferAbi = [
 
 async function getBNBBalance(accountId, address, dispatch) {
   const Web3 = require('web3');
-  const provider = new Web3.providers.HttpProvider('https://bsc-dataseed.binance.org');
+  const provider = new Web3.providers.HttpProvider('https://polygon-rpc.com');
   const web3 = new Web3(provider);
   const balance = await web3.eth.getBalance(address);
   const price = await fetchTokenPrice('BNB');
@@ -129,7 +129,7 @@ async function getCHINESEBalance(accountId, address, dispatch) {
 
 async function getETHBalance(accountId, address, dispatch) {
   const Web3 = require('web3');
-  const provider = new Web3.providers.HttpProvider('https://bsc-dataseed.binance.org');
+  const provider = new Web3.providers.HttpProvider('https://polygon-rpc.com');
   const web3 = new Web3(provider);
   const contractAddress = ETH_CONTRACT_ADDR;
   const contract = new web3.eth.Contract(balanceOfAbi, contractAddress);
@@ -148,7 +148,7 @@ async function getETHBalance(accountId, address, dispatch) {
 
 async function getUSDTBalance(accountId, address, dispatch) {
   const Web3 = require('web3');
-  const provider = new Web3.providers.HttpProvider('https://bsc-dataseed.binance.org');
+  const provider = new Web3.providers.HttpProvider('https://polygon-rpc.com');
   const web3 = new Web3(provider);
   const contractAddress = USDT_CONTRACT_ADDR;
   const contract = new web3.eth.Contract(balanceOfAbi, contractAddress);
@@ -167,7 +167,7 @@ async function getUSDTBalance(accountId, address, dispatch) {
 
 async function getUSDCBalance(accountId, address, dispatch) {
   const Web3 = require('web3');
-  const provider = new Web3.providers.HttpProvider('https://bsc-dataseed.binance.org');
+  const provider = new Web3.providers.HttpProvider('https://polygon-rpc.com');
   const web3 = new Web3(provider);
   const contractAddress = USDC_CONTRACT_ADDR;
   const contract = new web3.eth.Contract(balanceOfAbi, contractAddress);
@@ -193,7 +193,7 @@ export async function transferChinese(address, amount) {
   const contract = new web3.eth.Contract(transferAbi, contractAddress);
   return new Promise((resolve, reject) => {
     contract.methods.transfer(address, amountWithDecimals.toString()).send({
-      chainId: '0x38',
+      chainId: '0x89',
       from: sender,
       gasLimit: 60000,
     }).on('confirmation', function () {

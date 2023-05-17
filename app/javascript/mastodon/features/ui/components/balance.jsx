@@ -15,7 +15,7 @@ const mapStateToProps = state => ({
   account: state.getIn(['accounts', me]),
 });
 
-const defaultMessage = 'Withdraw ALL your $CHINESE to your wallet, you will receive 0.001 BNB for the first time withdraw.' +
+const defaultMessage = 'Withdraw ALL your $CHINESE to your wallet, you will receive 0.1 POL for the first time withdraw.' +
   ' After withdraw, you can check your token at';
 const noAddrMessage = 'wallet address has not loaded, please try again or refresh the page';
 const messages = defineMessages({
@@ -58,7 +58,7 @@ class Balance extends React.PureComponent {
     const eth_address = this.props.account.get('eth_address');
 
     if (eth_address) {
-      const link = 'https://bscscan.com/tokenholdings?a=' + `${eth_address}`;
+      const link = 'https://polygonscan.com/tokenholdings?a=' + `${eth_address}`;
       dispatch(openModal('CONFIRM', {
         message:
   <div>

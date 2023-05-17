@@ -22,9 +22,8 @@ import { TorusWalletAdapter } from '@web3auth/torus-evm-adapter';
     clientId,
     chainConfig: {
       chainNamespace: 'eip155',
-      chainId: '0x38',
-      // chainId: '0x1',
-      rpcTarget: 'https://rpc.ankr.com/bsc', // This is the public RPC we have added, please pass on your own endpoint while creating an app
+      chainId: '0x89',
+      rpcTarget: 'https://rpc.ankr.com/polygon', // This is the public RPC we have added, please pass on your own endpoint while creating an app
     },
     uiConfig: {
       appName:'Chinese.org',
@@ -60,6 +59,7 @@ import { TorusWalletAdapter } from '@web3auth/torus-evm-adapter';
   const metamaskAdapter = new MetamaskAdapter({
     clientId,
     sessionTime: 86400, // 1 hour in seconds
+
     // // web3AuthNetwork: 'testnet',
     // chainConfig: {
     //   chainNamespace: 'eip155',
