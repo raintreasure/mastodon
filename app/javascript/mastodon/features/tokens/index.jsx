@@ -16,7 +16,7 @@ import LimitedAccountHint from '../account_timeline/components/limited_account_h
 import { getAccountHidden } from 'mastodon/selectors';
 import { normalizeForLookup } from 'mastodon/reducers/accounts_map';
 import { fetchTokens } from '../../actions/tokens';
-import { ETH_ICON, USDT_ICON, USDC_ICON, CHINESE_ICON, BNB_ICON } from '../../../icons/data';
+import { ETH_ICON, USDT_ICON, USDC_ICON, CHINESE_ICON, POL_ICON } from '../../../icons/data';
 
 const mapStateToProps = (state, { params: { acct, id } }) => {
   const accountId = id || state.getIn(['accounts_map', normalizeForLookup(acct)]);
@@ -35,8 +35,8 @@ const mapStateToProps = (state, { params: { acct, id } }) => {
     isAccount: !!state.getIn(['accounts', accountId]),
     hasMore: !!state.getIn(['user_lists', 'following', accountId, 'next']),
     isLoading: state.getIn(['user_lists', 'tokens', accountId, 'isLoading'], true),
-    balanceBNB: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'BNB'], '0'),
-    valueBNB: state.getIn(['user_lists', 'tokens', accountId, 'value', 'BNB'], '0'),
+    balancePOL: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'POL'], '0'),
+    valuePOL: state.getIn(['user_lists', 'tokens', accountId, 'value', 'POL'], '0'),
     balanceCHINESE: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'CHINESE'], '0'),
     valueCHINESE: state.getIn(['user_lists', 'tokens', accountId, 'value', 'CHINESE'], '0'),
     balanceCHNG: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'CHNG'], '0'),
@@ -80,7 +80,7 @@ class Tokens extends ImmutablePureComponent {
     remoteUrl: PropTypes.string,
     multiColumn: PropTypes.bool,
     account: PropTypes.object,
-    balanceBNB: PropTypes.string,
+    balancePOL: PropTypes.string,
     balanceCHNG: PropTypes.string,
     balanceETH: PropTypes.string,
     balanceUSDT: PropTypes.string,
@@ -118,8 +118,8 @@ class Tokens extends ImmutablePureComponent {
   render() {
     const {
       accountId, blockedBy, isAccount, multiColumn, suspended, hidden,
-      remote, remoteUrl, balanceBNB, balanceCHINESE, balanceETH, balanceUSDT, balanceUSDC,
-      valueBNB, valueCHINESE, valueETH, valueUSDT, valueUSDC,
+      remote, remoteUrl, balancePOL, balanceCHINESE, balanceETH, balanceUSDT, balanceUSDC,
+      valuePOL, valueCHINESE, valueETH, valueUSDT, valueUSDC,
     } = this.props;
     if (!isAccount) {
       return (
@@ -159,12 +159,12 @@ class Tokens extends ImmutablePureComponent {
             <div className={'token__wrapper'}>
               <div className={'token__item'}>
                 <div className={'token__symbol'}>
-                  <img src={BNB_ICON} className={'token__icon'} alt={'BNB_ICON'} />
-                  <span>BNB</span>
+                  <img src={POL_ICON} className={'token__icon'} alt={'POL_ICON'} />
+                  <span>POL</span>
                 </div>
                 <div className={'token__nums'}>
-                  <p className={'token__nums__balance'}>{balanceBNB}</p>
-                  <p className={'token__nums__value'}>$ {valueBNB}</p>
+                  <p className={'token__nums__balance'}>{balancePOL}</p>
+                  <p className={'token__nums__value'}>$ {valuePOL}</p>
                 </div>
               </div>
               <div className={'token__item'}>

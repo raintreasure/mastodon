@@ -59,8 +59,9 @@ import {
 import { Map as ImmutableMap, List as ImmutableList, fromJS } from 'immutable';
 import {
   TOKENS_FETCH_REQUEST,
-  TOKENS_BNB_FETCH_SUCCESS,
+  // TOKENS_BNB_FETCH_SUCCESS,
   // TOKENS_CHNG_FETCH_SUCCESS,
+  TOKENS_POL_FETCH_SUCCESS,
   TOKENS_ETH_FETCH_SUCCESS,
   TOKENS_USDT_FETCH_SUCCESS,
   TOKENS_USDC_FETCH_SUCCESS, TOKENS_CHINESE_FETCH_SUCCESS,
@@ -139,9 +140,9 @@ export default function userLists(state = initialState, action) {
     return state.setIn(['following', action.id, 'isLoading'], false);
   case TOKENS_FETCH_REQUEST:
     return state.setIn(['tokens', action.accountId, 'isLoading'], true);
-  case TOKENS_BNB_FETCH_SUCCESS:
-    return state.setIn(['tokens', action.accountId, 'balance', 'BNB'], action.balance)
-      .setIn(['tokens', action.accountId, 'value', 'BNB'], action.value)
+  case TOKENS_POL_FETCH_SUCCESS:
+    return state.setIn(['tokens', action.accountId, 'balance', 'POL'], action.balance)
+      .setIn(['tokens', action.accountId, 'value', 'POL'], action.value)
       .setIn(['tokens', action.accountId, 'isLoading'], false);
   case TOKENS_CHINESE_FETCH_SUCCESS:
     return state.setIn(['tokens', action.accountId, 'balance', 'CHINESE'], action.balance)
