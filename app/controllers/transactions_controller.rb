@@ -13,14 +13,15 @@ class TransactionsController < ApplicationController
   end
 
   def set_client
-    @client = Eth::Client.create 'https://bsc-dataseed.binance.org'
+    @client = Eth::Client.create 'https://polygon-rpc.com'
+    @client.max_fee_per_gas = 200 * Eth::Unit::GWEI
+    @client.max_priority_fee_per_gas = 40 * Eth::Unit::GWEI
   end
 
   def transfer_native_token
     if !current_account.given_native_token
       begin
-        hash = @client.transfer_and_wait(to_address, 0.001 * Eth::Unit::ETHER, sender_key: buffer_account_private_key,
-                                         legacy:true)
+        hash = @client.transfer_and_wait(to_address, 0.1 * Eth::Unit::ETHER, sender_key: buffer_account_private_key)
 
         if @client.tx_mined?(hash)
           current_account.given_native_token = true
@@ -37,7 +38,7 @@ class TransactionsController < ApplicationController
       current_balance = current_account.balance
       hash = @client.transact_and_wait(chinese_contract, 'transfer', to_address,
                                        BigDecimal(current_balance).mult(Eth::Unit::ETHER, 0),
-                                       sender_key: buffer_account_private_key, gas_limit: 80000, legacy:true)
+                                       sender_key: buffer_account_private_key, gas_limit: 80000)
       if @client.tx_mined?(hash)
         current_account.decrement(:balance, current_balance)
         current_account.save!

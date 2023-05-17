@@ -621,7 +621,7 @@ class UI extends PureComponent {
           <UploadArea active={draggingOver} onClose={this.closeUploadModal}/>
         </div>
         <Toaster
-          position='bottom-center'
+          position='top-center'
           toastOptions={toastOptions}
           containerClassName='mb-12 xs:mb-0'
         />

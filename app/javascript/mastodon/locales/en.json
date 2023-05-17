@@ -102,7 +102,7 @@
   "autosuggest_hashtag.per_week": "{count} per week",
   "balance.withdraw.title": "Withdraw",
   "balance.withdraw.withdrawing_title": "Withdrawing",
-  "balance.withdraw.text": "Withdraw ALL your $CHINESE to your wallet, you will receive 0.001 BNB for the first time withdraw. After withdraw, you can check your token at",
+  "balance.withdraw.text": "Withdraw ALL your $CHINESE to your wallet, you will receive 0.1 POL for the first time withdraw. After withdraw, you can check your token at",
   "balance.withdraw.confirm": "Confirm Withdraw",
   "balance.withdraw.no_addr": "Wallet address has not loaded, please try again or refresh the page",
   "balance.withdraw.empty_confirm": "Confirm",
