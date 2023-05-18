@@ -7,6 +7,21 @@ export const OPENSEA_API_V1_BASE_URL = 'https://api.opensea.io/api/v1';
 export const ASSETS_FETCH_REQUEST = 'ASSETS_FETCH_REQUEST';
 export const ASSETS_OPENSEA_FETCH_SUCCESS = 'ASSETS_OPENSEA_FETCH_SUCCESS';
 
+// const defaultOptions = (address) => {
+//   return {
+//     method: 'GET',
+//     url: OPENSEA_API_V1_BASE_URL + '/assets',
+//     params: {
+//       owner: address,
+//       order_direction: 'desc',
+//       limit: '20',
+//       cursor: '',  // 游标, 当前页数, 由此一个数据返回.数据在 response.data.next: string
+//       include_orders: 'false',
+//     },
+//     headers: { accept: 'application/json', 'X-API-KEY': OPENSEA_API_KEY },
+//   };
+// };
+
 export function fetchAssetsRequest(accountId) {
   return {
     type: ASSETS_FETCH_REQUEST,
@@ -32,58 +47,71 @@ export function fetchOpenseaSuccess(accountId, assets) {
  * @returns {Promise<null>}
  */
 const getOpenseaAssets = async (accountId, address, dispatch) => {
-  const options = {
+  let options = {
     method: 'GET',
     url: OPENSEA_API_V1_BASE_URL+'/assets',
     params: {
       owner: address,
       order_direction: 'desc',
       limit: '20',
+      cursor: '',  // 游标, 当前页数, 由此一个数据返回.数据在 response.data.next: string
       include_orders: 'false',
     },
     headers: { accept: 'application/json', 'X-API-KEY': OPENSEA_API_KEY },
   };
-  await axios
-    .request(options)
-    .then(function (response){
-      const result = response.data.assets;
-      console.log(result);
-      const assets = [];
-      result.map(i => {
-        const { asset_contract: { created_date: created_date, address: token_address }, token_id, name, description, id, external_link, image_url } = i;
-        const assetObj = {
-          id: id,
-          name: name,
-          image_url: image_url,
-          description: description,
-          external_link: external_link,
-          token_id: token_id,
-          token_address: token_address,
-          created_Date: created_date,
-        };
-        console.log(assetObj);
-        assets.push(assetObj);
+  let assetsList = [];
+  try {
+
+    let nextIndex = '';
+    do {
+      let result = await axios.get(options.url, {
+        params: options.params,
+        headers: options.headers,
       });
-      // for (const i in response.data.assets) {
-      //   console.log(i);
-      //   const { asset_contract: { created_date: created_date, address: token_address }, token_id, name, description, id, external_link, image_url } = i;
-      //   assets.push({
-      //     id: id,
-      //     name: name,
-      //     image_url: image_url,
-      //     description: description,
-      //     external_link: external_link,
-      //     token_id: token_id,
-      //     token_address: token_address,
-      //     created_Date: created_date,
-      //   });
-      // }
-      dispatch(fetchOpenseaSuccess(accountId, assets));
-    })
-    .catch(function (error){
-      console.log('fetch account assets error:', error);
-      throw error;
-    });
+      // console.log(result.data.assets);
+      // if (result.data.code !== 200) break;
+      result.data.assets.map((asset)=>{
+        assetsList.push(asset);
+      });
+      nextIndex = result.data.next;
+      options.params.cursor = nextIndex;
+      // console.log(assetsList);
+    } while (nextIndex !== null);
+  } catch (error) {
+    console.log('fetch account assets error:', error);
+    throw error;
+  } finally {
+    console.log(assetsList);
+    dispatch(fetchOpenseaSuccess(accountId, assetsList));
+  }
+  // await axios
+  //   .request(options)
+  //   .then(function (response){
+  //     const result = response.data.assets;
+  //     console.log(result);
+  //     // const assets = [];
+  //     // result.map(i => {
+  //     //   const { asset_contract: { created_date: created_date, address: token_address }, token_id, name, description, id, external_link, image_url } = i;
+  //     //   const assetObj = {
+  //     //     id: id,
+  //     //     name: name,
+  //     //     image_url: image_url,
+  //     //     description: description,
+  //     //     external_link: external_link,
+  //     //     token_id: token_id,
+  //     //     token_address: token_address,
+  //     //     created_Date: created_date,
+  //     //   };
+  //     //   console.log(assetObj);
+  //     //   assets.push(assetObj);
+  //     // });
+  //
+  //     dispatch(fetchOpenseaSuccess(accountId, response.data.assets));  // 直接将数据原封不动发往nfts组件
+  //   })
+  //   .catch(function (error){
+  //     console.log('fetch account assets error:', error);
+  //     throw error;
+  //   });
 };
 
 /**
