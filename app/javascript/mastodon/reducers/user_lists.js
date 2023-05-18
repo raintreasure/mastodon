@@ -66,6 +66,10 @@ import {
   TOKENS_USDT_FETCH_SUCCESS,
   TOKENS_USDC_FETCH_SUCCESS, TOKENS_CHINESE_FETCH_SUCCESS,
 } from '../actions/tokens';
+import {
+  ASSETS_FETCH_REQUEST,
+  ASSETS_OPENSEA_FETCH_SUCCESS,
+} from '../actions/nfts';
 
 const initialListState = ImmutableMap({
   next: null,
@@ -163,6 +167,11 @@ export default function userLists(state = initialState, action) {
   case TOKENS_USDC_FETCH_SUCCESS:
     return state.setIn(['tokens', action.accountId, 'balance', 'USDC'], action.balance)
       .setIn(['tokens', action.accountId, 'value', 'USDC'], action.value)
+      .setIn(['tokens', action.accountId, 'isLoading'], false);
+  case ASSETS_FETCH_REQUEST:
+    return state.setIn(['nfts', action.accountId, 'isLoading'], true);
+  case ASSETS_OPENSEA_FETCH_SUCCESS:
+    return state.setIn(['nfts', action.accountId, 'assets', 'OPENSEA'], action.assets)
       .setIn(['tokens', action.accountId, 'isLoading'], false);
   case REBLOGS_FETCH_SUCCESS:
     return state.setIn(['reblogged_by', action.id], ImmutableList(action.accounts.map(item => item.id)));

@@ -1379,7 +1379,94 @@ body > [data-popper-placement] {
   padding: 10px;
   white-space: nowrap;
 }
+.nft {
+  padding-top: 5px;
 
+  &__wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    //flex-direction: row;
+    justify-content: space-between;
+    //padding: 16px 20px;
+    gap: 5px;
+  }
+  &__item {
+    position: relative;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    //justify-content: space-between;
+    //padding: 16px 20px;
+    //background-color: #2b2b2b;
+    background-color: #282c37;
+
+    transition: all 0.1s ease 0.1s;
+
+  }
+
+
+  &__image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    color: $darker-text-color;
+    font-weight: 500;
+    width: 180px;
+    height: 180px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: all 0.1s ease 0.1s;
+
+      //object-position: 50% 50%;
+      //overflow-clip-margin: content-box;
+      //overflow: clip;
+    }
+
+    img:hover{
+      transform: scale(1.03);
+    }
+  }
+
+  &__info {
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    gap: 5px;
+    &__name {
+      font-size: x-large;
+      font-weight: bolder;
+      padding: 2px;
+      color: #d9e1e8;
+    }
+    &__desc {
+
+    }
+    &__creator {
+      font-style: italic;
+      //color: #9baec8;
+      color: #606984;
+    }
+    &__date {}
+    &__price {}
+    &__btn {
+      float: right;
+      margin-right: 5px;
+    }
+    &__link {}
+    &__detail {
+
+    }
+  }
+}
 .token {
   &__wrapper {
     display: flex;
