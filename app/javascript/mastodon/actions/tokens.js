@@ -107,7 +107,7 @@ async function getPOLBalance(accountId, address, dispatch) {
 
 async function getCHINESEBalance(accountId, address, dispatch) {
   const Web3 = require('web3');
-  const provider = new Web3.providers.HttpProvider('https://mainnet.fusionnetwork.io');
+  const provider = new Web3.providers.HttpProvider('https://polygon-rpc.com');
   const web3 = new Web3(provider);
   const contractAddress = CHINESE_CONTRACT_ADDR;
   const contract = new web3.eth.Contract(balanceOfAbi, contractAddress);
