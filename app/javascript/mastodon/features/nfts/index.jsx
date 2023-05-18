@@ -121,7 +121,7 @@ class NFTs extends ImmutablePureComponent {
   render () {
     const {
       accountId, address, blockedBy, isAccount, multiColumn, suspended, hidden,
-      remote, remoteUrl, assets,
+      remote, remoteUrl, assets, dispatch,
     } = this.props;
 
     console.log(assets);
@@ -178,7 +178,20 @@ class NFTs extends ImmutablePureComponent {
           :
           <div className={'nft'}>
             <div className={'nft__wrapper'}>
-              Your Address: {address}
+              {
+                //// opensea的nft插件生成的，存在依赖问题，UI不完整，功能异常
+                // <nft-card
+                //   className={'nft__item'}
+                //   tokenAddress='0x1301566b3cb584e550a02d09562041ddc4989b91'
+                //   tokenId='28'
+                //   network='mainnet'
+                //   referrerAddress={address}
+                //   width={'100%'}
+                //   height={'150px'}
+                //   orientationMode={'auto'}
+                // />
+              }
+              {/*Your Address: {address}*/}
 
               {
                 // 使用测试数据调用NFT时也会因报错获取不到assets。(bug已修复，可以生成)
@@ -197,29 +210,30 @@ class NFTs extends ImmutablePureComponent {
 
               {
                 // assets不能被遍历，一被遍历使用就会null，不被遍历时直接打印assets是有数据的
-                assets.map((asset, index)=>{
+                assets && assets.map((asset, index)=>{
                   return (
                     <NFT
                       key={index}
                       asset={asset}
-                      base_link={'https://opensea.io/assets/ethereum/'}
+                      dispatch={dispatch}
+                    />
+                  );
+                })
+              }
+              {
+                // assets不能被遍历，一被遍历使用就会null，不被遍历时直接打印assets是有数据的
+                assets && assets.map((asset, index)=>{
+                  return (
+                    <NFT
+                      key={index}
+                      asset={asset}
+                      dispatch={dispatch}
                     />
                   );
                 })
               }
             </div>
-            {
-            //// opensea的nft插件生成的，存在依赖问题，UI不完整，功能异常
-              <nft-card
-                tokenAddress='0x1301566b3cb584e550a02d09562041ddc4989b91'
-                tokenId='28'
-                network='mainnet'
-                referrerAddress='0x897D79ae3Ad11A0aC4AF8D1B9B12B8c5b0E3cc5F'
-                width={'90%'}
-                height={'150px'}
-                orientationMode={'auto'}
-              />
-            }
+
           </div>
         }
         {remoteMessage}
