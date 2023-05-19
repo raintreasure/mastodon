@@ -386,6 +386,47 @@ body > [data-popper-placement] {
   }
 }
 
+.tokens__transactions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px;
+  margin-right: 20px;
+  border-bottom: 1px solid lighten($ui-base-color, 8%);
+
+  .tokens__transactions__info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 80%;
+    margin: 10px;
+
+    .tokens__transactions__icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 12px;
+    }
+
+    .tokens__transactions__sender {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+
+      .tokens__transactions__time {
+        color: dimgrey;
+        font-size: x-small;
+      }
+    }
+  }
+
+  .tokens__transactions__amount {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    gap: 5px;
+  }
+}
+
 .ellipsis {
   &::after {
     content: '…';
@@ -1478,8 +1519,9 @@ body > [data-popper-placement] {
   padding: 10px;
   white-space: nowrap;
 }
+
 .nft {
-  &__wrapper{
+  &__wrapper {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -1488,6 +1530,7 @@ body > [data-popper-placement] {
     align-items: center;
     justify-content: center;
   }
+
   &__item {
     position: relative;
     border-radius: 10px;
@@ -1497,6 +1540,7 @@ body > [data-popper-placement] {
     background-color: #282c37;
     transition: all 0.1s ease 0.1s;
   }
+
   &__image {
     display: flex;
     align-items: center;
@@ -1509,16 +1553,18 @@ body > [data-popper-placement] {
     img {
       width: 100%;
       height: 100%;
-      //box-sizing: border-box;
+
+      // box-sizing: border-box;
       object-fit: cover;
       border-radius: 10px;
       transition: all 0.1s ease 0.1s;
-      //object-position: 50% 50%;
-      //overflow-clip-margin: content-box;
-      //overflow: clip;
+
+      // object-position: 50% 50%;
+      // overflow-clip-margin: content-box;
+      // overflow: clip;
     }
 
-    img:hover{
+    img:hover {
       transform: scale(1.03);
     }
   }
@@ -1531,31 +1577,28 @@ body > [data-popper-placement] {
     align-items: center;
     justify-content: center;
     gap: 5px;
+
     &__name {
       font-size: x-large;
       font-weight: bolder;
       margin: 5px;
       color: #d9e1e8;
     }
-    &__desc {
-    }
+
     &__creator {
       font-style: italic;
-      //color: #9baec8;
+
+      // color: #9baec8;
       color: #606984;
     }
-    &__date {}
-    &__price {}
+
     &__btn {
       display: flex;
       gap: 0 10px;
     }
-    &__link {}
-    &__detail {
-
-    }
   }
 }
+
 .token {
   &__wrapper {
     display: flex;
