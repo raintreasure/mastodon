@@ -42,7 +42,7 @@ import history from './history';
 import tags from './tags';
 import followed_tags from './followed_tags';
 import balance from './balance';
-
+import tokens from './tokens';
 
 
 const reducers = {
@@ -89,6 +89,7 @@ const reducers = {
   tags,
   followed_tags,
   balance,
+  tokens,
 };
 
 export default combineReducers(reducers);

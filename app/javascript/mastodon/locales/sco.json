@@ -68,7 +68,8 @@
   "account.transfer.web2_logged_in": "It seems that you logged in by web2, only web3 logged user can transfer $CHINESE. You can switch account after ",
   "account.transfer.web2_logout": "Log out",
   "account.transfer.empty_confirm": "Confirm",
-  "account.transfer.to_account_no_address": "The account you transferred to has no wallet address, you may remind the account owner to set wallet address",
+  "account.transfer.to_account_no_address": "The account you transferred to has no wallet address.",
+  "account.tokens.transactions.empty": "This user has not triggered any transactions yet.",
 
   "account.unblock": "Undingie @{name}",
   "account.unblock_domain": "Undingie domain {domain}",
