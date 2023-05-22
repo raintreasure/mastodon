@@ -27,6 +27,7 @@ const mapStateToProps = (state, { params: { acct, id } }) => {
 
   const account = state.getIn(['accounts', accountId]);
   const address = account.get('eth_address');
+  // const address = '0xa217FE4d0b1F2796De53c89E92A6ccD36e4A4a19';  // test polygon
 
   return {
     accountId,
@@ -40,7 +41,7 @@ const mapStateToProps = (state, { params: { acct, id } }) => {
     suspended: state.getIn(['accounts', accountId, 'suspended'], false),
     hidden: getAccountHidden(state, accountId),
     blockedBy: state.getIn(['relationships', accountId, 'blocked_by'], false),
-    assets: state.getIn(['user_lists', 'nfts', accountId, 'assets', 'OPENSEA'], null),
+    assets: state.getIn(['user_lists', 'nfts', accountId, 'assets', 'NFTSCAN'], null),
   };
 };
 
