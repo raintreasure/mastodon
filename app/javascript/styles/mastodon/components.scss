@@ -1521,6 +1521,7 @@ body > [data-popper-placement] {
 }
 
 .nft {
+
   &__wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -1536,9 +1537,14 @@ body > [data-popper-placement] {
     border-radius: 10px;
     display: flex;
     padding: 5px;
+    width: 180px;
+    height: 100%;
     flex-direction: column;
     background-color: #282c37;
     transition: all 0.1s ease 0.1s;
+  }
+  &__item:hover {
+    background-color: #42485a;
   }
 
   &__image {
@@ -1579,10 +1585,19 @@ body > [data-popper-placement] {
     gap: 5px;
 
     &__name {
-      font-size: x-large;
+      font-size: 1.5em;
+      line-height: 1em;
       font-weight: bolder;
+
       margin: 5px;
       color: #d9e1e8;
+    }
+
+    &__last-trade-price {
+
+      &__symbol {
+
+      }
     }
 
     &__creator {

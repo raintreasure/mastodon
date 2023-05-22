@@ -72,6 +72,7 @@ import {
 import {
   ASSETS_FETCH_REQUEST,
   ASSETS_OPENSEA_FETCH_SUCCESS,
+  ASSETS_NFTSCAN_FETCH_SUCCESS,
 } from '../actions/nfts';
 
 const initialListState = ImmutableMap({
@@ -175,6 +176,9 @@ export default function userLists(state = initialState, action) {
     return state.setIn(['nfts', action.accountId, 'isLoading'], true);
   case ASSETS_OPENSEA_FETCH_SUCCESS:
     return state.setIn(['nfts', action.accountId, 'assets', 'OPENSEA'], action.assets)
+      .setIn(['tokens', action.accountId, 'isLoading'], false);
+  case ASSETS_NFTSCAN_FETCH_SUCCESS:
+    return state.setIn(['nfts', action.accountId, 'assets', 'NFTSCAN'], action.assets)
       .setIn(['tokens', action.accountId, 'isLoading'], false);
   case REBLOGS_FETCH_SUCCESS:
     return state.setIn(['reblogged_by', action.id], ImmutableList(action.accounts.map(item => item.id)));

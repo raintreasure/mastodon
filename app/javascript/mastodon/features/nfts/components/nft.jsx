@@ -3,49 +3,7 @@ import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 import Button from '../../../components/button';
 import { openModal } from '../../../actions/modal';
-
-const assetShape = PropTypes.shape({
-  // base info
-  id: PropTypes.number,
-  token_id: PropTypes.string,
-  name: PropTypes.string,
-  description: PropTypes.string,
-  num_sales: PropTypes.number,
-  background_color: PropTypes.string,
-  external_link: PropTypes.string,
-  token_address: PropTypes.string,
-  // owner
-  owner: PropTypes.object, //
-  // other
-  decimals: PropTypes.any,
-  token_metadata: PropTypes.any,
-  is_nsfw: PropTypes.bool,
-
-  // link
-  image_url: PropTypes.string,
-  image_preview_url: PropTypes.string,
-  image_thumbnail_url: PropTypes.string,
-  image_original_url: PropTypes.string,
-  animation_url: PropTypes.string,
-  animation_original_url: PropTypes.string,
-  permalink: PropTypes.string,  // details page
-  // Contract
-  asset_contract: PropTypes.shape({
-    address: PropTypes.string,
-    chain_identifier: PropTypes.string,
-  }),
-  // Collection
-  collection: PropTypes.shape({
-
-  }),
-  // Creator
-  creator: PropTypes.shape({  // Creator
-    user: PropTypes.shape({
-      username: PropTypes.string,
-    }),
-    address: PropTypes.string,
-  }),
-});
+import { nftscan_asset_model } from '../../../actions/nfts';
 
 class NFT extends React.PureComponent {
 
@@ -58,7 +16,7 @@ class NFT extends React.PureComponent {
     dispatch: PropTypes.func.isRequired,
     index: PropTypes.number,
     onClick: PropTypes.func,
-    asset: assetShape,
+    asset: nftscan_asset_model,
   };
 
   static defaultProps = {
@@ -87,14 +45,14 @@ class NFT extends React.PureComponent {
 
   handleAssetDetailClick = () => {
     const {
-      asset: { permalink },
+      asset: { external_link },
       dispatch,
     } = this.props;
     dispatch(openModal('CONFIRM', {
       message: 'Ready to open a new window to check details of this NFT.',
       confirm: 'Confirm',
       onConfirm: () => {
-        window.open(permalink, '_blank');
+        window.open(external_link, '_blank');
       },
     }));
   };
@@ -102,12 +60,10 @@ class NFT extends React.PureComponent {
   render() {
     const {
       asset: {
-        name, image_url, description, creator,
-        // permalink,
+        name, image_uri, description, latest_trade_price, latest_trade_symbol, erc_type,
       },
     } = this.props;
-
-
+    const image_url = erc_type === 'erc721' ? `https://ipfs.io/ipfs/${image_uri}`: image_uri;
     return (
       <div className={'nft__item'}>
         {/*<div className={'nft__image'}>*/}
@@ -129,8 +85,15 @@ class NFT extends React.PureComponent {
         </a>
         <div className={'nft__info'}>
           <p className={'nft__info__name'}>{name}</p>
-          <p className={'nft__info__desc'}>{description}</p>
-          <p className={'nft__info__creator'}>created by: <span>{creator.user.username}</span></p>
+          {/*<p className={'nft__info__desc'}>{description}</p>*/}
+          {
+            latest_trade_price === null ?
+              // <p>&nbsp;</p>
+              <p className={'nft__info__creator'}>&nbsp;</p>
+              :
+              <p className={'nft__info__creator'}>latest trade price: <span>{ latest_trade_price }</span>&nbsp;<span>{ latest_trade_symbol }</span></p>
+          }
+          {/*<p className={'nft__info__creator'}>created by: <span>{creator.user.username}</span></p>*/}
           {/*<p className={'nft__info__link'}><a href={permalink}>Detail</a></p>*/}
           <p className={'nft__info__btn'}>
             <Button
