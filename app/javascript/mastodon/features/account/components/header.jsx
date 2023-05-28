@@ -22,6 +22,7 @@ import { PERMISSION_MANAGE_USERS, PERMISSION_MANAGE_FEDERATION } from 'mastodon/
 import AccountNoteContainer from '../containers/account_note_container';
 import FollowRequestNoteContainer from '../containers/follow_request_note_container';
 import TransferToken from '../../ui/components/transfer';
+import SubscribeButton from '../../ui/components/subscribe_button';
 
 const messages = defineMessages({
   unfollow: { id: 'account.unfollow', defaultMessage: 'Unfollow' },
@@ -363,6 +364,8 @@ class Header extends ImmutablePureComponent {
       menu.push({ text: intl.formatMessage(messages.blocks), to: '/blocks' });
       menu.push({ text: intl.formatMessage(messages.domain_blocks), to: '/domain_blocks' });
     } else if (signedIn) {
+      console.log('test get following:', account.getIn(['relationship', 'following']));
+      console.log('test get subscribing:', account.getIn(['relationship', 'subscribing']));
       if (account.getIn(['relationship', 'following'])) {
         if (!account.getIn(['relationship', 'muting'])) {
           if (account.getIn(['relationship', 'showing_reblogs'])) {
@@ -495,13 +498,9 @@ class Header extends ImmutablePureComponent {
             </h1>
           </div>
           {account.get('id') !== me &&
-            <div>
+            <div style={{ display:'flex', flexDirection:'column', gap:'10px' }}>
               <TransferToken to_account={account} />
-              {/*<Button className='logo-button' text={intl.formatMessage(messages.transfer)}*/}
-              {/*        onClick={() => {*/}
-              {/*          alert('test click button');*/}
-              {/*        }}>*/}
-              {/*</Button>*/}
+              <SubscribeButton to_account={account} />
             </div>
           }
           {!(suspended || hidden) && (

@@ -187,6 +187,7 @@ zh-TW:
         max_uses: 最大使用次數
         new_password: 新密碼
         note: 個人簡介
+        subscription_fee: 訂閲費用
         otp_attempt: 兩階段驗證碼
         password: 密碼
         phrase: 關鍵字或片語

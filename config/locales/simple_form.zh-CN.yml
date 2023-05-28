@@ -187,6 +187,7 @@ zh-CN:
         max_uses: 最大使用次数
         new_password: 新密码
         note: 简介
+        subscription_fee: 订阅费用
         otp_attempt: 双重认证代码
         password: 密码
         phrase: 关键词
