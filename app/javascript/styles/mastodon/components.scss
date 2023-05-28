@@ -1422,7 +1422,6 @@ body > [data-popper-placement] {
 }
 
 .nft {
-
   &__wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -1492,12 +1491,12 @@ body > [data-popper-placement] {
       color: #d9e1e8;
     }
 
-    &__last-trade-price {
+    /*&__last-trade-price {
 
       &__symbol {
 
       }
-    }
+    }*/
 
     &__creator {
       font-style: italic;
@@ -7314,6 +7313,12 @@ noscript {
     align-items: center;
     gap: 10px;
   }
+}
+
+.subscription__modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .account__header {

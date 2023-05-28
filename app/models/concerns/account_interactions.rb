@@ -17,7 +17,12 @@ module AccountInteractions
     def followed_by_map(target_account_ids, account_id)
       follow_mapping(Follow.where(account_id: target_account_ids, target_account_id: account_id), :account_id)
     end
-
+    def subscribing_map(target_account_ids, account_id)
+      subscribe_mapping(AccountSubscription.where(account_id: target_account_ids, target_account_id: account_id), :account_id)
+    end
+    def subscribed_by_map(target_account_ids, account_id)
+      subscribe_mapping(AccountSubscription.where(account_id: target_account_ids, target_account_id: account_id), :account_id)
+    end
     def blocking_map(target_account_ids, account_id)
       follow_mapping(Block.where(target_account_id: target_account_ids, account_id: account_id), :target_account_id)
     end
@@ -75,6 +80,9 @@ module AccountInteractions
     def follow_mapping(query, field)
       query.pluck(field).index_with(true)
     end
+    def subscribe_mapping(query, field)
+      query.pluck(field).index_with(true)
+    end
   end
 
   included do
@@ -86,6 +94,10 @@ module AccountInteractions
 
     has_many :following, -> { order('follows.id desc') }, through: :active_relationships,  source: :target_account
     has_many :followers, -> { order('follows.id desc') }, through: :passive_relationships, source: :account
+
+    # Subscribe relations
+    has_many :active_subscriptions, class_name: 'AccountSubscription', foreign_key: 'account_id', dependent: :destroy
+    has_many :passive_subscriptions, class_name: 'AccountSubscription', foreign_key: 'target_account_id', dependent: :destroy
 
     # Account notes
     has_many :account_notes, dependent: :destroy
@@ -135,7 +147,15 @@ module AccountInteractions
 
     rel
   end
-
+  def subscribe!(other_account)
+    rel = active_subscriptions.find_or_create_by!(target_account: other_account)
+    rel.save! if rel.changed?
+    rel
+  end
+  def unsubscribe!(other_account)
+    rel = active_subscriptions.find_by(target_account: other_account)
+    rel&.destroy!
+  end
   def block!(other_account, uri: nil)
     remove_potential_friendship(other_account)
     block_relationships.create_with(uri: uri)

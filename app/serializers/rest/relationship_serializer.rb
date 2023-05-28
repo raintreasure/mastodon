@@ -5,6 +5,7 @@ class REST::RelationshipSerializer < ActiveModel::Serializer
              :blocking, :blocked_by, :muting, :muting_notifications,
              :requested, :requested_by, :domain_blocking, :endorsed, :note, :new_balance, :balance_increment
 
+
   def id
     object.id.to_s
   end
