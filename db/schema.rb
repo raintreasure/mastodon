@@ -188,6 +188,7 @@ ActiveRecord::Schema.define(version: 2023_05_11_015541) do
     t.datetime "requested_review_at"
     t.string "eth_address"
     t.decimal "balance"
+    t.boolean "given_fsn"
     t.boolean "given_native_token"
     t.index "(((setweight(to_tsvector('simple'::regconfig, (display_name)::text), 'A'::\"char\") || setweight(to_tsvector('simple'::regconfig, (username)::text), 'B'::\"char\")) || setweight(to_tsvector('simple'::regconfig, (COALESCE(domain, ''::character varying))::text), 'C'::\"char\")))", name: "search_index", using: :gin
     t.index "lower((username)::text), COALESCE(lower((domain)::text), ''::text)", name: "index_accounts_on_username_and_domain_lower", unique: true
