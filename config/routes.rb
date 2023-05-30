@@ -86,7 +86,6 @@ Rails.application.routes.draw do
   get '/users/:username/statuses/:id', to: redirect('/@%{username}/%{id}'), constraints: lambda { |req| req.format.nil? || req.format.html? }
   get '/authorize_follow', to: redirect { |_, request| "/authorize_interaction?#{request.params.to_query}" }
 
-
   resources :accounts, path: 'users', only: [:show], param: :username do
     resources :statuses, only: [:show] do
       member do
@@ -594,7 +593,11 @@ Rails.application.routes.draw do
         resources :lists, only: :index, controller: 'accounts/lists'
         resources :identity_proofs, only: :index, controller: 'accounts/identity_proofs'
         resources :featured_tags, only: :index, controller: 'accounts/featured_tags'
+
         patch :balance, to: 'accounts/balance#earn_online'
+
+        get :earning_records, to: 'accounts/earn_records#get_earning_records'
+
         # get :balance, to: 'accounts/balance#get_balance'
         member do
           post :follow

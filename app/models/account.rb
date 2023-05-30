@@ -82,6 +82,8 @@ class Account < ApplicationRecord
   include DomainMaterializable
   include AccountMerging
 
+  has_many :earn_records
+
   enum protocol: { ostatus: 0, activitypub: 1 }
   enum suspension_origin: { local: 0, remote: 1 }, _prefix: true
 
