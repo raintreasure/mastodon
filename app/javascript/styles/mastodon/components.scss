@@ -386,6 +386,14 @@ body > [data-popper-placement] {
   }
 }
 
+.earning__record {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 10px 10px;
+  border-bottom: 1px solid lighten($ui-base-color, 8%);
+}
+
 .tokens__transactions {
   display: flex;
   align-items: center;
@@ -1591,13 +1599,6 @@ body > [data-popper-placement] {
       margin: 5px;
       color: #d9e1e8;
     }
-
-    /* &__last-trade-price {
-
-      &__symbol {
-
-      }
-    } */
 
     &__creator {
       font-style: italic;

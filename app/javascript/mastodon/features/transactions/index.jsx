@@ -113,7 +113,6 @@ class Transactions extends ImmutablePureComponent {
     const {
       accountId,
       account,
-      hasMore,
       blockedBy,
       isAccount,
       multiColumn,
@@ -166,7 +165,7 @@ class Transactions extends ImmutablePureComponent {
 
       <ScrollableList
         scrollKey='following'
-        hasMore={!forceEmptyState && hasMore}
+        hasMore={!forceEmptyState && false}
         isLoading={isLoading}
         onLoadMore={this.handleLoadMore}
         prepend={<HeaderContainer accountId={this.props.accountId} hideTabs />}

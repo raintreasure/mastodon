@@ -91,7 +91,6 @@ Rails.application.routes.draw do
   get '/users/:username/statuses/:id', to: redirect('/@%{username}/%{id}'), constraints: lambda { |req| req.format.nil? || req.format.html? }
   get '/authorize_follow', to: redirect { |_, request| "/authorize_interaction?#{request.params.to_query}" }
 
-
   resources :accounts, path: 'users', only: [:show], param: :username do
     resources :statuses, only: [:show] do
       member do
