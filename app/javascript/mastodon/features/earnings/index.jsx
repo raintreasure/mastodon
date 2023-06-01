@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { normalizeForLookup } from '../../reducers/accounts_map';
 import { getAccountHidden } from '../../selectors';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -12,6 +12,8 @@ import ColumnBackButton from '../../components/column_back_button';
 import HeaderContainer from '../account_timeline/containers/header_container';
 import { connect } from 'react-redux';
 import { getEarningsRecord } from '../../actions/balance';
+import ScrollableList from '../../components/scrollable_list';
+import LimitedAccountHint from '../account_timeline/components/limited_account_hint';
 
 const mapStateToProps = (state, { params: { acct, id } }) => {
   const accountId = id || state.getIn(['accounts_map', normalizeForLookup(acct)]);
@@ -83,6 +85,10 @@ class Earnings extends React.PureComponent {
       isAccount,
       multiColumn,
       earning_records,
+      suspended,
+      blockedBy,
+      hidden,
+      accountId,
     } = this.props;
 
     if (!isAccount) {
@@ -96,22 +102,59 @@ class Earnings extends React.PureComponent {
         <LoadingIndicator />
       </Column>);
     }
+    let emptyMessage;
+    if (suspended) {
+      emptyMessage = <FormattedMessage id='empty_column.account_suspended' defaultMessage='Account suspended' />;
+    } else if (hidden) {
+      emptyMessage = <LimitedAccountHint accountId={accountId} />;
+    } else if (blockedBy) {
+      emptyMessage = <FormattedMessage id='empty_column.account_unavailable' defaultMessage='Profile unavailable' />;
+    } else {
+      emptyMessage =
+        (<FormattedMessage
+          id='account.tokens.earnings.empty'
+          defaultMessage='This user has no earnings yet.'
+        />);
+    }
 
     return (<Column>
       <ColumnBackButton multiColumn={multiColumn} />
-      <HeaderContainer accountId={this.props.accountId} hideTabs />
-      {earning_records.map(r =>
-        // <EarningRecord value={r.earn} op={r.op_type} createTime={r.created_at}/>
-        (<div className={'earning__record'} key={r.id}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
-            <p>{r.op_type}</p>
-            <p style={{ color: 'grey', fontSize: 'x-small' }}>{r.created_at}</p>
-          </div>
-          <div>
-            <p style={{ fontSize: 'larger' }}>+ {r.earn} $CHINESE</p>
-          </div>
-        </div>),
-      )}
+      <ScrollableList
+        scrollKey='earnings'
+        hasMore={false}
+        isLoading={false}
+        onLoadMore={this.handleLoadMore}
+        prepend={<HeaderContainer accountId={this.props.accountId} hideTabs />}
+        alwaysPrepend
+        emptyMessage={emptyMessage}
+        bindToDocument={!multiColumn}
+      >
+        {earning_records.map(r =>
+          // <EarningRecord value={r.earn} op={r.op_type} createTime={r.created_at}/>
+          (<div className={'earning__record'} key={r.id}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
+              <p>{r.op_type}</p>
+              <p style={{ color: 'grey', fontSize: 'x-small' }}>{r.created_at}</p>
+            </div>
+            <div>
+              <p style={{ fontSize: 'larger' }}>+ {r.earn} $CHINESE</p>
+            </div>
+          </div>),
+        )}
+      </ScrollableList>
+      {/*<HeaderContainer accountId={this.props.accountId} hideTabs />*/}
+      {/*{earning_records.map(r =>*/}
+      {/*  // <EarningRecord value={r.earn} op={r.op_type} createTime={r.created_at}/>*/}
+      {/*  (<div className={'earning__record'} key={r.id}>*/}
+      {/*    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>*/}
+      {/*      <p>{r.op_type}</p>*/}
+      {/*      <p style={{ color: 'grey', fontSize: 'x-small' }}>{r.created_at}</p>*/}
+      {/*    </div>*/}
+      {/*    <div>*/}
+      {/*      <p style={{ fontSize: 'larger' }}>+ {r.earn} $CHINESE</p>*/}
+      {/*    </div>*/}
+      {/*  </div>),*/}
+      {/*)}*/}
       {/*<ScrollableList*/}
       {/*  scrollKey='following'*/}
       {/*  hasMore={!forceEmptyState && false}*/}

@@ -15,6 +15,7 @@ import { fetchAccount, lookupAccount } from '../../actions/accounts';
 import './libs/nft-card.min';
 import { fetchAssets } from '../../actions/nfts';
 import NFT from './components/nft';
+import ScrollableList from '../../components/scrollable_list';
 
 const mapStateToProps = (state, { params: { acct, id } }) => {
   const accountId = id || state.getIn(['accounts_map', normalizeForLookup(acct)]);
@@ -85,7 +86,7 @@ class NFTs extends ImmutablePureComponent {
     dispatch(fetchAssets(accountId, address));
   }
 
-  componentDidMount () {
+  componentDidMount() {
     // api().get('/api/v1/instance/privacy_policy').then(({ data }) => {
     //   this.setState({ content: data.content, lastUpdated: data.updated_at, isLoading: false });
     // }).catch(() => {
@@ -110,7 +111,7 @@ class NFTs extends ImmutablePureComponent {
     }
   }
 
-  render () {
+  render() {
     const {
       accountId, blockedBy, isAccount, multiColumn, suspended, hidden,
       remote, remoteUrl, assets, dispatch,
@@ -138,7 +139,7 @@ class NFTs extends ImmutablePureComponent {
       emptyMessage = <RemoteHint url={remoteUrl} />;
     } else {
       emptyMessage =
-        <FormattedMessage id='account.follows.empty' defaultMessage="This user doesn't follow anyone yet." />;
+        <FormattedMessage id='account.tokens.nfts.empty' defaultMessage='The user does not yet own any NFTs.' />;
     }
 
     const remoteMessage = remote ? <RemoteHint url={remoteUrl} /> : null;
@@ -146,41 +147,26 @@ class NFTs extends ImmutablePureComponent {
     return (
       <Column>
         <ColumnBackButton multiColumn={multiColumn} />
-        <HeaderContainer accountId={accountId} hideTabs />
-        {forceEmptyState ?
-          emptyMessage
-          :
-          <div className={'nft'}>
-            <div className={'nft__wrapper'}>
-              {
-                //// opensea的nft插件生成的，存在依赖问题，UI不完整，功能异常
-                // <nft-card
-                //   className={'nft__item'}
-                //   tokenAddress='0x1301566b3cb584e550a02d09562041ddc4989b91'
-                //   tokenId='28'
-                //   network='mainnet'
-                //   referrerAddress={address}
-                //   width={'100%'}
-                //   height={'150px'}
-                //   orientationMode={'auto'}
-                // />
-              }
-              {
-                assets && assets.map((asset, index)=>{
-                  return (
-                    <NFT
-                      key={index}
-                      asset={asset}
-                      dispatch={dispatch}
-                    />
-                  );
-                })
-              }
-
-            </div>
-          </div>
-        }
-        {remoteMessage}
+        <ScrollableList
+          scrollKey='transaction'
+          hasMore={!forceEmptyState && false}
+          isLoading={false}
+          prepend={<HeaderContainer accountId={accountId} hideTabs />}
+          alwaysPrepend
+          append={remoteMessage}
+          emptyMessage={emptyMessage}
+          bindToDocument={!multiColumn}
+        >
+          {assets && assets.map((asset, index) => {
+            return (
+              <NFT
+                key={index}
+                asset={asset}
+                dispatch={dispatch}
+              />
+            );
+          })}
+        </ScrollableList>
       </Column>
     );
   }

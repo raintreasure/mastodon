@@ -160,7 +160,7 @@ class Tokens extends ImmutablePureComponent {
               <div className={'token__item'}>
                 <div className={'token__symbol'}>
                   <img src={POL_ICON} className={'token__icon'} alt={'POL_ICON'} />
-                  <span>POL</span>
+                  <span>MATIC</span>
                 </div>
                 <div className={'token__nums'}>
                   <p className={'token__nums__balance'}>{balancePOL}</p>
