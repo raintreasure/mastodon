@@ -1,9 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl } from 'react-intl';
+import { defineMessages, injectIntl } from 'react-intl';
 import Button from '../../../components/button';
 import { openModal } from '../../../actions/modal';
 import { nftscan_asset_model } from '../../../actions/nfts';
+
+
+const messages = defineMessages({
+  nftLastTradePrice: { id: 'nft.last_trade_price', defineMessages: 'latest trade price: ' },
+  nftButtonDetail: { id: 'nft.button.detail', defineMessages: 'Detail' },
+});
 
 class NFT extends React.PureComponent {
 
@@ -59,6 +65,7 @@ class NFT extends React.PureComponent {
 
   render() {
     const {
+      intl,
       asset: {
         name, image_uri, description, latest_trade_price, latest_trade_symbol, erc_type,
       },
@@ -66,9 +73,6 @@ class NFT extends React.PureComponent {
     const image_url = erc_type === 'erc721' ? `https://ipfs.io/ipfs/${image_uri}`: image_uri;
     return (
       <div className={'nft__item'}>
-        {/*<div className={'nft__image'}>*/}
-        {/*  <img src={image_url} title={name} alt={name} />*/}
-        {/*</div>*/}
         <a
           className='nft__image'
           href={image_url}
@@ -91,14 +95,14 @@ class NFT extends React.PureComponent {
               // <p>&nbsp;</p>
               <p className={'nft__info__creator'}>&nbsp;</p>
               :
-              <p className={'nft__info__creator'}>latest trade price: <span>{ latest_trade_price }</span>&nbsp;<span>{ latest_trade_symbol }</span></p>
+              <p className={'nft__info__creator'}>{ intl.formatMessage(messages.nftLastTradePrice) }<span>{ latest_trade_price }</span>&nbsp;<span>{ latest_trade_symbol }</span></p>
           }
           {/*<p className={'nft__info__creator'}>created by: <span>{creator.user.username}</span></p>*/}
           {/*<p className={'nft__info__link'}><a href={permalink}>Detail</a></p>*/}
           <p className={'nft__info__btn'}>
             <Button
-              type='button'
-              text={'Detail'}
+              type={'button'}
+              text={intl.formatMessage(messages.nftButtonDetail)}
               title={name}
               onClick={this.handleAssetDetailClick}
               disabled={this.state.loading}
