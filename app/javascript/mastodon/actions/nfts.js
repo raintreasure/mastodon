@@ -6,7 +6,7 @@ export const OPENSEA_API_KEY = '26ee232021e04342814b392cd5d87e8d';  // 有效期
 export const OPENSEA_API_V1_BASE_URL = 'https://api.opensea.io/api/v1';
 // const OPENSEA_API_V2_BASE_URL = 'https://api.opensea.io/api/v2';
 
-export const NFTSCAN_API_KEY = 'GXzTnFRx4bHJAucGkgausqEL';
+export const NFTSCAN_API_KEY = 'Gi7cX8VAj5lCZVhfqRWlJajX';
 export const NFTSCAN_API_V2_BASE_URL = 'https://polygonapi.nftscan.com/api/v2';
 
 export const ASSETS_FETCH_REQUEST = 'ASSETS_FETCH_REQUEST';
