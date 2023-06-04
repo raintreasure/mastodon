@@ -424,6 +424,8 @@
   "navigation_bar.public_timeline": "跨站時間軸",
   "navigation_bar.search": "搜尋",
   "navigation_bar.security": "安全",
+  "nft.button.detail": "詳情",
+  "nft.last_trade_price": "最後交易價格：",
   "not_signed_in_indicator.not_signed_in": "您需要登入才能存取此資源。",
   "notification.admin.report": "{name} 檢舉了 {target}",
   "notification.admin.sign_up": "{name} 已經註冊",
