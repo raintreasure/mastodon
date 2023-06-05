@@ -3,14 +3,15 @@
 class REST::RelationshipSerializer < ActiveModel::Serializer
   attributes :id, :following, :showing_reblogs, :notifying, :languages, :followed_by,
              :blocking, :blocked_by, :muting, :muting_notifications,
-             :requested, :requested_by, :domain_blocking, :endorsed, :note, :new_balance, :balance_increment
-
+             :requested, :requested_by, :domain_blocking, :endorsed, :note, :new_balance, :balance_increment,
+             :subscribing, :subscribed_by
 
   def id
     object.id.to_s
   end
 
   def following
+    puts(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>id:#{object.id} following: #{instance_options[:relationships].following[object.id]}")
     instance_options[:relationships].following[object.id] ? true : false
   end
 
@@ -74,7 +75,18 @@ class REST::RelationshipSerializer < ActiveModel::Serializer
   def new_balance
     instance_options[:new_balance]
   end
+
   def balance_increment
     instance_options[:balance_increment]
+  end
+
+  def subscribing
+    puts(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>id:#{object.id} subscribing: #{instance_options[:relationships].subscribing[object.id]}")
+    instance_options[:relationships].subscribing[object.id] ? true : false
+  end
+
+  def subscribed_by
+    instance_options[:relationships].subscribed_by[object.id] || false
+
   end
 end

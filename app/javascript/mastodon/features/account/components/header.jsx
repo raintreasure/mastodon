@@ -179,7 +179,6 @@ class Header extends ImmutablePureComponent {
     if (!account) {
       return null;
     }
-
     const suspended = account.get('suspended');
     const isRemote = account.get('acct') !== account.get('username');
     const remoteDomain = isRemote ? account.get('acct').split('@')[1] : null;
@@ -463,7 +462,7 @@ class Header extends ImmutablePureComponent {
           {account.get('id') !== me &&
             <div style={{ display:'flex', flexDirection:'column', gap:'10px' }}>
               <TransferToken to_account={account} />
-              <SubscribeButton to_account={account} />
+              <SubscribeButton to_account={account} subscribing={account.getIn(['relationship', 'subscribing'])} />
             </div>
           }
           {!(suspended || hidden) && (

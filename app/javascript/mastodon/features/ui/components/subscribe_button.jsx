@@ -6,7 +6,10 @@ import { me } from '../../../initial_state';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Button from '../../../components/button';
 import { openModal } from '../../../actions/modal';
-import api from '../../../api';
+import { subscribeAccount, unsubscribeAccount } from '../../../actions/accounts';
+import classNames from 'classnames';
+import { transferChinese } from '../../../actions/tokens';
+import { toast } from 'react-hot-toast';
 
 const mapStateToProps = state => ({
   account: state.getIn(['accounts', me]),
@@ -17,7 +20,6 @@ const messages = defineMessages({
   title: { id: 'account.subscribe.title', defaultMessage: 'Subscribe' },
   text1: { id: 'account.subscribe.text_1', defaultMessage: 'You are subscribing ' },
   text2: { id: 'account.subscribe.text_2', defaultMessage: '. Subscription fee is ' },
-
   confirm: { id: 'account.subscribe.confirm', defaultMessage: 'Subscribe' },
   emptyConfirm: { id: 'account.subscribe.empty_confirm', defaultMessage: 'Confirm' },
   toAccountNoAddress: { id: 'account.subscribe.to_account_no_address', defaultMessage: toAccountNoAddress },
@@ -25,24 +27,31 @@ const messages = defineMessages({
     id: 'account.subscribe.provider_not_ready',
     defaultMessage: 'Wallet address has not loaded, please try again or refresh the page',
   },
+  undoTitle: { id: 'account.subscribe.undo_title', defaultMessage: 'Unsubscribe' },
+  undoText1: { id: 'account.subscribe.undo_text_1', defaultMessage: 'You are unsubscribing ' },
+  undoText2: { id: 'account.subscribe.undo_text_2', defaultMessage: '. Your subscription fee will not be returned' },
+  undoConfirm: { id: 'account.subscribe.undo_confirm', defaultMessage: 'Unsubscribe' },
 });
 
 class SubscribeButton extends React.PureComponent {
 
-  state = {
-    loading: false,
-  };
+
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     intl: PropTypes.object.isRequired,
     account: ImmutablePropTypes.map.isRequired,
     to_account: ImmutablePropTypes.map.isRequired,
+    subscribing: PropTypes.bool,
   };
   static contextTypes = {
     identity: PropTypes.object.isRequired,
   };
-  confirmModal = (intl, dispatch, to_account, messages) => {
-    if (to_account.get('eth_address') === null || to_account.get('eth_address') === undefined) {
+  confirmModal = (intl, dispatch, to_account, messages, subscribing) => {
+    console.log('subscribing is:', subscribing);
+    const eth_address = to_account.get('eth_address');
+    const toAccountId = to_account.get('id');
+    const subscriptionFee = to_account.get('subscription_fee');
+    if (eth_address === null || eth_address === undefined) {
       dispatch(openModal('CONFIRM', {
         message:
   <p style={{ textAlign: 'left' }}>{intl.formatMessage(messages.toAccountNoAddress)}</p>,
@@ -54,31 +63,30 @@ class SubscribeButton extends React.PureComponent {
       dispatch(openModal('CONFIRM', {
         message:
   <div className={'subscription__modal'}>
-    <span style={{ textAlign: 'center' }}>{intl.formatMessage(messages.text1) + to_account.get('username') +
-                intl.formatMessage(messages.text2) + to_account.get('subscription_fee')}
+    <span style={{ textAlign: 'center' }}>{
+      (subscribing ? intl.formatMessage(messages.undoText1) : intl.formatMessage(messages.text1)) +
+      to_account.get('username') +
+      (subscribing ? intl.formatMessage(messages.undoText2) : (intl.formatMessage(messages.text2) + subscriptionFee))
+    }
     </span>
   </div>,
-        confirm: intl.formatMessage(messages.confirm),
+        confirm: subscribing ? intl.formatMessage(messages.undoConfirm) : intl.formatMessage(messages.confirm),
         onConfirm: async () => {
           this.setState({ loading: true });
-          api().post(`/api/v1/accounts/${to_account.get('id')}/subscribe`).then(response => {
-            console.log('subscribe res:', response);
-          }).catch(e => {
-            console.log('api call error:', e);
+          transferChinese(eth_address, subscriptionFee).then(() => {
+            const postUrl = subscribing ? `/api/v1/accounts/${toAccountId}/unsubscribe` :
+              `/api/v1/accounts/${toAccountId}/subscribe`;
+            if (subscribing) {
+              dispatch(subscribeAccount(postUrl, toAccountId));
+            } else {
+              dispatch(unsubscribeAccount(postUrl, toAccountId));
+            }
+          }).catch(error => {
+            toast.error(`Subscription failed. ${error.message}`);
+          }).finally(() => {
+            this.setState({ loading: false });
           });
-          /*transferChinese(to_account.get('eth_address'), transferAmount).then(() => {
-            api().post(`/api/v1/accounts/${id}/subscribe`).then(response => {
-              dispatch(followAccountSuccess(response.data, alreadyFollowing));
-              dispatch(updateBalance(response.data.new_balance, response.data.balance_increment));
-            }).catch(error => {
-              dispatch(followAccountFail(error, locked));
-            });
 
-              toast.success(`You have subscribed to ${to_account.get('username')}`);
-            },
-          ).catch((error) => {
-            toast.error(`Failed to subscribe. ${error.message}`);
-          });*/
         },
       }));
     } else {
@@ -93,25 +101,67 @@ class SubscribeButton extends React.PureComponent {
       }));
     }
   };
+  // undoConfirmModal = (intl, dispatch, to_account, messages) => {
+  //   if (to_account.get('eth_address') === null || to_account.get('eth_address') === undefined) {
+  //     dispatch(openModal('CONFIRM', {
+  //       message:
+  //         <p style={{textAlign: 'left'}}>{intl.formatMessage(messages.toAccountNoAddress)}</p>,
+  //       confirm: intl.formatMessage(messages.emptyConfirm),
+  //       onConfirm: () => {
+  //       },
+  //     }));
+  //   } else if (window.web3auth.provider) {
+  //     dispatch(openModal('CONFIRM', {
+  //       message:
+  //         <div className={'subscription__modal'}>
+  //   <span style={{textAlign: 'center'}}>{intl.formatMessage(messages.undoText1) + to_account.get('username') +
+  //     intl.formatMessage(messages.undoText2) + to_account.get('subscription_fee')}
+  //   </span>
+  //         </div>,
+  //       confirm: intl.formatMessage(messages.undoConfirm),
+  //       onConfirm: async () => {
+  //         this.setState({loading: true});
+  //         api().post(`/api/v1/accounts/${to_account.get('id')}/subscribe`).then(response => {
+  //           console.log('unsubscribe res:', response);
+  //         }).catch(e => {
+  //           console.log('api call error:', e);
+  //         }).finally(() => {
+  //           this.setState({loading: false});
+  //         });
+  //       },
+  //     }));
+  //   } else {
+  //     dispatch(openModal('CONFIRM', {
+  //       message:
+  //         <div style={{textAlign: 'left'}}>
+  //           <span>{intl.formatMessage(messages.providerNotReady)}</span>
+  //         </div>,
+  //       confirm: intl.formatMessage(messages.emptyConfirm),
+  //       onConfirm: () => {
+  //       },
+  //     }));
+  //   }
+  // };
 
   handleClick = () => {
-    const { intl, dispatch, to_account } = this.props;
-    this.confirmModal(intl, dispatch, to_account, messages);
+    const { intl, dispatch, to_account, subscribing } = this.props;
+    this.confirmModal(intl, dispatch, to_account, messages, subscribing);
   };
 
   render() {
-    const { intl, account } = this.props;
-    console.log('account info in subscribe: ', account);
-
+    const { intl, subscribing } = this.props;
+    console.log('subscribing in props:', subscribing);
     return (
       <div>
         {/*<input type={'number'}/>*/}
         <Button
           type='button'
-          title={intl.formatMessage(messages.title)}
-          text={intl.formatMessage(messages.title)}
+          title={subscribing ? intl.formatMessage(messages.undoTitle) : intl.formatMessage(messages.title)}
+          text={subscribing ? intl.formatMessage(messages.undoTitle) : intl.formatMessage(messages.title)}
           onClick={this.handleClick}
-          disabled={this.state.loading}
+          className={classNames('logo-button', {
+            'button--destructive': subscribing,
+          })}
         />
       </div>
 

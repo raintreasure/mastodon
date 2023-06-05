@@ -34,8 +34,8 @@ class AccountRelationshipsPresenter
     @domain_blocking.merge!(options[:domain_blocking_map] || {})
     @endorsed.merge!(options[:endorsed_map] || {})
     @account_note.merge!(options[:account_note_map] || {})
-    @subscribing.merge!(options[:subscribing] || {})
-    @subscribed_by.merge!(options[:subscribed_by] || {})
+    @subscribing.merge!(options[:subscribing_map] || {})
+    @subscribed_by.merge!(options[:subscribed_by_map] || {})
   end
 
   private
