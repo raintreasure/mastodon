@@ -71,10 +71,17 @@ class Api::V1::AccountsController < Api::BaseController
     UnfollowService.new.call(current_user.account, @account)
     render json: @account, serializer: REST::RelationshipSerializer, relationships: relationships
   end
+
   def subscribe
     current_account.subscribe!(@account)
     render json: @account, serializer: REST::RelationshipSerializer, relationships: relationships
   end
+
+  def unsubscribe
+    current_account.unsubscribe!(@account)
+    render json: @account, serializer: REST::RelationshipSerializer, relationships: relationships
+  end
+
   def remove_from_followers
     RemoveFromFollowersService.new.call(current_user.account, @account)
     render json: @account, serializer: REST::RelationshipSerializer, relationships: relationships

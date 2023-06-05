@@ -19,6 +19,12 @@ import {
   RELATIONSHIPS_FETCH_SUCCESS,
   FOLLOW_REQUEST_AUTHORIZE_SUCCESS,
   FOLLOW_REQUEST_REJECT_SUCCESS,
+  ACCOUNT_SUBSCRIBE_REQEUST,
+  ACCOUNT_SUBSCRIBE_SUCCESS,
+  ACCOUNT_SUBSCRIBE_FAIL,
+  ACCOUNT_UNSUBSCRIBE_REQEUST,
+  ACCOUNT_UNSUBSCRIBE_SUCCESS,
+  ACCOUNT_UNSUBSCRIBE_FAIL,
 } from '../actions/accounts';
 import {
   DOMAIN_BLOCK_SUCCESS,
@@ -50,7 +56,7 @@ const setDomainBlocking = (state, accounts, blocking) => {
 const initialState = ImmutableMap();
 
 export default function relationships(state = initialState, action) {
-  switch(action.type) {
+  switch (action.type) {
   case FOLLOW_REQUEST_AUTHORIZE_SUCCESS:
     return state.setIn([action.id, 'followed_by'], true).setIn([action.id, 'requested_by'], false);
   case FOLLOW_REQUEST_REJECT_SUCCESS:
@@ -65,6 +71,14 @@ export default function relationships(state = initialState, action) {
     return state.setIn([action.id, 'following'], false);
   case ACCOUNT_UNFOLLOW_FAIL:
     return state.setIn([action.id, 'following'], true);
+  case ACCOUNT_SUBSCRIBE_REQEUST:
+    return state.setIn([action.id, 'subscribing'], true);
+  case ACCOUNT_SUBSCRIBE_FAIL:
+    return state.setIn([action.id, 'subscribing'], false);
+  case ACCOUNT_UNSUBSCRIBE_REQEUST:
+    return state.setIn([action.id, 'subscribing'], false);
+  case ACCOUNT_UNSUBSCRIBE_FAIL:
+    return state.setIn([action.id, 'subscribing'], true);
   case ACCOUNT_FOLLOW_SUCCESS:
   case ACCOUNT_UNFOLLOW_SUCCESS:
   case ACCOUNT_BLOCK_SUCCESS:
@@ -74,8 +88,11 @@ export default function relationships(state = initialState, action) {
   case ACCOUNT_PIN_SUCCESS:
   case ACCOUNT_UNPIN_SUCCESS:
   case ACCOUNT_NOTE_SUBMIT_SUCCESS:
+  case ACCOUNT_SUBSCRIBE_SUCCESS:
+  case ACCOUNT_UNSUBSCRIBE_SUCCESS:
     return normalizeRelationship(state, action.relationship);
   case RELATIONSHIPS_FETCH_SUCCESS:
+    console.log('reducer relationships:', action.relationships);
     return normalizeRelationships(state, action.relationships);
   case DOMAIN_BLOCK_SUCCESS:
     return setDomainBlocking(state, action.accounts, true);

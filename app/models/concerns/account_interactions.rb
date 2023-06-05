@@ -18,7 +18,9 @@ module AccountInteractions
       follow_mapping(Follow.where(account_id: target_account_ids, target_account_id: account_id), :account_id)
     end
     def subscribing_map(target_account_ids, account_id)
-      subscribe_mapping(AccountSubscription.where(account_id: target_account_ids, target_account_id: account_id), :account_id)
+      puts(">>>>>>>>>>>>>>>>>>>>>>>>>>>target_account_ids: #{target_account_ids}, account_id:#{account_id}")
+      puts(">>>>>>>>>>>>>>>>>>>>>>>>mapping res:#{  subscribe_mapping(AccountSubscription.where(account_id: account_id, target_account_id: target_account_ids), :target_account_id)}")
+      subscribe_mapping(AccountSubscription.where(account_id: account_id, target_account_id: target_account_ids), :target_account_id)
     end
     def subscribed_by_map(target_account_ids, account_id)
       subscribe_mapping(AccountSubscription.where(account_id: target_account_ids, target_account_id: account_id), :account_id)
