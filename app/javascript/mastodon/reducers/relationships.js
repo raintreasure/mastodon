@@ -92,7 +92,6 @@ export default function relationships(state = initialState, action) {
   case ACCOUNT_UNSUBSCRIBE_SUCCESS:
     return normalizeRelationship(state, action.relationship);
   case RELATIONSHIPS_FETCH_SUCCESS:
-    console.log('reducer relationships:', action.relationships);
     return normalizeRelationships(state, action.relationships);
   case DOMAIN_BLOCK_SUCCESS:
     return setDomainBlocking(state, action.accounts, true);
