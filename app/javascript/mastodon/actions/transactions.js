@@ -22,7 +22,7 @@ async function getTransactions(accountId, address, dispatch) {
       startblock: 0,
       endblock: 99999999,
       page: 1,
-      offset: 5,
+      offset: 1000,
       sort: 'desc',
       apiKey: 'E6TXTFRPZSH4R6MY6PHCRUJIV5NZAD4E3C',
     },

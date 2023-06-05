@@ -118,7 +118,6 @@ class Transactions extends ImmutablePureComponent {
     const {
       accountId,
       account,
-      hasMore,
       blockedBy,
       isAccount,
       multiColumn,
@@ -145,9 +144,7 @@ class Transactions extends ImmutablePureComponent {
     }
 
     let emptyMessage;
-
     const forceEmptyState = blockedBy || suspended || hidden;
-
     if (suspended) {
       emptyMessage = <FormattedMessage id='empty_column.account_suspended' defaultMessage='Account suspended' />;
     } else if (hidden) {
@@ -171,8 +168,8 @@ class Transactions extends ImmutablePureComponent {
       <button onClick={this.refetchRelationship}>fetch relationship
       </button>
       <ScrollableList
-        scrollKey='following'
-        hasMore={!forceEmptyState && hasMore}
+        scrollKey='transaction'
+        hasMore={!forceEmptyState && false}
         isLoading={isLoading}
         onLoadMore={this.handleLoadMore}
         prepend={<HeaderContainer accountId={this.props.accountId} hideTabs />}

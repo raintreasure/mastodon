@@ -65,7 +65,7 @@
   "account.transfer.title": "Transfer $CHINESE",
   "account.transfer.text": "You are transferring $CHINESE to ",
   "account.transfer.confirm": "Transfer",
-  "account.transfer.web2_logged_in": "It seems that you logged in by web2, only web3 logged user can transfer $CHINESE. You can switch account after ",
+  "account.transfer.web2_logged_in": "wallet address has not loaded, please try again or refresh the page",
   "account.transfer.web2_logout": "Log out",
   "account.transfer.empty_confirm": "Confirm",
   "account.transfer.to_account_no_address": "The account you transferred to has no wallet address.",

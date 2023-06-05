@@ -27,6 +27,38 @@ const messages = defineMessages({
     id: 'about.domain_blocks.suspended.explanation',
     defaultMessage: 'No data from this server will be processed, stored or exchanged, making any interaction or communication with users from this server impossible.',
   },
+  social2earnTitle: {
+    id: 'about.social2earn.title',
+    defaultMessage: 'Social to Earn',
+  },
+  social2earnText: {
+    id: 'about.social2earn.text',
+    defaultMessage: 'We believe in the value of DAO and socialFi. On our platform, you can post about Chinese culture, you can also post a reply, retweet, like, and bookmark. There is now a limited-time promotional event, posting and replying  will earn you a reward of 200 $CHINESE,while retweeting, liking, and bookmarking will earn you a reward of 100 $CHINESE. Moreover, as long as you stay online to contribute to the popularity of the community, you can earn 1 $CHINESE every 5 seconds.',
+  },
+  tokenomicsTitle: {
+    id: 'about.tokenomics.title',
+    defaultMessage: 'Tokenomics',
+  },
+  tokenomicsText: {
+    id: 'about.tokenomics.text',
+    defaultMessage: 'You can withdraw $CHINESE with no threshold after earning it. And you can use it to reward the posts and users you appreciate to promote your favourite Chinese culture. Currently, dao.chinese.org is running on Polygon, and $CHINESE has been connected to Ethereum, Polygon, Arbitrum, BNB smart Chain, and Fusion through Chainge CrossChain technoledge. You can explore more in Chainge: ',
+  },
+  creatingTitle: {
+    id: 'about.creating.title',
+    defaultMessage: 'Creating and Sharing',
+  },
+  creatingText: {
+    id: 'about.creating.text',
+    defaultMessage: 'Open to everyone for free. After the official launch, you can mint NFTs related to Chinese culture for free. All NFTs and social content are owned by the creators,  permanently retained, and governed by DAO. You can mint your own NFTs according to your preferences. We are committed to discovering and sharing the best arts and creations of Chinese culture around the world.',
+  },
+  giftTitle: {
+    id: 'about.gift.title',
+    defaultMessage: 'A Special Gift',
+  },
+  giftText: {
+    id: 'about.gift.text',
+    defaultMessage: 'After the official launch, you will receive a special gift: an NFT based on your family name. This will serve as a ticket for some social activities, making it easier for Chinese people around the world to find and integrate into big family, so as to lower the social threshold and improve the quality of social interaction.',
+  },
 });
 
 // const severityMessages = {
@@ -166,13 +198,15 @@ class About extends React.PureComponent {
                 <Skeleton width='70%' />
               </>
             ) : (
-              <ul>
-                <li>Socializing to Earn</li>
-                <p>We are far beyond NFTs trading. We believe in DAO and SocialFi driven values. You can always post favorites of Chinese Arts for free, which is however possibly voted as NFTs by other people. Meanwhile the creators and social supporters would share profits and even earn tokens from re-posting and commenting.</p>
-                <li>Creating and Sharing</li>
-                <p>Open to everyone, yet, free for minting NFTs on Chinese Culture in terms of the corresponding categories. All NFTs and social content are owned by creators and kept forever. Digitalizing Chinese cultural creations is up to your favorites, governed by DAO. We are aiming to discover and share the best arts and cultural creations of the nation around the world</p>
-                <li>A Special Gift</li>
-                <p>At formal enrollment, every Chinese participant automatically receives a special NFT with regard to his or her origin place of the Chinese family. It enables subscription of activities for people who are holding the same type of NFTs. In this way, the global Chinese would easily form groups of their families to facilitate culture sharing and socialization with NFTs.</p>
+              <ul style={{ margin:'10px' }}>
+                <li style={{ marginTop:'10px', marginBottom:'5px' }}>{intl.formatMessage(messages.social2earnTitle)}</li>
+                <p>{intl.formatMessage(messages.social2earnText)}</p>
+                <li style={{ marginTop:'10px', marginBottom:'5px' }}>{intl.formatMessage(messages.tokenomicsTitle)}</li>
+                <p>{intl.formatMessage(messages.tokenomicsText)}</p>
+                <li style={{ marginTop:'10px', marginBottom:'5px' }}>{intl.formatMessage(messages.creatingTitle)}</li>
+                <p>{intl.formatMessage(messages.creatingText)}</p>
+                <li style={{ marginTop:'10px', marginBottom:'5px' }}>{intl.formatMessage(messages.giftTitle)}</li>
+                <p>{intl.formatMessage(messages.giftText)}</p>
               </ul>
             )
               // (extendedDescription.get('content')?.length > 0 ? (

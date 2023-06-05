@@ -214,10 +214,9 @@ export async function transferChinese(address, amount) {
       gasLimit: 60000,
       maxPriorityFeePerGas: web3.utils.toWei('40', 'gwei').toString(),
       maxFeePerGas: web3.utils.toWei('200', 'gwei').toString(),
-    }).on('confirmation', function () {
+    }).on('receipt', function () {
       resolve();
     }).on('error', function (error) {
-      console.log(error);
       reject(error);
     });
   });
@@ -254,7 +253,16 @@ export function transferModal(intl, dispatch, to_account, messages) {
           toast.success(`You transferred ${transferAmount} $CHINESE to ${to_account.get('username')}`);
         },
         ).catch((error) => {
-          toast.error(`Transfer failed. ${error.message}`);
+          var suggestion='';
+          var errMsg='';
+          if (error.data && error.data.message && error.data.message.includes('insufficient funds')) {
+            errMsg = error.data.message;
+            suggestion = 'please check your $MATIC balance';
+          } else if (!error.data && error.toString().includes('Error: Transaction has been reverted by the EVM')) {
+            errMsg = 'Error: Transaction has been reverted by the EVM';
+            suggestion = 'please check your $CHINESE balance';
+          }
+          toast.error(`Transfer failed. ${errMsg}, ${suggestion}`);
         });
       },
     }));
@@ -263,10 +271,6 @@ export function transferModal(intl, dispatch, to_account, messages) {
       message:
   <div style={{ textAlign: 'left' }}>
     <span>{intl.formatMessage(messages.transferWeb2LoggedIn)}</span>
-    <a
-      id={'logoutId'} href={'/auth/sign_out'}
-      data-method={'delete'}
-    >{intl.formatMessage(messages.transferWeb2Logout)}</a>
   </div>,
       confirm: intl.formatMessage(messages.transferEmptyConfirm),
       onConfirm: () => {
