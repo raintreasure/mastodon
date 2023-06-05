@@ -299,8 +299,6 @@ class Header extends ImmutablePureComponent {
       menu.push({ text: intl.formatMessage(messages.blocks), to: '/blocks' });
       menu.push({ text: intl.formatMessage(messages.domain_blocks), to: '/domain_blocks' });
     } else if (signedIn) {
-      console.log('test get following:', account.getIn(['relationship', 'following']));
-      console.log('test get subscribing:', account.getIn(['relationship', 'subscribing']));
       if (account.getIn(['relationship', 'following'])) {
         if (!account.getIn(['relationship', 'muting'])) {
           if (account.getIn(['relationship', 'showing_reblogs'])) {

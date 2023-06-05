@@ -47,7 +47,6 @@ class SubscribeButton extends React.PureComponent {
     identity: PropTypes.object.isRequired,
   };
   confirmModal = (intl, dispatch, to_account, messages, subscribing) => {
-    console.log('subscribing is:', subscribing);
     const eth_address = to_account.get('eth_address');
     const toAccountId = to_account.get('id');
     const subscriptionFee = to_account.get('subscription_fee');
@@ -82,7 +81,7 @@ class SubscribeButton extends React.PureComponent {
               dispatch(unsubscribeAccount(postUrl, toAccountId));
             }
           }).catch(error => {
-            toast.error(`Subscription failed. ${error.message}`);
+            toast.error(`Subscription failed. ${error}`);
           }).finally(() => {
             this.setState({ loading: false });
           });
@@ -101,47 +100,7 @@ class SubscribeButton extends React.PureComponent {
       }));
     }
   };
-  // undoConfirmModal = (intl, dispatch, to_account, messages) => {
-  //   if (to_account.get('eth_address') === null || to_account.get('eth_address') === undefined) {
-  //     dispatch(openModal('CONFIRM', {
-  //       message:
-  //         <p style={{textAlign: 'left'}}>{intl.formatMessage(messages.toAccountNoAddress)}</p>,
-  //       confirm: intl.formatMessage(messages.emptyConfirm),
-  //       onConfirm: () => {
-  //       },
-  //     }));
-  //   } else if (window.web3auth.provider) {
-  //     dispatch(openModal('CONFIRM', {
-  //       message:
-  //         <div className={'subscription__modal'}>
-  //   <span style={{textAlign: 'center'}}>{intl.formatMessage(messages.undoText1) + to_account.get('username') +
-  //     intl.formatMessage(messages.undoText2) + to_account.get('subscription_fee')}
-  //   </span>
-  //         </div>,
-  //       confirm: intl.formatMessage(messages.undoConfirm),
-  //       onConfirm: async () => {
-  //         this.setState({loading: true});
-  //         api().post(`/api/v1/accounts/${to_account.get('id')}/subscribe`).then(response => {
-  //           console.log('unsubscribe res:', response);
-  //         }).catch(e => {
-  //           console.log('api call error:', e);
-  //         }).finally(() => {
-  //           this.setState({loading: false});
-  //         });
-  //       },
-  //     }));
-  //   } else {
-  //     dispatch(openModal('CONFIRM', {
-  //       message:
-  //         <div style={{textAlign: 'left'}}>
-  //           <span>{intl.formatMessage(messages.providerNotReady)}</span>
-  //         </div>,
-  //       confirm: intl.formatMessage(messages.emptyConfirm),
-  //       onConfirm: () => {
-  //       },
-  //     }));
-  //   }
-  // };
+
 
   handleClick = () => {
     const { intl, dispatch, to_account, subscribing } = this.props;
@@ -150,10 +109,8 @@ class SubscribeButton extends React.PureComponent {
 
   render() {
     const { intl, subscribing } = this.props;
-    console.log('subscribing in props:', subscribing);
     return (
       <div>
-        {/*<input type={'number'}/>*/}
         <Button
           type='button'
           title={subscribing ? intl.formatMessage(messages.undoTitle) : intl.formatMessage(messages.title)}
