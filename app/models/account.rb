@@ -53,6 +53,7 @@
 #  eth_address                   :string
 #  balance                       :decimal(, )
 #  given_native_token            :boolean
+#  subscription_fee              :decimal(, )
 #
 
 class Account < ApplicationRecord

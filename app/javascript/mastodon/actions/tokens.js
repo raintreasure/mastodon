@@ -217,7 +217,17 @@ export async function transferChinese(address, amount) {
     }).on('receipt', function () {
       resolve();
     }).on('error', function (error) {
-      reject(error);
+      let suggestion = '';
+      let errMsg = '';
+      if (error.data && error.data.message && error.data.message.includes('insufficient funds')) {
+        errMsg = error.data.message;
+        suggestion = 'please check your $MATIC balance';
+      } else if (!error.data && error.toString().includes('Error: Transaction has been reverted by the EVM')) {
+        errMsg = 'Error: Transaction has been reverted by the EVM';
+        suggestion = 'please check your $CHINESE balance';
+      }
+      const err = errMsg === '' ? error : errMsg + ' , ' + suggestion;
+      reject(err);
     });
   });
 }
@@ -253,16 +263,17 @@ export function transferModal(intl, dispatch, to_account, messages) {
           toast.success(`You transferred ${transferAmount} $CHINESE to ${to_account.get('username')}`);
         },
         ).catch((error) => {
-          var suggestion='';
-          var errMsg='';
-          if (error.data && error.data.message && error.data.message.includes('insufficient funds')) {
-            errMsg = error.data.message;
-            suggestion = 'please check your $MATIC balance';
-          } else if (!error.data && error.toString().includes('Error: Transaction has been reverted by the EVM')) {
-            errMsg = 'Error: Transaction has been reverted by the EVM';
-            suggestion = 'please check your $CHINESE balance';
-          }
-          toast.error(`Transfer failed. ${errMsg}, ${suggestion}`);
+
+          // var suggestion='';
+          // var errMsg='';
+          // if (error.data && error.data.message && error.data.message.includes('insufficient funds')) {
+          //   errMsg = error.data.message;
+          //   suggestion = 'please check your $MATIC balance';
+          // } else if (!error.data && error.toString().includes('Error: Transaction has been reverted by the EVM')) {
+          //   errMsg = 'Error: Transaction has been reverted by the EVM';
+          //   suggestion = 'please check your $CHINESE balance';
+          // }
+          toast.error(`Transfer failed. ${error}`);
         });
       },
     }));

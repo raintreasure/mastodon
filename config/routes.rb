@@ -133,7 +133,6 @@ Rails.application.routes.draw do
   get '/@:username_with_domain/(*any)', to: 'home#index', constraints: { username_with_domain: /([^\/])+?/ }, format: false
   get '/settings', to: redirect('/settings/profile')
   get '/withdraw', to: 'transactions#withdraw'
-
   namespace :settings do
     resource :profile, only: [:show, :update] do
       resources :pictures, only: :destroy
@@ -607,6 +606,8 @@ Rails.application.routes.draw do
           post :unblock
           post :mute
           post :unmute
+          post :subscribe
+          post :unsubscribe
         end
 
         resource :pin, only: :create, controller: 'accounts/pins'

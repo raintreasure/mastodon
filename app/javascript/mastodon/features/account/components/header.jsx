@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
 import Button from 'mastodon/components/button';
 import ImmutablePureComponent from 'react-immutable-pure-component';
-import { autoPlayGif, me, domain } from 'mastodon/initial_state';
+import { autoPlayGif, me, domain, enableSubscription } from 'mastodon/initial_state';
 import classNames from 'classnames';
 import Icon from 'mastodon/components/icon';
 import IconButton from 'mastodon/components/icon_button';
@@ -18,6 +18,7 @@ import FollowRequestNoteContainer from '../containers/follow_request_note_contai
 import { PERMISSION_MANAGE_USERS, PERMISSION_MANAGE_FEDERATION } from 'mastodon/permissions';
 import { Helmet } from 'react-helmet';
 import TransferToken from '../../ui/components/transfer';
+import SubscribeButton from '../../ui/components/subscribe_button';
 
 const messages = defineMessages({
   unfollow: { id: 'account.unfollow', defaultMessage: 'Unfollow' },
@@ -178,7 +179,6 @@ class Header extends ImmutablePureComponent {
     if (!account) {
       return null;
     }
-
     const suspended = account.get('suspended');
     const isRemote = account.get('acct') !== account.get('username');
     const remoteDomain = isRemote ? account.get('acct').split('@')[1] : null;
@@ -458,13 +458,11 @@ class Header extends ImmutablePureComponent {
             </h1>
           </div>
           {account.get('id') !== me &&
-            <div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <TransferToken to_account={account} />
-              {/*<Button className='logo-button' text={intl.formatMessage(messages.transfer)}*/}
-              {/*        onClick={() => {*/}
-              {/*          alert('test click button');*/}
-              {/*        }}>*/}
-              {/*</Button>*/}
+              {enableSubscription === true &&
+                <SubscribeButton to_account={account} subscribing={account.getIn(['relationship', 'subscribing'])} />
+              }
             </div>
           }
           {!(suspended || hidden) && (

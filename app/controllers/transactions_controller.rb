@@ -56,7 +56,15 @@ class TransactionsController < ApplicationController
   end
 
   def contract_address
-    ENV['CHINESE_CONTRACT_ADDRESS']
+    if Setting.dao_name == 'chinesedao'
+      ENV['CHINESE_CONTRACT_ADDRESS']
+    end
+    if Setting.dao_name == 'facedao'
+      ENV['FACE_CONTRACT_ADDRESS']
+    end
+    if Setting.dao_name == 'sexydao'
+      ENV['SEXY_CONTRACT_ADDRESS']
+    end
   end
 
   def chinese_contract

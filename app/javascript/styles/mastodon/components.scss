@@ -1451,6 +1451,7 @@ body > [data-popper-placement] {
     background-color: #282c37;
     transition: all 0.1s ease 0.1s;
   }
+
   &__item:hover {
     background-color: #42485a;
   }
@@ -1467,10 +1468,12 @@ body > [data-popper-placement] {
     img {
       width: 100%;
       height: 100%;
+
       // box-sizing: border-box;
       object-fit: cover;
       border-radius: 10px;
       transition: all 0.1s ease 0.1s;
+
       // object-position: 50% 50%;
       // overflow-clip-margin: content-box;
       // overflow: clip;
@@ -1494,13 +1497,13 @@ body > [data-popper-placement] {
       font-size: 1.5em;
       line-height: 1em;
       font-weight: bolder;
-
       margin: 5px;
       color: #d9e1e8;
     }
 
     &__creator {
       font-style: italic;
+
       // color: #9baec8;
       color: #606984;
     }
@@ -7314,6 +7317,12 @@ noscript {
     align-items: center;
     gap: 10px;
   }
+}
+
+.subscription__modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .account__header {

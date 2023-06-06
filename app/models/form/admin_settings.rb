@@ -33,6 +33,8 @@ class Form::AdminSettings
     content_cache_retention_period
     backups_retention_period
     status_page_url
+    enable_subscription
+    dao_name
   ).freeze
 
   INTEGER_KEYS = %i(
@@ -52,6 +54,7 @@ class Form::AdminSettings
     trendable_by_default
     noindex
     require_invite_text
+    enable_subscription
   ).freeze
 
   UPLOAD_KEYS = %i(
