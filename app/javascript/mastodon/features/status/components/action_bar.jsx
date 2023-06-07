@@ -9,7 +9,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 
 import { PERMISSION_MANAGE_USERS, PERMISSION_MANAGE_FEDERATION } from 'mastodon/permissions';
-import { transferModal } from '../../../actions/tokens';
+import { transferModal } from '../../../actions/transfer';
 
 const web2LoggedInMessage = 'It seems that you logged in by web2, only web3 logged user can transfer $CHINESE. You can switch account after ';
 const toAccountNoAddress = 'The account you transferred to has no wallet address, you may remind the account owner to set wallet address';

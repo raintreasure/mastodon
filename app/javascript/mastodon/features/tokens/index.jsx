@@ -16,7 +16,17 @@ import { getAccountHidden } from 'mastodon/selectors';
 import { normalizeForLookup } from 'mastodon/reducers/accounts_map';
 import { fetchTokens } from '../../actions/tokens';
 import BundleColumnError from "mastodon/features/ui/components/bundle_column_error";
-import { ETH_ICON, USDT_ICON, USDC_ICON, CHINESE_ICON, POL_ICON } from '../../../icons/data';
+import {
+  ETH_ICON,
+  USDT_ICON,
+  USDC_ICON,
+  CHINESE_ICON,
+  POL_ICON,
+  BNB_ICON,
+  FACE_ICON,
+  LOVE_ICON,
+} from '../../../icons/data';
+import { daoName } from '../../initial_state';
 
 const mapStateToProps = (state, { params: { acct, id } }) => {
   const accountId = id || state.getIn(['accounts_map', normalizeForLookup(acct)]);
@@ -37,10 +47,14 @@ const mapStateToProps = (state, { params: { acct, id } }) => {
     isLoading: state.getIn(['user_lists', 'tokens', accountId, 'isLoading'], true),
     balancePOL: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'POL'], '0'),
     valuePOL: state.getIn(['user_lists', 'tokens', accountId, 'value', 'POL'], '0'),
+    balanceBNB: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'BNB'], '0'),
+    valueBNB: state.getIn(['user_lists', 'tokens', accountId, 'value', 'BNB'], '0'),
     balanceCHINESE: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'CHINESE'], '0'),
     valueCHINESE: state.getIn(['user_lists', 'tokens', accountId, 'value', 'CHINESE'], '0'),
-    balanceCHNG: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'CHNG'], '0'),
-    valueCHNG: state.getIn(['user_lists', 'tokens', accountId, 'value', 'CHNG'], '0'),
+    balanceLOVE: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'LOVE'], '0'),
+    valueLOVE: state.getIn(['user_lists', 'tokens', accountId, 'value', 'LOVE'], '0'),
+    balanceFACE: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'FACE'], '0'),
+    valueFACE: state.getIn(['user_lists', 'tokens', accountId, 'value', 'FACE'], '0'),
     balanceETH: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'ETH'], '0'),
     valueETH: state.getIn(['user_lists', 'tokens', accountId, 'value', 'ETH'], '0'),
     balanceUSDT: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'USDT'], '0'),
@@ -80,12 +94,22 @@ class Tokens extends ImmutablePureComponent {
     remoteUrl: PropTypes.string,
     multiColumn: PropTypes.bool,
     account: PropTypes.object,
+    balanceBNB: PropTypes.string,
+    valueBNB: PropTypes.string,
     balancePOL: PropTypes.string,
-    balanceCHNG: PropTypes.string,
+    valuePOL: PropTypes.string,
+    balanceLOVE: PropTypes.string,
+    valueLOVE: PropTypes.string,
+    balanceFACE: PropTypes.string,
+    valueFACE: PropTypes.string,
     balanceETH: PropTypes.string,
+    valueETH: PropTypes.string,
     balanceUSDT: PropTypes.string,
+    valueUSDT: PropTypes.string,
     balanceUSDC: PropTypes.string,
+    valueUSDC: PropTypes.string,
     balanceCHINESE: PropTypes.string,
+    valueCHINESE: PropTypes.string,
   };
 
   _load() {
@@ -117,9 +141,9 @@ class Tokens extends ImmutablePureComponent {
 
   render() {
     const {
-      accountId, blockedBy, isAccount, multiColumn, suspended, hidden,
-      remote, remoteUrl, balancePOL, balanceCHINESE, balanceETH, balanceUSDT, balanceUSDC,
-      valuePOL, valueCHINESE, valueETH, valueUSDT, valueUSDC,
+      accountId, blockedBy, isAccount, multiColumn, suspended, hidden, remote, remoteUrl,
+      balancePOL, balanceBNB, balanceCHINESE, balanceETH, balanceUSDT, balanceUSDC, balanceFACE, balanceLOVE,
+      valuePOL, valueBNB, valueCHINESE, valueETH, valueUSDT, valueUSDC, valueLOVE, valueFACE,
     } = this.props;
     if (!isAccount) {
       return (
@@ -155,36 +179,67 @@ class Tokens extends ImmutablePureComponent {
           :
           <div className={'token'}>
             <div className={'token__wrapper'}>
-              <div className={'token__item'}>
-                <div className={'token__symbol'}>
-                  <img src={POL_ICON} className={'token__icon'} alt={'POL_ICON'} />
-                  <span>POL</span>
+              {daoName === 'chinesedao' &&
+                <div className={'token__item'}>
+                  <div className={'token__symbol'}>
+                    <img src={POL_ICON} className={'token__icon'} alt={'POL_ICON'} />
+                    <span>MATIC</span>
+                  </div>
+                  <div className={'token__nums'}>
+                    <p className={'token__nums__balance'}>{balancePOL}</p>
+                    <p className={'token__nums__value'}>$ {valuePOL}</p>
+                  </div>
                 </div>
-                <div className={'token__nums'}>
-                  <p className={'token__nums__balance'}>{balancePOL}</p>
-                  <p className={'token__nums__value'}>$ {valuePOL}</p>
+              }
+              {daoName === 'facedao' &&
+                <div className={'token__item'}>
+                  <div className={'token__symbol'}>
+                    <img src={BNB_ICON} className={'token__icon'} alt={'BNB_ICON'} />
+                    <span>BNB</span>
+                  </div>
+                  <div className={'token__nums'}>
+                    <p className={'token__nums__balance'}>{balanceBNB}</p>
+                    <p className={'token__nums__value'}>$ {valueBNB}</p>
+                  </div>
                 </div>
-              </div>
-              <div className={'token__item'}>
-                <div className={'token__symbol'}>
-                  <img src={CHINESE_ICON} className={'token__icon'} alt={'CHINESE_ICON'} />
-                  <span>CHINESE</span>
+              }
+              {daoName === 'chinesedao' &&
+                <div className={'token__item'}>
+                  <div className={'token__symbol'}>
+                    <img src={CHINESE_ICON} className={'token__icon'} alt={'CHINESE_ICON'} />
+                    <span>CHINESE</span>
+                  </div>
+                  <div className={'token__nums'}>
+                    <p className={'token__nums__balance'}>{balanceCHINESE}</p>
+                    <p className={'token__nums__value'}>$ {valueCHINESE}</p>
+                  </div>
                 </div>
-                <div className={'token__nums'}>
-                  <p className={'token__nums__balance'}>{balanceCHINESE}</p>
-                  <p className={'token__nums__value'}>$ {valueCHINESE}</p>
+              }
+              {daoName === 'facedao' &&
+                <div className={'token__item'}>
+                  <div className={'token__symbol'}>
+                    <img src={LOVE_ICON} className={'token__icon'} alt={'LOVE_ICON'} />
+                    <span>LOVE</span>
+                  </div>
+                  <div className={'token__nums'}>
+                    <p className={'token__nums__balance'}>{balanceLOVE}</p>
+                    <p className={'token__nums__value'}>$ {valueLOVE}</p>
+                  </div>
                 </div>
-              </div>
-              {/*<div className={'token__item'}>*/}
-              {/*  <div className={'token__symbol'}>*/}
-              {/*    <img src={CHNG_ICON} className={'token__icon'} alt={'CHNG_ICON'} />*/}
-              {/*    <span>CHNG</span>*/}
-              {/*  </div>*/}
-              {/*  <div className={'token__nums'}>*/}
-              {/*    <p className={'token__nums__balance'}>{balanceCHNG}</p>*/}
-              {/*    <p className={'token__nums__value'}>$ {valueCHNG}</p>*/}
-              {/*  </div>*/}
-              {/*</div>*/}
+              }
+              {daoName === 'facedao' &&
+                <div className={'token__item'}>
+                  <div className={'token__symbol'}>
+                    <img src={FACE_ICON} className={'token__icon'} alt={'FACE_ICON'} />
+                    <span>FACE</span>
+                  </div>
+                  <div className={'token__nums'}>
+                    <p className={'token__nums__balance'}>{balanceFACE}</p>
+                    <p className={'token__nums__value'}>$ {valueFACE}</p>
+                  </div>
+                </div>
+              }
+
               <div className={'token__item'}>
                 <div className={'token__symbol'}>
                   <img src={ETH_ICON} className={'token__icon'} alt={'ETH_ICON'} />

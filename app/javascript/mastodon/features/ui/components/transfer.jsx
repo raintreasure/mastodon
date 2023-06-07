@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { me } from '../../../initial_state';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Button from '../../../components/button';
-import { transferModal } from '../../../actions/tokens';
+import { transferModal } from '../../../actions/transfer';
 
 const mapStateToProps = state => ({
   account: state.getIn(['accounts', me]),

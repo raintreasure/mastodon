@@ -63,8 +63,6 @@
   "account.tab_nfts": "NFTs",
   "account.tab_earnings": "Earnings",
   "account.tab_transactions": "Transactions",
-  "account.transfer.title": "Transfer $CHINESE",
-  "account.transfer.text": "You are transferring $CHINESE to ",
   "account.transfer.confirm": "Transfer",
   "account.transfer.web2_logged_in": "It seems that you logged in by web2, only web3 logged user can transfer $CHINESE. You can switch account after ",
   "account.transfer.web2_logout": "Log out",
