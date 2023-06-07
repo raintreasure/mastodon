@@ -62,8 +62,6 @@
   "account.tab_nfts": "NFTs",
   "account.tab_earnings": "Earnings",
   "account.tab_transactions": "Transactions",
-  "account.transfer.title": "Transfer $CHINESE",
-  "account.transfer.text": "You are transferring $CHINESE to ",
   "account.transfer.confirm": "Transfer",
   "account.transfer.web2_logged_in": "wallet address has not loaded, please try again or refresh the page",
   "account.transfer.web2_logout": "Log out",

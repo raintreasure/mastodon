@@ -58,13 +58,12 @@ import {
 } from 'mastodon/actions/featured_tags';
 import { Map as ImmutableMap, List as ImmutableList, fromJS } from 'immutable';
 import {
-  TOKENS_FETCH_REQUEST,
-  // TOKENS_BNB_FETCH_SUCCESS,
+  TOKENS_BNB_FETCH_SUCCESS,
   // TOKENS_CHNG_FETCH_SUCCESS,
   TOKENS_POL_FETCH_SUCCESS,
   TOKENS_ETH_FETCH_SUCCESS,
   TOKENS_USDT_FETCH_SUCCESS,
-  TOKENS_USDC_FETCH_SUCCESS, TOKENS_CHINESE_FETCH_SUCCESS,
+  TOKENS_USDC_FETCH_SUCCESS, TOKENS_CHINESE_FETCH_SUCCESS, TOKENS_LOVE_FETCH_SUCCESS, TOKENS_FACE_FETCH_SUCCESS,
 } from '../actions/tokens';
 import {
   ASSETS_FETCH_REQUEST,
@@ -143,32 +142,34 @@ export default function userLists(state = initialState, action) {
   case FOLLOWING_FETCH_FAIL:
   case FOLLOWING_EXPAND_FAIL:
     return state.setIn(['following', action.id, 'isLoading'], false);
-  case TOKENS_FETCH_REQUEST:
-    return state.setIn(['tokens', action.accountId, 'isLoading'], true);
   case TOKENS_POL_FETCH_SUCCESS:
     return state.setIn(['tokens', action.accountId, 'balance', 'POL'], action.balance)
-      .setIn(['tokens', action.accountId, 'value', 'POL'], action.value)
-      .setIn(['tokens', action.accountId, 'isLoading'], false);
+      .setIn(['tokens', action.accountId, 'value', 'POL'], action.value);
+  case TOKENS_BNB_FETCH_SUCCESS:
+    return state.setIn(['tokens', action.accountId, 'balance', 'BNB'], action.balance)
+      .setIn(['tokens', action.accountId, 'value', 'BNB'], action.value);
   case TOKENS_CHINESE_FETCH_SUCCESS:
     return state.setIn(['tokens', action.accountId, 'balance', 'CHINESE'], action.balance)
-      .setIn(['tokens', action.accountId, 'value', 'CHINESE'], action.value)
-      .setIn(['tokens', action.accountId, 'isLoading'], false);
-  // case TOKENS_CHNG_FETCH_SUCCESS:
-  //   return state.setIn(['tokens', action.accountId, 'balance', 'CHNG'], action.balance)
-  //     .setIn(['tokens', action.accountId, 'value', 'CHNG'], action.value)
-  //     .setIn(['tokens', action.accountId, 'isLoading'], false);
+      .setIn(['tokens', action.accountId, 'value', 'CHINESE'], action.value);
+  case TOKENS_LOVE_FETCH_SUCCESS:
+    return state.setIn(['tokens', action.accountId, 'balance', 'LOVE'], action.balance)
+      .setIn(['tokens', action.accountId, 'value', 'LOVE'], action.value);
+  case TOKENS_FACE_FETCH_SUCCESS:
+    return state.setIn(['tokens', action.accountId, 'balance', 'FACE'], action.balance)
+      .setIn(['tokens', action.accountId, 'value', 'FACE'], action.value);
+
+    // case TOKENS_CHNG_FETCH_SUCCESS:
+    //   return state.setIn(['tokens', action.accountId, 'balance', 'CHNG'], action.balance)
+    //     .setIn(['tokens', action.accountId, 'value', 'CHNG'], action.value)
   case TOKENS_ETH_FETCH_SUCCESS:
     return state.setIn(['tokens', action.accountId, 'balance', 'ETH'], action.balance)
-      .setIn(['tokens', action.accountId, 'value', 'ETH'], action.value)
-      .setIn(['tokens', action.accountId, 'isLoading'], false);
+      .setIn(['tokens', action.accountId, 'value', 'ETH'], action.value);
   case TOKENS_USDT_FETCH_SUCCESS:
     return state.setIn(['tokens', action.accountId, 'balance', 'USDT'], action.balance)
-      .setIn(['tokens', action.accountId, 'value', 'USDT'], action.value)
-      .setIn(['tokens', action.accountId, 'isLoading'], false);
+      .setIn(['tokens', action.accountId, 'value', 'USDT'], action.value);
   case TOKENS_USDC_FETCH_SUCCESS:
     return state.setIn(['tokens', action.accountId, 'balance', 'USDC'], action.balance)
-      .setIn(['tokens', action.accountId, 'value', 'USDC'], action.value)
-      .setIn(['tokens', action.accountId, 'isLoading'], false);
+      .setIn(['tokens', action.accountId, 'value', 'USDC'], action.value);
   case ASSETS_FETCH_REQUEST:
     return state.setIn(['nfts', action.accountId, 'isLoading'], true);
   case ASSETS_OPENSEA_FETCH_SUCCESS:

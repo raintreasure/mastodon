@@ -72,7 +72,7 @@ defaults: &defaults
   require_invite_text: false
   backups_retention_period: 7
   enable_subscription: false
-  dao_name: 'chinesedao'
+  dao_name: 'facedao'
 
 development:
   <<: *defaults

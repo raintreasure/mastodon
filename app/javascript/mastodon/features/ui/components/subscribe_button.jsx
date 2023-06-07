@@ -8,7 +8,7 @@ import Button from '../../../components/button';
 import { openModal } from '../../../actions/modal';
 import { subscribeAccount, unsubscribeAccount } from '../../../actions/accounts';
 import classNames from 'classnames';
-import { transferChinese } from '../../../actions/tokens';
+import { transferChinese } from '../../../actions/transfer';
 import { toast } from 'react-hot-toast';
 
 const mapStateToProps = state => ({

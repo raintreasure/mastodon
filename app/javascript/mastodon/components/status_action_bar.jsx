@@ -9,7 +9,7 @@ import ImmutablePureComponent from 'react-immutable-pure-component';
 import { me } from '../initial_state';
 import classNames from 'classnames';
 import { PERMISSION_MANAGE_USERS, PERMISSION_MANAGE_FEDERATION } from 'mastodon/permissions';
-import { transferModal } from '../actions/tokens';
+import { transferModal } from '../actions/transfer';
 
 const noAddrMessage = 'wallet address has not loaded, please try again or refresh the page';
 const toAccountNoAddress = 'The account you transferred to has no wallet address, you may remind the account owner to set wallet address';

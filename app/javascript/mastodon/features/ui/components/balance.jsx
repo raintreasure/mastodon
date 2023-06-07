@@ -7,16 +7,37 @@ import { toast } from 'react-hot-toast';
 import Button from '../../../components/button';
 import { openModal } from '../../../actions/modal';
 import api from '../../../api';
-import { me } from '../../../initial_state';
+import { daoName, me } from '../../../initial_state';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { getEarnToken } from '../../../utils/multichain';
 
 const mapStateToProps = state => ({
   new_balance: state.getIn(['balance', 'new_balance']),
   account: state.getIn(['accounts', me]),
 });
 
-const defaultMessage = 'Withdraw ALL your $CHINESE to your wallet, you will receive 0.1 POL for the first time withdraw.' +
-  ' After withdraw, you can check your token at';
+export const getAirdropToken = () => {
+  switch (daoName) {
+  case 'chinesedao':
+    return '0.1 POL';
+  case 'facedao':
+    return '0.001 BNB';
+  default:
+    return '0.1 POL';
+  }
+};
+export const getTokenUrl = () => {
+  switch (daoName) {
+  case 'chinesedao':
+    return 'https://polygonscan.com/tokenholdings?a=';
+  case 'facedao':
+    return 'https://bscscan.com/tokenholdings?a=';
+  default:
+    return 'https://polygonscan.com/tokenholdings?a=';
+  }
+
+};
+const defaultMessage = 'Withdraw ALL your {rewardToken} to your wallet, you will receive {airdropToken} for the first withdraw. After withdraw, you can check your token at';
 const noAddrMessage = 'wallet address has not loaded, please try again or refresh the page';
 const messages = defineMessages({
   withdrawTitle: { id: 'balance.withdraw.title', defaultMessage: 'Withdraw' },
@@ -58,11 +79,14 @@ class Balance extends React.PureComponent {
     const eth_address = this.props.account.get('eth_address');
 
     if (eth_address) {
-      const link = 'https://polygonscan.com/tokenholdings?a=' + `${eth_address}`;
+      const link = getTokenUrl() + `${eth_address}`;
       dispatch(openModal('CONFIRM', {
         message:
   <div>
-    <p style={{ textAlign: 'left' }}>{intl.formatMessage(messages.withdrawText)}</p>
+    <p style={{ textAlign: 'left' }}>{intl.formatMessage(messages.withdrawText, {
+      rewardToken: getEarnToken(),
+      airdropToken: getAirdropToken(),
+    })}</p>
     <a href={link} target={'_blank'} style={{ wordWrap: 'break-word' }}>{link}</a>
   </div>,
         confirm: intl.formatMessage(messages.confirmWithdraw),
@@ -90,10 +114,11 @@ class Balance extends React.PureComponent {
     if (this.props.new_balance !== prevProps.new_balance) {
       //Balance will be load into both sidebar and header, but toast should show once
       if (!is_side_bar && new_balance && new_balance.balance_increment > 0) {
-        toast.success('you will receive a reward of ' + new_balance.balance_increment + '$CHINESE');
+        toast.success('you will receive a reward of ' + new_balance.balance_increment + getEarnToken());
       }
     }
   }
+
   render() {
     const { new_balance, is_side_bar, intl } = this.props;
     let withdrawTitle = intl.formatMessage(messages.withdrawTitle);
@@ -108,7 +133,9 @@ class Balance extends React.PureComponent {
       >
         <div>
           <Icon id={'diamond'} fixedWidth className='column-link__icon' />
-          <span style={{ marginRight: '3px' }}>Balance: {new_balance ? new_balance.new_balance : 0}$CHINESE</span>
+          <span
+            style={{ marginRight: '3px' }}
+          >Balance: {new_balance ? new_balance.new_balance : 0}{getEarnToken()}</span>
         </div>
         <Button
           type='button'
