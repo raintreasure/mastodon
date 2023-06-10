@@ -74,7 +74,6 @@ class NFTs extends ImmutablePureComponent {
     remoteUrl: PropTypes.string,
     multiColumn: PropTypes.bool,
     account: PropTypes.object,
-    // assets: PropTypes.array,
     assets: PropTypes.array,
   };
 
@@ -144,41 +143,50 @@ class NFTs extends ImmutablePureComponent {
     return (
       <Column>
         <ColumnBackButton multiColumn={multiColumn} />
-        <HeaderContainer accountId={accountId} hideTabs />
-        {forceEmptyState ?
-          emptyMessage
-          :
-          <div className={'nft'}>
-            <div className={'nft__wrapper'}>
-              {
-                //// opensea的nft插件生成的，存在依赖问题，UI不完整，功能异常
-                // <nft-card
-                //   className={'nft__item'}
-                //   tokenAddress='0x1301566b3cb584e550a02d09562041ddc4989b91'
-                //   tokenId='28'
-                //   network='mainnet'
-                //   referrerAddress={address}
-                //   width={'100%'}
-                //   height={'150px'}
-                //   orientationMode={'auto'}
-                // />
-              }
-              {
-                assets && assets.map((asset, index)=>{
-                  return (
-                    <NFT
-                      key={index}
-                      asset={asset}
-                      dispatch={dispatch}
-                    />
-                  );
-                })
-              }
-
-            </div>
-          </div>
+        {(!assets || assets.length === 0 || forceEmptyState) &&
+          <ScrollableList
+            scrollKey='transaction'
+            hasMore={!forceEmptyState && false}
+            isLoading={false}
+            prepend={<HeaderContainer accountId={accountId} hideTabs />}
+            alwaysPrepend
+            append={remoteMessage}
+            emptyMessage={emptyMessage}
+            bindToDocument={!multiColumn}
+          >
+            {assets && assets.map((asset, index) => {
+              return (
+                <NFT
+                  key={index}
+                  asset={asset}
+                  dispatch={dispatch}
+                />
+              );
+            })}
+          </ScrollableList>
         }
-        {remoteMessage}
+        {(!forceEmptyState && assets && assets.length > 0) &&
+          <>
+            <HeaderContainer accountId={accountId} hideTabs />
+            <div className={'nft'}>
+              <div className={'nft__wrapper'}>
+                {
+                  assets && assets.map((asset, index) => {
+                    return (
+                      <NFT
+                        key={index}
+                        asset={asset}
+                        dispatch={dispatch}
+                      />
+                    );
+                  })
+                }
+
+              </div>
+            </div>
+            {remoteMessage}
+          </>
+        }
       </Column>
     );
   }
