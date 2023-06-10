@@ -8,7 +8,7 @@ import Button from '../../../components/button';
 import { openModal } from '../../../actions/modal';
 import { subscribeAccount, unsubscribeAccount } from '../../../actions/accounts';
 import classNames from 'classnames';
-import { transferChinese } from '../../../actions/transfer';
+import { transferERC20 } from '../../../actions/transfer';
 import { toast } from 'react-hot-toast';
 
 const mapStateToProps = state => ({
@@ -72,7 +72,7 @@ class SubscribeButton extends React.PureComponent {
         confirm: subscribing ? intl.formatMessage(messages.undoConfirm) : intl.formatMessage(messages.confirm),
         onConfirm: async () => {
           this.setState({ loading: true });
-          transferChinese(eth_address, subscriptionFee).then(() => {
+          transferERC20(eth_address, subscriptionFee).then(() => {
             const postUrl = subscribing ? `/api/v1/accounts/${toAccountId}/unsubscribe` :
               `/api/v1/accounts/${toAccountId}/subscribe`;
             if (subscribing) {

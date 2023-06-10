@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { getEarningsRecord } from '../../actions/balance';
 import ScrollableList from '../../components/scrollable_list';
 import LimitedAccountHint from '../account_timeline/components/limited_account_hint';
+import { getEarnToken } from '../../utils/multichain';
 
 const mapStateToProps = (state, { params: { acct, id } }) => {
   const accountId = id || state.getIn(['accounts_map', normalizeForLookup(acct)]);
@@ -137,47 +138,11 @@ class Earnings extends React.PureComponent {
               <p style={{ color: 'grey', fontSize: 'x-small' }}>{r.created_at}</p>
             </div>
             <div>
-              <p style={{ fontSize: 'larger' }}>+ {r.earn} $CHINESE</p>
+              <p style={{ fontSize: 'larger' }}>+ {r.earn} {getEarnToken()}</p>
             </div>
           </div>),
         )}
       </ScrollableList>
-      {/*<HeaderContainer accountId={this.props.accountId} hideTabs />*/}
-      {/*{earning_records.map(r =>*/}
-      {/*  // <EarningRecord value={r.earn} op={r.op_type} createTime={r.created_at}/>*/}
-      {/*  (<div className={'earning__record'} key={r.id}>*/}
-      {/*    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>*/}
-      {/*      <p>{r.op_type}</p>*/}
-      {/*      <p style={{ color: 'grey', fontSize: 'x-small' }}>{r.created_at}</p>*/}
-      {/*    </div>*/}
-      {/*    <div>*/}
-      {/*      <p style={{ fontSize: 'larger' }}>+ {r.earn} $CHINESE</p>*/}
-      {/*    </div>*/}
-      {/*  </div>),*/}
-      {/*)}*/}
-      {/*<ScrollableList*/}
-      {/*  scrollKey='following'*/}
-      {/*  hasMore={!forceEmptyState && false}*/}
-      {/*  isLoading={false}*/}
-      {/*  prepend={<HeaderContainer accountId={this.props.accountId} hideTabs/>}*/}
-      {/*  alwaysPrepend*/}
-      {/*  append={remoteMessage}*/}
-      {/*  emptyMessage={emptyMessage}*/}
-      {/*  bindToDocument={!multiColumn}*/}
-      {/*>*/}
-      {/*  {earning_records.map(r =>*/}
-      {/*    // <EarningRecord value={r.earn} op={r.op_type} createTime={r.created_at}/>*/}
-      {/*    (<div className={'tokens__transactions'} hidden={false}>*/}
-      {/*      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'start'}}>*/}
-      {/*        <p>{r.op_type}</p>*/}
-      {/*        <p style={{color:'grey', fontSize:'x-small'}}>{r.created_at}</p>*/}
-      {/*      </div>*/}
-      {/*      <div>*/}
-      {/*        <p style={{fontSize:'larger'}}>+ {r.earn} $CHINESE</p>*/}
-      {/*      </div>*/}
-      {/*    </div>)*/}
-      {/*  )}*/}
-      {/*</ScrollableList>*/}
     </Column>);
   }
 

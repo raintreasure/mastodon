@@ -63,7 +63,7 @@ import {
   TOKENS_POL_FETCH_SUCCESS,
   TOKENS_ETH_FETCH_SUCCESS,
   TOKENS_USDT_FETCH_SUCCESS,
-  TOKENS_USDC_FETCH_SUCCESS, TOKENS_CHINESE_FETCH_SUCCESS, TOKENS_LOVE_FETCH_SUCCESS, TOKENS_FACE_FETCH_SUCCESS,
+  TOKENS_USDC_FETCH_SUCCESS, TOKENS_CHINESE_FETCH_SUCCESS, TOKENS_LOVE_FETCH_SUCCESS, TOKENS_FACEDAO_FETCH_SUCCESS,
 } from '../actions/tokens';
 import {
   ASSETS_FETCH_REQUEST,
@@ -154,9 +154,9 @@ export default function userLists(state = initialState, action) {
   case TOKENS_LOVE_FETCH_SUCCESS:
     return state.setIn(['tokens', action.accountId, 'balance', 'LOVE'], action.balance)
       .setIn(['tokens', action.accountId, 'value', 'LOVE'], action.value);
-  case TOKENS_FACE_FETCH_SUCCESS:
-    return state.setIn(['tokens', action.accountId, 'balance', 'FACE'], action.balance)
-      .setIn(['tokens', action.accountId, 'value', 'FACE'], action.value);
+  case TOKENS_FACEDAO_FETCH_SUCCESS:
+    return state.setIn(['tokens', action.accountId, 'balance', 'FaceDAO'], action.balance)
+      .setIn(['tokens', action.accountId, 'value', 'FaceDAO'], action.value);
 
     // case TOKENS_CHNG_FETCH_SUCCESS:
     //   return state.setIn(['tokens', action.accountId, 'balance', 'CHNG'], action.balance)

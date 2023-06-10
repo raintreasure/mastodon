@@ -34,7 +34,6 @@ class Form::AdminSettings
     backups_retention_period
     status_page_url
     enable_subscription
-    dao_name
   ).freeze
 
   INTEGER_KEYS = %i(

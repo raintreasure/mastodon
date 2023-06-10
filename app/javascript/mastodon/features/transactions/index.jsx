@@ -99,11 +99,6 @@ class Transactions extends ImmutablePureComponent {
     }
   }
 
-  refetchRelationship() {
-    const { params: { acct }, dispatch } = this.props;
-    dispatch(lookupAccount(acct));
-  }
-
   handleLoadMore = debounce(() => {
     const { accountId, currentPage, dispatch, account } = this.props;
     const newPage = currentPage + 1;
@@ -165,8 +160,6 @@ class Transactions extends ImmutablePureComponent {
 
     return (<Column>
       <ColumnBackButton multiColumn={multiColumn} />
-      <button onClick={this.refetchRelationship}>fetch relationship
-      </button>
       <ScrollableList
         scrollKey='transaction'
         hasMore={!forceEmptyState && false}

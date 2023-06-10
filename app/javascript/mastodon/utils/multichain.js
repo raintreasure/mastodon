@@ -1,7 +1,6 @@
-import { daoName } from '../initial_state';
 
 export const getEarnToken = () => {
-  switch (daoName) {
+  switch (process.env.REACT_APP_DAO) {
   case 'chinesedao':
     return '$CHINESE';
   case 'facedao':
@@ -12,7 +11,7 @@ export const getEarnToken = () => {
 };
 
 export const getNativeToken = () => {
-  switch (daoName) {
+  switch (process.env.REACT_APP_DAO) {
   case 'chinesedao':
     return '$MATIC';
   case 'facedao':

@@ -23,10 +23,9 @@ import {
   CHINESE_ICON,
   POL_ICON,
   BNB_ICON,
-  FACE_ICON,
+  FACEDAO_ICON,
   LOVE_ICON,
 } from '../../../icons/data';
-import { daoName } from '../../initial_state';
 
 const mapStateToProps = (state, { params: { acct, id } }) => {
   const accountId = id || state.getIn(['accounts_map', normalizeForLookup(acct)]);
@@ -53,8 +52,8 @@ const mapStateToProps = (state, { params: { acct, id } }) => {
     valueCHINESE: state.getIn(['user_lists', 'tokens', accountId, 'value', 'CHINESE'], '0'),
     balanceLOVE: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'LOVE'], '0'),
     valueLOVE: state.getIn(['user_lists', 'tokens', accountId, 'value', 'LOVE'], '0'),
-    balanceFACE: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'FACE'], '0'),
-    valueFACE: state.getIn(['user_lists', 'tokens', accountId, 'value', 'FACE'], '0'),
+    balanceFaceDAO: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'FaceDAO'], '0'),
+    valueFaceDAO: state.getIn(['user_lists', 'tokens', accountId, 'value', 'FaceDAO'], '0'),
     balanceETH: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'ETH'], '0'),
     valueETH: state.getIn(['user_lists', 'tokens', accountId, 'value', 'ETH'], '0'),
     balanceUSDT: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'USDT'], '0'),
@@ -100,8 +99,8 @@ class Tokens extends ImmutablePureComponent {
     valuePOL: PropTypes.string,
     balanceLOVE: PropTypes.string,
     valueLOVE: PropTypes.string,
-    balanceFACE: PropTypes.string,
-    valueFACE: PropTypes.string,
+    balanceFaceDAO: PropTypes.string,
+    valueFaceDAO: PropTypes.string,
     balanceETH: PropTypes.string,
     valueETH: PropTypes.string,
     balanceUSDT: PropTypes.string,
@@ -142,8 +141,8 @@ class Tokens extends ImmutablePureComponent {
   render() {
     const {
       accountId, blockedBy, isAccount, multiColumn, suspended, hidden, remote, remoteUrl,
-      balancePOL, balanceBNB, balanceCHINESE, balanceETH, balanceUSDT, balanceUSDC, balanceFACE, balanceLOVE,
-      valuePOL, valueBNB, valueCHINESE, valueETH, valueUSDT, valueUSDC, valueLOVE, valueFACE,
+      balancePOL, balanceBNB, balanceCHINESE, balanceETH, balanceUSDT, balanceUSDC, balanceFaceDAO, balanceLOVE,
+      valuePOL, valueBNB, valueCHINESE, valueETH, valueUSDT, valueUSDC, valueLOVE, valueFaceDAO,
     } = this.props;
     if (!isAccount) {
       return (
@@ -181,7 +180,7 @@ class Tokens extends ImmutablePureComponent {
           :
           <div className={'token'}>
             <div className={'token__wrapper'}>
-              {daoName === 'chinesedao' &&
+              {process.env.REACT_APP_DAO === 'chinesedao' &&
                 <div className={'token__item'}>
                   <div className={'token__symbol'}>
                     <img src={POL_ICON} className={'token__icon'} alt={'POL_ICON'} />
@@ -193,7 +192,7 @@ class Tokens extends ImmutablePureComponent {
                   </div>
                 </div>
               }
-              {daoName === 'facedao' &&
+              {process.env.REACT_APP_DAO === 'facedao' &&
                 <div className={'token__item'}>
                   <div className={'token__symbol'}>
                     <img src={BNB_ICON} className={'token__icon'} alt={'BNB_ICON'} />
@@ -205,7 +204,7 @@ class Tokens extends ImmutablePureComponent {
                   </div>
                 </div>
               }
-              {daoName === 'chinesedao' &&
+              {process.env.REACT_APP_DAO === 'chinesedao' &&
                 <div className={'token__item'}>
                   <div className={'token__symbol'}>
                     <img src={CHINESE_ICON} className={'token__icon'} alt={'CHINESE_ICON'} />
@@ -217,7 +216,7 @@ class Tokens extends ImmutablePureComponent {
                   </div>
                 </div>
               }
-              {daoName === 'facedao' &&
+              {process.env.REACT_APP_DAO === 'facedao' &&
                 <div className={'token__item'}>
                   <div className={'token__symbol'}>
                     <img src={LOVE_ICON} className={'token__icon'} alt={'LOVE_ICON'} />
@@ -229,15 +228,15 @@ class Tokens extends ImmutablePureComponent {
                   </div>
                 </div>
               }
-              {daoName === 'facedao' &&
+              {process.env.REACT_APP_DAO === 'facedao' &&
                 <div className={'token__item'}>
                   <div className={'token__symbol'}>
-                    <img src={FACE_ICON} className={'token__icon'} alt={'FACE_ICON'} />
-                    <span>FACE</span>
+                    <img src={FACEDAO_ICON} className={'token__icon'} alt={'FACEDAO_ICON'} />
+                    <span>FaceDAO</span>
                   </div>
                   <div className={'token__nums'}>
-                    <p className={'token__nums__balance'}>{balanceFACE}</p>
-                    <p className={'token__nums__value'}>$ {valueFACE}</p>
+                    <p className={'token__nums__balance'}>{balanceFaceDAO}</p>
+                    <p className={'token__nums__value'}>$ {valueFaceDAO}</p>
                   </div>
                 </div>
               }

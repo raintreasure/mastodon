@@ -12,35 +12,57 @@ import { WalletConnectV1Adapter } from '@web3auth/wallet-connect-v1-adapter';
 import { MetamaskAdapter } from '@web3auth/metamask-adapter';
 import { TorusWalletAdapter } from '@web3auth/torus-evm-adapter';
 
+
+
 (async function init() {
   // $(".btn-logged-in").hide();
   // $("#sign-tx").hide();
-  // alert('init web3auth in javasript pack');
-
-  const clientId = 'BAqTBAVYaw6XPqsGyr_4Mk4hMnSI7XIC4PEueaJBRlDH008L9982XbPs0IjW04S4Xy21TGnMVvPbmxwfTVwmeJo'; // get your clientId from https://dashboard.web3auth.io
+  const getChainId = () => {
+    switch (process.env.REACT_APP_DAO) {
+    case 'chinesedao':
+      return '0x89';
+    case 'facedao':
+      return '0x38';
+    default:
+      return '0x89';
+    }
+  };
+  const getRpcUrl = () => {
+    switch (process.env.REACT_APP_DAO) {
+    case 'chinesedao':
+      return 'https://rpc.ankr.com/polygon';
+    case 'facedao':
+      return 'https://rpc.ankr.com/bsc';
+    default:
+      return 'https://rpc.ankr.com/polygon';
+    }
+  };
+  const getWeb3authName = () => {
+    switch (process.env.REACT_APP_DAO) {
+    case 'chinesedao':
+      return 'Chinese.org';
+    case 'facedao':
+      return 'FaceDAO.com';
+    default:
+      return 'Chinese.org';
+    }
+  };
+  const clientId = process.env.REACT_APP_WEB3AUTH_CLIENT_ID;
   window.web3auth = new Web3Auth({
     clientId,
     chainConfig: {
       chainNamespace: 'eip155',
-      chainId: '0x89',
-      rpcTarget: 'https://rpc.ankr.com/polygon', // This is the public RPC we have added, please pass on your own endpoint while creating an app
+      chainId: getChainId(),
+      rpcTarget: getRpcUrl(), // This is the public RPC we have added, please pass on your own endpoint while creating an app
     },
     uiConfig: {
-      appName:'Chinese.org',
-      appLogo:'/images/icon.png',
-      theme:'light',
+      appName: getWeb3authName(),
+      appLogo: '/images/icon.png',
+      theme: 'light',
       loginMethodsOrder: ['twitter', 'google'],
     },
   });
-  // window.web3auth = new Web3Auth({
-  //   clientId,
-  //   chainConfig: {
-  //     chainNamespace: 'eip155',
-  //     chainId: '0x7f93',
-  //     rpcTarget: 'https://mainnet.fusionnetwork.io', // This is the public RPC we have added, please pass on your own endpoint while creating an app
-  //   },
-  // });
-  // Add Torus Wallet Connector Plugin
+
   const torusPlugin =
     new TorusWalletConnectorPlugin({
       torusWalletOpts: {},

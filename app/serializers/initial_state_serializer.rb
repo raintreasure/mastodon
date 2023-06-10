@@ -33,7 +33,6 @@ class InitialStateSerializer < ActiveModel::Serializer
       trends_as_landing_page: Setting.trends_as_landing_page,
       status_page_url: Setting.status_page_url,
       enable_subscription: Setting.enable_subscription,
-      dao_name: Setting.dao_name,
     }
 
     if object.current_account

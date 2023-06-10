@@ -11,9 +11,6 @@ import classNames from 'classnames';
 import { PERMISSION_MANAGE_USERS, PERMISSION_MANAGE_FEDERATION } from 'mastodon/permissions';
 import { transferModal } from '../actions/transfer';
 
-const noAddrMessage = 'wallet address has not loaded, please try again or refresh the page';
-const toAccountNoAddress = 'The account you transferred to has no wallet address, you may remind the account owner to set wallet address';
-
 const messages = defineMessages({
   delete: { id: 'status.delete', defaultMessage: 'Delete' },
   redraft: { id: 'status.redraft', defaultMessage: 'Delete & re-draft' },
@@ -52,13 +49,7 @@ const messages = defineMessages({
   unblock: { id: 'account.unblock', defaultMessage: 'Unblock @{name}' },
   filter: { id: 'status.filter', defaultMessage: 'Filter this post' },
   openOriginalPage: { id: 'account.open_original_page', defaultMessage: 'Open original page' },
-  transferTitle: { id: 'account.transfer.title', defaultMessage: 'Transfer $CHINESE' },
-  transferText: { id: 'account.transfer.text', defaultMessage: 'You are transferring $CHINESE to ' },
-  transferConfirm: { id: 'account.transfer.confirm', defaultMessage: 'Transfer' },
-  transferWeb2LoggedIn: { id: 'account.transfer.web2_logged_in', defaultMessage: noAddrMessage },
-  transferWeb2Logout: { id: 'account.transfer.web2_logout', defaultMessage: 'Log out' },
-  transferEmptyConfirm: { id: 'account.transfer.empty_confirm', defaultMessage: 'Confirm' },
-  transferToAccountNoAddress: { id: 'account.transfer.to_account_no_address', defaultMessage: toAccountNoAddress },
+  transferTitle: { id: 'account.transfer.title', defaultMessage: 'Transfer' },
 });
 
 const mapStateToProps = (state, { status }) => ({
@@ -241,10 +232,21 @@ class StatusActionBar extends ImmutablePureComponent {
   handleHideClick = () => {
     this.props.onFilter();
   };
-  handleGIft = async () => {
-    const { intl, dispatch, status } = this.props;
-    transferModal(intl, dispatch, status.get('account'), messages);
 
+  transferCHINESEModal = () => {
+    const { intl, dispatch, status } = this.props;
+    const account = status.get('account');
+    transferModal(intl, dispatch, account, 'CHINESE');
+  };
+  transferLOVEModal = () => {
+    const { intl, dispatch, status } = this.props;
+    const account = status.get('account');
+    transferModal(intl, dispatch, account, 'LOVE');
+  };
+  transferFaceDAOModal = () => {
+    const { intl, dispatch, status } = this.props;
+    const account = status.get('account');
+    transferModal(intl, dispatch, account, 'FaceDAO');
   };
 
   render() {
@@ -380,7 +382,10 @@ class StatusActionBar extends ImmutablePureComponent {
         }
       }
     }
-
+    const transferMenu = [
+      { text: intl.formatMessage(messages.gift) + ' $LOVE', action: this.transferLOVEModal },
+      { text: intl.formatMessage(messages.gift) + ' $FaceDAO', action: this.transferFaceDAOModal },
+    ];
     let replyIcon;
     let replyTitle;
     if (status.get('in_reply_to_id', null) === null) {
@@ -441,11 +446,26 @@ class StatusActionBar extends ImmutablePureComponent {
           active={status.get('bookmarked')} title={intl.formatMessage(messages.bookmark)} icon='bookmark'
           onClick={this.handleBookmarkClick}
         />
-        <IconButton
-          className='status__action-bar__button gift-icon' disabled={!signedIn}
-          title={intl.formatMessage(messages.gift)} icon='gift'
-          onClick={this.handleGIft}
-        />
+        {process.env.REACT_APP_DAO !== 'facedao' &&
+          <IconButton
+            className='status__action-bar__button gift-icon' disabled={!signedIn}
+            title={intl.formatMessage(messages.gift)} icon='gift'
+            onClick={this.transferCHINESEModal}
+          />
+        }
+        {process.env.REACT_APP_DAO === 'facedao' &&
+          <div className='status__action-bar__dropdown'>
+            <DropdownMenuContainer
+              disabled={anonymousAccess}
+              items={transferMenu}
+              icon='gift'
+              size={18}
+              direction='right'
+              title={intl.formatMessage(messages.transferTitle)}
+            />
+          </div>
+        }
+
         {shareButton}
 
         {filterButton}

@@ -5,6 +5,7 @@ const sharedConfig = require('./shared');
 const { settings, output } = require('./configuration');
 
 const watchOptions = {};
+const Dotenv = require('dotenv-webpack');
 
 if (process.env.VAGRANT) {
   // If we are in Vagrant, we can't rely on inotify to update us with changed
@@ -58,4 +59,7 @@ module.exports = merge(sharedConfig, {
     ),
     writeToDisk: filePath => /ocr/.test(filePath),
   },
+  plugins: [
+    new Dotenv({ path: '.env.development' }),
+  ],
 });

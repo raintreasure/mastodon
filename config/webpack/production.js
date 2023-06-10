@@ -11,6 +11,7 @@ const { InjectManifest } = require('workbox-webpack-plugin');
 const sharedConfig = require('./shared');
 
 const root = resolve(__dirname, '..', '..');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = merge(sharedConfig, {
   mode: 'production',
@@ -68,5 +69,7 @@ module.exports = merge(sharedConfig, {
       swDest: resolve(root, 'public', 'packs', 'sw.js'),
       swSrc: resolve(root, 'app', 'javascript', 'mastodon', 'service_worker', 'entry.js'),
     }),
+    new Dotenv({ path: '.env.production' }),
   ],
+
 });

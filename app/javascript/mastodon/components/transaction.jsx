@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { arrowToIcon, arrowFromIcon } from '../utils/icons';
 import BigNumber from 'bignumber.js';
 import { minifyAddress } from '../utils/web3';
+import { getContractDecimal } from '../actions/transfer';
 
 class Transaction extends ImmutablePureComponent {
 
@@ -34,7 +35,7 @@ class Transaction extends ImmutablePureComponent {
           </div>
         </div>
         <div className={'tokens__transactions__amount'}>
-          <p>{(isIndirection ? '+' : '-') + (new BigNumber(value)).dividedBy(1e18).toFixed(2)}</p>
+          <p>{(isIndirection ? '+' : '-') + (new BigNumber(value)).dividedBy(getContractDecimal(token)).toFixed(2)}</p>
           <p>{token}</p>
         </div>
       </div>

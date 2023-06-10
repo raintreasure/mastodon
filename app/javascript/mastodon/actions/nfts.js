@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 
 const axios = require('axios').default;
 
-export const OPENSEA_API_KEY = '26ee232021e04342814b392cd5d87e8d';  // 有效期截止2024年5月9日
+export const OPENSEA_API_KEY = process.env.REACT_APP_OPENSEA_API_KEY;  // 有效期截止2024年5月9日
 export const OPENSEA_API_V1_BASE_URL = 'https://api.opensea.io/api/v1';
 // const OPENSEA_API_V2_BASE_URL = 'https://api.opensea.io/api/v2';
 
-export const NFTSCAN_API_KEY = 'Gi7cX8VAj5lCZVhfqRWlJajX';
+export const NFTSCAN_API_KEY = process.env.REACT_APP_NFTSCAN_API_KEY;
 export const NFTSCAN_API_V2_BASE_URL = 'https://polygonapi.nftscan.com/api/v2';
 
 export const ASSETS_FETCH_REQUEST = 'ASSETS_FETCH_REQUEST';
