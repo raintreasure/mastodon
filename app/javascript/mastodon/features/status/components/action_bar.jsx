@@ -11,9 +11,6 @@ import { connect } from 'react-redux';
 import { PERMISSION_MANAGE_USERS, PERMISSION_MANAGE_FEDERATION } from 'mastodon/permissions';
 import { transferModal } from '../../../actions/transfer';
 
-const web2LoggedInMessage = 'It seems that you logged in by web2, only web3 logged user can transfer $CHINESE. You can switch account after ';
-const toAccountNoAddress = 'The account you transferred to has no wallet address, you may remind the account owner to set wallet address';
-
 import { IconButton } from '../../../components/icon_button';
 import DropdownMenuContainer from '../../../containers/dropdown_menu_container';
 import { me } from '../../../initial_state';
@@ -51,13 +48,7 @@ const messages = defineMessages({
   unmute: { id: 'account.unmute', defaultMessage: 'Unmute @{name}' },
   unblock: { id: 'account.unblock', defaultMessage: 'Unblock @{name}' },
   openOriginalPage: { id: 'account.open_original_page', defaultMessage: 'Open original page' },
-  transferTitle: { id: 'account.transfer.title', defaultMessage: 'Transfer $CHINESE' },
-  transferText: { id: 'account.transfer.text', defaultMessage: 'You are transferring $CHINESE to ' },
-  transferConfirm: { id: 'account.transfer.confirm', defaultMessage: 'Transfer' },
-  transferWeb2LoggedIn: { id: 'account.transfer.web2_logged_in', defaultMessage: web2LoggedInMessage },
-  transferWeb2Logout: { id: 'account.transfer.web2_logout', defaultMessage: 'Log out' },
-  transferEmptyConfirm: { id: 'account.transfer.empty_confirm', defaultMessage: 'Confirm' },
-  transferToAccountNoAddress: { id: 'account.transfer.to_account_no_address', defaultMessage: toAccountNoAddress },
+  transferTitle: { id: 'account.transfer.title', defaultMessage: 'Transfer' },
 });
 
 const mapStateToProps = (state, { status }) => ({
@@ -195,11 +186,21 @@ class ActionBar extends PureComponent {
     const url = this.props.status.get('url');
     navigator.clipboard.writeText(url);
   };
-  handleGIft = () => {
+  transferCHINESEModal = () => {
     const { intl, dispatch, status } = this.props;
-    transferModal(intl, dispatch, status.get('account'), messages);
+    const account = status.get('account');
+    transferModal(intl, dispatch, account, 'CHINESE');
   };
-
+  transferLOVEModal = () => {
+    const { intl, dispatch, status } = this.props;
+    const account = status.get('account');
+    transferModal(intl, dispatch, account, 'LOVE');
+  };
+  transferFaceDAOModal = () => {
+    const { intl, dispatch, status } = this.props;
+    const account = status.get('account');
+    transferModal(intl, dispatch, account, 'FaceDAO');
+  };
   render() {
     const { status, relationship, intl } = this.props;
     const { signedIn, permissions } = this.context.identity;
@@ -305,6 +306,11 @@ class ActionBar extends PureComponent {
         }
       }
     }
+    const transferMenu = [
+      { text: intl.formatMessage(messages.gift) + ' $LOVE', action: this.transferLOVEModal },
+      { text: intl.formatMessage(messages.gift) + ' $FaceDAO', action: this.transferFaceDAOModal },
+    ];
+
 
     let replyIcon;
     if (status.get('in_reply_to_id', null) === null) {
@@ -351,11 +357,25 @@ class ActionBar extends PureComponent {
           title={intl.formatMessage(messages.bookmark)}
           icon='bookmark' onClick={this.handleBookmarkClick}
         /></div>
-        <div className='detailed-status__button'><IconButton
-          className='gift-icon' disabled={!signedIn}
-          title={intl.formatMessage(messages.gift)} icon='gift'
-          onClick={this.handleGIft}
-        /></div>
+        {process.env.REACT_APP_DAO !== 'facedao' &&
+          <div className='detailed-status__button'><IconButton
+            className='gift-icon' disabled={!signedIn}
+            title={intl.formatMessage(messages.gift)} icon='gift'
+            onClick={this.transferCHINESEModal}
+          /></div>
+        }
+        {process.env.REACT_APP_DAO === 'facedao' &&
+          <div className='detailed-status__button'>
+            <DropdownMenuContainer
+              disabled={!signedIn}
+              items={transferMenu}
+              icon='gift'
+              size={18}
+              direction='right'
+              title={intl.formatMessage(messages.transferTitle)}
+            />
+          </div>
+        }
 
         <div className='detailed-status__action-bar-dropdown'>
           <DropdownMenuContainer

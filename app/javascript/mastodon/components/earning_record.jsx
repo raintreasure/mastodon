@@ -3,6 +3,7 @@ import { injectIntl } from 'react-intl';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 import PropTypes from 'prop-types';
 import BigNumber from 'bignumber.js';
+import { getEarnToken } from '../utils/multichain';
 
 class EarningRecord extends ImmutablePureComponent {
 
@@ -25,7 +26,7 @@ class EarningRecord extends ImmutablePureComponent {
         </div>
         <div className={'tokens__transactions__amount'}>
           <p>{'+'  + (new BigNumber(value)).dividedBy(1e18).toFixed(2)}</p>
-          <p>$CHINESE</p>
+          <p>{getEarnToken()}</p>
         </div>
       </div>
     );

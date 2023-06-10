@@ -7,7 +7,7 @@ import { toast } from 'react-hot-toast';
 import Button from '../../../components/button';
 import { openModal } from '../../../actions/modal';
 import api from '../../../api';
-import { daoName, me } from '../../../initial_state';
+import { me } from '../../../initial_state';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { getEarnToken } from '../../../utils/multichain';
 
@@ -17,7 +17,7 @@ const mapStateToProps = state => ({
 });
 
 export const getAirdropToken = () => {
-  switch (daoName) {
+  switch (process.env.REACT_APP_DAO) {
   case 'chinesedao':
     return '0.1 POL';
   case 'facedao':
@@ -27,7 +27,7 @@ export const getAirdropToken = () => {
   }
 };
 export const getTokenUrl = () => {
-  switch (daoName) {
+  switch (process.env.REACT_APP_DAO) {
   case 'chinesedao':
     return 'https://polygonscan.com/tokenholdings?a=';
   case 'facedao':
@@ -35,8 +35,8 @@ export const getTokenUrl = () => {
   default:
     return 'https://polygonscan.com/tokenholdings?a=';
   }
-
 };
+
 const defaultMessage = 'Withdraw ALL your {rewardToken} to your wallet, you will receive {airdropToken} for the first withdraw. After withdraw, you can check your token at';
 const noAddrMessage = 'wallet address has not loaded, please try again or refresh the page';
 const messages = defineMessages({
@@ -127,6 +127,20 @@ class Balance extends React.PureComponent {
             style={{ marginRight: '3px' }}
           >Balance: {new_balance ? new_balance.new_balance : 0}{getEarnToken()}</span>
         </div>
+        {is_side_bar &&
+          <Button
+            type='button'
+            text={this.state.loading ? withdrawingTitle : withdrawTitle}
+            title={withdrawTitle}
+            onClick={this.handleWithdrawClick}
+            disabled={this.state.loading}
+          />
+        }
+        {!is_side_bar &&
+          <button onClick={this.handleWithdrawClick} className='withdraw-href'>
+            {this.state.loading ? withdrawingTitle : withdrawTitle}
+          </button>
+        }
       </div>
     );
   }

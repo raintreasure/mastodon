@@ -6,21 +6,14 @@ import { me } from '../../../initial_state';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Button from '../../../components/button';
 import { transferModal } from '../../../actions/transfer';
+import DropdownMenuContainer from '../../../containers/dropdown_menu_container';
 
 const mapStateToProps = state => ({
   account: state.getIn(['accounts', me]),
 });
 
-const web2LoggedInMessage = 'It seems that you logged in by web2, only web3 logged user can transfer $CHINESE. You can switch account after ';
-const toAccountNoAddress = 'The account you transferred to has no wallet address, you may remind the account owner to set wallet address';
 const messages = defineMessages({
-  transferTitle: { id: 'account.transfer.title', defaultMessage: 'Transfer $CHINESE' },
-  transferText: { id: 'account.transfer.text', defaultMessage: 'You are transferring $CHINESE to ' },
-  transferConfirm: { id: 'account.transfer.confirm', defaultMessage: 'Transfer' },
-  transferWeb2LoggedIn: { id: 'account.transfer.web2_logged_in', defaultMessage: web2LoggedInMessage },
-  transferWeb2Logout: { id: 'account.transfer.web2_logout', defaultMessage: 'Log out' },
-  transferEmptyConfirm: { id: 'account.transfer.empty_confirm', defaultMessage: 'Confirm' },
-  transferToAccountNoAddress: { id: 'account.transfer.to_account_no_address', defaultMessage: toAccountNoAddress },
+  transferTitle: { id: 'account.transfer.title', defaultMessage: 'Transfer' },
 });
 
 class TransferToken extends React.PureComponent {
@@ -39,23 +32,54 @@ class TransferToken extends React.PureComponent {
     identity: PropTypes.object.isRequired,
   };
 
-  handleClick = () => {
+  transferCHINESEModal = () => {
     const { intl, dispatch, to_account } = this.props;
-    transferModal(intl, dispatch, to_account, messages);
+    transferModal(intl, dispatch, to_account, 'CHINESE');
   };
+  transferLOVEModal = () => {
+    const { intl, dispatch, to_account } = this.props;
+    transferModal(intl, dispatch, to_account, 'LOVE');
+  };
+  transferFaceDAOModal = () => {
+    const { intl, dispatch, to_account } = this.props;
+    transferModal(intl, dispatch, to_account, 'FaceDAO');
+  };
+
 
   render() {
     const { intl } = this.props;
+    const { signedIn } = this.context.identity;
+
+    let menu = [
+      { text: '$LOVE', action: this.transferLOVEModal },
+      { text: '$FaceDAO', action: this.transferFaceDAOModal },
+    ];
+
     return (
       <div>
-        {/*<input type={'number'}/>*/}
-        <Button
-          type='button'
-          text={intl.formatMessage(messages.transferTitle)}
-          title={intl.formatMessage(messages.transferTitle)}
-          onClick={this.handleClick}
-          disabled={this.state.loading}
-        />
+        {process.env.REACT_APP_DAO === 'chinesedao' &&
+          <Button
+            type='button'
+            text={intl.formatMessage(messages.transferTitle)}
+            title={intl.formatMessage(messages.transferTitle)}
+            onClick={this.transferCHINESEModal}
+            disabled={!signedIn || this.state.loading}
+          />
+        }
+        {process.env.REACT_APP_DAO === 'facedao' &&
+          <DropdownMenuContainer
+            disabled={!signedIn || this.state.loading}
+            items={menu}
+            title={intl.formatMessage(messages.transferTitle)}
+            size={18}
+          >
+            <Button
+              type='button'
+              text={intl.formatMessage(messages.transferTitle)}
+              title={intl.formatMessage(messages.transferTitle)}
+            />
+          </DropdownMenuContainer>
+        }
       </div>
 
     );

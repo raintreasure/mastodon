@@ -135,5 +135,4 @@ export const languages = initialState?.languages;
 // @ts-expect-error
 export const statusPageUrl = getMeta('status_page_url');
 export const enableSubscription = getMeta('enable_subscription');
-export const daoName = getMeta('dao_name');
 export default initialState;

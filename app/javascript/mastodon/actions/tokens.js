@@ -1,5 +1,3 @@
-import { daoName } from '../initial_state';
-
 const axios = require('axios').default;
 
 const chaingeAPIBaseUrl = 'https://openapi.chainge.finance';
@@ -27,9 +25,9 @@ export const USDC_DECIMALS = 1e6;
 export const TOKENS_LOVE_FETCH_SUCCESS = 'TOKENS_LOVE_FETCH_SUCCESS';
 export const LOVE_CONTRACT_ADDR = '0x6452961d566449fa5364a182b802a32e17f5cc5f';
 export const LOVE_DECIMALS = 1;
-export const TOKENS_FACE_FETCH_SUCCESS = 'TOKENS_FACE_FETCH_SUCCESS';
-export const FACE_CONTRACT_ADDR = '0xb700597d8425CEd17677Bc68042D7d92764ACF59';
-export const FACE_DECIMALS = 1e18;
+export const TOKENS_FACEDAO_FETCH_SUCCESS = 'TOKENS_FACEDAO_FETCH_SUCCESS';
+export const FACEDAO_CONTRACT_ADDR = '0xb700597d8425CEd17677Bc68042D7d92764ACF59';
+export const FACEDAO_DECIMALS = 1e18;
 
 // export const TOKENS_CHNG_FETCH_SUCCESS = 'TOKENS_CHNG_FETCH_SUCCESS';
 // export const CHNG_CONTRACT_ADDR = '0x05573124c64c69d85687152b2942bcb0a3b26d99';
@@ -106,6 +104,7 @@ async function getCHINESEBalance(accountId, address, dispatch) {
     }
   });
 }
+
 async function getLOVEBalance(accountId, address, dispatch) {
   const Web3 = require('web3');
   const provider = new Web3.providers.HttpProvider(BSC_RPC_URL);
@@ -124,21 +123,23 @@ async function getLOVEBalance(accountId, address, dispatch) {
     }
   });
 }
-async function getFACEBalance(accountId, address, dispatch) {
+
+async function getFaceDAOBalance(accountId, address, dispatch) {
   const Web3 = require('web3');
   const provider = new Web3.providers.HttpProvider(BSC_RPC_URL);
   const web3 = new Web3(provider);
-  const contractAddress = FACE_CONTRACT_ADDR;
+  const contractAddress = FACEDAO_CONTRACT_ADDR;
   const contract = new web3.eth.Contract(balanceOfAbi, contractAddress);
   const price = await fetchTokenPrice('FACE');
+  console.log('price of FaceDAO from chng:', price);
   contract.methods.balanceOf(address).call((error, result) => {
     if (!error && result) {
-      const balanceWithDecimals = new BigNumber(result).dividedBy(FACE_DECIMALS).toFixed(TOKEN_SHOWN_DECIMALS);
+      const balanceWithDecimals = new BigNumber(result).dividedBy(FACEDAO_DECIMALS).toFixed(TOKEN_SHOWN_DECIMALS);
       const value = new BigNumber(balanceWithDecimals).multipliedBy(price).toFixed(VALUE_SHOWN_DECIMALS);
-      dispatch(fetchFACESuccess(accountId, balanceWithDecimals, value));
+      dispatch(fetchFaceDAOSuccess(accountId, balanceWithDecimals, value));
     }
     if (error) {
-      console.log('get FACE balance error:', error);
+      console.log('get FaceDAO balance error:', error);
     }
   });
 }
@@ -165,7 +166,7 @@ async function getFACEBalance(accountId, address, dispatch) {
 async function getETHBalance(accountId, address, dispatch) {
   let contractAddr = '';
   let rpc_url = '';
-  switch (daoName) {
+  switch (process.env.REACT_APP_DAO) {
   case 'chinesedao':
     contractAddr = POL_ETH_CONTRACT_ADDR;
     rpc_url = POL_RPC_URL;
@@ -198,7 +199,7 @@ async function getETHBalance(accountId, address, dispatch) {
 async function getUSDTBalance(accountId, address, dispatch) {
   let contractAddr = '';
   let rpc_url = '';
-  switch (daoName) {
+  switch (process.env.REACT_APP_DAO) {
   case 'chinesedao':
     contractAddr = POL_USDT_CONTRACT_ADDR;
     rpc_url = POL_RPC_URL;
@@ -231,7 +232,7 @@ async function getUSDTBalance(accountId, address, dispatch) {
 async function getUSDCBalance(accountId, address, dispatch) {
   let contractAddr = '';
   let rpc_url = '';
-  switch (daoName) {
+  switch (process.env.REACT_APP_DAO) {
   case 'chinesedao':
     contractAddr = POL_USDC_CONTRACT_ADDR;
     rpc_url = POL_RPC_URL;
@@ -279,13 +280,14 @@ const fetchTokenPrice = async (tokenName) => {
 };
 
 export function fetchTokens(accountId, address) {
+
   return (dispatch) => {
-    if (daoName === 'facedao') {
+    if (process.env.REACT_APP_DAO === 'facedao') {
       void getBNBBalance(accountId, address, dispatch);
       void getLOVEBalance(accountId, address, dispatch);
-      void getFACEBalance(accountId, address, dispatch);
+      void getFaceDAOBalance(accountId, address, dispatch);
     }
-    if (daoName === 'chinesedao') {
+    if (process.env.REACT_APP_DAO === 'chinesedao') {
       void getPOLBalance(accountId, address, dispatch);
       void getCHINESEBalance(accountId, address, dispatch);
     }
@@ -323,6 +325,7 @@ export function fetchCHINESESuccess(accountId, balance, value) {
     value,
   };
 }
+
 export function fetchLOVESuccess(accountId, balance, value) {
   return {
     type: TOKENS_LOVE_FETCH_SUCCESS,
@@ -331,14 +334,16 @@ export function fetchLOVESuccess(accountId, balance, value) {
     value,
   };
 }
-export function fetchFACESuccess(accountId, balance, value) {
+
+export function fetchFaceDAOSuccess(accountId, balance, value) {
   return {
-    type: TOKENS_FACE_FETCH_SUCCESS,
+    type: TOKENS_FACEDAO_FETCH_SUCCESS,
     accountId,
     balance,
     value,
   };
 }
+
 // export function fetchCHNGSuccess(accountId, balance, value) {
 //   return {
 //     type: TOKENS_CHNG_FETCH_SUCCESS,

@@ -516,13 +516,14 @@ class Header extends ImmutablePureComponent {
                     >
                       {intl.formatMessage(messages.tab_tokens)}
                     </NavLink>
-
-                    <NavLink
-                      exact activeClassName='active' to={`/@${account.get('acct')}/nfts`}
-                      title={intl.formatMessage(messages.tab_nfts)}
-                    >
-                      {intl.formatMessage(messages.tab_nfts)}
-                    </NavLink>
+                    {process.env.REACT_APP_DAO === 'chinesedao' &&
+                      <NavLink
+                        exact activeClassName='active' to={`/@${account.get('acct')}/nfts`}
+                        title={intl.formatMessage(messages.tab_nfts)}
+                      >
+                        {intl.formatMessage(messages.tab_nfts)}
+                      </NavLink>
+                    }
 
                     <NavLink
                       exact activeClassName='active' to={`/@${account.get('acct')}/earnings`}
@@ -596,7 +597,8 @@ class Header extends ImmutablePureComponent {
                 </NavLink>
               </div>
             </div>
-          )}
+          )
+          }
         </div>
 
         <Helmet>
@@ -604,7 +606,8 @@ class Header extends ImmutablePureComponent {
           <meta name='robots' content={(isLocal && isIndexable) ? 'all' : 'noindex'} />
         </Helmet>
       </div>
-    );
+    )
+    ;
   }
 
 }

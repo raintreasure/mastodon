@@ -1615,20 +1615,20 @@ body > [data-popper-placement] {
 }
 
 .token {
-  &__wrapper {
+  .token__wrapper {
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
 
-  &__item {
+  .token__item {
     display: flex;
     justify-content: space-between;
     padding: 16px 20px;
     border-bottom: 1px solid lighten($ui-base-color, 8%);
   }
 
-  &__symbol {
+  .token__symbol {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1637,23 +1637,23 @@ body > [data-popper-placement] {
     font-weight: 500;
   }
 
-  &__icon {
+  .token__icon {
     width: 30px;
     border-radius: 15px;
     object-fit: contain;
   }
 
-  &__nums {
+  .token__nums {
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: end;
     min-width: 80px;
 
-    &__balance {
+    .token__nums__balance {
       font-weight: 300;
     }
 
-    &__value {
+    .token__nums__value {
       font-weight: 200;
       color: $darker-text-color;
     }
@@ -3348,6 +3348,22 @@ $ui-header-height: 85px;
   @supports (display: grid) {
     // hack to fix Chrome <57
     contain: none;
+  }
+}
+
+.withdraw-href {
+  color: $highlight-text-color;
+  cursor: pointer;
+  box-sizing: border-box;
+  padding: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  outline: 0;
+  border: 0;
+  background: $ui-base-color;
+
+  &:hover {
+    text-decoration: underline;
   }
 }
 

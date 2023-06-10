@@ -22,10 +22,10 @@ class TransactionsController < ApplicationController
   end
 
   def set_client
-    if Setting.dao_name == 'chinesedao'
+    if ENV['REACT_APP_DAO'] == 'chinesedao'
       set_pol_client
     end
-    if Setting.dao_name == 'facedao'
+    if ENV['REACT_APP_DAO'] == 'facedao'
       set_bsc_client
     end
   end
@@ -34,7 +34,7 @@ class TransactionsController < ApplicationController
     if !current_account.given_native_token
       begin
         hash = @client.transfer_and_wait(to_address, 0.001 * Eth::Unit::ETHER, sender_key: buffer_account_private_key,
-                                         legacy: Setting.dao_name == 'facedao' ? true : false)
+                                         legacy: ENV['REACT_APP_DAO'] == 'facedao' ? true : false)
 
         if @client.tx_succeeded?(hash)
           current_account.given_native_token = true
@@ -50,9 +50,9 @@ class TransactionsController < ApplicationController
     begin
       current_balance = current_account.balance
       hash = @client.transact_and_wait(erc20_contract, 'transfer', to_address,
-                                       BigDecimal(current_balance).mult(Eth::Unit::ETHER, 0),
+                                       BigDecimal(current_balance).mult(ENV['REACT_APP_DAO'] == 'facedao' ? 1 : Eth::Unit::ETHER, 0).round,
                                        sender_key: buffer_account_private_key, gas_limit: 80000,
-                                       legacy: Setting.dao_name == 'facedao' ? true : false)
+                                       legacy: ENV['REACT_APP_DAO'] == 'facedao' ? true : false)
       if @client.tx_succeeded?(hash)
         current_account.decrement(:balance, current_balance)
         current_account.save!
@@ -71,13 +71,13 @@ class TransactionsController < ApplicationController
   end
 
   def contract_address
-    if Setting.dao_name == 'chinesedao'
+    if ENV['REACT_APP_DAO'] == 'chinesedao'
       return ENV['CHINESE_CONTRACT_ADDRESS']
     end
-    if Setting.dao_name == 'facedao'
-      return ENV['FACE_CONTRACT_ADDRESS']
+    if ENV['REACT_APP_DAO'] == 'facedao'
+      return ENV['LOVE_CONTRACT_ADDRESS']
     end
-    if Setting.dao_name == 'sexydao'
+    if ENV['REACT_APP_DAO'] == 'sexydao'
       return ENV['SEXY_CONTRACT_ADDRESS']
     end
   end
@@ -85,7 +85,7 @@ class TransactionsController < ApplicationController
   def erc20_contract
     abi_file = File.read('app/assets/contracts/transferABI.json')
     abi = JSON.parse abi_file
-    Eth::Contract.from_abi(abi: abi, address: contract_address)
+    Eth::Contract.from_abi(abi: abi, name:'ERC20Template', address: contract_address)
   end
 
 end
