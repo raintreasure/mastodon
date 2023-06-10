@@ -75,7 +75,6 @@ class NFTs extends ImmutablePureComponent {
     remoteUrl: PropTypes.string,
     multiColumn: PropTypes.bool,
     account: PropTypes.object,
-    // assets: PropTypes.array,
     assets: PropTypes.array,
   };
 
@@ -147,26 +146,50 @@ class NFTs extends ImmutablePureComponent {
     return (
       <Column>
         <ColumnBackButton multiColumn={multiColumn} />
-        <ScrollableList
-          scrollKey='transaction'
-          hasMore={!forceEmptyState && false}
-          isLoading={false}
-          prepend={<HeaderContainer accountId={accountId} hideTabs />}
-          alwaysPrepend
-          append={remoteMessage}
-          emptyMessage={emptyMessage}
-          bindToDocument={!multiColumn}
-        >
-          {assets && assets.map((asset, index) => {
-            return (
-              <NFT
-                key={index}
-                asset={asset}
-                dispatch={dispatch}
-              />
-            );
-          })}
-        </ScrollableList>
+        {(!assets || assets.length === 0 || forceEmptyState) &&
+          <ScrollableList
+            scrollKey='transaction'
+            hasMore={!forceEmptyState && false}
+            isLoading={false}
+            prepend={<HeaderContainer accountId={accountId} hideTabs />}
+            alwaysPrepend
+            append={remoteMessage}
+            emptyMessage={emptyMessage}
+            bindToDocument={!multiColumn}
+          >
+            {assets && assets.map((asset, index) => {
+              return (
+                <NFT
+                  key={index}
+                  asset={asset}
+                  dispatch={dispatch}
+                />
+              );
+            })}
+          </ScrollableList>
+        }
+        {(!forceEmptyState && assets && assets.length > 0) &&
+          <>
+            <HeaderContainer accountId={accountId} hideTabs />
+            <div className={'nft'}>
+              <div className={'nft__wrapper'}>
+                {
+                  assets && assets.map((asset, index) => {
+                    return (
+                      <NFT
+                        key={index}
+                        asset={asset}
+                        dispatch={dispatch}
+                      />
+                    );
+                  })
+                }
+
+              </div>
+            </div>
+            {remoteMessage}
+          </>
+        }
       </Column>
     );
   }
