@@ -9,6 +9,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
 const sharedConfig = require('./shared');
+const Dotenv = require('dotenv-webpack');
 
 const root = resolve(__dirname, '..', '..');
 
@@ -68,6 +69,7 @@ module.exports = merge(sharedConfig, {
       swDest: resolve(root, 'public', 'packs', 'sw.js'),
       swSrc: resolve(root, 'app', 'javascript', 'mastodon', 'service_worker', 'entry.js'),
     }),
+    new Dotenv({ path: '.env.production' }),
   ],
 
 });
