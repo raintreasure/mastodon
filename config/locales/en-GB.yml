@@ -1,10 +1,10 @@
 ---
 en-GB:
   about:
-    about_mastodon_html: 'The social network of the future: No ads, no corporate surveillance, ethical design, and decentralisation! Own your data with Chinese.org!'
+    about_mastodon_html: 'The social network of the future: No ads, no corporate surveillance, ethical design, and decentralisation! Own your data!'
     contact_missing: Not set
     contact_unavailable: N/A
-    hosted_on: Chinese.org hosted on %{domain}
+    hosted_on: hosted on %{domain}
     title: About
   accounts:
     follow: Follow
@@ -729,7 +729,7 @@ en-GB:
       weibo: Weibo
     current_session: Current session
     description: "%{browser} on %{platform}"
-    explanation: These are the web browsers currently logged in to your Chinese.org account.
+    explanation: These are the web browsers currently logged in to your account.
     ip: IP
     platforms:
       adobe_air: Adobe Air
@@ -755,7 +755,7 @@ en-GB:
     aliases: Account aliases
     appearance: Appearance
     authorized_apps: Authorised apps
-    back: Back to Chinese.org
+    back: Back to Home
     delete: Account deletion
     development: Development
     edit_profile: Edit profile
@@ -867,9 +867,9 @@ en-GB:
   tags:
     does_not_match_previous_name: does not match the previous name
   themes:
-    contrast: Chinese.org (High contrast)
-    default: Chinese.org (Dark)
-    mastodon-light: Chinese.org (Light)
+    contrast: High contrast
+    default: Dark
+    mastodon-light: Light
   time:
     formats:
       default: "%b %d, %Y, %H:%M"
@@ -901,7 +901,7 @@ en-GB:
       subject: Your appeal from %{date} has been rejected
       title: Appeal rejected
     backup_ready:
-      explanation: You requested a full backup of your Chinese.org account. It's now ready for download!
+      explanation: You requested a full backup of your account. It's now ready for download!
       subject: Your archive is ready for download
       title: Archive takeout
     suspicious_sign_in:
@@ -950,7 +950,7 @@ en-GB:
       final_step: 'Start posting! Even without followers, your public posts may be seen by others, for example on the local timeline or in hashtags. You may want to introduce yourself on the #introductions hashtag.'
       full_handle: Your full handle
       full_handle_hint: This is what you would tell your friends so they can message or follow you from another server.
-      subject: Welcome to Chinese.org
+      subject: Welcome
       title: Welcome aboard, %{name}!
   users:
     follow_limit_reached: You cannot follow more than %{limit} people
@@ -960,7 +960,7 @@ en-GB:
     seamless_external_login: You are logged in via an external service, so password and e-mail settings are not available.
     signed_in_as: 'Signed in as:'
   verification:
-    explanation_html: 'You can <strong>verify yourself as the owner of the links in your profile metadata</strong>. For that, the linked website must contain a link back to your Chinese.org profile. After adding the link you may need to come back here and re-save your profile for the verification to take effect. The link back <strong>must</strong> have a <code>rel="me"</code> attribute. The text content of the link does not matter. Here is an example:'
+    explanation_html: 'You can <strong>verify yourself as the owner of the links in your profile metadata</strong>. For that, the linked website must contain a link back to your profile. After adding the link you may need to come back here and re-save your profile for the verification to take effect. The link back <strong>must</strong> have a <code>rel="me"</code> attribute. The text content of the link does not matter. Here is an example:'
     verification: Verification
   webauthn_credentials:
     add: Add new security key

@@ -143,7 +143,27 @@ class About extends React.PureComponent {
     const { dispatch } = this.props;
     dispatch(fetchDomainBlocks());
   };
+  getServerUrl() {
+    switch (process.env.REACT_APP_DAO) {
+    case 'chinesedao':
+      return 'https://chinese.org';
+    case 'facedao':
+      return 'https://facedao.pro';
+    default:
+      return 'https://chinese.org';
+    }
+  }
 
+  getServerName() {
+    switch (process.env.REACT_APP_DAO) {
+    case 'chinesedao':
+      return 'ChineseDAO';
+    case 'facedao':
+      return 'FaceDAO';
+    default:
+      return 'ChineseDAO';
+    }
+  }
   render() {
     const { multiColumn, intl, server, extendedDescription } = this.props;
     const isLoading = server.get('isLoading');
@@ -162,9 +182,9 @@ class About extends React.PureComponent {
               id='about.powered_by' defaultMessage='Decentralized social media powered by {mastodon}'
               values={{
                 mastodon: <a
-                  href='https://chinese.org' className='about__mail'
+                  href={this.getServerUrl()} className='about__mail'
                   target='_blank'
-                >Chinese.org</a>,
+                >{this.getServerName()}</a>,
               }}
             /></p>
           </div>
@@ -198,16 +218,33 @@ class About extends React.PureComponent {
                 <Skeleton width='70%' />
               </>
             ) : (
-              <ul style={{ margin:'10px' }}>
-                <li style={{ marginTop:'10px', marginBottom:'5px' }}>{intl.formatMessage(messages.social2earnTitle)}</li>
-                <p>{intl.formatMessage(messages.social2earnText)}</p>
-                <li style={{ marginTop:'10px', marginBottom:'5px' }}>{intl.formatMessage(messages.tokenomicsTitle)}</li>
-                <p>{intl.formatMessage(messages.tokenomicsText)}</p>
-                <li style={{ marginTop:'10px', marginBottom:'5px' }}>{intl.formatMessage(messages.creatingTitle)}</li>
-                <p>{intl.formatMessage(messages.creatingText)}</p>
-                <li style={{ marginTop:'10px', marginBottom:'5px' }}>{intl.formatMessage(messages.giftTitle)}</li>
-                <p>{intl.formatMessage(messages.giftText)}</p>
-              </ul>
+              process.env.REACT_APP_DAO === 'chinesedao' ?
+                (<ul style={{ margin: '10px' }}>
+                  <li style={{
+                    marginTop: '10px',
+                    marginBottom: '5px',
+                  }}
+                  >{intl.formatMessage(messages.social2earnTitle)}</li>
+                  <p>{intl.formatMessage(messages.social2earnText)}</p>
+                  <li
+                    style={{
+                      marginTop: '10px',
+                      marginBottom: '5px',
+                    }}
+                  >{intl.formatMessage(messages.tokenomicsTitle)}</li>
+                  <p>{intl.formatMessage(messages.tokenomicsText)}</p>
+                  <li
+                    style={{ marginTop: '10px', marginBottom: '5px' }}
+                  >{intl.formatMessage(messages.creatingTitle)}</li>
+                  <p>{intl.formatMessage(messages.creatingText)}</p>
+                  <li style={{ marginTop: '10px', marginBottom: '5px' }}>{intl.formatMessage(messages.giftTitle)}</li>
+                  <p>{intl.formatMessage(messages.giftText)}</p>
+                </ul>
+                )
+                :
+                (
+                  <ul style={{ margin: '10px' }} />
+                )
             )
               // (extendedDescription.get('content')?.length > 0 ? (
               //   <div
