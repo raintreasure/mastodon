@@ -115,7 +115,27 @@ class About extends PureComponent {
     const { dispatch } = this.props;
     dispatch(fetchDomainBlocks());
   };
+  getServerUrl() {
+    switch (process.env.REACT_APP_DAO) {
+    case 'chinesedao':
+      return 'https://chinese.org';
+    case 'facedao':
+      return 'https://facedao.pro';
+    default:
+      return 'https://chinese.org';
+    }
+  }
 
+  getServerName() {
+    switch (process.env.REACT_APP_DAO) {
+    case 'chinesedao':
+      return 'ChineseDAO';
+    case 'facedao':
+      return 'FaceDAO';
+    default:
+      return 'ChineseDAO';
+    }
+  }
   render() {
     const { multiColumn, intl, server, extendedDescription } = this.props;
     const isLoading = server.get('isLoading');
@@ -130,9 +150,9 @@ class About extends PureComponent {
               id='about.powered_by' defaultMessage='Decentralized social media powered by {mastodon}'
               values={{
                 mastodon: <a
-                  href='https://chinese.org' className='about__mail'
+                  href={this.getServerUrl()} className='about__mail'
                   target='_blank'
-                >Chinese.org</a>,
+                >{this.getServerName()}</a>,
               }}
             /></p>
           </div>
@@ -166,14 +186,33 @@ class About extends PureComponent {
                 <Skeleton width='70%' />
               </>
             ) : (
-              <ul>
-                <li>Socializing to Earn</li>
-                <p>We are far beyond NFTs trading. We believe in DAO and SocialFi driven values. You can always post favorites of Chinese Arts for free, which is however possibly voted as NFTs by other people. Meanwhile the creators and social supporters would share profits and even earn tokens from re-posting and commenting.</p>
-                <li>Creating and Sharing</li>
-                <p>Open to everyone, yet, free for minting NFTs on Chinese Culture in terms of the corresponding categories. All NFTs and social content are owned by creators and kept forever. Digitalizing Chinese cultural creations is up to your favorites, governed by DAO. We are aiming to discover and share the best arts and cultural creations of the nation around the world</p>
-                <li>A Special Gift</li>
-                <p>At formal enrollment, every Chinese participant automatically receives a special NFT with regard to his or her origin place of the Chinese family. It enables subscription of activities for people who are holding the same type of NFTs. In this way, the global Chinese would easily form groups of their families to facilitate culture sharing and socialization with NFTs.</p>
-              </ul>
+              process.env.REACT_APP_DAO === 'chinesedao' ?
+                (<ul style={{ margin: '10px' }}>
+                  <li style={{
+                    marginTop: '10px',
+                    marginBottom: '5px',
+                  }}
+                  >{intl.formatMessage(messages.social2earnTitle)}</li>
+                  <p>{intl.formatMessage(messages.social2earnText)}</p>
+                  <li
+                    style={{
+                      marginTop: '10px',
+                      marginBottom: '5px',
+                    }}
+                  >{intl.formatMessage(messages.tokenomicsTitle)}</li>
+                  <p>{intl.formatMessage(messages.tokenomicsText)}</p>
+                  <li
+                    style={{ marginTop: '10px', marginBottom: '5px' }}
+                  >{intl.formatMessage(messages.creatingTitle)}</li>
+                  <p>{intl.formatMessage(messages.creatingText)}</p>
+                  <li style={{ marginTop: '10px', marginBottom: '5px' }}>{intl.formatMessage(messages.giftTitle)}</li>
+                  <p>{intl.formatMessage(messages.giftText)}</p>
+                </ul>
+                )
+                :
+                (
+                  <ul style={{ margin: '10px' }} />
+                )
             )
               // (extendedDescription.get('content')?.length > 0 ? (
               //   <div

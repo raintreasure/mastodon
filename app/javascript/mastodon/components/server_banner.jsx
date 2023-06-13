@@ -14,9 +14,6 @@ import { Skeleton } from 'mastodon/components/skeleton';
 import Account from 'mastodon/containers/account_container';
 import { domain } from 'mastodon/initial_state';
 
-const messages = defineMessages({
-  aboutActiveUsers: { id: 'server_banner.about_active_users', defaultMessage: 'People using this server during the last 30 days (Monthly Active Users)' },
-});
 
 const mapStateToProps = state => ({
   server: state.getIn(['server', 'server']),
@@ -30,19 +27,48 @@ class ServerBanner extends PureComponent {
     intl: PropTypes.object,
   };
 
-  componentDidMount () {
+  componentDidMount() {
     const { dispatch } = this.props;
     dispatch(fetchServer());
   }
 
-  render () {
-    const { server, intl } = this.props;
+  getServerUrl() {
+    switch (process.env.REACT_APP_DAO) {
+    case 'chinesedao':
+      return 'https://chinese.org';
+    case 'facedao':
+      return 'https://facedao.pro';
+    default:
+      return 'https://chinese.org';
+    }
+  }
+
+  getServerName() {
+    switch (process.env.REACT_APP_DAO) {
+    case 'chinesedao':
+      return 'ChineseDAO';
+    case 'facedao':
+      return 'FaceDAO';
+    default:
+      return 'ChineseDAO';
+    }
+  }
+
+  render() {
+    const { server } = this.props;
     const isLoading = server.get('isLoading');
 
     return (
       <div className='server-banner'>
         <div className='server-banner__introduction'>
-          <FormattedMessage id='server_banner.introduction' defaultMessage='{domain} is part of the decentralized social network powered by {mastodon}.' values={{ domain: <strong>{domain}</strong>, mastodon: <a href='https://joinmastodon.org' target='_blank'>Chinese.org</a> }} />
+          <FormattedMessage
+            id='server_banner.introduction'
+            defaultMessage='{domain} is part of the decentralized social network powered by {mastodon}.'
+            values={{
+              domain: <strong>{domain}</strong>,
+              mastodon: <a href={this.getServerUrl()} target='_blank'>{this.getServerName()}</a>,
+            }}
+          />
         </div>
         {/* 左侧server_banner的插图部分*/}
         <ServerHeroImage blurhash={server.getIn(['thumbnail', 'blurhash'])} src={server.getIn(['thumbnail', 'url'])} className='server-banner__hero' />
@@ -87,7 +113,9 @@ class ServerBanner extends PureComponent {
 
         <hr className='spacer' />
 
-        <Link className='button button--block button-secondary' to='/about'><FormattedMessage id='server_banner.learn_more' defaultMessage='Learn more' /></Link>
+        <Link className='button button--block button-secondary' to='/about'><FormattedMessage
+          id='server_banner.learn_more' defaultMessage='Learn more'
+        /></Link>
       </div>
     );
   }
