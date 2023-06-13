@@ -17,10 +17,11 @@
       .fields-group
         = f.input :display_name, wrapper: :with_block_label, input_html: { maxlength: 30, data: { default: @account.username } }
         = f.input :username, wrapper: :with_label, input_html: { maxlength: 30 }, hint: false
-        = f.input :subscription_fee, wrapper: :with_label, input_html: {min:1}, hint: false
 
       .fields-group
         = f.input :note, wrapper: :with_block_label, input_html: { maxlength: 500 }
+        - if Setting.enable_subscription
+          = f.input :subscription_fee, wrapper: :with_label, input_html: {min:1}, hint: false
 
     .fields-row__column.fields-group.fields-row__column-6
       .input.with_block_label
