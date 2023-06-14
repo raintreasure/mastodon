@@ -10,8 +10,12 @@
 
     - if storage_host?
       %link{ rel: 'dns-prefetch', href: storage_host }/
-
-    %link{ rel: 'icon', href: '/favicon.ico', type: 'image/x-icon' }/
+    - if ENV['REACT_APP_DAO'] == 'chinesedao'
+      %link{ rel: 'icon', href: '/favicon-chinese.ico', type: 'image/x-icon' }/
+    - if ENV['REACT_APP_DAO'] == 'facedao'
+      %link{ rel: 'icon', href: '/favicon-face.ico', type: 'image/x-icon' }/
+    - if ENV['REACT_APP_DAO'] == 'lovedao'
+      %link{ rel: 'icon', href: '/favicon-love.ico', type: 'image/x-icon' }/
 
     - %w(16 32 48).each do |size|
       %link{ rel: 'icon', sizes: "#{size}x#{size}", href: asset_pack_path("media/icons/favicon-#{size}x#{size}.png"), type: 'image/png' }/

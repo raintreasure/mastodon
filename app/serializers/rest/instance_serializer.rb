@@ -15,8 +15,22 @@ class REST::InstanceSerializer < ActiveModel::Serializer
 
   has_one :contact, serializer: ContactSerializer
   has_many :rules, serializer: REST::RuleSerializer
+  def thumbnailFilePath
+    puts(">>>>>>>>>>>>>>>>>>>>>ENV['REACT_APP_DAO'] is #{ENV['REACT_APP_DAO']}")
+    puts(">>>>>>>>>>>>>>>>>>>>>ENV['REACT_APP_THEME_BACKGROUND_COLOR'] is #{ENV['REACT_APP_THEME_BACKGROUND_COLOR']}")
 
+    if ENV['REACT_APP_DAO'] == 'chinesedao'
+      return 'media/images/preview-chinese.png'
+    end
+    if ENV['REACT_APP_DAO'] == 'facedao'
+      return 'media/images/preview-face.png'
+    end
+    if ENV['REACT_APP_DAO'] == 'lovedao'
+      return 'media/images/preview-love.png'
+    end
+  end
   def thumbnail
+
     if object.thumbnail
       {
         url: full_asset_url(object.thumbnail.file.url(:'@1x')),
@@ -28,7 +42,7 @@ class REST::InstanceSerializer < ActiveModel::Serializer
       }
     else
       {
-        url: full_pack_url('media/images/preview.png'),
+        url: full_pack_url(thumbnailFilePath),
       }
     end
   end
