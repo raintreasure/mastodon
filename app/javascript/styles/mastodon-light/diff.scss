@@ -7,7 +7,7 @@ html {
 
 // Change the colors of button texts
 .button {
-  color: $white;
+  color: $highlight-primary-text-color;
 
   &.button-alternative-2 {
     color: $white;
@@ -337,7 +337,7 @@ html {
 .simple_form .block-button,
 .simple_form .button,
 .simple_form button {
-  color: $white;
+  color: $highlight-primary-text-color;
 }
 
 .language-dropdown__dropdown__results__item

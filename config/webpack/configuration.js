@@ -22,6 +22,8 @@ module.exports = {
   env: {
     NODE_ENV: env.NODE_ENV,
     PUBLIC_OUTPUT_PATH: settings.public_output_path,
+    REACT_APP_THEME_BACKGROUND_COLOR: env.REACT_APP_THEME_BACKGROUND_COLOR,
+    REACT_APP_THEME_TEXT_COLOR: env.REACT_APP_THEME_TEXT_COLOR,
   },
   output,
 };
