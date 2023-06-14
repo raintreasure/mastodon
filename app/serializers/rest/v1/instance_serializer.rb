@@ -31,9 +31,19 @@ class REST::V1::InstanceSerializer < ActiveModel::Serializer
   def contact_account
     object.contact.account
   end
-
+  def thumbnailFilePath
+    if ENV['REACT_APP_DAO'] == 'chinesedao'
+      return 'media/images/preview-chinese.png'
+    end
+    if ENV['REACT_APP_DAO'] == 'facedao'
+      return 'media/images/preview-face.png'
+    end
+    if ENV['REACT_APP_DAO'] == 'lovedao'
+      return 'media/images/preview-love.png'
+    end
+  end
   def thumbnail
-    instance_presenter.thumbnail ? full_asset_url(instance_presenter.thumbnail.file.url(:'@1x')) : full_pack_url('media/images/preview.png')
+    instance_presenter.thumbnail ? full_asset_url(instance_presenter.thumbnail.file.url(:'@1x')) : full_pack_url(thumbnailFilePath)
   end
 
   def stats

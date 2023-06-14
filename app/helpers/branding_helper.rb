@@ -12,24 +12,24 @@ module BrandingHelper
 
   def _logo_as_symbol_wordmark
     if ENV['REACT_APP_DAO'] === 'chinesedao'
-      image_tag('chinese-dark.png', alt: 'chinese.org', class: 'logo .logo--wordmark')
+      image_tag('chinese-dark.png', alt: 'chinese.org', class: 'logo logo--wordmark')
     else
       if ENV['REACT_APP_DAO'] === 'facedao'
-        image_tag('face-wordmark-dark.png', alt: 'facedao.com', class: 'logo .logo--wordmark')
+        image_tag('face-wordmark-dark.png', alt: 'facedao.com', class: 'logo logo--wordmark')
       else
-        image_tag('chinese-dark.png', alt: 'chinese.org', class: 'logo .logo--wordmark')
+        image_tag('chinese-dark.png', alt: 'chinese.org', class: 'logo logo--wordmark')
       end
     end
   end
 
   def _logo_as_symbol_icon
     if ENV['REACT_APP_DAO'] === 'chinesedao'
-      image_tag('chinese-icon-s.png', alt: 'chinese.org', class: 'logo .logo--icon')
+      image_tag('chinese-icon-s.png', alt: 'chinese.org', class: 'logo logo--icon')
     else
       if ENV['REACT_APP_DAO'] === 'facedao'
-        image_tag('face-icon.png', alt: 'facedao.com', class: 'logo .logo--icon')
+        image_tag('face-icon.png', alt: 'facedao.com', class: 'logo logo--icon')
       else
-        image_tag('chinese-icon-s.png', alt: 'chinese.org', class: 'logo .logo--icon')
+        image_tag('chinese-icon-s.png', alt: 'chinese.org', class: 'logo logo--icon')
       end
     end
     # content_tag(:svg, tag(:use, href: '#logo-symbol-icon'), viewBox: '0 0 79 79', class: 'logo logo--icon')
@@ -37,10 +37,10 @@ module BrandingHelper
 
   def render_logo
     if ENV['REACT_APP_DAO'] === 'chinesedao'
-      image_pack_tag('chinese-icon-s.png', alt: 'chinese.org', class: 'logo .logo--icon')
+      image_pack_tag('chinese-icon-s.png', alt: 'chinese.org', class: 'logo logo--icon')
     else
       if ENV['REACT_APP_DAO'] === 'facedao'
-        image_pack_tag('face-icon.png', alt: 'facedao.com', class: 'logo .logo--icon')
+        image_pack_tag('face-icon.png', alt: 'facedao.com', class: 'logo logo--icon')
       else
         image_pack_tag('chinese-icon-s.png', alt: 'chinese.org', class: 'logo logo--icon')
       end
