@@ -51,7 +51,7 @@
   border: 10px none;
   border-radius: 4px;
   box-sizing: border-box;
-  color: $primary-text-color;
+  color: $highlight-primary-text-color;
   cursor: pointer;
   display: inline-block;
   font-family: inherit;
@@ -188,7 +188,7 @@
       &:focus,
       &:hover {
         background: $error-value-color;
-        color: $primary-text-color;
+        color: $highlight-primary-text-color;
       }
     }
   }
@@ -2291,7 +2291,7 @@ a.account__display-name {
     &:focus,
     &:hover,
     &:active {
-      background: var(--dropdown-border-color);
+      background: $ui-highlight-color;
       outline: 0;
     }
   }

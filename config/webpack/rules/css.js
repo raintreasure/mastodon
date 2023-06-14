@@ -1,4 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { env } = require('../configuration');
 
 module.exports = {
   test: /\.s?css$/i,
@@ -22,6 +23,8 @@ module.exports = {
       options: {
         implementation: require('sass'),
         sourceMap: true,
+        additionalData: '$classic-highlight-color: ' + env.REACT_APP_THEME_BACKGROUND_COLOR + ';' +
+          '$highlight-primary-text-color: ' + env.REACT_APP_THEME_TEXT_COLOR + ';',
       },
     },
   ],
