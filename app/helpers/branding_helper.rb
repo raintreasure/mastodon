@@ -12,38 +12,38 @@ module BrandingHelper
 
   def _logo_as_symbol_wordmark
     if ENV['REACT_APP_DAO'] === 'chinesedao'
-      image_tag('chinese-dark.png', alt: 'chinese.org', class: 'logo logo--wordmark')
+      image_tag('chinese-wordmark-dark.png', alt: 'chinese.org', class: 'logo logo--wordmark')
+    elsif ENV['REACT_APP_DAO'] === 'facedao'
+      image_tag('face-wordmark-dark.png', alt: 'facedao.com', class: 'logo logo--wordmark')
+    elsif ENV['REACT_APP_DAO'] === 'lovedao'
+      image_tag('love-wordmark-dark.png', alt: 'lovedao.com', class: 'logo logo--wordmark')
     else
-      if ENV['REACT_APP_DAO'] === 'facedao'
-        image_tag('face-wordmark-dark.png', alt: 'facedao.com', class: 'logo logo--wordmark')
-      else
-        image_tag('chinese-dark.png', alt: 'chinese.org', class: 'logo logo--wordmark')
-      end
+      image_tag('chinese-wordmark-dark.png', alt: 'chinese.org', class: 'logo logo--wordmark')
     end
   end
 
   def _logo_as_symbol_icon
     if ENV['REACT_APP_DAO'] === 'chinesedao'
-      image_tag('chinese-icon-s.png', alt: 'chinese.org', class: 'logo logo--icon')
+      image_tag('chinese-icon.png', alt: 'chinese.org', class: 'logo logo--icon')
+    elsif ENV['REACT_APP_DAO'] === 'facedao'
+      image_tag('face-icon.png', alt: 'facedao.com', class: 'logo logo--icon')
+    elsif ENV['REACT_APP_DAO'] === 'lovedao'
+      image_tag('love-icon.png', alt: 'lovedao.com', class: 'logo logo--icon')
     else
-      if ENV['REACT_APP_DAO'] === 'facedao'
-        image_tag('face-icon.png', alt: 'facedao.com', class: 'logo logo--icon')
-      else
-        image_tag('chinese-icon-s.png', alt: 'chinese.org', class: 'logo logo--icon')
-      end
+      image_tag('chinese-icon.png', alt: 'chinese.org', class: 'logo logo--icon')
     end
     # content_tag(:svg, tag(:use, href: '#logo-symbol-icon'), viewBox: '0 0 79 79', class: 'logo logo--icon')
   end
 
   def render_logo
     if ENV['REACT_APP_DAO'] === 'chinesedao'
-      image_pack_tag('chinese-icon-s.png', alt: 'chinese.org', class: 'logo logo--icon')
+      image_pack_tag('chinese-icon.png', alt: 'chinese.org', class: 'logo logo--icon')
+    elsif ENV['REACT_APP_DAO'] === 'facedao'
+      image_pack_tag('face-icon.png', alt: 'facedao.com', class: 'logo logo--icon')
+    elsif ENV['REACT_APP_DAO'] === 'lovedao'
+      image_pack_tag('love-icon.png', alt: 'lovedao.com', class: 'logo logo--icon')
     else
-      if ENV['REACT_APP_DAO'] === 'facedao'
-        image_pack_tag('face-icon.png', alt: 'facedao.com', class: 'logo logo--icon')
-      else
-        image_pack_tag('chinese-icon-s.png', alt: 'chinese.org', class: 'logo logo--icon')
-      end
+      image_pack_tag('chinese-icon.png', alt: 'chinese.org', class: 'logo logo--icon')
     end
   end
 
@@ -52,23 +52,24 @@ module BrandingHelper
            when :icon
              #  'logo-symbol-icon.svg'
              if ENV['REACT_APP_DAO'] === 'chinesedao'
-               'chinese-icon-s.png'
+               'chinese-icon.png'
+             elsif ENV['REACT_APP_DAO'] === 'facedao'
+               'face-icon.png'
+             elsif ENV['REACT_APP_DAO'] === 'lovedao'
+               'love-icon.png'
              else
-               if ENV['REACT_APP_DAO'] === 'facedao'
-                 'face-icon.png'
-               else
-                 'chinese-icon-s.png'
-               end
+               'chinese-icon.png'
              end
+
            when :wordmark
              if ENV['REACT_APP_DAO'] === 'chinesedao'
-               'chinese-dark.png'
+               'chinese-wordmark-dark.png'
+             elsif ENV['REACT_APP_DAO'] === 'facedao'
+               'face-wordmark-dark.png'
+             elsif ENV['REACT_APP_DAO'] === 'lovedao'
+               'love-wordmark-dark.png'
              else
-               if ENV['REACT_APP_DAO'] === 'facedao'
-                 'face-wordmark-dark.png'
-               else
-                 'chinese-dark.png'
-               end
+               'chinese-wordmark-dark.png'
              end
            end
 
