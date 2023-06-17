@@ -81,6 +81,13 @@ class Earnings extends React.PureComponent {
     }
   }
 
+  capitalizeFirstLetter(str) {
+    if (str && str.length > 0) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+    return str;
+  }
+
   render() {
     const {
       isAccount,
@@ -133,7 +140,7 @@ class Earnings extends React.PureComponent {
           // <EarningRecord value={r.earn} op={r.op_type} createTime={r.created_at}/>
           (<div className={'earning__record'} key={r.id}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
-              <p>{r.op_type}</p>
+              <p>{this.capitalizeFirstLetter(r.op_type)}</p>
               <p style={{ color: 'grey', fontSize: 'x-small' }}>{r.created_at}</p>
             </div>
             <div>

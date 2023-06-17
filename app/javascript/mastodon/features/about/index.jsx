@@ -16,6 +16,14 @@ import { ServerHeroImage } from 'mastodon/components/server_hero_image';
 import { Skeleton } from 'mastodon/components/skeleton';
 import Account from 'mastodon/containers/account_container';
 import LinkFooter from 'mastodon/features/ui/components/link_footer';
+import { Helmet } from 'react-helmet';
+import { fetchServer, fetchExtendedDescription, fetchDomainBlocks } from 'mastodon/actions/server';
+import Skeleton from 'mastodon/components/skeleton';
+import Icon from 'mastodon/components/icon';
+import classNames from 'classnames';
+import Image from 'mastodon/components/image';
+import ChineseAbout from './chinese_about';
+import FaceAbout from './face_about';
 
 const messages = defineMessages({
   title: { id: 'column.about', defaultMessage: 'About' },
@@ -32,18 +40,6 @@ const messages = defineMessages({
     defaultMessage: 'No data from this server will be processed, stored or exchanged, making any interaction or communication with users from this server impossible.',
   },
 });
-
-// const severityMessages = {
-//   silence: {
-//     title: messages.silenced,
-//     explanation: messages.silencedExplanation,
-//   },
-//
-//   suspend: {
-//     title: messages.suspended,
-//     explanation: messages.suspendedExplanation,
-//   },
-// };
 
 const mapStateToProps = state => ({
   server: state.getIn(['server', 'server']),
@@ -115,6 +111,7 @@ class About extends PureComponent {
     const { dispatch } = this.props;
     dispatch(fetchDomainBlocks());
   };
+
   getServerUrl() {
     switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
@@ -134,6 +131,16 @@ class About extends PureComponent {
       return 'FaceDAO';
     default:
       return 'ChineseDAO';
+    }
+  }
+  getAboutInfo() {
+    switch(process.env.REACT_APP_DAO) {
+    case 'chinesedao':
+      return <ChineseAbout />;
+    case 'facedao':
+      return <FaceAbout />;
+    default:
+      return (<ul style={{ margin: '10px' }} />);
     }
   }
   render() {
@@ -156,22 +163,6 @@ class About extends PureComponent {
               }}
             /></p>
           </div>
-          {/* 管理员信息 */}
-          {/*<div className='about__meta'>*/}
-          {/*  <div className='about__meta__column'>*/}
-          {/*    <h4><FormattedMessage id='server_banner.administered_by' defaultMessage='Administered by:' /></h4>*/}
-
-          {/*    <Account id={server.getIn(['contact', 'account', 'id'])} size={36} />*/}
-          {/*  </div>*/}
-
-          {/*  <hr className='about__meta__divider' />*/}
-
-          {/*  <div className='about__meta__column'>*/}
-          {/*    <h4><FormattedMessage id='about.contact' defaultMessage='Contact:' /></h4>*/}
-
-          {/*    {isLoading ? <Skeleton width='10ch' /> : <a className='about__mail' href={`mailto:${server.getIn(['contact', 'email'])}`}>{server.getIn(['contact', 'email'])}</a>}*/}
-          {/*  </div>*/}
-          {/*</div>*/}
 
           {/* 关于 */}
           <Section open title={intl.formatMessage(messages.title)}>
@@ -186,33 +177,7 @@ class About extends PureComponent {
                 <Skeleton width='70%' />
               </>
             ) : (
-              process.env.REACT_APP_DAO === 'chinesedao' ?
-                (<ul style={{ margin: '10px' }}>
-                  <li style={{
-                    marginTop: '10px',
-                    marginBottom: '5px',
-                  }}
-                  >{intl.formatMessage(messages.social2earnTitle)}</li>
-                  <p>{intl.formatMessage(messages.social2earnText)}</p>
-                  <li
-                    style={{
-                      marginTop: '10px',
-                      marginBottom: '5px',
-                    }}
-                  >{intl.formatMessage(messages.tokenomicsTitle)}</li>
-                  <p>{intl.formatMessage(messages.tokenomicsText)}</p>
-                  <li
-                    style={{ marginTop: '10px', marginBottom: '5px' }}
-                  >{intl.formatMessage(messages.creatingTitle)}</li>
-                  <p>{intl.formatMessage(messages.creatingText)}</p>
-                  <li style={{ marginTop: '10px', marginBottom: '5px' }}>{intl.formatMessage(messages.giftTitle)}</li>
-                  <p>{intl.formatMessage(messages.giftText)}</p>
-                </ul>
-                )
-                :
-                (
-                  <ul style={{ margin: '10px' }} />
-                )
+              this.getAboutInfo()
             )
               // (extendedDescription.get('content')?.length > 0 ? (
               //   <div
