@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 
 const messages = defineMessages({
   realTimeChatTitle: {
-    id: 'about.face.realTimeChat.title',
-    defaultMessage: 'real-time chat',
+    id: 'about.face.real_time_chat.title',
+    defaultMessage: 'Real-time chat',
   },
   realTimeChatText: {
-    id: 'about.face.realTimeChat.text',
+    id: 'about.face.real_time_chat.text',
     defaultMessage: 'Experience the power of communication our versatile real-time chat. Enjoy a wide range of features, including voice and video calls, file transfers, and Red Packet sharing. Our group chat supports up to 6,000 members, ensuring your conversations remain inclusive and engaging.',
   },
   social2earnTitle: {
@@ -21,11 +21,11 @@ const messages = defineMessages({
     defaultMessage: 'Get the opportunity to earn tokens as you engage with others, share your knowledge, and support the growth of the platform. Watch your digital assets grow as you deepen your connections within our thriving network.',
   },
   inAppWalletTitle: {
-    id: 'about.face.inAppWallet.title',
+    id: 'about.face.in_app_wallet.title',
     defaultMessage: 'In-App Wallet',
   },
   inAppWalletText: {
-    id: 'about.face.inAppWallet.text',
+    id: 'about.face.in_app_wallet.text',
     defaultMessage: 'Our in-app wallet connects seamlessly with your existing decentralized wallets, allowing you to manage your digital assets with ease. Enjoy the freedom to access your funds, make transactions, and monitor your portfolio, all within our secure and user-friendly platform.',
   },
 });
