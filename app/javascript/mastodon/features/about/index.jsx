@@ -11,8 +11,9 @@ import Skeleton from 'mastodon/components/skeleton';
 import Icon from 'mastodon/components/icon';
 import classNames from 'classnames';
 import Image from 'mastodon/components/image';
+import ChineseAbout from './chinese_about';
+import FaceAbout from './face_about';
 
-// 定义了About页面的消息
 const messages = defineMessages({
   title: { id: 'column.about', defaultMessage: 'About' },
   rules: { id: 'about.rules', defaultMessage: 'Server rules' },
@@ -27,51 +28,7 @@ const messages = defineMessages({
     id: 'about.domain_blocks.suspended.explanation',
     defaultMessage: 'No data from this server will be processed, stored or exchanged, making any interaction or communication with users from this server impossible.',
   },
-  social2earnTitle: {
-    id: 'about.social2earn.title',
-    defaultMessage: 'Social to Earn',
-  },
-  social2earnText: {
-    id: 'about.social2earn.text',
-    defaultMessage: 'We believe in the value of DAO and socialFi. On our platform, you can post about Chinese culture, you can also post a reply, retweet, like, and bookmark. There is now a limited-time promotional event, posting and replying  will earn you a reward of 200 $CHINESE,while retweeting, liking, and bookmarking will earn you a reward of 100 $CHINESE. Moreover, as long as you stay online to contribute to the popularity of the community, you can earn 1 $CHINESE every 5 seconds.',
-  },
-  tokenomicsTitle: {
-    id: 'about.tokenomics.title',
-    defaultMessage: 'Tokenomics',
-  },
-  tokenomicsText: {
-    id: 'about.tokenomics.text',
-    defaultMessage: 'You can withdraw $CHINESE with no threshold after earning it. And you can use it to reward the posts and users you appreciate to promote your favourite Chinese culture. Currently, dao.chinese.org is running on Polygon, and $CHINESE has been connected to Ethereum, Polygon, Arbitrum, BNB smart Chain, and Fusion through Chainge CrossChain technoledge. You can explore more in Chainge: ',
-  },
-  creatingTitle: {
-    id: 'about.creating.title',
-    defaultMessage: 'Creating and Sharing',
-  },
-  creatingText: {
-    id: 'about.creating.text',
-    defaultMessage: 'Open to everyone for free. After the official launch, you can mint NFTs related to Chinese culture for free. All NFTs and social content are owned by the creators,  permanently retained, and governed by DAO. You can mint your own NFTs according to your preferences. We are committed to discovering and sharing the best arts and creations of Chinese culture around the world.',
-  },
-  giftTitle: {
-    id: 'about.gift.title',
-    defaultMessage: 'A Special Gift',
-  },
-  giftText: {
-    id: 'about.gift.text',
-    defaultMessage: 'After the official launch, you will receive a special gift: an NFT based on your family name. This will serve as a ticket for some social activities, making it easier for Chinese people around the world to find and integrate into big family, so as to lower the social threshold and improve the quality of social interaction.',
-  },
 });
-
-// const severityMessages = {
-//   silence: {
-//     title: messages.silenced,
-//     explanation: messages.silencedExplanation,
-//   },
-//
-//   suspend: {
-//     title: messages.suspended,
-//     explanation: messages.suspendedExplanation,
-//   },
-// };
 
 const mapStateToProps = state => ({
   server: state.getIn(['server', 'server']),
@@ -143,6 +100,7 @@ class About extends React.PureComponent {
     const { dispatch } = this.props;
     dispatch(fetchDomainBlocks());
   };
+
   getServerUrl() {
     switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
@@ -162,6 +120,16 @@ class About extends React.PureComponent {
       return 'FaceDAO';
     default:
       return 'ChineseDAO';
+    }
+  }
+  getAboutInfo() {
+    switch(process.env.REACT_APP_DAO) {
+    case 'chinesedao':
+      return <ChineseAbout />;
+    case 'facedao':
+      return <FaceAbout />;
+    default:
+      return (<ul style={{ margin: '10px' }} />);
     }
   }
   render() {
@@ -188,22 +156,6 @@ class About extends React.PureComponent {
               }}
             /></p>
           </div>
-          {/* 管理员信息 */}
-          {/*<div className='about__meta'>*/}
-          {/*  <div className='about__meta__column'>*/}
-          {/*    <h4><FormattedMessage id='server_banner.administered_by' defaultMessage='Administered by:' /></h4>*/}
-
-          {/*    <Account id={server.getIn(['contact', 'account', 'id'])} size={36} />*/}
-          {/*  </div>*/}
-
-          {/*  <hr className='about__meta__divider' />*/}
-
-          {/*  <div className='about__meta__column'>*/}
-          {/*    <h4><FormattedMessage id='about.contact' defaultMessage='Contact:' /></h4>*/}
-
-          {/*    {isLoading ? <Skeleton width='10ch' /> : <a className='about__mail' href={`mailto:${server.getIn(['contact', 'email'])}`}>{server.getIn(['contact', 'email'])}</a>}*/}
-          {/*  </div>*/}
-          {/*</div>*/}
 
           {/* 关于 */}
           <Section open title={intl.formatMessage(messages.title)}>
@@ -218,33 +170,7 @@ class About extends React.PureComponent {
                 <Skeleton width='70%' />
               </>
             ) : (
-              process.env.REACT_APP_DAO === 'chinesedao' ?
-                (<ul style={{ margin: '10px' }}>
-                  <li style={{
-                    marginTop: '10px',
-                    marginBottom: '5px',
-                  }}
-                  >{intl.formatMessage(messages.social2earnTitle)}</li>
-                  <p>{intl.formatMessage(messages.social2earnText)}</p>
-                  <li
-                    style={{
-                      marginTop: '10px',
-                      marginBottom: '5px',
-                    }}
-                  >{intl.formatMessage(messages.tokenomicsTitle)}</li>
-                  <p>{intl.formatMessage(messages.tokenomicsText)}</p>
-                  <li
-                    style={{ marginTop: '10px', marginBottom: '5px' }}
-                  >{intl.formatMessage(messages.creatingTitle)}</li>
-                  <p>{intl.formatMessage(messages.creatingText)}</p>
-                  <li style={{ marginTop: '10px', marginBottom: '5px' }}>{intl.formatMessage(messages.giftTitle)}</li>
-                  <p>{intl.formatMessage(messages.giftText)}</p>
-                </ul>
-                )
-                :
-                (
-                  <ul style={{ margin: '10px' }} />
-                )
+              this.getAboutInfo()
             )
               // (extendedDescription.get('content')?.length > 0 ? (
               //   <div
