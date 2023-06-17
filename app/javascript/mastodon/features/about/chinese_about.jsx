@@ -6,35 +6,35 @@ import PropTypes from 'prop-types';
 // 定义了About页面的消息
 const messages = defineMessages({
   social2earnTitle: {
-    id: 'about.social2earn.title',
+    id: 'about.chinese.social2earn.title',
     defaultMessage: 'Social to Earn',
   },
   social2earnText: {
-    id: 'about.social2earn.text',
+    id: 'about.chinese.social2earn.text',
     defaultMessage: 'We believe in the value of DAO and socialFi. On our platform, you can post about Chinese culture, you can also post a reply, retweet, like, and bookmark. There is now a limited-time promotional event, posting and replying  will earn you a reward of 200 $CHINESE,while retweeting, liking, and bookmarking will earn you a reward of 100 $CHINESE. Moreover, as long as you stay online to contribute to the popularity of the community, you can earn 1 $CHINESE every 5 seconds.',
   },
   tokenomicsTitle: {
-    id: 'about.tokenomics.title',
+    id: 'about.chinese.tokenomics.title',
     defaultMessage: 'Tokenomics',
   },
   tokenomicsText: {
-    id: 'about.tokenomics.text',
+    id: 'about.chinese.tokenomics.text',
     defaultMessage: 'You can withdraw $CHINESE with no threshold after earning it. And you can use it to reward the posts and users you appreciate to promote your favourite Chinese culture. Currently, dao.chinese.org is running on Polygon, and $CHINESE has been connected to Ethereum, Polygon, Arbitrum, BNB smart Chain, and Fusion through Chainge CrossChain technoledge. You can explore more in Chainge: ',
   },
   creatingTitle: {
-    id: 'about.creating.title',
+    id: 'about.chinese.creating.title',
     defaultMessage: 'Creating and Sharing',
   },
   creatingText: {
-    id: 'about.creating.text',
+    id: 'about.chinese.creating.text',
     defaultMessage: 'Open to everyone for free. After the official launch, you can mint NFTs related to Chinese culture for free. All NFTs and social content are owned by the creators,  permanently retained, and governed by DAO. You can mint your own NFTs according to your preferences. We are committed to discovering and sharing the best arts and creations of Chinese culture around the world.',
   },
   giftTitle: {
-    id: 'about.gift.title',
+    id: 'about.chinese.gift.title',
     defaultMessage: 'A Special Gift',
   },
   giftText: {
-    id: 'about.gift.text',
+    id: 'about.chinese.gift.text',
     defaultMessage: 'After the official launch, you will receive a special gift: an NFT based on your family name. This will serve as a ticket for some social activities, making it easier for Chinese people around the world to find and integrate into big family, so as to lower the social threshold and improve the quality of social interaction.',
   },
 });
