@@ -49,7 +49,7 @@ const messages = defineMessages({
   withdrawSuccess: { id: 'balance.withdraw.success', defaultMessage: 'Your withdrawal has been successfully processed.' },
   withdrawFail: {
     id: 'balance.withdraw.fail',
-    defaultMessage: 'Withdraw failed, please try again or contact sodappdev@gmail.com for help, error message: ',
+    defaultMessage: 'Withdraw failed, please try again or contact twitter@facedaocom for help, error message: ',
   },
   willReward: { id: 'balance.reward.hint', defaultMessage: 'you will receive a reward of ' },
 

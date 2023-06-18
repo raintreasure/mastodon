@@ -119,7 +119,7 @@
   "balance.withdraw.no_addr": "錢包地址還沒有設置，您可以再試一次，或者刷新頁面",
   "balance.withdraw.empty_confirm": "確認",
   "balance.withdraw.success": "您的提現請求已經成功處理",
-  "balance.withdraw.fail": "提現失敗, 請重試或者聯係sodappdev@gmail.com獲得幫助，錯誤信息是: ",
+  "balance.withdraw.fail": "提現失敗, 請重試或者聯係twitter@facedaocom獲得幫助，錯誤信息是: ",
   "balance.reward.hint": "您將會獲得：",
   "boost_modal.combo": "下次您可以按 {combo} 跳過",
   "bundle_column_error.copy_stacktrace": "複製錯誤報告",
