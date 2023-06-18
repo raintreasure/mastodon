@@ -109,7 +109,7 @@
   "autosuggest_hashtag.per_week": "{count} / 週",
   "balance.withdraw.title": "提現",
   "balance.withdraw.withdrawing_title": "提現中",
-  "balance.withdraw.text": "將所有的$CHINESE提現到您的錢包中, 第一次提現時，您會獲得0.1个POL. 提現完成之後，您可以點擊下面的鏈接查看資產",
+  "balance.withdraw.text": "將所有的{rewardToken}提現到您的錢包中, 第一次提現時，您會獲得{airdropToken}. 提現完成之後，您可以點擊下面的鏈接查看資產",
   "balance.withdraw.confirm": "確認提現",
   "balance.withdraw.no_addr": "錢包地址還沒有設置，您可以再試一次，或者刷新頁面",
   "balance.withdraw.empty_confirm": "確認",
