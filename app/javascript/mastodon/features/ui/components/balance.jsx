@@ -40,13 +40,19 @@ export const getTokenUrl = () => {
 const defaultMessage = 'Withdraw ALL your {rewardToken} to your wallet, you will receive {airdropToken} for the first withdraw. After withdraw, you can check your token at';
 const noAddrMessage = 'wallet address has not loaded, please try again or refresh the page';
 const messages = defineMessages({
-  withdrawTitle: {id: 'balance.withdraw.title', defaultMessage: 'Withdraw'},
-  withdrawingTitle: {id: 'balance.withdraw.withdrawing_title', defaultMessage: 'Withdrawing'},
-  loadingTitle: { id: 'balance.withdraw.loading_title', defaultMessage: 'Loading' },
-  withdrawText: {id: 'balance.withdraw.text', defaultMessage: defaultMessage},
-  confirmWithdraw: {id: 'balance.withdraw.confirm', defaultMessage: 'Confirm Withdraw'},
-  withdrawNoAddrText: {id: 'balance.withdraw.no_addr', defaultMessage: noAddrMessage},
-  withdrawSetAddr: {id: 'balance.withdraw.empty_confirm', defaultMessage: 'Confirm'},
+  withdrawTitle: { id: 'balance.withdraw.title', defaultMessage: 'Withdraw' },
+  withdrawingTitle: { id: 'balance.withdraw.withdrawing_title', defaultMessage: 'Withdrawing' },
+  withdrawText: { id: 'balance.withdraw.text', defaultMessage: defaultMessage },
+  confirmWithdraw: { id: 'balance.withdraw.confirm', defaultMessage: 'Confirm Withdraw' },
+  withdrawNoAddrText: { id: 'balance.withdraw.no_addr', defaultMessage: noAddrMessage },
+  withdrawSetAddr: { id: 'balance.withdraw.empty_confirm', defaultMessage: 'Confirm' },
+  withdrawSuccess: { id: 'balance.withdraw.success', defaultMessage: 'Your withdrawal has been successfully processed.' },
+  withdrawFail: {
+    id: 'balance.withdraw.fail',
+    defaultMessage: 'Withdraw failed, please try again or contact sodappdev@gmail.com for help, error message: ',
+  },
+  willReward: { id: 'balance.reward.hint', defaultMessage: 'you will receive a reward of ' },
+
 });
 
 class Balance extends React.PureComponent {
@@ -64,15 +70,18 @@ class Balance extends React.PureComponent {
   static contextTypes = {
     identity: PropTypes.object.isRequired,
   };
-  withdraw = (to_address) => {
-    this.setState({loading: true});
+  withdraw = (intl, to_address) => {
+    this.setState({ loading: true });
     api().get('/withdraw', {
-      params: {to_address},
-    }).then(() => {
-      this.setState({loading: false});
-    }).catch(err => {
-      console.error(err);
-      this.setState({loading: false});
+      params: { to_address },
+    }).then((res) => {
+      console.log('withdraw res:', res);
+      toast.success(intl.formatMessage(messages.withdrawSuccess));
+      this.setState({ loading: false });
+    }).catch(res => {
+      console.error('withdraw error: ', res.response.data.error);
+      toast.error(intl.formatMessage(messages.withdrawFail) +  res.response.data.error);
+      this.setState({ loading: false });
     });
   };
   handleWithdrawClick = async () => {
@@ -93,7 +102,7 @@ class Balance extends React.PureComponent {
         confirm: intl.formatMessage(messages.confirmWithdraw),
         link: 'test',
         onConfirm: () => {
-          this.withdraw(eth_address);
+          this.withdraw(intl, eth_address);
         },
       }));
     } else {
@@ -111,11 +120,11 @@ class Balance extends React.PureComponent {
   };
 
   componentDidUpdate(prevProps) {
-    const {new_balance, is_side_bar} = this.props;
+    const { new_balance, is_side_bar, intl } = this.props;
     if (this.props.new_balance !== prevProps.new_balance) {
       //Balance will be load into both sidebar and header, but toast should show once
       if (!is_side_bar && new_balance && new_balance.balance_increment > 0) {
-        toast.success('you will receive a reward of ' + new_balance.balance_increment + getEarnToken());
+        toast.success(intl.formatMessage(messages.willReward) + new_balance.balance_increment + getEarnToken());
       }
     }
   }

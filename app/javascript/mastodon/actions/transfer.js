@@ -48,6 +48,9 @@ const messages = defineMessages({
   transferAddrNoLoaded: { id: 'account.transfer.web2_logged_in', defaultMessage: noAddrMessage },
   transferEmptyConfirm: { id: 'account.transfer.empty_confirm', defaultMessage: 'Confirm' },
   transferToAccountNoAddress: { id: 'account.transfer.to_account_no_address', defaultMessage: toAccountNoAddress },
+  transferSuccess: { id: 'account.transfer.success', defaultMessage: 'You transferred ' },
+  transferTo: { id: 'account.transfer.to', defaultMessage: ' to ' },
+  transferFail: { id: 'account.transfer.fail', defaultMessage: 'Transfer failed' },
 });
 
 const getContractAddr = (token) => {
@@ -100,7 +103,7 @@ export async function transferERC20(token, address, amount) {
       from: sender,
       gasLimit: 60000,
     };
-  }else {
+  } else {
     params = {
       chainId: getChainId(),
       from: sender,
@@ -125,7 +128,7 @@ export async function transferERC20(token, address, amount) {
         errMsg = 'Error: Transaction has been reverted by the EVM';
         suggestion = `please check your ${token} balance`;
       }
-      const err = errMsg === '' ? (error.message ? error.message : error)  : errMsg + ' , ' + suggestion;
+      const err = errMsg === '' ? (error.message ? error.message : error) : errMsg + ' , ' + suggestion;
       reject(err);
     });
   });
@@ -158,13 +161,16 @@ export function transferModal(intl, dispatch, to_account, token) {
       onConfirm: async () => {
         const transferAmount = document.getElementById('transfer_input').value;
         transferERC20(token, to_account.get('eth_address'), transferAmount).then(() => {
-          toast.success(`You transferred ${transferAmount} ${token} to ${to_account.get('username')}`);
+          toast.success(intl.formatMessage(messages.transferSuccess) + transferAmount + token +
+                intl.formatMessage(messages.transferTo) + to_account.get('username'));
         },
         ).catch((error) => {
-          toast.error(`Transfer failed. ${error}`);
+          toast.error(intl.formatMessage(messages.transferFail) + error);
         });
       },
-    }));
+    },
+    ))
+    ;
   } else {
     dispatch(openModal('CONFIRM', {
       message:

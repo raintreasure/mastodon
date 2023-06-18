@@ -6,9 +6,11 @@ class TransactionsController < ApplicationController
   before_action :set_client
 
   def withdraw
-    transfer_native_token
-    transfer_earnings
-    render json: {}, status: 200
+    if transfer_native_token
+      if transfer_earnings
+        render json: {}, status: 200
+      end
+    end
   end
 
   def set_pol_client
@@ -29,6 +31,14 @@ class TransactionsController < ApplicationController
       set_bsc_client
     end
   end
+  def contractName
+    if ENV['REACT_APP_DAO'] == 'chinesedao'
+      return 'FRC759Token'
+    end
+    if ENV['REACT_APP_DAO'] == 'facedao'
+      return 'ERC20Template'
+    end
+  end
 
   def transfer_native_token
     if !current_account.given_native_token
@@ -39,16 +49,21 @@ class TransactionsController < ApplicationController
         if @client.tx_succeeded?(hash)
           current_account.given_native_token = true
           current_account.save!
+          return true
         end
       rescue StandardError => e
         puts("Error transferring native token: #{e.message}")
+        render json: { error: e.message }, status: 500
+        return false
       end
     end
+    true
   end
 
   def transfer_earnings
     begin
       current_balance = current_account.balance
+
       hash = @client.transact_and_wait(erc20_contract, 'transfer', to_address,
                                        BigDecimal(current_balance).mult(ENV['REACT_APP_DAO'] == 'facedao' ? 1 : Eth::Unit::ETHER, 0).round,
                                        sender_key: buffer_account_private_key, gas_limit: 80000,
@@ -56,10 +71,13 @@ class TransactionsController < ApplicationController
       if @client.tx_succeeded?(hash)
         current_account.decrement(:balance, current_balance)
         current_account.save!
+        return true
       end
     rescue StandardError => e
-      puts("Error transferring earnings: #{e.message}, #{e.backtrace}, #{e}")
+      render json: { error: e.message }, status: 500
+      return false
     end
+    true
   end
 
   def to_address
@@ -85,7 +103,7 @@ class TransactionsController < ApplicationController
   def erc20_contract
     abi_file = File.read('app/assets/contracts/transferABI.json')
     abi = JSON.parse abi_file
-    Eth::Contract.from_abi(abi: abi, name:'ERC20Template', address: contract_address)
+    Eth::Contract.from_abi(abi: abi, name: contractName, address: contract_address)
   end
 
 end
