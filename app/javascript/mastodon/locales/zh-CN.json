@@ -111,7 +111,7 @@
   "autosuggest_hashtag.per_week": "每星期 {count} 条",
   "balance.withdraw.title": "提现",
   "balance.withdraw.withdrawing_title": "提现中",
-  "balance.withdraw.text": "将所有的$CHINESE提现到您的钱包中, 第一次提现时，您会获得0.1个POL. 提现完成之后，您可以点击下面的链接查看资产",
+  "balance.withdraw.text": "将所有的{rewardToken}提现到您的钱包中, 第一次提现时，您会获得{airdropToken}. 提现完成之后，您可以点击下面的链接查看资产",
   "balance.withdraw.confirm": "确认提现",
   "balance.withdraw.no_addr": "钱包地址还没有加载，请再试一次，或者刷新页面",
   "balance.withdraw.empty_confirm": "确认",
