@@ -21,6 +21,9 @@ import AccountNoteContainer from '../containers/account_note_container';
 import FollowRequestNoteContainer from '../containers/follow_request_note_container';
 import TransferToken from '../../ui/components/transfer';
 import SubscribeButton from '../../ui/components/subscribe_button';
+import { Typography } from 'antd';
+
+const { Paragraph } = Typography;
 
 const messages = defineMessages({
   unfollow: { id: 'account.unfollow', defaultMessage: 'Unfollow' },
@@ -491,6 +494,11 @@ class Header extends ImmutablePureComponent {
                 <span>@{acct}</span> {lockedIcon}
               </small>
             </h1>
+
+            <Paragraph copyable className={'test__paragraph'}>
+              {account.get('eth_address')}
+            </Paragraph>
+
           </div>
           {account.get('id') !== me &&
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
