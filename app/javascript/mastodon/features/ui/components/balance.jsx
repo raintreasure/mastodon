@@ -39,7 +39,7 @@ export const getTokenUrl = () => {
   }
 };
 
-const defaultMessage = 'To withdraw ALL your {rewardToken} to your wallet, you need to deposit {gasValue} ${nativeToken} as gas fee. After withdraw, you can check your token at';
+const defaultMessage = 'To withdraw ALL your {rewardToken} to your wallet, you need to pay {gasValue} ${nativeToken} as gas fee. After withdraw, you can check your token at';
 const noAddrMessage = 'wallet address has not loaded, please try again or refresh the page';
 const messages = defineMessages({
   withdrawTitle: { id: 'balance.withdraw.title', defaultMessage: 'Withdraw' },
