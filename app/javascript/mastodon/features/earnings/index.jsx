@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { getEarningsRecord } from '../../actions/balance';
 import ScrollableList from '../../components/scrollable_list';
 import LimitedAccountHint from '../account_timeline/components/limited_account_hint';
-import { getEarnToken } from '../../utils/multichain';
+import { getEarnToken } from '../../utils/web3';
 
 const mapStateToProps = (state, { params: { acct, id } }) => {
   const accountId = id || state.getIn(['accounts_map', normalizeForLookup(acct)]);
@@ -145,7 +145,7 @@ class Earnings extends React.PureComponent {
               <p style={{ color: 'grey', fontSize: 'x-small' }}>{r.created_at}</p>
             </div>
             <div>
-              <p style={{ fontSize: 'larger' }}>+ {r.earn} {getEarnToken()}</p>
+              <p style={{ fontSize: 'larger' }}>+ {r.earn} ${getEarnToken()}</p>
             </div>
           </div>),
         )}

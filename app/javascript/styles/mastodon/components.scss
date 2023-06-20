@@ -6900,6 +6900,13 @@ noscript {
   }
 }
 
+.test__paragraph {
+  color: $classic-primary-color;
+}
+.ant-typography-copy {
+  color: $classic-primary-color !important;
+}
+
 @keyframes flicker {
   0% {
     opacity: 1;

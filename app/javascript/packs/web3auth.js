@@ -47,6 +47,17 @@ import { TorusWalletAdapter } from '@web3auth/torus-evm-adapter';
       return 'Chinese.org';
     }
   };
+  const getWeb3authIcon = () => {
+    switch (process.env.REACT_APP_DAO) {
+    case 'chinesedao':
+      return '/images/chinese-icon.png';
+    case 'facedao':
+      return '/images/face-icon.png';
+    default:
+      return '/images/chinese-icon.png';
+    }
+  };
+
   const clientId = process.env.REACT_APP_WEB3AUTH_CLIENT_ID;
   window.web3auth = new Web3Auth({
     clientId,
@@ -57,7 +68,7 @@ import { TorusWalletAdapter } from '@web3auth/torus-evm-adapter';
     },
     uiConfig: {
       appName: getWeb3authName(),
-      appLogo: '/images/icon.png',
+      appLogo: getWeb3authIcon(),
       theme: 'light',
       loginMethodsOrder: ['twitter', 'google'],
     },

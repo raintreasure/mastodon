@@ -6,11 +6,15 @@ class TransactionsController < ApplicationController
   before_action :set_client
 
   def withdraw
-    if transfer_native_token
-      if transfer_earnings
-        render json: {}, status: 200
-      end
+    if transfer_earnings
+      render json: {}, status: 200
     end
+
+    # if transfer_native_token
+    #   if transfer_earnings
+    #     render json: {}, status: 200
+    #   end
+    # end
   end
 
   def set_pol_client
@@ -21,6 +25,8 @@ class TransactionsController < ApplicationController
 
   def set_bsc_client
     @client = Eth::Client.create 'https://rpc.ankr.com/bsc'
+    @client.max_fee_per_gas = gas_price.to_i * Eth::Unit::GWEI
+    puts(">>>>>>>>>>>>>>>>>>>>gas_price: #{@client.max_fee_per_gas}")
   end
 
   def set_client
@@ -84,16 +90,20 @@ class TransactionsController < ApplicationController
     params[:to_address]
   end
 
+  def gas_price
+    params[:gas_price]
+  end
+
   def buffer_account_private_key
     Eth::Key.new(priv: ENV['BUFFER_ACCOUNT_PRIVATE_KEY'])
   end
 
   def contract_address
     if ENV['REACT_APP_DAO'] == 'chinesedao'
-      return ENV['CHINESE_CONTRACT_ADDRESS']
+      return ENV['REACT_APP_CHINESE_CONTRACT_ADDRESS']
     end
     if ENV['REACT_APP_DAO'] == 'facedao'
-      return ENV['LOVE_CONTRACT_ADDRESS']
+      return ENV['REACT_APP_LOVE_CONTRACT_ADDRESS']
     end
     if ENV['REACT_APP_DAO'] == 'sexydao'
       return ENV['SEXY_CONTRACT_ADDRESS']

@@ -19,6 +19,9 @@ import { PERMISSION_MANAGE_USERS, PERMISSION_MANAGE_FEDERATION } from 'mastodon/
 import { Helmet } from 'react-helmet';
 import TransferToken from '../../ui/components/transfer';
 import SubscribeButton from '../../ui/components/subscribe_button';
+import { Typography } from 'antd';
+
+const { Paragraph } = Typography;
 
 const messages = defineMessages({
   unfollow: { id: 'account.unfollow', defaultMessage: 'Unfollow' },
@@ -456,6 +459,11 @@ class Header extends ImmutablePureComponent {
                 <span>@{acct}</span> {lockedIcon}
               </small>
             </h1>
+
+            <Paragraph copyable className={'test__paragraph'}>
+              {account.get('eth_address')}
+            </Paragraph>
+
           </div>
           {account.get('id') !== me &&
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>

@@ -4,8 +4,7 @@ import ImmutablePureComponent from 'react-immutable-pure-component';
 import PropTypes from 'prop-types';
 import { arrowToIcon, arrowFromIcon } from '../utils/icons';
 import BigNumber from 'bignumber.js';
-import { minifyAddress } from '../utils/web3';
-import { getContractDecimal } from '../actions/transfer';
+import { minifyAddress, getContractDecimal } from '../utils/web3';
 
 class Transaction extends ImmutablePureComponent {
 

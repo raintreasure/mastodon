@@ -1,43 +1,11 @@
-import BigNumber from 'bignumber.js';
+
 import { openModal } from './modal';
 import { toast } from 'react-hot-toast';
 import React from 'react';
-import {
-  CHINESE_CONTRACT_ADDR,
-  CHINESE_DECIMALS,
-  FACEDAO_CONTRACT_ADDR,
-  FACEDAO_DECIMALS,
-  LOVE_CONTRACT_ADDR,
-  LOVE_DECIMALS,
-} from './tokens';
-import { getNativeToken } from '../utils/multichain';
-import { defineMessages } from 'react-intl';
 
-const transferAbi = [
-  {
-    'constant': false,
-    'inputs': [
-      {
-        'name': '_to',
-        'type': 'address',
-      },
-      {
-        'name': '_value',
-        'type': 'uint256',
-      },
-    ],
-    'name': 'transfer',
-    'outputs': [
-      {
-        'name': '',
-        'type': 'bool',
-      },
-    ],
-    'payable': false,
-    'stateMutability': 'nonpayable',
-    'type': 'function',
-  },
-];
+import { defineMessages } from 'react-intl';
+import { getAmountWithDecimals, getChainId, getContractAddr, getNativeToken, transferAbi } from '../utils/web3';
+
 
 const noAddrMessage = 'wallet address has not loaded, please try again or refresh the page';
 const toAccountNoAddress = 'The account you transferred to has no wallet address';
@@ -53,53 +21,20 @@ const messages = defineMessages({
   transferFail: { id: 'account.transfer.fail', defaultMessage: 'Transfer failed' },
 });
 
-const getContractAddr = (token) => {
-  switch (token) {
-  case 'CHINESE':
-    return CHINESE_CONTRACT_ADDR;
-  case 'LOVE':
-    return LOVE_CONTRACT_ADDR;
-  case 'FaceDAO':
-    return FACEDAO_CONTRACT_ADDR;
-  default:
-    return CHINESE_CONTRACT_ADDR;
-  }
-};
-export const getContractDecimal = (token) => {
-  switch (token) {
-  case 'CHINESE':
-    return CHINESE_DECIMALS;
-  case 'LOVE':
-    return LOVE_DECIMALS;
-  case 'FaceDAO':
-    return FACEDAO_DECIMALS;
-  default:
-    return CHINESE_DECIMALS;
-  }
-};
-const getChainId = () => {
-  switch (process.env.REACT_APP_DAO) {
-  case 'chinesedao':
-    return '0x89';
-  case 'facedao':
-    return '0x38';
-  default:
-    return '0x89';
-  }
-};
 
 export async function transferERC20(token, address, amount) {
   const Web3 = require('web3');
   let web3 = new Web3(window.web3auth.provider);
   const sender = (await web3.eth.getAccounts())[0];
-  const amountWithDecimals = new BigNumber(amount).multipliedBy(getContractDecimal(token));
+
+
   const contractAddress = getContractAddr(token);
   const contract = new web3.eth.Contract(transferAbi, contractAddress);
   let params;
   //BSC does not support EIP1559, list those
   if (process.env.REACT_APP_DAO === 'facedao') {
     params = {
-      chainId: getChainId(),
+      chainId:getChainId(),
       from: sender,
       gasLimit: 60000,
     };
@@ -114,7 +49,7 @@ export async function transferERC20(token, address, amount) {
   }
 
   return new Promise((resolve, reject) => {
-    contract.methods.transfer(address, amountWithDecimals.toFixed(0)).send(
+    contract.methods.transfer(address, getAmountWithDecimals(amount, token)).send(
       params,
     ).on('receipt', function () {
       resolve();
@@ -183,3 +118,5 @@ export function transferModal(intl, dispatch, to_account, token) {
     }));
   }
 }
+
+
