@@ -80,7 +80,7 @@ Rails.application.routes.draw do
     registrations: 'auth/registrations',
     passwords: 'auth/passwords',
     confirmations: 'auth/confirmations',
-  }
+  }, :path_names => {:sign_in => ENV['SIGN_IN_PATH'], :sign_up => ENV['SIGN_UP_PATH']}
 
   get '/users/:username', to: redirect('/@%{username}'), constraints: lambda { |req| req.format.nil? || req.format.html? }
   get '/users/:username/statuses/:id', to: redirect('/@%{username}/%{id}'), constraints: lambda { |req| req.format.nil? || req.format.html? }
