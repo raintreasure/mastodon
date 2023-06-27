@@ -26,7 +26,6 @@ class TransactionsController < ApplicationController
   def set_bsc_client
     @client = Eth::Client.create 'https://rpc.ankr.com/bsc'
     @client.max_fee_per_gas = gas_price.to_i * Eth::Unit::GWEI
-    puts(">>>>>>>>>>>>>>>>>>>>gas_price: #{@client.max_fee_per_gas}")
   end
 
   def set_client
@@ -74,7 +73,9 @@ class TransactionsController < ApplicationController
                                        BigDecimal(current_balance).mult(ENV['REACT_APP_DAO'] == 'facedao' ? 1 : Eth::Unit::ETHER, 0).round,
                                        sender_key: buffer_account_private_key, gas_limit: 80000,
                                        legacy: ENV['REACT_APP_DAO'] == 'facedao' ? true : false)
-      if @client.tx_succeeded?(hash)
+
+      # occasionally transact_and_wait will return a nil even the transaction is succeeded, https://github.com/q9f/eth.rb/issues/223 wait for this issue to fix this bug.
+      if hash.nil? || @client.tx_succeeded?(hash)
         current_account.decrement(:balance, current_balance)
         current_account.save!
         return true
