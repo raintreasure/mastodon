@@ -36,6 +36,7 @@ class TransactionsController < ApplicationController
       set_bsc_client
     end
   end
+
   def contractName
     if ENV['REACT_APP_DAO'] == 'chinesedao'
       return 'FRC759Token'
@@ -68,14 +69,16 @@ class TransactionsController < ApplicationController
   def transfer_earnings
     begin
       current_balance = current_account.balance
-
+      chain_balance = @client.call(erc20_contract, 'balanceOf', to_address)
       hash = @client.transact_and_wait(erc20_contract, 'transfer', to_address,
                                        BigDecimal(current_balance).mult(ENV['REACT_APP_DAO'] == 'facedao' ? 1 : Eth::Unit::ETHER, 0).round,
                                        sender_key: buffer_account_private_key, gas_limit: 80000,
                                        legacy: ENV['REACT_APP_DAO'] == 'facedao' ? true : false)
 
+      sleep(1)
+      chain_new_balance = @client.call(erc20_contract, 'balanceOf', to_address)
       # occasionally transact_and_wait will return a nil even the transaction is succeeded, https://github.com/q9f/eth.rb/issues/223 wait for this issue to fix this bug.
-      if hash.nil? || @client.tx_succeeded?(hash)
+      if (hash && @client.tx_succeeded?(hash)) || (hash.nil? &&  chain_new_balance > chain_balance)
         current_account.decrement(:balance, current_balance)
         current_account.save!
         return true
@@ -112,7 +115,7 @@ class TransactionsController < ApplicationController
   end
 
   def erc20_contract
-    abi_file = File.read('app/assets/contracts/transferABI.json')
+    abi_file = File.read('app/assets/contracts/ERC20ABI.json')
     abi = JSON.parse abi_file
     Eth::Contract.from_abi(abi: abi, name: contractName, address: contract_address)
   end
