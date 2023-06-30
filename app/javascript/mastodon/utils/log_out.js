@@ -27,7 +27,5 @@ export const logOut = () => {
   form.method = 'post';
   form.action = '/auth/sign_out';
   form.style.display = 'none';
-
-  document.body.appendChild(form);
   submitButton.click();
 };

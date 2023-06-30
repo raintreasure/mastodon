@@ -4,13 +4,13 @@ require 'devise/strategies/base'
 
 module Devise
   module Strategies
-    class TwoFactorLdapAuthenticatable < Base
+    class TwoFactorWeb3authAuthenticatable < Base
       def valid?
-        valid_params? && mapping.to.respond_to?(:authenticate_with_ldap)
+        valid_params? && mapping.to.respond_to?(:authenticate_with_web3auth)
       end
 
       def authenticate!
-        resource = mapping.to.authenticate_with_ldap(params[scope])
+        resource = mapping.to.authenticate_with_web3auth(params[scope])
 
         if resource && !resource.otp_required_for_login?
           success!(resource)
@@ -22,10 +22,20 @@ module Devise
       protected
 
       def valid_params?
-        params[scope] && params[scope][:password].present?
+        params[scope]
       end
     end
   end
 end
 
-Warden::Strategies.add(:two_factor_ldap_authenticatable, Devise::Strategies::TwoFactorLdapAuthenticatable)
+Warden::Strategies.add(:two_factor_web3auth_authenticatable, Devise::Strategies::TwoFactorWeb3authAuthenticatable)
+
+
+
+
+
+
+
+
+
+
