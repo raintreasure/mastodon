@@ -1,6 +1,6 @@
 {
-  "name": "Mastodon",
-  "description": "A GNU Social-compatible microblogging server",
+  "name": "Chinese.org",
+  "description": "Web3 mastodon for Chinese culture",
   "repository": "https://github.com/mastodon/mastodon",
   "logo": "https://github.com/mastodon.png",
   "env": {
