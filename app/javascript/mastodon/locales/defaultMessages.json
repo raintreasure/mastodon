@@ -2641,7 +2641,7 @@
         "id": "sign_in_banner.create_account"
       },
       {
-        "defaultMessage": "Web3Auth Sign in",
+        "defaultMessage": "Web3Auth Signin/up",
         "id": "sign_in_banner.web3auth_login"
       },
       {
@@ -2653,7 +2653,7 @@
         "id": "interaction_modal.on_this_server"
       },
       {
-        "defaultMessage": "Email Sign in",
+        "defaultMessage": "Web2 Email  Signin/up",
         "id": "sign_in_banner.sign_in"
       },
       {
@@ -4058,11 +4058,11 @@
         "id": "sign_in_banner.create_account"
       },
       {
-        "defaultMessage": "Email Sign in",
+        "defaultMessage": "Web2 Email  Signin/up",
         "id": "sign_in_banner.sign_in"
       },
       {
-        "defaultMessage": "Web3Auth Sign in",
+        "defaultMessage": "Web3Auth Signin/up",
         "id": "sign_in_banner.web3auth_login"
       }
     ],
@@ -4269,7 +4269,7 @@
         "id": "sign_in_banner.sign_in"
       },
       {
-        "defaultMessage": "Web3Auth Sign in",
+        "defaultMessage": "Web3Auth Signin/up",
         "id": "sign_in_banner.web3auth_login"
       }
     ],
