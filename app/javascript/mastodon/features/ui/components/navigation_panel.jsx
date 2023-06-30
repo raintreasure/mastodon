@@ -38,7 +38,6 @@ class NavigationPanel extends Component {
   static contextTypes = {
     router: PropTypes.object.isRequired,
     identity: PropTypes.object.isRequired,
-    web3auth: PropTypes.object.isRequired,
   };
 
   static propTypes = {
