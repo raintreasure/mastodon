@@ -1,21 +1,22 @@
 import PropTypes from 'prop-types';
-import { PureComponent } from 'react';
+import {PureComponent} from 'react';
 
-import { Helmet } from 'react-helmet';
-import { BrowserRouter, Route } from 'react-router-dom';
+import {Helmet} from 'react-helmet';
+import {BrowserRouter, Route} from 'react-router-dom';
 
-import { Provider as ReduxProvider } from 'react-redux';
+import {Provider as ReduxProvider} from 'react-redux';
 
-import { ScrollContext } from 'react-router-scroll-4';
+import {ScrollContext} from 'react-router-scroll-4';
 
-import { fetchCustomEmojis } from 'mastodon/actions/custom_emojis';
-import { hydrateStore } from 'mastodon/actions/store';
-import { connectUserStream } from 'mastodon/actions/streaming';
+import {fetchCustomEmojis} from 'mastodon/actions/custom_emojis';
+import {hydrateStore} from 'mastodon/actions/store';
+import {connectUserStream} from 'mastodon/actions/streaming';
 import ErrorBoundary from 'mastodon/components/error_boundary';
 import UI from 'mastodon/features/ui';
-import initialState, { title as siteTitle } from 'mastodon/initial_state';
-import { IntlProvider } from 'mastodon/locales';
-import { store } from 'mastodon/store';
+import initialState, {title as siteTitle} from 'mastodon/initial_state';
+import {IntlProvider} from 'mastodon/locales';
+import {store} from 'mastodon/store';
+import {Web3Auth} from "@web3auth/modal";
 
 const title = process.env.NODE_ENV === 'production' ? siteTitle : `${siteTitle} (Dev)`;
 
@@ -53,35 +54,52 @@ export default class Mastodon extends PureComponent {
     };
   }
 
+  async initWeb3auth() {
+    const clientId = 'BM8O9IFmbeLZblS4bv6vX87yGiEOdsCPoSSD4QCgtM0I4l1pXz6GzQTwdSAlOelLl_xdYYtFDnIMj1R3uo9jl7M'; // get your clientId from https://dashboard.web3auth.io
+    const web3auth = new Web3Auth({
+      clientId: clientId, // Get your Client ID from Web3Auth Dashboard
+      chainConfig: {
+        chainNamespace: "eip155",
+        chainId: "0x1",
+      },
+    });
+    await web3auth.initModal();
+    window.web3auth = web3auth;
+  }
+
   componentDidMount() {
+    if (!window.web3auth) {
+      this.initWeb3auth();
+    }
+
     if (this.identity.signedIn) {
       this.disconnect = store.dispatch(connectUserStream());
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (this.disconnect) {
       this.disconnect();
       this.disconnect = null;
     }
   }
 
-  shouldUpdateScroll (prevRouterProps, { location }) {
+  shouldUpdateScroll(prevRouterProps, {location}) {
     return !(location.state?.mastodonModalKey && location.state?.mastodonModalKey !== prevRouterProps?.location?.state?.mastodonModalKey);
   }
 
-  render () {
+  render() {
     return (
       <IntlProvider>
         <ReduxProvider store={store}>
           <ErrorBoundary>
             <BrowserRouter>
               <ScrollContext shouldUpdateScroll={this.shouldUpdateScroll}>
-                <Route path='/' component={UI} />
+                <Route path='/' component={UI}/>
               </ScrollContext>
             </BrowserRouter>
 
-            <Helmet defaultTitle={title} titleTemplate={`%s - ${title}`} />
+            <Helmet defaultTitle={title} titleTemplate={`%s - ${title}`}/>
           </ErrorBoundary>
         </ReduxProvider>
       </IntlProvider>
