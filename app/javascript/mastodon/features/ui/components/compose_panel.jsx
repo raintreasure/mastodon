@@ -10,7 +10,7 @@ import NavigationContainer from 'mastodon/features/compose/containers/navigation
 import SearchContainer from 'mastodon/features/compose/containers/search_container';
 
 import LinkFooter from './link_footer';
-import Icon from 'mastodon/components/icon';
+import {Icon} from 'mastodon/components/icon';
 
 const Balance = connect(state => ({
   balance: state.getIn(['balance']),

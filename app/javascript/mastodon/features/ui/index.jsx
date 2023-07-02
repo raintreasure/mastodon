@@ -22,7 +22,6 @@ import { clearHeight } from '../../actions/height_cache';
 import { expandNotifications } from '../../actions/notifications';
 import { fetchServer, fetchServerTranslationLanguages } from '../../actions/server';
 import { expandHomeTimeline } from '../../actions/timelines';
-import initialState, { me, owner, singleUserMode, showTrends, trendsAsLanding } from '../../initial_state';
 
 import BundleColumnError from './components/bundle_column_error';
 import Header from './components/header';
@@ -65,8 +64,6 @@ import {
   PrivacyPolicy,
 } from './util/async-components';
 import initialState, { me, owner, singleUserMode, showTrends, trendsAsLanding } from '../../initial_state';
-import { closeOnboarding, INTRODUCTION_VERSION } from 'mastodon/actions/onboarding';
-import Header from './components/header';
 import { increaseBalance } from '../../actions/balance';
 import { WrappedSwitch, WrappedRoute } from './util/react_router_helpers';
 
