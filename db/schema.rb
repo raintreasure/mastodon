@@ -210,7 +210,6 @@ ActiveRecord::Schema.define(version: 2023_06_05_085711) do
     t.bigint "account_id", null: false
     t.bigint "tag_id", null: false
     t.index ["account_id", "tag_id"], name: "index_accounts_tags_on_account_id_and_tag_id"
-    t.index ["tag_id", "account_id"], name: "index_accounts_tags_on_tag_id_and_account_id", unique: true
   end
 
   create_table "admin_action_logs", force: :cascade do |t|
@@ -448,7 +447,7 @@ ActiveRecord::Schema.define(version: 2023_06_05_085711) do
     t.decimal "earn"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["account_id", "op_type"], name: "index_earn_records_on_account_id_and_op_type"
+    t.index ["account_id", "target_id", "op_type"], name: "index_earn_records_on_account_id_and_target_id_and_op_type"
   end
 
   create_table "email_domain_blocks", force: :cascade do |t|
@@ -1008,7 +1007,6 @@ ActiveRecord::Schema.define(version: 2023_06_05_085711) do
     t.bigint "status_id", null: false
     t.bigint "tag_id", null: false
     t.index ["status_id"], name: "index_statuses_tags_on_status_id"
-    t.index ["tag_id", "status_id"], name: "index_statuses_tags_on_tag_id_and_status_id", unique: true
   end
 
   create_table "system_keys", force: :cascade do |t|

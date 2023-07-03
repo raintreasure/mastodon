@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
-import Icon from 'mastodon/components/icon';
+import {Icon} from 'mastodon/components/icon';
 import { toast } from 'react-hot-toast';
 import Button from '../../../components/button';
 
