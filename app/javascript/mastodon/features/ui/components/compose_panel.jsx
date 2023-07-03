@@ -11,7 +11,6 @@ import SearchContainer from 'mastodon/features/compose/containers/search_contain
 
 import LinkFooter from './link_footer';
 import Balance from './balance';
-import WithdrawButton from './withdraw';
 import {Icon} from 'mastodon/components/icon';
 class ComposePanel extends PureComponent {
 
@@ -61,7 +60,6 @@ class ComposePanel extends PureComponent {
           <>
             <NavigationContainer onClose={this.onBlur} />
             <Balance is_side_bar />
-            <WithdrawButton />
             <ComposeFormContainer singleColumn />
           </>
         )}
