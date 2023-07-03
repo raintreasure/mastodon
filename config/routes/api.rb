@@ -160,7 +160,7 @@ namespace :api, format: false do
       resources :lists, only: :index, controller: 'accounts/lists'
       resources :identity_proofs, only: :index, controller: 'accounts/identity_proofs'
       resources :featured_tags, only: :index, controller: 'accounts/featured_tags'
-      patch :balance, to: 'accounts/balance#update'
+      patch :balance, to: 'accounts/balance#earn_online'
 
       member do
         post :follow
