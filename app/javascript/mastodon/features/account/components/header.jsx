@@ -349,6 +349,7 @@ class Header extends ImmutablePureComponent {
     }
 
     if (signedIn && isRemote) {
+
       menu.push(null);
 
       if (account.getIn(['relationship', 'domain_blocking'])) {

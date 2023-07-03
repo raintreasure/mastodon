@@ -10,13 +10,13 @@ import { FormattedMessage } from 'react-intl';
 import Column from '../ui/components/column';
 import HeaderContainer from '../account_timeline/containers/header_container';
 import ColumnBackButton from '../../components/column_back_button';
-import MissingIndicator from 'mastodon/components/missing_indicator';
-import TimelineHint from 'mastodon/components/timeline_hint';
+import {TimelineHint} from 'mastodon/components/timeline_hint';
 import LimitedAccountHint from '../account_timeline/components/limited_account_hint';
 import { getAccountHidden } from 'mastodon/selectors';
 import { normalizeForLookup } from 'mastodon/reducers/accounts_map';
 import { fetchTokens } from '../../actions/tokens';
 import { FSN_ICON, CHNG_ICON, ETH_ICON, USDT_ICON, USDC_ICON, CHINESE_ICON } from '../../../icons/data';
+import BundleColumnError from "mastodon/features/ui/components/bundle_column_error";
 
 const mapStateToProps = (state, { params: { acct, id } }) => {
   const accountId = id || state.getIn(['accounts_map', normalizeForLookup(acct)]);
@@ -124,9 +124,7 @@ class Tokens extends ImmutablePureComponent {
     console.log('isLoading is :', isLoading);
     if (!isAccount) {
       return (
-        <Column>
-          <MissingIndicator />
-        </Column>
+        <BundleColumnError multiColumn={multiColumn} errorType='routing' />
       );
     }
 

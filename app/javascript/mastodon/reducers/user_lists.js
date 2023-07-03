@@ -60,12 +60,6 @@ import {
   NOTIFICATIONS_UPDATE,
 } from '../actions/notifications';
 import {
-  FEATURED_TAGS_FETCH_REQUEST,
-  FEATURED_TAGS_FETCH_SUCCESS,
-  FEATURED_TAGS_FETCH_FAIL,
-} from 'mastodon/actions/featured_tags';
-import { Map as ImmutableMap, List as ImmutableList, fromJS } from 'immutable';
-import {
   TOKENS_CHINESE_FETCH_SUCCESS,
   TOKENS_CHNG_FETCH_SUCCESS, TOKENS_ETH_FETCH_SUCCESS,
   TOKENS_FETCH_REQUEST,
