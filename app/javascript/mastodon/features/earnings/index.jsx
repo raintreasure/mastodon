@@ -6,12 +6,12 @@ import { getAccountHidden } from '../../selectors';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { fetchAccount, lookupAccount } from '../../actions/accounts';
 import Column from '../ui/components/column';
-import MissingIndicator from '../../components/missing_indicator';
-import LoadingIndicator from '../../components/loading_indicator';
+import {LoadingIndicator} from '../../components/loading_indicator';
 import ColumnBackButton from '../../components/column_back_button';
 import HeaderContainer from '../account_timeline/containers/header_container';
 import { connect } from 'react-redux';
 import { getEarningsRecord } from '../../actions/balance';
+import BundleColumnError from "mastodon/features/ui/components/bundle_column_error";
 
 const mapStateToProps = (state, { params: { acct, id } }) => {
   const accountId = id || state.getIn(['accounts_map', normalizeForLookup(acct)]);
@@ -86,9 +86,9 @@ class Earnings extends React.PureComponent {
     } = this.props;
 
     if (!isAccount) {
-      return (<Column>
-        <MissingIndicator />
-      </Column>);
+      return (
+        <BundleColumnError multiColumn={multiColumn} errorType='routing' />
+      );
     }
 
     if (!earning_records) {
