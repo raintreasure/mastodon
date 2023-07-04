@@ -170,6 +170,8 @@ namespace :api, format: false do
         post :unblock
         post :mute
         post :unmute
+        post :subscribe
+        post :unsubscribe
       end
 
       resource :pin, only: :create, controller: 'accounts/pins'
