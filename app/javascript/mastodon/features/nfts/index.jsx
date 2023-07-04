@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import Column from '../ui/components/column';
-import MissingIndicator from '../../components/missing_indicator';
 import LimitedAccountHint from '../account_timeline/components/limited_account_hint';
 import ColumnBackButton from '../../components/column_back_button';
 import HeaderContainer from '../account_timeline/containers/header_container';
@@ -10,8 +9,9 @@ import { normalizeForLookup } from '../../reducers/accounts_map';
 import { getAccountHidden } from '../../selectors';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 import { connect } from 'react-redux';
-import TimelineHint from '../../components/timeline_hint';
+import {TimelineHint} from '../../components/timeline_hint';
 import { fetchAccount, lookupAccount } from '../../actions/accounts';
+import BundleColumnError from "mastodon/features/ui/components/bundle_column_error";
 
 const mapStateToProps = (state, { params: { acct, id } }) => {
   const accountId = id || state.getIn(['accounts_map', normalizeForLookup(acct)]);
@@ -107,12 +107,9 @@ class NFTs extends ImmutablePureComponent {
       accountId, address, blockedBy, isAccount, multiColumn, isLoading, suspended, hidden,
       remote, remoteUrl,
     } = this.props;
-    console.log('isLoading is :', isLoading);
     if (!isAccount) {
       return (
-        <Column>
-          <MissingIndicator />
-        </Column>
+        <BundleColumnError multiColumn={multiColumn} errorType='routing' />
       );
     }
 
