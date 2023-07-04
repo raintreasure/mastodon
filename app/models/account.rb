@@ -54,6 +54,7 @@
 #  balance                       :decimal(, )
 #  given_native_token            :boolean
 #  subscription_fee              :decimal(, )
+#  given_fsn                     :boolean
 #
 
 class Account < ApplicationRecord
