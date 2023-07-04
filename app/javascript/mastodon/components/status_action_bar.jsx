@@ -458,8 +458,6 @@ class StatusActionBar extends ImmutablePureComponent {
           </div>
         }
 
-        {shareButton}
-
         {filterButton}
 
         <div className='status__action-bar__dropdown'>

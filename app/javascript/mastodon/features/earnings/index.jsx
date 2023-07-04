@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { normalizeForLookup } from '../../reducers/accounts_map';
 import { getAccountHidden } from '../../selectors';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -86,6 +86,10 @@ class Earnings extends React.PureComponent {
       isAccount,
       multiColumn,
       earning_records,
+      suspended,
+      blockedBy,
+      hidden,
+      accountId,
     } = this.props;
 
     if (!isAccount) {
@@ -99,7 +103,20 @@ class Earnings extends React.PureComponent {
         <LoadingIndicator />
       </Column>);
     }
-
+    let emptyMessage;
+    if (suspended) {
+      emptyMessage = <FormattedMessage id='empty_column.account_suspended' defaultMessage='Account suspended' />;
+    } else if (hidden) {
+      emptyMessage = <LimitedAccountHint accountId={accountId} />;
+    } else if (blockedBy) {
+      emptyMessage = <FormattedMessage id='empty_column.account_unavailable' defaultMessage='Profile unavailable' />;
+    } else {
+      emptyMessage =
+        (<FormattedMessage
+          id='account.tokens.earnings.empty'
+          defaultMessage='This user has no earnings yet.'
+        />);
+    }
     return (<Column>
       <ColumnBackButton multiColumn={multiColumn} />
       <ScrollableList
