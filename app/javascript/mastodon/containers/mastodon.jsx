@@ -60,7 +60,7 @@ export default class Mastodon extends PureComponent {
       clientId: clientId, // Get your Client ID from Web3Auth Dashboard
       chainConfig: {
         chainNamespace: "eip155",
-        chainId: "0x1",
+        chainId: "0x38",
       },
     });
     await web3auth.initModal();

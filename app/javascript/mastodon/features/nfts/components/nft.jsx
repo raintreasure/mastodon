@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { defineMessages, injectIntl } from 'react-intl';
+import {defineMessages, injectIntl} from 'react-intl';
 import Button from '../../../components/button';
-import { openModal } from '../../../actions/modal';
-import { nftscan_asset_model } from '../../../actions/nfts';
+import {openModal} from '../../../actions/modal';
+import {nftscan_asset_model} from '../../../actions/nfts';
 
 
 const messages = defineMessages({
-  nftLastTradePrice: { id: 'nft.last_trade_price', defineMessages: 'latest trade price: ' },
-  nftButtonDetail: { id: 'nft.button.detail', defineMessages: 'Detail' },
+  nftLastTradePrice: {id: 'nft.last_trade_price', defineMessages: 'latest trade price: '},
+  nftButtonDetail: {id: 'nft.button.detail', defineMessages: 'Detail'},
 });
 
 class NFT extends React.PureComponent {
@@ -31,7 +31,7 @@ class NFT extends React.PureComponent {
     // width: '100px',
   };
   handleClick = (e) => {
-    const { onClick } = this.props;
+    const {onClick} = this.props;
 
     if (e.button === 0 && !(e.ctrlKey || e.metaKey)) {
       if (this.hoverToPlay()) {
@@ -46,20 +46,23 @@ class NFT extends React.PureComponent {
   };
 
   handleImageLoad = () => {
-    this.setState({ loaded: true });
+    this.setState({loaded: true});
   };
 
   handleAssetDetailClick = () => {
     const {
-      asset: { external_link },
+      asset: {external_link},
       dispatch,
     } = this.props;
-    dispatch(openModal('CONFIRM', {
-      message: 'Ready to open a new window to check details of this NFT.',
-      confirm: 'Confirm',
-      onConfirm: () => {
-        window.open(external_link, '_blank');
-      },
+    dispatch(openModal({
+      modalType: 'CONFIRM',
+      modalProps: {
+        message: 'Ready to open a new window to check details of this NFT.',
+        confirm: 'Confirm',
+        onConfirm: () => {
+          window.open(external_link, '_blank');
+        },
+      }
     }));
   };
 
@@ -70,7 +73,7 @@ class NFT extends React.PureComponent {
         name, image_uri, description, latest_trade_price, latest_trade_symbol, erc_type,
       },
     } = this.props;
-    const image_url = erc_type === 'erc721' ? `https://ipfs.io/ipfs/${image_uri}`: image_uri;
+    const image_url = erc_type === 'erc721' ? `https://ipfs.io/ipfs/${image_uri}` : image_uri;
     return (
       <div className={'nft__item'}>
         <a
@@ -95,7 +98,9 @@ class NFT extends React.PureComponent {
               // <p>&nbsp;</p>
               <p className={'nft__info__creator'}>&nbsp;</p>
               :
-              <p className={'nft__info__creator'}>{ intl.formatMessage(messages.nftLastTradePrice) }<span>{ latest_trade_price }</span>&nbsp;<span>{ latest_trade_symbol }</span></p>
+              <p
+                className={'nft__info__creator'}>{intl.formatMessage(messages.nftLastTradePrice)}<span>{latest_trade_price}</span>&nbsp;
+                <span>{latest_trade_symbol}</span></p>
           }
           {/*<p className={'nft__info__creator'}>created by: <span>{creator.user.username}</span></p>*/}
           {/*<p className={'nft__info__link'}><a href={permalink}>Detail</a></p>*/}
