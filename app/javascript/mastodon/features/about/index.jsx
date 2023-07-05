@@ -14,14 +14,7 @@ import Column from 'mastodon/components/column';
 import { Icon  }  from 'mastodon/components/icon';
 import { ServerHeroImage } from 'mastodon/components/server_hero_image';
 import { Skeleton } from 'mastodon/components/skeleton';
-import Account from 'mastodon/containers/account_container';
 import LinkFooter from 'mastodon/features/ui/components/link_footer';
-import { Helmet } from 'react-helmet';
-import { fetchServer, fetchExtendedDescription, fetchDomainBlocks } from 'mastodon/actions/server';
-import Skeleton from 'mastodon/components/skeleton';
-import Icon from 'mastodon/components/icon';
-import classNames from 'classnames';
-import Image from 'mastodon/components/image';
 import ChineseAbout from './chinese_about';
 import FaceAbout from './face_about';
 

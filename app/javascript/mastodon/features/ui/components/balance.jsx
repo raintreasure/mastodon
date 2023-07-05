@@ -133,7 +133,6 @@ class Balance extends React.PureComponent {
     const {new_balance, is_side_bar, intl} = this.props;
     let withdrawTitle = intl.formatMessage(messages.withdrawTitle);
     let withdrawingTitle = intl.formatMessage(messages.withdrawingTitle);
-    let loadingTitle = intl.formatMessage(messages.loadingTitle);
     return (
       <div className='balance-text'>
         <div>
