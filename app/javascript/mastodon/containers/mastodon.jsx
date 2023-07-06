@@ -55,9 +55,9 @@ export default class Mastodon extends PureComponent {
   }
 
   async initWeb3auth() {
-    const clientId = 'BM8O9IFmbeLZblS4bv6vX87yGiEOdsCPoSSD4QCgtM0I4l1pXz6GzQTwdSAlOelLl_xdYYtFDnIMj1R3uo9jl7M'; // get your clientId from https://dashboard.web3auth.io
+    const clientId = process.env.REACT_APP_WEB3AUTH_CLIENT_ID;
     const web3auth = new Web3Auth({
-      clientId: clientId, // Get your Client ID from Web3Auth Dashboard
+      clientId: clientId,
       chainConfig: {
         chainNamespace: "eip155",
         chainId: "0x38",
