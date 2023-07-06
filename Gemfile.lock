@@ -561,6 +561,7 @@ GEM
       pkg-config (~> 1.5)
       rubyzip (~> 2.3)
     rdf (3.2.11)
+      link_header (~> 0.0, >= 0.0.8)
     rdf-normalize (0.6.0)
       rdf (~> 3.2)
     redcarpet (3.6.0)
