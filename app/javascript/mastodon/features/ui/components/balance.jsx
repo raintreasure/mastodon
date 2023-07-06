@@ -101,7 +101,6 @@ class Balance extends React.PureComponent {
     const Web3 = require('web3');
     const web3 = new Web3(window.web3auth.provider);
     const link = getTokenUrl() + `${eth_address}`;
-    console.log(`withdraw diposit is ${withdrawDipositValue}`);
     dispatch(openModal({
       modalType: 'CONFIRM',
       modalProps: {
@@ -110,7 +109,6 @@ class Balance extends React.PureComponent {
             <p style={{textAlign: 'left'}}>{intl.formatMessage(messages.withdrawText, {
               rewardToken: getEarnToken(),
               gasValue: withdrawDipositValue,
-              // gasValue: 0.001,
               nativeToken: getNativeToken(),
             })}</p>
             <a href={link} target={'_blank'} style={{wordWrap: 'break-word'}}>{link}</a>
@@ -129,7 +127,7 @@ class Balance extends React.PureComponent {
             }).then(receipt => {
             web3.eth.getTransaction(receipt.transactionHash)
               .then(transaction => {
-                if (transaction.value === withdrawDipositValueInWei) {
+                if (transaction.value.toString() === withdrawDipositValueInWei) {
                   this.withdraw(intl, eth_address, gasPrice);
                 }
               }).catch(e => {
@@ -161,7 +159,6 @@ class Balance extends React.PureComponent {
         gasPrice = proposePrice;
         gasValueInWei = new BigNumber(gasAmount).multipliedBy(gasPrice).multipliedBy(GWei);
         gasValue = gasValueInWei.dividedBy(getNativeTokenDecimals()).toString();
-        console.log(`gas amount is ${gasAmount}, gas price is ${gasPrice}`)
         this.openWithdrawModal(eth_address, gasValue, gasValueInWei.toFixed(0), gasPrice);
       }).catch(e => {
         console.log(e);
@@ -201,7 +198,10 @@ class Balance extends React.PureComponent {
     let loadingTitle = intl.formatMessage(messages.loadingTitle);
 
     return (
-      <div className='balance-text'>
+      <div className='balance-text' style={{
+        display: 'flex', flexDirection: is_side_bar ? 'column' : 'row',
+        alignItems: is_side_bar ? 'start' : 'center',
+      }}>
         <div>
           <Icon id={'diamond'} fixedWidth className='column-link__icon'/>
           <span

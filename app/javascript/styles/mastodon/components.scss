@@ -2366,6 +2366,12 @@ a.account__display-name {
   }
 }
 
+.wordmark--dark {
+  display: block;
+}
+.wordmark--light {
+  display: none;
+}
 $ui-header-height: 85px;
 
 .ui__header {
@@ -2397,7 +2403,7 @@ $ui-header-height: 85px;
     padding: 15px;
 
     .logo {
-      height: $ui-header-height - 30px;
+      height: 30px;
       width: auto;
     }
 
@@ -2406,10 +2412,12 @@ $ui-header-height: 85px;
     }
 
     @media screen and (width >= 320px) {
-      .logo--wordmark {
+      .wordmark--dark {
         display: block;
       }
-
+      .wordmark--light {
+        display: none;
+      }
       .logo--icon {
         display: none;
       }
@@ -3216,7 +3224,7 @@ $ui-header-height: 85px;
   }
 
   .logo {
-    height: 30px;
+    height: 35px;
     width: auto;
   }
 }

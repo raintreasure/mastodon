@@ -1579,9 +1579,9 @@ zh-TW:
   tags:
     does_not_match_previous_name: 與先前的名稱不吻合
   themes:
-    contrast: Mastodon（高對比）
-    default: Mastodon（深色）
-    mastodon-light: Mastodon（亮色）
+    contrast: 高對比
+    default: 深色
+    mastodon-light: 亮色
   time:
     formats:
       default: "%Y 年 %b 月 %d 日 %H:%M"

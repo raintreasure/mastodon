@@ -700,3 +700,26 @@ html {
     background-color: rgba($ui-highlight-color, 0.15);
   }
 }
+
+.wordmark--dark{
+  display: none
+}
+
+.wordmark--light{
+  display: block
+}
+
+.ui__header {
+  &__logo {
+    @media screen and (width >= 320px) {
+      .wordmark--dark {
+        display: none;
+      }
+
+      .wordmark--light {
+        display: block;
+      }
+
+    }
+  }
+}
