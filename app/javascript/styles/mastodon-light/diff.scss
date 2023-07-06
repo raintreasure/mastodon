@@ -436,26 +436,6 @@ html {
   color: $white;
 }
 
-.button.button-tertiary {
-  &:hover,
-  &:focus,
-  &:active {
-    color: $white;
-  }
-}
-
-.button.button-secondary {
-  border-color: $darker-text-color;
-  color: $darker-text-color;
-
-  &:hover,
-  &:focus,
-  &:active {
-    border-color: darken($darker-text-color, 8%);
-    color: darken($darker-text-color, 8%);
-  }
-}
-
 .flash-message.warning {
   color: lighten($gold-star, 16%);
 }
@@ -701,12 +681,12 @@ html {
   }
 }
 
-.wordmark--dark{
-  display: none
+.wordmark--dark {
+  display: none;
 }
 
-.wordmark--light{
-  display: block
+.wordmark--light {
+  display: block;
 }
 
 .ui__header {
@@ -719,7 +699,6 @@ html {
       .wordmark--light {
         display: block;
       }
-
     }
   }
 }

@@ -34,8 +34,7 @@ import {
   Status,
   GettingStarted,
   KeyboardShortcuts,
-  PublicTimeline,
-  CommunityTimeline,
+  Firehose,
   AccountTimeline,
   AccountGallery,
   HomeTimeline,
@@ -194,15 +193,17 @@ class SwitchingColumnsArea extends PureComponent {
           <WrappedRoute path='/about' component={About} content={children}/>
           <WrappedRoute path='/privacy-policy' component={PrivacyPolicy} content={children}/>
 
-          <WrappedRoute path={['/home', '/timelines/home']} component={HomeTimeline} content={children}/>
-          <WrappedRoute path={['/public', '/timelines/public']} exact component={PublicTimeline} content={children}/>
-          <WrappedRoute path={['/public/local', '/timelines/public/local']} exact component={CommunityTimeline}
-                        content={children}/>
-          <WrappedRoute path={['/conversations', '/timelines/direct']} component={DirectTimeline} content={children}/>
-          <WrappedRoute path='/tags/:id' component={HashtagTimeline} content={children}/>
-          <WrappedRoute path='/lists/:id' component={ListTimeline} content={children}/>
-          <WrappedRoute path='/notifications' component={Notifications} content={children}/>
-          <WrappedRoute path='/favourites' component={FavouritedStatuses} content={children}/>
+          <WrappedRoute path={['/home', '/timelines/home']} component={HomeTimeline} content={children} />
+          <Redirect from='/timelines/public' to='/public' exact />
+          <Redirect from='/timelines/public/local' to='/public/local' exact />
+          <WrappedRoute path='/public' exact component={Firehose} componentParams={{ feedType: 'public' }} content={children} />
+          <WrappedRoute path='/public/local' exact component={Firehose} componentParams={{ feedType: 'community' }} content={children} />
+          <WrappedRoute path='/public/remote' exact component={Firehose} componentParams={{ feedType: 'public:remote' }} content={children} />
+          <WrappedRoute path={['/conversations', '/timelines/direct']} component={DirectTimeline} content={children} />
+          <WrappedRoute path='/tags/:id' component={HashtagTimeline} content={children} />
+          <WrappedRoute path='/lists/:id' component={ListTimeline} content={children} />
+          <WrappedRoute path='/notifications' component={Notifications} content={children} />
+          <WrappedRoute path='/favourites' component={FavouritedStatuses} content={children} />
 
           <WrappedRoute path='/bookmarks' component={BookmarkedStatuses} content={children}/>
           <WrappedRoute path='/pinned' component={PinnedStatuses} content={children}/>
