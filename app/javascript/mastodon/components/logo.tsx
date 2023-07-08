@@ -1,11 +1,11 @@
-import logo from 'mastodon/../images/logo.svg';
-
 const getDarkWordmark = () => {
   switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
       return '/images/chinese-wordmark-dark.png';
     case 'facedao':
       return '/images/face-wordmark-dark.png';
+    case 'lovedao':
+      return '/images/love-wordmark-dark.png';
     default:
       return '/images/chinese-wordmark-dark.png';
   }
@@ -16,6 +16,8 @@ const getLightWordmark = () => {
       return '/images/chinese-wordmark-light.png';
     case 'facedao':
       return '/images/face-wordmark-light.png';
+    case 'lovedao':
+      return '/images/love-wordmark-light.png';
     default:
       return '/images/chinese-wordmark-light.png';
   }
@@ -31,6 +33,8 @@ const getIcon = () => {
       return '/images/chinese-icon.png';
     case 'facedao':
       return '/images/face-icon.png';
+    case 'lovedao':
+      return '/images/love-icon.png';
     default:
       return '/images/chinese-icon.png';
   }
