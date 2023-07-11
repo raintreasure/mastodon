@@ -16,7 +16,7 @@ import UI from 'mastodon/features/ui';
 import initialState, {title as siteTitle} from 'mastodon/initial_state';
 import {IntlProvider} from 'mastodon/locales';
 import {store} from 'mastodon/store';
-import {Web3Auth} from "@web3auth/modal";
+import {initWeb3auth} from "mastodon/utils/web3";
 
 const title = process.env.NODE_ENV === 'production' ? siteTitle : `${siteTitle} (Dev)`;
 
@@ -54,24 +54,11 @@ export default class Mastodon extends PureComponent {
     };
   }
 
-  async initWeb3auth() {
-    const clientId = process.env.REACT_APP_WEB3AUTH_CLIENT_ID;
-    const web3auth = new Web3Auth({
-      clientId: clientId,
-      chainConfig: {
-        chainNamespace: "eip155",
-        chainId: "0x38",
-      },
-    });
-    await web3auth.initModal();
-    window.web3auth = web3auth;
-  }
 
   componentDidMount() {
     if (!window.web3auth) {
-      this.initWeb3auth();
+      void initWeb3auth();
     }
-
     if (this.identity.signedIn) {
       this.disconnect = store.dispatch(connectUserStream());
     }

@@ -127,12 +127,11 @@ Rails.application.configure do
     'X-Frame-Options'        => 'DENY',
     'X-Content-Type-Options' => 'nosniff',
     'X-XSS-Protection'       => '0',
-    'Referrer-Policy'        => 'same-origin',
+    # 'Referrer-Policy'        => 'same-origin',
   }
 
   config.x.otp_secret = ENV.fetch('OTP_SECRET')
 
   config.hosts.clear
-  config.hosts << "3000-raintreasure-mastodon-fx94dzjdpso.ws-us92.gitpod.io"
   config.hosts << ENV["APP_DOMAIN"]
 end

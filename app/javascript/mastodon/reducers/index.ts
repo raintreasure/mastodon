@@ -46,6 +46,7 @@ import tokens from './tokens';
 import timelines from './timelines';
 import trends from './trends';
 import user_lists from './user_lists';
+import blockchain from './blockchain';
 
 const reducers = {
   announcements,
@@ -92,6 +93,7 @@ const reducers = {
   followed_tags,
   balance,
   tokens,
+  blockchain,
 };
 
 // We want the root state to be an ImmutableRecord, which is an object with a defined list of keys,

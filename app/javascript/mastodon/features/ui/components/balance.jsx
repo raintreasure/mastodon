@@ -10,12 +10,17 @@ import api from '../../../api';
 import {me} from '../../../initial_state';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import {getAmountWithDecimals, getEarnToken, getNativeToken, getNativeTokenDecimals, GWei} from '../../../utils/web3';
-import {getGasAmountForTransfer, getGasPrice} from '../../../actions/blockchain';
+import {getGasAmountForTransfer, getGasPrice, switchBlockchain} from '../../../actions/blockchain';
 import BigNumber from 'bignumber.js';
+import {Select} from 'antd';
+
+const {Option} = Select;
+import {BNB_ICON, POL_ICON} from '../../../../icons/data';
 
 const mapStateToProps = state => ({
   new_balance: state.getIn(['balance', 'new_balance']),
   account: state.getIn(['accounts', me]),
+  blockchain: state.getIn(['blockchain', 'chain']),
 });
 
 export const getAirdropToken = () => {
@@ -190,9 +195,11 @@ class Balance extends React.PureComponent {
       }
     }
   }
-
+  handleSelectChain(chain, dispatch) {
+    dispatch(switchBlockchain(chain));
+  }
   render() {
-    const {new_balance, is_side_bar, intl} = this.props;
+    const {new_balance, is_side_bar, intl, blockchain, dispatch} = this.props;
     let withdrawTitle = intl.formatMessage(messages.withdrawTitle);
     let withdrawingTitle = intl.formatMessage(messages.withdrawingTitle);
     let loadingTitle = intl.formatMessage(messages.loadingTitle);
@@ -200,14 +207,34 @@ class Balance extends React.PureComponent {
     return (
       <div className='balance-text' style={{
         display: 'flex', flexDirection: is_side_bar ? 'column' : 'row',
-        alignItems: is_side_bar ? 'start' : 'center',
+        alignItems: is_side_bar ? 'start' : 'center', gap: 5,
       }}>
-        <div>
-          <Icon id={'diamond'} fixedWidth className='column-link__icon'/>
+        <Select
+          defaultValue={blockchain}
+          className={is_side_bar ? 'chain__selector__sidebar' : 'chain__selector'}
+          onSelect={(value)=> this.handleSelectChain(value, dispatch)}
+        >
+          <Option value='polygon'>
+            <div className={'chain__selector__item'}>
+              <img src={POL_ICON} className={'chain__selector__icon'} alt={'polygon'}/>
+              {is_side_bar ? 'Polygon' : 'POL'}
+            </div>
+          </Option>
+          <Option value='bsc'>
+            <div className={'chain__selector__item'}>
+              <img src={BNB_ICON} className={'chain__selector__icon'} alt={'bsc'}/>
+              BSC
+            </div>
+          </Option>
+        </Select>
+        <div className={is_side_bar ? 'balance_span_sidebar' : 'balance_span'}>
+          {is_side_bar && <Icon id={'diamond'} fixedWidth className='column-link__icon'/>}
           <span
-            style={{marginRight: '3px'}}
-          >Balance: {new_balance ? new_balance.new_balance : 0}${getEarnToken()}</span>
+            style={{marginRight: '1px', fontSize: is_side_bar ? 'medium' : 'smaller'}}>
+              Balance: {new_balance ? new_balance.new_balance : 0}{getEarnToken()}
+            </span>
         </div>
+
         {is_side_bar &&
           <Button
             type='button'

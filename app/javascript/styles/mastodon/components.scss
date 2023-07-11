@@ -1599,6 +1599,42 @@ body > [data-popper-placement] {
   }
 }
 
+.chain__selector__sidebar {
+  min-width: 120px;
+}
+
+.chain__selector {
+  min-width: 60px;
+}
+
+.chain__selector__item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.chain__selector__icon {
+  width: 20px;
+  border-radius: 10px;
+}
+
+.withdraw__button {
+  width: 120px;
+  font-size: smaller;
+}
+
+.balance_span {
+  width: 200px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.balance_span_sidebar {
+  width: 250px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
 .token {
   .token__wrapper {
     display: flex;
@@ -3351,8 +3387,8 @@ $ui-header-height: 85px;
   color: $highlight-text-color;
   cursor: pointer;
   box-sizing: border-box;
-  padding: 5px;
-  font-size: 16px;
+  padding: 1px;
+  font-size: smaller;
   font-weight: bold;
   outline: 0;
   border: 0;
