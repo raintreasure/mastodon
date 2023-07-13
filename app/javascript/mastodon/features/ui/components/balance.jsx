@@ -195,9 +195,11 @@ class Balance extends React.PureComponent {
       }
     }
   }
+
   handleSelectChain(chain, dispatch) {
     dispatch(switchBlockchain(chain));
   }
+
   render() {
     const {new_balance, is_side_bar, intl, blockchain, dispatch} = this.props;
     let withdrawTitle = intl.formatMessage(messages.withdrawTitle);
@@ -209,30 +211,32 @@ class Balance extends React.PureComponent {
         display: 'flex', flexDirection: is_side_bar ? 'column' : 'row',
         alignItems: is_side_bar ? 'start' : 'center', gap: 5,
       }}>
-        <Select
-          defaultValue={blockchain}
-          className={is_side_bar ? 'chain__selector__sidebar' : 'chain__selector'}
-          onSelect={(value)=> this.handleSelectChain(value, dispatch)}
-        >
-          <Option value='polygon'>
-            <div className={'chain__selector__item'}>
-              <img src={POL_ICON} className={'chain__selector__icon'} alt={'polygon'}/>
-              {is_side_bar ? 'Polygon' : 'POL'}
-            </div>
-          </Option>
-          <Option value='bsc'>
-            <div className={'chain__selector__item'}>
-              <img src={BNB_ICON} className={'chain__selector__icon'} alt={'bsc'}/>
-              BSC
-            </div>
-          </Option>
-        </Select>
+        {process.env.REACT_APP_DAO === 'lovedao' &&
+          <Select
+            defaultValue={blockchain}
+            className={is_side_bar ? 'chain__selector__sidebar' : 'chain__selector'}
+            onSelect={(value) => this.handleSelectChain(value, dispatch)}
+          >
+            <Option value='polygon'>
+              <div className={'chain__selector__item'}>
+                <img src={POL_ICON} className={'chain__selector__icon'} alt={'polygon'}/>
+                {is_side_bar ? 'Polygon' : 'POL'}
+              </div>
+            </Option>
+            <Option value='bsc'>
+              <div className={'chain__selector__item'}>
+                <img src={BNB_ICON} className={'chain__selector__icon'} alt={'bsc'}/>
+                BSC
+              </div>
+            </Option>
+          </Select>
+        }
         <div className={is_side_bar ? 'balance_span_sidebar' : 'balance_span'}>
           {is_side_bar && <Icon id={'diamond'} fixedWidth className='column-link__icon'/>}
           <span
             style={{marginRight: '1px', fontSize: is_side_bar ? 'medium' : 'smaller'}}>
-              Balance: {new_balance ? new_balance.new_balance : 0}{getEarnToken()}
-            </span>
+          Balance: {new_balance ? new_balance.new_balance : 0}{getEarnToken()}
+          </span>
         </div>
 
         {is_side_bar &&
