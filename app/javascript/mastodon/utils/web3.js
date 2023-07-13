@@ -7,6 +7,7 @@ import {
 } from '../actions/tokens';
 import BigNumber from 'bignumber.js';
 import {Web3Auth} from "@web3auth/modal";
+import {getIcon} from "mastodon/components/logo";
 
 export function minifyAddress(address) {
   if (address.length < 16) return address;
@@ -135,6 +136,10 @@ export const initWeb3auth = async () => {
       chainNamespace: "eip155",
       chainId: getDefaultChainId(),
     },
+    uiConfig: {
+      appLogo: getIcon(),
+      loginMethodsOrder:['twitter', 'facebook', 'discord', 'google']
+    }
   });
   window.web3auth = web3auth;
   await web3auth.initModal();

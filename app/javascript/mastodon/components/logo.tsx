@@ -27,7 +27,7 @@ const wordmarkPath =
     ? getLightWordmark()
     : getDarkWordmark();
 
-const getIcon = () => {
+export const getIcon = () => {
   switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
       return '/images/chinese-icon.png';
