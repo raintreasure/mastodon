@@ -130,8 +130,7 @@ async function getFaceDAOBalance(accountId, address, dispatch) {
   const web3 = new Web3(provider);
   const contractAddress = FACEDAO_CONTRACT_ADDR;
   const contract = new web3.eth.Contract(balanceOfAbi, contractAddress);
-  const price = await fetchTokenPrice('FACE');
-  console.log('price of FaceDAO from chng:', price);
+  const price = await fetchTokenPrice('FACEDAO');
   contract.methods.balanceOf(address).call((error, result) => {
     if (!error && result) {
       const balanceWithDecimals = new BigNumber(result).dividedBy(FACEDAO_DECIMALS).toFixed(TOKEN_SHOWN_DECIMALS);
