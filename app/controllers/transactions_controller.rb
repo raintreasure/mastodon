@@ -42,6 +42,9 @@ class TransactionsController < ApplicationController
       return 'FRC759Token'
     end
     if ENV['REACT_APP_DAO'] == 'facedao'
+      return 'FaceDAO'
+    end
+    if ENV['REACT_APP_DAO'] == 'lovedao'
       return 'ERC20Template'
     end
   end

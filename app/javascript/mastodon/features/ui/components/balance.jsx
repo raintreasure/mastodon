@@ -96,6 +96,8 @@ class Balance extends React.PureComponent {
       case 'chinesedao':
         return process.env.REACT_APP_CHINESE_CONTRACT_ADDRESS;
       case 'facedao':
+        return process.env.REACT_APP_FACE_CONTRACT_ADDRESS;
+      case 'lovedao':
         return process.env.REACT_APP_LOVE_CONTRACT_ADDRESS;
       default:
         return process.env.REACT_APP_CHINESE_CONTRACT_ADDRESS;
