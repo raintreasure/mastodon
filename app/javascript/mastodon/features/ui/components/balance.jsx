@@ -235,7 +235,7 @@ class Balance extends React.PureComponent {
           {is_side_bar && <Icon id={'diamond'} fixedWidth className='column-link__icon'/>}
           <span
             style={{marginRight: '1px', fontSize: is_side_bar ? 'medium' : 'smaller'}}>
-          Balance: {new_balance ? new_balance.new_balance : 0}{getEarnToken()}
+          Balance: {new_balance ? new_balance.new_balance : 0} {getEarnToken()}
           </span>
         </div>
 

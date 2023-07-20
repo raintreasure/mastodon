@@ -71,18 +71,20 @@ class TransactionsController < ApplicationController
       current_balance = current_account.balance
       chain_balance = @client.call(erc20_contract, 'balanceOf', to_address)
       hash = @client.transact_and_wait(erc20_contract, 'transfer', to_address,
-                                       BigDecimal(current_balance).mult(ENV['REACT_APP_DAO'] == 'facedao' ? 1 : Eth::Unit::ETHER, 0).round,
+                                       BigDecimal(current_balance).mult(ENV['REACT_APP_DAO'] == 'lovedao' ? 1 : Eth::Unit::ETHER, 0).round,
                                        sender_key: buffer_account_private_key, gas_limit: 80000,
                                        legacy: ENV['REACT_APP_DAO'] == 'facedao' ? true : false)
 
       sleep(1)
       chain_new_balance = @client.call(erc20_contract, 'balanceOf', to_address)
       # occasionally transact_and_wait will return a nil even the transaction is succeeded, https://github.com/q9f/eth.rb/issues/223 wait for this issue to fix this bug.
-      if (hash && @client.tx_succeeded?(hash)) || (hash.nil? &&  chain_new_balance > chain_balance)
+      if (hash && @client.tx_succeeded?(hash)) || (hash.nil? && chain_new_balance > chain_balance)
         current_account.decrement(:balance, current_balance)
         current_account.save!
         return true
       end
+      render json: {error: "Withdraw transaction failed"}, status:500
+      return false
     rescue StandardError => e
       render json: { error: e.message }, status: 500
       return false
@@ -107,7 +109,7 @@ class TransactionsController < ApplicationController
       return ENV['REACT_APP_CHINESE_CONTRACT_ADDRESS']
     end
     if ENV['REACT_APP_DAO'] == 'facedao'
-      return ENV['REACT_APP_LOVE_CONTRACT_ADDRESS']
+      return ENV['REACT_APP_FACE_CONTRACT_ADDRESS']
     end
     if ENV['REACT_APP_DAO'] == 'sexydao'
       return ENV['SEXY_CONTRACT_ADDRESS']

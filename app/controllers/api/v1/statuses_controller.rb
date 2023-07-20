@@ -72,20 +72,20 @@ class Api::V1::StatusesController < Api::BaseController
     )
     # update earn token
     previous_op = EarnRecord.find_by(account_id: current_account.id, target_id: @status.id, op_type: :publish)
-    should_reward = false
     if !previous_op.present?
       # check if reach the daily reward limit
       earned = EarnRecord.where("created_at >= ?", 24.hours.ago).where(account_id: current_account.id).sum(:earn)
       if (earned < DAILY_REWARD_LIMIT)
-        # not reach daily limit & first execute this op, reward token
+        # not reach daily limit, reward token
         current_account.increment(:balance, PUBLISH_REWARD)
         current_account.save!
-        should_reward = true
       end
     end
     EarnRecord.create!(account_id: current_account.id, target_id: @status.id, op_type: :publish, earn: PUBLISH_REWARD);
-
+    @status.new_balance = current_account.balance
+    @status.balance_increment = PUBLISH_REWARD
     render json: @status, serializer: @status.is_a?(ScheduledStatus) ? REST::ScheduledStatusSerializer : REST::StatusSerializer
+
   rescue PostStatusService::UnexpectedMentionsError => e
     unexpected_accounts = ActiveModel::Serializer::CollectionSerializer.new(
       e.accounts,

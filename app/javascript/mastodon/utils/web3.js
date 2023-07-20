@@ -46,6 +46,8 @@ export const getEarnToken = () => {
     case 'chinesedao':
       return 'CHINESE';
     case 'facedao':
+      return 'FACE';
+    case 'lovedao':
       return 'LOVE';
     default:
       return 'CHINESE';
