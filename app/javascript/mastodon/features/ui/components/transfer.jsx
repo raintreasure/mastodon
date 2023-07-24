@@ -32,6 +32,10 @@ class TransferToken extends React.PureComponent {
     identity: PropTypes.object.isRequired,
   };
 
+  transferPQCModal = () => {
+    const { intl, dispatch, to_account } = this.props;
+    transferModal(intl, dispatch, to_account, 'PQC');
+  };
   transferCHINESEModal = () => {
     const { intl, dispatch, to_account } = this.props;
     transferModal(intl, dispatch, to_account, 'CHINESE');
@@ -79,6 +83,15 @@ class TransferToken extends React.PureComponent {
               title={intl.formatMessage(messages.transferTitle)}
             />
           </DropdownMenuContainer>
+        }
+        {process.env.REACT_APP_DAO === 'pqcdao' &&
+          <Button
+            type='button'
+            text={intl.formatMessage(messages.transferTitle)}
+            title={intl.formatMessage(messages.transferTitle)}
+            onClick={this.transferPQCModal}
+            disabled={!signedIn || this.state.loading}
+          />
         }
       </div>
 

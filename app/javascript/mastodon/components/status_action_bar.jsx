@@ -242,6 +242,7 @@ class StatusActionBar extends ImmutablePureComponent {
     const account = status.get('account');
     transferModal(intl, dispatch, account, 'CHINESE');
   };
+
   transferLOVEModal = () => {
     const { intl, dispatch, status } = this.props;
     const account = status.get('account');
@@ -252,7 +253,11 @@ class StatusActionBar extends ImmutablePureComponent {
     const account = status.get('account');
     transferModal(intl, dispatch, account, 'FaceDAO');
   };
-
+  transferPQCModal = () => {
+    const { intl, dispatch, status } = this.props;
+    const account = status.get('account');
+    transferModal(intl, dispatch, account, 'PQC');
+  };
   render() {
     const { status, relationship, intl, withDismiss, withCounters, scrollKey } = this.props;
     const { signedIn, permissions } = this.context.identity;
@@ -438,7 +443,7 @@ class StatusActionBar extends ImmutablePureComponent {
           active={status.get('bookmarked')} title={intl.formatMessage(messages.bookmark)} icon='bookmark'
           onClick={this.handleBookmarkClick}
         />
-        {process.env.REACT_APP_DAO !== 'facedao' &&
+        {process.env.REACT_APP_DAO === 'chinesedao' &&
           <IconButton
             className='status__action-bar__button gift-icon' disabled={!signedIn}
             title={intl.formatMessage(messages.gift)} icon='gift'
@@ -456,6 +461,13 @@ class StatusActionBar extends ImmutablePureComponent {
               title={intl.formatMessage(messages.transferTitle)}
             />
           </div>
+        }
+        {process.env.REACT_APP_DAO === 'pqcdao' &&
+          <IconButton
+            className='status__action-bar__button gift-icon' disabled={!signedIn}
+            title={intl.formatMessage(messages.gift)} icon='gift'
+            onClick={this.transferPQCModal}
+          />
         }
 
         {filterButton}

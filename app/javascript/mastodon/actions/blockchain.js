@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {transferAbi} from '../utils/web3';
-import Web3 from "web3";
-
+import BigNumber from 'bignumber.js';
 export const SWITCH_BLOCKCHAIN = 'SWITCH_BLOCKCHAIN';
 
 export const blockchains = new Map();
@@ -92,9 +91,36 @@ export function getGasPrice() {
       return getPolygonGasPrice;
     case 'facedao':
       return getBSCGasPrice;
+    case 'lovedao':
+      return getPolygonGasPrice;
+    case 'pqcdao':
+      return getFusionGasPrice;
     default:
       return getPolygonGasPrice;
   }
+}
+
+async function getFusionGasPrice() {
+  return new Promise((resolve, reject) => {
+      axios.post('https://mainnet.fusionnetwork.io',
+        {
+          jsonrpc: '2.0',
+          method: 'eth_gasPrice',
+          params: [],
+          id: 1,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }).then(res=>{
+          resolve(BigNumber(res.data.result).dividedBy(1e9).toNumber());
+      }).catch(e=>{
+        console.log('get fsn gas price error:', e);
+        reject(e);
+      })
+    }
+  )
 }
 
 async function getBSCGasPrice() {

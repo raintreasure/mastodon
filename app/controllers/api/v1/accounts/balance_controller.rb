@@ -7,7 +7,7 @@ class Api::V1::Accounts::BalanceController < Api::BaseController
   before_action :set_account, only: [:update]
 
   def earn_online
-    current_account.increment(:balance, ONLINE_REWARD)
+    current_account.increment(:balance, getOnlineReward)
     current_account.save!
     render json: {'new_balance': current_account.balance}
   end

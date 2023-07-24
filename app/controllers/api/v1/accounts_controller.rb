@@ -44,17 +44,17 @@ class Api::V1::AccountsController < Api::BaseController
     if !previous_op.present?
       # check if reach the daily reward limit
       earned = EarnRecord.where("created_at >= ?", 24.hours.ago).where(account_id: current_account.id).sum(:earn)
-      if (earned < DAILY_REWARD_LIMIT)
+      if (earned < getDailyRewardLimit)
         # not reach daily limit & first execute this op, reward token
-        current_account.increment(:balance, FOLLOW_REWARD)
+        current_account.increment(:balance, getFollowReward)
         current_account.save!
         should_reward = true
       end
     end
-    EarnRecord.create!(account_id: current_account.id, target_id: @account.id, op_type: :follow, earn: FOLLOW_REWARD);
+    EarnRecord.create!(account_id: current_account.id, target_id: @account.id, op_type: :follow, earn: getFollowReward);
 
     render json: @account, serializer: REST::RelationshipSerializer, relationships: relationships(**options),
-           new_balance: current_account.balance, balance_increment: should_reward ? FOLLOW_REWARD : 0
+           new_balance: current_account.balance, balance_increment: should_reward ? getFollowReward : 0
   end
 
   def block

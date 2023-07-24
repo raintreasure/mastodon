@@ -1,8 +1,103 @@
-PUBLISH_REWARD = 200
-FAVOURITE_REWARD = 100
-BOOKMARK_REWARD = 100
-RETWEET_REWARD = 100
-FOLLOW_REWARD = 100
-ONLINE_REWARD = ENV['REACT_APP_DAO'] === 'lovedao' ? 1 : 0.1
-DAILY_REWARD_LIMIT = ENV['REACT_APP_DAO'] === 'facedao' ? 10000 : 100000
-INITIAL_BALANCE = ENV['REACT_APP_DAO'] === 'facedao' ? 10000 : 100000
+def getPublishReward
+  case ENV['REACT_APP_DAO']
+  when 'chinesedao'
+    200
+  when 'facedao'
+    20
+  when 'lovedao'
+    200
+  when 'pqcdao'
+    20
+  end
+end
+
+def getFavouriteReward
+  case ENV['REACT_APP_DAO']
+  when 'chinesedao'
+    100
+  when 'facedao'
+    10
+  when 'lovedao'
+    100
+  when 'pqcdao'
+    10
+  end
+end
+
+def getBookmarkReward
+  case ENV['REACT_APP_DAO']
+  when 'chinesedao'
+    100
+  when 'facedao'
+    10
+  when 'lovedao'
+    100
+  when 'pqcdao'
+    10
+  end
+end
+
+def getRetweetReward
+  case ENV['REACT_APP_DAO']
+  when 'chinesedao'
+    100
+  when 'facedao'
+    10
+  when 'lovedao'
+    100
+  when 'pqcdao'
+    10
+  end
+end
+
+def getFollowReward
+  case ENV['REACT_APP_DAO']
+  when 'chinesedao'
+    100
+  when 'facedao'
+    10
+  when 'lovedao'
+    100
+  when 'pqcdao'
+    10
+  end
+end
+
+def getOnlineReward
+  case ENV['REACT_APP_DAO']
+  when 'chinesedao'
+    0.1
+  when 'facedao'
+    0.1
+  when 'lovedao'
+    1
+  when 'pqcdao'
+    0.1
+  end
+end
+
+def getDailyRewardLimit
+  case ENV['REACT_APP_DAO']
+  when 'chinesedao'
+    10000
+  when 'facedao'
+    1000
+  when 'lovedao'
+    10000
+  when 'pqcdao'
+    1000
+  end
+end
+
+def geInitialBalance
+  case ENV['REACT_APP_DAO']
+  when 'chinesedao'
+    100000
+  when 'facedao'
+    10000
+  when 'lovedao'
+    100000
+  when 'pqcdao'
+    10000
+  end
+end

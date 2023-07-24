@@ -317,7 +317,7 @@
   "home.column_settings.show_reblogs": "Show boosts",
   "home.column_settings.show_replies": "Show replies",
   "home.explore_prompt.body": "Your home feed will have a mix of posts from the hashtags you've chosen to follow, the people you've chosen to follow, and the posts they boost. It's looking pretty quiet right now, so how about:",
-  "home.explore_prompt.title": "This is your home base within Mastodon.",
+  "home.explore_prompt.title": "This is your home base.",
   "home.hide_announcements": "Hide announcements",
   "home.show_announcements": "Show announcements",
   "interaction_modal.description.favourite": "With an account on Mastodon, you can favourite this post to let the author know you appreciate it and save it for later.",

@@ -33,13 +33,11 @@ export async function transferERC20(token, address, amount) {
   //BSC does not support EIP1559, list those
   if (process.env.REACT_APP_DAO === 'facedao') {
     params = {
-      chainId: getChainId(),
       from: sender,
       gasLimit: 60000,
     };
   } else {
     params = {
-      chainId: getChainId(),
       from: sender,
       gasLimit: 60000,
       maxPriorityFeePerGas: web3.utils.toWei('40', 'gwei').toString(),

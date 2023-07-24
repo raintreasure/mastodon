@@ -17,6 +17,8 @@ module BrandingHelper
       image_tag('face-wordmark-dark.png', alt: 'facedao.com', class: 'logo logo--wordmark')
     elsif ENV['REACT_APP_DAO'] === 'lovedao'
       image_tag('love-wordmark-dark.png', alt: 'lovedao.com', class: 'logo logo--wordmark')
+    elsif ENV['REACT_APP_DAO'] === 'pqcdao'
+      image_tag('pqc-wordmark-dark.png', alt: 'pqcdao.com', class: 'logo logo--wordmark')
     else
       image_tag('chinese-wordmark-dark.png', alt: 'chinese.org', class: 'logo logo--wordmark')
     end
@@ -29,6 +31,8 @@ module BrandingHelper
       image_tag('face-icon.png', alt: 'facedao.com', class: 'logo logo--icon')
     elsif ENV['REACT_APP_DAO'] === 'lovedao'
       image_tag('love-icon.png', alt: 'lovedao.com', class: 'logo logo--icon')
+    elsif ENV['REACT_APP_DAO'] === 'pqcdao'
+      image_tag('pqc-icon.png', alt: 'pqcdao.com', class: 'logo logo--icon')
     else
       image_tag('chinese-icon.png', alt: 'chinese.org', class: 'logo logo--icon')
     end
@@ -42,6 +46,8 @@ module BrandingHelper
       image_pack_tag('face-icon.png', alt: 'facedao.com', class: 'logo logo--icon')
     elsif ENV['REACT_APP_DAO'] === 'lovedao'
       image_pack_tag('love-icon.png', alt: 'lovedao.com', class: 'logo logo--icon')
+    elsif ENV['REACT_APP_DAO'] === 'pqcdao'
+      image_pack_tag('pqc-icon.png', alt: 'pqcdao.com', class: 'logo logo--icon')
     else
       image_pack_tag('chinese-icon.png', alt: 'chinese.org', class: 'logo logo--icon')
     end
@@ -57,6 +63,8 @@ module BrandingHelper
                'face-icon.png'
              elsif ENV['REACT_APP_DAO'] === 'lovedao'
                'love-icon.png'
+             elsif ENV['REACT_APP_DAO'] === 'pqcdao'
+               'pqc-icon.png'
              else
                'chinese-icon.png'
              end
@@ -68,6 +76,8 @@ module BrandingHelper
                'face-wordmark-dark.png'
              elsif ENV['REACT_APP_DAO'] === 'lovedao'
                'love-wordmark-dark.png'
+             elsif ENV['REACT_APP_DAO'] === 'lovedao'
+               'pqc-wordmark-dark.png'
              else
                'chinese-wordmark-dark.png'
              end

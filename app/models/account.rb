@@ -160,7 +160,7 @@ class Account < ApplicationRecord
     domain.nil?
   end
   def init_balance
-    self.balance ||= INITIAL_BALANCE
+    self.balance ||= geInitialBalance
   end
   def moved?
     moved_to_account_id.present?

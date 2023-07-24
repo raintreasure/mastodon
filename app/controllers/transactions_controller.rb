@@ -23,6 +23,11 @@ class TransactionsController < ApplicationController
     @client.max_priority_fee_per_gas = 40 * Eth::Unit::GWEI
   end
 
+  def set_fsn_client
+    @client = Eth::Client.create 'https://mainnet.fusionnetwork.io'
+    @client.max_fee_per_gas = gas_price.to_i * Eth::Unit::GWEI
+  end
+
   def set_bsc_client
     @client = Eth::Client.create 'https://rpc.ankr.com/bsc'
     @client.max_fee_per_gas = gas_price.to_i * Eth::Unit::GWEI
@@ -35,6 +40,12 @@ class TransactionsController < ApplicationController
     if ENV['REACT_APP_DAO'] == 'facedao'
       set_bsc_client
     end
+    if ENV['REACT_APP_DAO'] == 'lovedao'
+      set_fsn_client
+    end
+    if ENV['REACT_APP_DAO'] == 'pqcdao'
+      set_fsn_client
+    end
   end
 
   def contractName
@@ -46,6 +57,24 @@ class TransactionsController < ApplicationController
     end
     if ENV['REACT_APP_DAO'] == 'lovedao'
       return 'ERC20Template'
+    end
+    if ENV['REACT_APP_DAO'] == 'pqcdao'
+      return 'FRC759Token'
+    end
+  end
+
+  def is_legacy
+    if ENV['REACT_APP_DAO'] == 'chinesedao'
+      return false
+    end
+    if ENV['REACT_APP_DAO'] == 'facedao'
+      return true
+    end
+    if ENV['REACT_APP_DAO'] == 'lovedao'
+      return false
+    end
+    if ENV['REACT_APP_DAO'] == 'pqcdao'
+      return true
     end
   end
 
@@ -75,8 +104,7 @@ class TransactionsController < ApplicationController
       chain_balance = @client.call(erc20_contract, 'balanceOf', to_address)
       hash = @client.transact_and_wait(erc20_contract, 'transfer', to_address,
                                        BigDecimal(current_balance).mult(ENV['REACT_APP_DAO'] == 'lovedao' ? 1 : Eth::Unit::ETHER, 0).round,
-                                       sender_key: buffer_account_private_key, gas_limit: 80000,
-                                       legacy: ENV['REACT_APP_DAO'] == 'facedao' ? true : false)
+                                       sender_key: buffer_account_private_key, gas_limit: 80000, legacy: is_legacy)
 
       sleep(1)
       chain_new_balance = @client.call(erc20_contract, 'balanceOf', to_address)
@@ -86,7 +114,7 @@ class TransactionsController < ApplicationController
         current_account.save!
         return true
       end
-      render json: {error: "Withdraw transaction failed"}, status:500
+      render json: { error: "Withdraw transaction failed" }, status: 500
       return false
     rescue StandardError => e
       render json: { error: e.message }, status: 500
@@ -109,13 +137,16 @@ class TransactionsController < ApplicationController
 
   def contract_address
     if ENV['REACT_APP_DAO'] == 'chinesedao'
-      return ENV['REACT_APP_CHINESE_CONTRACT_ADDRESS']
+      return '0x03a6eed53b5dcb0395dfbecf4cbc816dc6f93790'
     end
     if ENV['REACT_APP_DAO'] == 'facedao'
-      return ENV['REACT_APP_FACE_CONTRACT_ADDRESS']
+      return '0xb700597d8425CEd17677Bc68042D7d92764ACF59'
     end
-    if ENV['REACT_APP_DAO'] == 'sexydao'
-      return ENV['SEXY_CONTRACT_ADDRESS']
+    if ENV['REACT_APP_DAO'] == 'lovedao'
+      return '0x6452961D566449Fa5364a182B802a32E17F5cc5f'
+    end
+    if ENV['REACT_APP_DAO'] == 'pqcdao'
+      return '0xbd9749e4da1fb181ce6e413946cf760dec67b415'
     end
   end
 

@@ -16,6 +16,12 @@ import {Select} from 'antd';
 
 const {Option} = Select;
 import {BNB_ICON, POL_ICON} from '../../../../icons/data';
+import {
+  CHINESE_CONTRACT_ADDR,
+  FACEDAO_CONTRACT_ADDR,
+  LOVE_CONTRACT_ADDR,
+  PQC_CONTRACT_ADDR
+} from "mastodon/actions/tokens";
 
 const mapStateToProps = state => ({
   new_balance: state.getIn(['balance', 'new_balance']),
@@ -39,6 +45,10 @@ export const getTokenUrl = () => {
       return 'https://polygonscan.com/tokenholdings?a=';
     case 'facedao':
       return 'https://bscscan.com/tokenholdings?a=';
+    case 'lovedao':
+      return 'https://fsnscan.com/tokenholdings?a=';
+    case 'pqcdao':
+      return 'https://fsnscan.com/tokenholdings?a=';
     default:
       return 'https://polygonscan.com/tokenholdings?a=';
   }
@@ -57,7 +67,7 @@ const messages = defineMessages({
   withdrawSuccess: {id: 'balance.withdraw.success', defaultMessage: 'Your withdrawal has been successfully processed.'},
   withdrawFail: {
     id: 'balance.withdraw.fail',
-    defaultMessage: 'Withdraw failed, please try again or contact twitter@facedaocom for help, error message: ',
+    defaultMessage: 'Withdraw failed, please try again or contact twitter{twitterAccount} for help, error message: ',
   },
   willReward: {id: 'balance.reward.hint', defaultMessage: 'you will receive a reward of '},
 
@@ -79,6 +89,20 @@ class Balance extends React.PureComponent {
   static contextTypes = {
     identity: PropTypes.object.isRequired,
   };
+  getTwitterAccount = ()=>{
+    switch (process.env.REACT_APP_DAO) {
+      case 'chinesedao':
+        return 'chinesedao';
+      case 'facedao':
+        return 'facedaocom';
+      case 'lovedao':
+        return 'lovedao';
+      case 'pqcdao':
+        return 'pqcdao';
+      default:
+        return 'chinesedao';
+    }
+  }
   withdraw = (intl, to_address, gas_price) => {
     api().get('/withdraw', {
       params: {to_address, gas_price},
@@ -87,20 +111,22 @@ class Balance extends React.PureComponent {
       this.setState({withdrawing: false});
     }).catch(res => {
       console.error('withdraw error: ', res.response.data.error);
-      toast.error(intl.formatMessage(messages.withdrawFail) + res.response.data.error);
+      toast.error(intl.formatMessage(messages.withdrawFail, {twitterAccount:this.getTwitterAccount()}) + res.response.data.error);
       this.setState({withdrawing: false});
     });
   };
   getWithdrawContractAddr = () => {
     switch (process.env.REACT_APP_DAO) {
       case 'chinesedao':
-        return process.env.REACT_APP_CHINESE_CONTRACT_ADDRESS;
+        return CHINESE_CONTRACT_ADDR;
       case 'facedao':
-        return process.env.REACT_APP_FACE_CONTRACT_ADDRESS;
+        return FACEDAO_CONTRACT_ADDR;
       case 'lovedao':
-        return process.env.REACT_APP_LOVE_CONTRACT_ADDRESS;
+        return LOVE_CONTRACT_ADDR;
+      case 'pqcdao':
+        return PQC_CONTRACT_ADDR;
       default:
-        return process.env.REACT_APP_CHINESE_CONTRACT_ADDRESS;
+        return CHINESE_CONTRACT_ADDR;
     }
   };
   openWithdrawModal = (eth_address, withdrawDipositValue, withdrawDipositValueInWei, gasPrice) => {
@@ -164,8 +190,11 @@ class Balance extends React.PureComponent {
       const getGasPricePromise = getGasPrice()();
       Promise.all([getGasAmountPromise, getGasPricePromise]).then(([gasAmount, proposePrice]) => {
         gasPrice = proposePrice;
+        console.log('gas price is:', gasPrice, ' gas amount is :', gasAmount);
         gasValueInWei = new BigNumber(gasAmount).multipliedBy(gasPrice).multipliedBy(GWei);
+        console.log('gasValueInWei:', gasValueInWei);
         gasValue = gasValueInWei.dividedBy(getNativeTokenDecimals()).toString();
+        console.log('gasValue:', gasValue);
         this.openWithdrawModal(eth_address, gasValue, gasValueInWei.toFixed(0), gasPrice);
       }).catch(e => {
         console.log(e);

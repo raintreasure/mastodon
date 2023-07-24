@@ -1,3 +1,5 @@
+import Web3 from "web3";
+
 const axios = require('axios').default;
 
 const chaingeAPIBaseUrl = 'https://openapi.chainge.finance';
@@ -6,6 +8,9 @@ export const TOKENS_BNB_FETCH_SUCCESS = 'TOKENS_BNB_FETCH_SUCCESS';
 export const BNB_DECIMALS = 1e18;
 export const TOKENS_POL_FETCH_SUCCESS = 'TOKENS_POL_FETCH_SUCCESS';
 export const POL_DECIMALS = 1e18;
+export const TOKENS_FSN_FETCH_SUCCESS = 'TOKENS_FSN_FETCH_SUCCESS';
+export const FSN_DECIMALS = 1e18;
+
 export const TOKENS_CHINESE_FETCH_SUCCESS = 'TOKENS_CHINESE_FETCH_SUCCESS';
 export const CHINESE_CONTRACT_ADDR = '0x03a6eed53b5dcb0395dfbecf4cbc816dc6f93790';
 export const CHINESE_DECIMALS = 1e18;
@@ -13,14 +18,19 @@ export const TOKENS_ETH_FETCH_SUCCESS = 'TOKENS_ETH_FETCH_SUCCESS';
 // export const BSC_ETH_CONTRACT_ADDR = '0x2170ed0880ac9a755fd29b2688956bd959f933f8';
 export const POL_ETH_CONTRACT_ADDR = '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619';
 export const BSC_ETH_CONTRACT_ADDR = '0x2170Ed0880ac9A755fd29B2688956BD959F933F8';
+export const FSN_ETH_CONTRACT_ADDR = '0x796d74a86db307b0b0e02fed9fa19ccb1906ce37';
+
 export const ETH_DECIMALS = 1e18;
 export const TOKENS_USDT_FETCH_SUCCESS = 'TOKENS_USDT_FETCH_SUCCESS';
 export const BSC_USDT_CONTRACT_ADDR = '0x55d398326f99059ff775485246999027b3197955';
 export const POL_USDT_CONTRACT_ADDR = '0xc2132D05D31c914a87C6611C10748AEb04B58e8F';
+export const FSN_USDT_CONTRACT_ADDR = '0x9636D3294E45823Ec924c8d89dd1F1dffCF044e6';
 export const USDT_DECIMALS = 1e6;
 export const TOKENS_USDC_FETCH_SUCCESS = 'TOKENS_USDC_FETCH_SUCCESS';
 export const BSC_USDC_CONTRACT_ADDR = '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d';
 export const POL_USDC_CONTRACT_ADDR = '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174';
+export const FSN_USDC_CONTRACT_ADDR = '0x6b52048a01c41d1625a6893c80fbe4aa2c22bb54';
+
 export const USDC_DECIMALS = 1e6;
 export const TOKENS_LOVE_FETCH_SUCCESS = 'TOKENS_LOVE_FETCH_SUCCESS';
 export const LOVE_CONTRACT_ADDR = '0x6452961d566449fa5364a182b802a32e17f5cc5f';
@@ -28,18 +38,20 @@ export const LOVE_DECIMALS = 1;
 export const TOKENS_FACEDAO_FETCH_SUCCESS = 'TOKENS_FACEDAO_FETCH_SUCCESS';
 export const FACEDAO_CONTRACT_ADDR = '0xb700597d8425CEd17677Bc68042D7d92764ACF59';
 export const FACEDAO_DECIMALS = 1e18;
+export const TOKENS_PQC_FETCH_SUCCESS = 'TOKENS_PQC_FETCH_SUCCESS';
+export const PQC_CONTRACT_ADDR = '0xbd9749e4da1fb181ce6e413946cf760dec67b415';
+export const PQC_DECIMALS = 1e18;
 
 // export const TOKENS_CHNG_FETCH_SUCCESS = 'TOKENS_CHNG_FETCH_SUCCESS';
 // export const CHNG_CONTRACT_ADDR = '0x05573124c64c69d85687152b2942bcb0a3b26d99';
 // export const CHNG_DECIMALS = 1e18;
-// export const TOKENS_FSN_FETCH_SUCCESS = 'TOKENS_FSN_FETCH_SUCCESS';
-// export const FSN_DECIMALS = 1e18;
 
 const TOKEN_SHOWN_DECIMALS = 2;
 const VALUE_SHOWN_DECIMALS = 3;
 
 const BSC_RPC_URL = 'https://bsc-dataseed2.binance.org';
 const POL_RPC_URL = 'https://polygon-rpc.com';
+const FSN_RPC_URL = 'https://mainnet.fusionnetwork.io'
 
 var BigNumber = require('bignumber.js');
 
@@ -84,6 +96,16 @@ async function getBNBBalance(accountId, address, dispatch) {
   const value = new BigNumber(balanceWithDecimals).multipliedBy(price).toFixed(VALUE_SHOWN_DECIMALS);
   dispatch(fetchBNBSuccess(accountId, balanceWithDecimals, value));
 }
+async function getFSNBalance(accountId, address, dispatch) {
+  const Web3 = require('web3');
+  const provider = new Web3.providers.HttpProvider(FSN_RPC_URL);
+  const web3 = new Web3(provider);
+  const balance = await web3.eth.getBalance(address);
+  const price = await fetchTokenPrice('FSN');
+  const balanceWithDecimals = new BigNumber(balance).dividedBy(FSN_DECIMALS).toFixed(TOKEN_SHOWN_DECIMALS);
+  const value = new BigNumber(balanceWithDecimals).multipliedBy(price).toFixed(VALUE_SHOWN_DECIMALS);
+  dispatch(fetchFSNSuccess(accountId, balanceWithDecimals, value));
+}
 
 
 async function getCHINESEBalance(accountId, address, dispatch) {
@@ -104,6 +126,7 @@ async function getCHINESEBalance(accountId, address, dispatch) {
     }
   });
 }
+
 
 async function getLOVEBalance(accountId, address, dispatch) {
   const Web3 = require('web3');
@@ -143,6 +166,26 @@ async function getFaceDAOBalance(accountId, address, dispatch) {
   });
 }
 
+async function getPQCBalance(accountId, address, dispatch) {
+  const Web3 = require('web3');
+  const provider = new Web3.providers.HttpProvider(FSN_RPC_URL);
+  const web3 = new Web3(provider);
+  const contractAddress = PQC_CONTRACT_ADDR;
+  const contract = new web3.eth.Contract(balanceOfAbi, contractAddress);
+  const price = await fetchTokenPrice('PQC');
+  console.log('pqc price is ', price);
+  contract.methods.balanceOf(address).call((error, result) => {
+    if (!error && result) {
+      const balanceWithDecimals = new BigNumber(result).dividedBy(PQC_DECIMALS).toFixed(TOKEN_SHOWN_DECIMALS);
+      const value = new BigNumber(balanceWithDecimals).multipliedBy(price).toFixed(VALUE_SHOWN_DECIMALS);
+      dispatch(fetchPQCSuccess(accountId, balanceWithDecimals, value));
+    }
+    if (error) {
+      console.log('get PQC balance error:', error);
+    }
+  });
+}
+
 // async function getCHNGBalance(accountId, address, dispatch) {
 //   const Web3 = require('web3');
 //   const provider = new Web3.providers.HttpProvider('https://mainnet.fusionnetwork.io');
@@ -166,17 +209,25 @@ async function getETHBalance(accountId, address, dispatch) {
   let contractAddr = '';
   let rpc_url = '';
   switch (process.env.REACT_APP_DAO) {
-  case 'chinesedao':
-    contractAddr = POL_ETH_CONTRACT_ADDR;
-    rpc_url = POL_RPC_URL;
-    break;
-  case 'facedao':
-    contractAddr = BSC_ETH_CONTRACT_ADDR;
-    rpc_url = BSC_RPC_URL;
-    break;
-  default:
-    contractAddr = POL_ETH_CONTRACT_ADDR;
-    rpc_url = POL_RPC_URL;
+    case 'chinesedao':
+      contractAddr = POL_ETH_CONTRACT_ADDR;
+      rpc_url = POL_RPC_URL;
+      break;
+    case 'facedao':
+      contractAddr = BSC_ETH_CONTRACT_ADDR;
+      rpc_url = BSC_RPC_URL;
+      break;
+    case 'lovedao':
+      contractAddr = FSN_ETH_CONTRACT_ADDR;
+      rpc_url = FSN_RPC_URL;
+      break;
+    case 'pqcdao':
+      contractAddr = FSN_ETH_CONTRACT_ADDR;
+      rpc_url = FSN_RPC_URL;
+      break;
+    default:
+      contractAddr = POL_ETH_CONTRACT_ADDR;
+      rpc_url = POL_RPC_URL;
   }
   const Web3 = require('web3');
   const provider = new Web3.providers.HttpProvider(rpc_url);
@@ -199,17 +250,25 @@ async function getUSDTBalance(accountId, address, dispatch) {
   let contractAddr = '';
   let rpc_url = '';
   switch (process.env.REACT_APP_DAO) {
-  case 'chinesedao':
-    contractAddr = POL_USDT_CONTRACT_ADDR;
-    rpc_url = POL_RPC_URL;
-    break;
-  case 'facedao':
-    contractAddr = BSC_USDT_CONTRACT_ADDR;
-    rpc_url = BSC_RPC_URL;
-    break;
-  default:
-    contractAddr = POL_USDT_CONTRACT_ADDR;
-    rpc_url = POL_RPC_URL;
+    case 'chinesedao':
+      contractAddr = POL_USDT_CONTRACT_ADDR;
+      rpc_url = POL_RPC_URL;
+      break;
+    case 'facedao':
+      contractAddr = BSC_USDT_CONTRACT_ADDR;
+      rpc_url = BSC_RPC_URL;
+      break;
+    case 'lovedao':
+      contractAddr = FSN_USDT_CONTRACT_ADDR;
+      rpc_url = FSN_RPC_URL;
+      break;
+    case 'pqcdao':
+      contractAddr = FSN_USDT_CONTRACT_ADDR;
+      rpc_url = FSN_RPC_URL;
+      break;
+    default:
+      contractAddr = POL_USDT_CONTRACT_ADDR;
+      rpc_url = POL_RPC_URL;
   }
   const Web3 = require('web3');
   const provider = new Web3.providers.HttpProvider(rpc_url);
@@ -232,17 +291,25 @@ async function getUSDCBalance(accountId, address, dispatch) {
   let contractAddr = '';
   let rpc_url = '';
   switch (process.env.REACT_APP_DAO) {
-  case 'chinesedao':
-    contractAddr = POL_USDC_CONTRACT_ADDR;
-    rpc_url = POL_RPC_URL;
-    break;
-  case 'facedao':
-    contractAddr = BSC_USDC_CONTRACT_ADDR;
-    rpc_url = BSC_RPC_URL;
-    break;
-  default:
-    contractAddr = POL_USDC_CONTRACT_ADDR;
-    rpc_url = POL_RPC_URL;
+    case 'chinesedao':
+      contractAddr = POL_USDC_CONTRACT_ADDR;
+      rpc_url = POL_RPC_URL;
+      break;
+    case 'facedao':
+      contractAddr = BSC_USDC_CONTRACT_ADDR;
+      rpc_url = BSC_RPC_URL;
+      break;
+    case 'lovedao':
+      contractAddr = FSN_USDC_CONTRACT_ADDR;
+      rpc_url = FSN_RPC_URL;
+      break;
+    case 'pqcdao':
+      contractAddr = FSN_USDC_CONTRACT_ADDR;
+      rpc_url = FSN_RPC_URL;
+      break;
+    default:
+      contractAddr = POL_USDC_CONTRACT_ADDR;
+      rpc_url = POL_RPC_URL;
   }
   const Web3 = require('web3');
   const provider = new Web3.providers.HttpProvider(rpc_url);
@@ -290,7 +357,14 @@ export function fetchTokens(accountId, address) {
       void getPOLBalance(accountId, address, dispatch);
       void getCHINESEBalance(accountId, address, dispatch);
     }
-
+    if (process.env.REACT_APP_DAO === 'lovedao') {
+      void getLOVEBalance(accountId, address, dispatch);
+      void getCHINESEBalance(accountId, address, dispatch);
+    }
+    if (process.env.REACT_APP_DAO === 'pqcdao') {
+      void getFSNBalance(accountId, address, dispatch);
+      void getPQCBalance(accountId, address, dispatch);
+    }
     // void getCHNGBalance(accountId, address, dispatch);
     void getETHBalance(accountId, address, dispatch);
     void getUSDTBalance(accountId, address, dispatch);
@@ -301,6 +375,15 @@ export function fetchTokens(accountId, address) {
 export function fetchBNBSuccess(accountId, balance, value) {
   return {
     type: TOKENS_BNB_FETCH_SUCCESS,
+    accountId,
+    balance,
+    value,
+  };
+}
+
+export function fetchFSNSuccess(accountId, balance, value) {
+  return {
+    type: TOKENS_FSN_FETCH_SUCCESS,
     accountId,
     balance,
     value,
@@ -351,7 +434,14 @@ export function fetchFaceDAOSuccess(accountId, balance, value) {
 //     value,
 //   };
 // }
-
+export function fetchPQCSuccess(accountId, balance, value) {
+  return {
+    type: TOKENS_PQC_FETCH_SUCCESS,
+    accountId,
+    balance,
+    value,
+  };
+}
 export function fetchETHSuccess(accountId, balance, value) {
   return {
     type: TOKENS_ETH_FETCH_SUCCESS,

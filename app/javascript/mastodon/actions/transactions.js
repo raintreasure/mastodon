@@ -14,6 +14,9 @@ export function fetchTransactions(accountId, address) {
     if (process.env.REACT_APP_DAO === 'facedao') {
       void getBscLoveAndFaceTransactions(accountId, address, dispatch);
     }
+    if (process.env.REACT_APP_DAO === 'pccdap') {
+      void getBscLoveAndFaceTransactions(accountId, address, dispatch);
+    }
   };
 }
 
@@ -34,6 +37,27 @@ async function getPolChineseTransactions(accountId, address, dispatch) {
   }).then(res => {
     dispatch(fetchTransactionsSuccess(accountId, res.data.result, 1));
   },
+  ).catch(e => {
+    console.log('error: ', e);
+  });
+}
+async function getFSNPQCTransactions(accountId, address, dispatch) {
+  axios.get('https://api.polygonscan.com/api', {
+    params: {
+      module: 'account',
+      action: 'tokentx',
+      contractAddress: CHINESE_CONTRACT_ADDR,
+      address: address,
+      startblock: 0,
+      endblock: 99999999,
+      page: 1,
+      offset: 1000,
+      sort: 'desc',
+      apiKey: process.env.REACT_APP_POLYSCAN_API_KEY,
+    },
+  }).then(res => {
+      dispatch(fetchTransactionsSuccess(accountId, res.data.result, 1));
+    },
   ).catch(e => {
     console.log('error: ', e);
   });

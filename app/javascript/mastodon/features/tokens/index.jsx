@@ -25,6 +25,7 @@ import {
   BNB_ICON,
   FACEDAO_ICON,
   LOVE_ICON,
+  FSN_ICON, PQC_ICON,
 } from '../../../icons/data';
 
 const mapStateToProps = (state, { params: { acct, id } }) => {
@@ -60,6 +61,10 @@ const mapStateToProps = (state, { params: { acct, id } }) => {
     valueUSDT: state.getIn(['user_lists', 'tokens', accountId, 'value', 'USDT'], '0'),
     balanceUSDC: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'USDC'], '0'),
     valueUSDC: state.getIn(['user_lists', 'tokens', accountId, 'value', 'USDC'], '0'),
+    balanceFSN: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'FSN'], '0'),
+    valueFSN: state.getIn(['user_lists', 'tokens', accountId, 'value', 'FSN'], '0'),
+    balancePQC: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'PQC'], '0'),
+    valuePQC: state.getIn(['user_lists', 'tokens', accountId, 'value', 'PQC'], '0'),
     suspended: state.getIn(['accounts', accountId, 'suspended'], false),
     hidden: getAccountHidden(state, accountId),
     blockedBy: state.getIn(['relationships', accountId, 'blocked_by'], false),
@@ -109,6 +114,10 @@ class Tokens extends ImmutablePureComponent {
     valueUSDC: PropTypes.string,
     balanceCHINESE: PropTypes.string,
     valueCHINESE: PropTypes.string,
+    balanceFSN: PropTypes.string,
+    valueFSN: PropTypes.string,
+    balancePQC: PropTypes.string,
+    valuePQC: PropTypes.string,
   };
 
   _load() {
@@ -142,7 +151,8 @@ class Tokens extends ImmutablePureComponent {
     const {
       accountId, blockedBy, isAccount, multiColumn, suspended, hidden, remote, remoteUrl,
       balancePOL, balanceBNB, balanceCHINESE, balanceETH, balanceUSDT, balanceUSDC, balanceFaceDAO, balanceLOVE,
-      valuePOL, valueBNB, valueCHINESE, valueETH, valueUSDT, valueUSDC, valueLOVE, valueFaceDAO,
+      valuePOL, valueBNB, valueCHINESE, valueETH, valueUSDT, valueUSDC, valueLOVE, valueFaceDAO,balanceFSN, valueFSN,
+      balancePQC, valuePQC,
     } = this.props;
     if (!isAccount) {
       return (
@@ -202,6 +212,18 @@ class Tokens extends ImmutablePureComponent {
                   </div>
                 </div>
               }
+              {process.env.REACT_APP_DAO === 'pqcdao' &&
+                <div className={'token__item'}>
+                  <div className={'token__symbol'}>
+                    <img src={FSN_ICON} className={'token__icon'} alt={'FSN_ICON'} />
+                    <span>FSN</span>
+                  </div>
+                  <div className={'token__nums'}>
+                    <p className={'token__nums__balance'}>{balanceFSN}</p>
+                    <p className={'token__nums__value'}>$ {valueFSN}</p>
+                  </div>
+                </div>
+              }
               {process.env.REACT_APP_DAO === 'chinesedao' &&
                 <div className={'token__item'}>
                   <div className={'token__symbol'}>
@@ -217,24 +239,24 @@ class Tokens extends ImmutablePureComponent {
               {process.env.REACT_APP_DAO === 'facedao' &&
                 <div className={'token__item'}>
                   <div className={'token__symbol'}>
-                    <img src={LOVE_ICON} className={'token__icon'} alt={'LOVE_ICON'} />
-                    <span>LOVE</span>
-                  </div>
-                  <div className={'token__nums'}>
-                    <p className={'token__nums__balance'}>{balanceLOVE}</p>
-                    <p className={'token__nums__value'}>$ {valueLOVE}</p>
-                  </div>
-                </div>
-              }
-              {process.env.REACT_APP_DAO === 'facedao' &&
-                <div className={'token__item'}>
-                  <div className={'token__symbol'}>
                     <img src={FACEDAO_ICON} className={'token__icon'} alt={'FACEDAO_ICON'} />
-                    <span>FaceDAO</span>
+                    <span>FaceDao</span>
                   </div>
                   <div className={'token__nums'}>
                     <p className={'token__nums__balance'}>{balanceFaceDAO}</p>
                     <p className={'token__nums__value'}>$ {valueFaceDAO}</p>
+                  </div>
+                </div>
+              }
+              {process.env.REACT_APP_DAO === 'pqcdao' &&
+                <div className={'token__item'}>
+                  <div className={'token__symbol'}>
+                    <img src={PQC_ICON} className={'token__icon'} alt={'PQC_ICON'} />
+                    <span>PQC</span>
+                  </div>
+                  <div className={'token__nums'}>
+                    <p className={'token__nums__balance'}>{balancePQC}</p>
+                    <p className={'token__nums__value'}>$ {valuePQC}</p>
                   </div>
                 </div>
               }

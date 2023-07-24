@@ -22,16 +22,16 @@ class Api::V1::Statuses::ReblogsController < Api::BaseController
     if !previous_op.present?
       # check if reach the daily reward limit
       earned = EarnRecord.where("created_at >= ?", 24.hours.ago).where(account_id: current_account.id).sum(:earn)
-      if (earned < DAILY_REWARD_LIMIT)
+      if (earned < getDailyRewardLimit)
         # not reach daily limit & first execute this op, reward token
-        current_account.increment(:balance, RETWEET_REWARD)
+        current_account.increment(:balance, getRetweetReward)
         current_account.save!
         should_reward = true
       end
     end
-    EarnRecord.create!(account_id: current_account.id, target_id: @status.id, op_type: :favourite, earn: RETWEET_REWARD);
+    EarnRecord.create!(account_id: current_account.id, target_id: @status.id, op_type: :favourite, earn: getRetweetReward);
     @status.new_balance = current_account.balance
-    @status.balance_increment = should_reward ? RETWEET_REWARD : 0
+    @status.balance_increment = should_reward ? getRetweetReward : 0
     render json: @status, serializer: REST::StatusSerializer
   end
 
