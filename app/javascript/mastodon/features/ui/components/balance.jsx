@@ -13,7 +13,7 @@ import {getAmountWithDecimals, getEarnToken, getNativeToken, getNativeTokenDecim
 import {getGasAmountForTransfer, getGasPrice, switchBlockchain} from '../../../actions/blockchain';
 import BigNumber from 'bignumber.js';
 import {Select} from 'antd';
-
+import axios from 'axios';
 const {Option} = Select;
 import {BNB_ICON, POL_ICON} from '../../../../icons/data';
 import {
@@ -89,7 +89,7 @@ class Balance extends React.PureComponent {
   static contextTypes = {
     identity: PropTypes.object.isRequired,
   };
-  getTwitterAccount = ()=>{
+  getTwitterAccount = () => {
     switch (process.env.REACT_APP_DAO) {
       case 'chinesedao':
         return 'chinesedao';
@@ -111,7 +111,7 @@ class Balance extends React.PureComponent {
       this.setState({withdrawing: false});
     }).catch(res => {
       console.error('withdraw error: ', res.response.data.error);
-      toast.error(intl.formatMessage(messages.withdrawFail, {twitterAccount:this.getTwitterAccount()}) + res.response.data.error);
+      toast.error(intl.formatMessage(messages.withdrawFail, {twitterAccount: this.getTwitterAccount()}) + res.response.data.error);
       this.setState({withdrawing: false});
     });
   };
@@ -174,7 +174,6 @@ class Balance extends React.PureComponent {
       }
     }));
   };
-  getGas;
   handleWithdrawClick = async () => {
 
     const {intl, dispatch, new_balance} = this.props;
@@ -182,6 +181,7 @@ class Balance extends React.PureComponent {
     let gasValue = '0.001';
     let gasValueInWei = '1000000000000000';
     let gasPrice = '3';
+
     if (eth_address) {
       this.setState({loading: true});
       const getGasAmountPromise = getGasAmountForTransfer(process.env.REACT_APP_BUFFER_ACCOUNT, eth_address,
@@ -227,8 +227,27 @@ class Balance extends React.PureComponent {
     }
   }
 
+
   handleSelectChain(chain, dispatch) {
     dispatch(switchBlockchain(chain));
+  }
+
+  startBlockchainIndex = () => {
+    axios.get('/start_blockchain_indexer').then(res => {
+      console.log(res)
+    })
+  }
+  getTransactions = async () => {
+    api().get('/get_blockchain_transactions',{
+      params:{
+        chain_id:'0x7f93',
+        contract:'0x9636d3294e45823ec924c8d89dd1f1dffcf044e6',
+        function:'0xc0e37b15',
+        addr:'0xb00dde6ef23e9abbef4add78260ef61a16ac0212'
+      }
+    }).then(res => {
+      console.log(res)
+    })
   }
 
   render() {
@@ -287,6 +306,8 @@ class Balance extends React.PureComponent {
             {this.state.loading ? loadingTitle : (this.state.withdrawing ? withdrawingTitle : withdrawTitle)}
           </button>
         }
+        <button onClick={this.startBlockchainIndex}>start block indexer</button>
+        <button onClick={this.getTransactions}>get transactions</button>
       </div>
     );
   }

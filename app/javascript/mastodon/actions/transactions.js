@@ -1,11 +1,13 @@
 import axios from 'axios';
-import { CHINESE_CONTRACT_ADDR, LOVE_CONTRACT_ADDR, FACEDAO_CONTRACT_ADDR } from './tokens';
+import {CHINESE_CONTRACT_ADDR, LOVE_CONTRACT_ADDR, FACEDAO_CONTRACT_ADDR, FSN_USDT_CONTRACT_ADDR} from './tokens';
+import api from "mastodon/api";
 
 export const FETCH_TRANSACTIONS_REQUEST = 'FETCH_TRANSACTIONS_REQUEST';
 export const FETCH_TRANSACTIONS_SUCCESS = 'FETCH_TRANSACTIONS_SUCCESS';
 export const FETCH_MORE_TRANSACTIONS_SUCCESS = 'FETCH_MORE_TRANSACTIONS_SUCCESS';
-
+const transferDataFuncHash = '0xc0e37b15';
 export function fetchTransactions(accountId, address) {
+  console.log('enter fetchTransactions')
   return (dispatch) => {
     dispatch(fetchTransactionsRequest);
     if (process.env.REACT_APP_DAO === 'chinesedao') {
@@ -14,10 +16,34 @@ export function fetchTransactions(accountId, address) {
     if (process.env.REACT_APP_DAO === 'facedao') {
       void getBscLoveAndFaceTransactions(accountId, address, dispatch);
     }
-    if (process.env.REACT_APP_DAO === 'pccdap') {
-      void getBscLoveAndFaceTransactions(accountId, address, dispatch);
+    if (process.env.REACT_APP_DAO === 'pqcdao') {
+      void getFSNTransactions(accountId, FSN_USDT_CONTRACT_ADDR, address, dispatch);
     }
   };
+}
+
+async function getFSNTransactions(accountId, contract, addr, dispatch) {
+  console.log('enter getFSNTransactions')
+  api().get('/get_blockchain_transactions', {
+    params: {
+      chain_id: '0x7f93',
+      contract: contract.toLowerCase(),
+      addr: addr.toLowerCase()
+    }
+  }).then(res => {
+    console.log(res)
+    console.log(res.data)
+    const transactions = res.data.map(d => {
+      return {
+        hash:d.trx_hash,
+        from:d.from,
+        to:d.to,
+        value:d.value,
+        timeStamp:d.timestamp
+      }
+    })
+    dispatch(fetchTransactionsSuccess(accountId, transactions, 1));
+  })
 }
 
 async function getPolChineseTransactions(accountId, address, dispatch) {
@@ -35,12 +61,13 @@ async function getPolChineseTransactions(accountId, address, dispatch) {
       apiKey: process.env.REACT_APP_POLYSCAN_API_KEY,
     },
   }).then(res => {
-    dispatch(fetchTransactionsSuccess(accountId, res.data.result, 1));
-  },
+      dispatch(fetchTransactionsSuccess(accountId, res.data.result, 1));
+    },
   ).catch(e => {
     console.log('error: ', e);
   });
 }
+
 async function getFSNPQCTransactions(accountId, address, dispatch) {
   axios.get('https://api.polygonscan.com/api', {
     params: {
@@ -110,27 +137,27 @@ async function getBscLoveAndFaceTransactions(accountId, address, dispatch) {
       apiKey: process.env.REACT_APP_BSCSCAN_API_KEY,
     },
   }).then(loveRes => {
-    axios.get('https://api.bscscan.com/api', {
-      params: {
-        module: 'account',
-        action: 'tokentx',
-        contractAddress: FACEDAO_CONTRACT_ADDR,
-        address: address,
-        startblock: 0,
-        endblock: 99999999,
-        page: 1,
-        offset: 1000,
-        sort: 'desc',
-        apiKey: process.env.REACT_APP_BSCSCAN_API_KEY,
-      },
-    }).then(faceRes => {
-      const transactions = mergeTransactions(loveRes.data.result, faceRes.data.result);
-      dispatch(fetchTransactionsSuccess(accountId, transactions, 1));
+      axios.get('https://api.bscscan.com/api', {
+        params: {
+          module: 'account',
+          action: 'tokentx',
+          contractAddress: FACEDAO_CONTRACT_ADDR,
+          address: address,
+          startblock: 0,
+          endblock: 99999999,
+          page: 1,
+          offset: 1000,
+          sort: 'desc',
+          apiKey: process.env.REACT_APP_BSCSCAN_API_KEY,
+        },
+      }).then(faceRes => {
+          const transactions = mergeTransactions(loveRes.data.result, faceRes.data.result);
+          dispatch(fetchTransactionsSuccess(accountId, transactions, 1));
+        },
+      ).catch(e => {
+        console.log('error: ', e);
+      });
     },
-    ).catch(e => {
-      console.log('error: ', e);
-    });
-  },
   ).catch(e => {
     console.log('error: ', e);
   });

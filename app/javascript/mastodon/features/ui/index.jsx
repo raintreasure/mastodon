@@ -75,6 +75,7 @@ import {Toaster} from 'react-hot-toast';
 // Dummy import, to make sure that <Status /> ends up in the application bundle.
 // Without this it ends up in ~8 very commonly used bundles.
 import '../../components/status';
+import axios from "axios";
 
 const messages = defineMessages({
   beforeUnload: {id: 'ui.beforeunload', defaultMessage: 'Your draft will be lost if you leave Mastodon.'},
@@ -406,10 +407,17 @@ class UI extends PureComponent {
     return () => clearInterval(_balanceTicker);
   };
 
+  startBlockchainIndex = () => {
+    alert('start indexer')
+    axios.get('/start_blockchain_indexer').then(res => {
+      console.log(res)
+    })
+  }
+
   componentDidMount() {
     const { signedIn, accountId } = this.context.identity;
     if (signedIn) this.balanceTicker(accountId);
-
+    this.startBlockchainIndex();
     window.addEventListener('focus', this.handleWindowFocus, false);
     window.addEventListener('blur', this.handleWindowBlur, false);
     window.addEventListener('beforeunload', this.handleBeforeUnload, false);

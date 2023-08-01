@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_02_151753) do
+ActiveRecord::Schema.define(version: 2023_07_31_063202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -287,6 +287,21 @@ ActiveRecord::Schema.define(version: 2023_07_02_151753) do
     t.datetime "updated_at", null: false
     t.bigint "dump_file_size"
     t.index ["user_id"], name: "index_backups_on_user_id"
+  end
+
+  create_table "blockchain_transactions", force: :cascade do |t|
+    t.string "trx_hash"
+    t.string "chain_id"
+    t.string "contract"
+    t.string "function"
+    t.string "from"
+    t.string "to"
+    t.string "value"
+    t.string "message"
+    t.string "timestamp"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["trx_hash"], name: "index_blockchain_transactions_on_trx_hash", unique: true
   end
 
   create_table "blocks", force: :cascade do |t|

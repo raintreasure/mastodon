@@ -16,7 +16,6 @@ class TransactionsController < ApplicationController
     #   end
     # end
   end
-
   def set_pol_client
     @client = Eth::Client.create 'https://polygon-rpc.com'
     @client.max_fee_per_gas = 200 * Eth::Unit::GWEI

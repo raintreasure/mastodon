@@ -46,6 +46,9 @@ namespace :api, format: false do
     get '/streaming', to: 'streaming#index'
     get '/streaming/(*any)', to: 'streaming#index'
 
+    # get '/zlystart', to: 'api/v1/blockchain/transaction#start'
+    # get '/testtransactions', to: 'api/v1/blockchain/transaction#get_transactions'
+
     resources :custom_emojis, only: [:index]
     resources :suggestions, only: [:index, :destroy]
     resources :scheduled_statuses, only: [:index, :show, :update, :destroy]
@@ -151,6 +154,11 @@ namespace :api, format: false do
       resource :lookup, only: :show, controller: :lookup
       resources :relationships, only: :index
       resources :familiar_followers, only: :index
+    end
+
+    namespace :blockchain do
+      get :start, to: 'api/v1/blockchain/transaction#start'
+      get :transactions, to: 'api/v1/blockchain/transaction#get_transactions'
     end
 
     resources :accounts, only: [:create, :show] do
@@ -275,6 +283,7 @@ namespace :api, format: false do
         end
       end
     end
+
   end
 
   namespace :v2 do
@@ -307,4 +316,5 @@ namespace :api, format: false do
       end
     end
   end
+
 end

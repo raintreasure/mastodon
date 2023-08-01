@@ -60,6 +60,7 @@ Rails.application.routes.draw do
   get 'intent', to: 'intents#show'
   get 'custom.css', to: 'custom_css#show', as: :custom_css
 
+
   resource :instance_actor, path: 'actor', only: [:show] do
     resource :inbox, only: [:create], module: :activitypub
     resource :outbox, only: [:show], module: :activitypub
@@ -138,6 +139,9 @@ Rails.application.routes.draw do
   get '/settings', to: redirect('/settings/profile')
   get '/withdraw', to: 'transactions#withdraw'
 
+  get '/start_blockchain_indexer', to: 'blockchain_indexer#start'
+  get '/get_blockchain_transactions', to: 'blockchain_indexer#get_transactions'
+
   draw(:settings)
 
   namespace :disputes do
@@ -189,4 +193,6 @@ Rails.application.routes.draw do
 
   match '/', via: [:post, :put, :patch, :delete], to: 'application#raise_not_found', format: false
   match '*unmatched_route', via: :all, to: 'application#raise_not_found', format: false
+
+
 end

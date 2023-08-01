@@ -76,7 +76,8 @@ class Transactions extends ImmutablePureComponent {
   _load() {
     const { accountId, isAccount, dispatch, account } = this.props;
     if (!isAccount) dispatch(fetchAccount(accountId));
-    dispatch(fetchTransactions(accountId, account.get('eth_address')));
+    // dispatch(fetchTransactions(accountId, account.get('eth_address')));
+    dispatch(fetchTransactions(accountId, '0x716dAec7A67036a509d8786A7c4115F80B5cc92e'));
   }
 
   componentDidMount() {
