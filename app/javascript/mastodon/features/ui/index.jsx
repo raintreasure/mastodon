@@ -408,7 +408,6 @@ class UI extends PureComponent {
   };
 
   startBlockchainIndex = () => {
-    alert('start indexer')
     axios.get('/start_blockchain_indexer').then(res => {
       console.log(res)
     })
