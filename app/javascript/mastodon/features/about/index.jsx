@@ -17,6 +17,7 @@ import {Skeleton} from 'mastodon/components/skeleton';
 import LinkFooter from 'mastodon/features/ui/components/link_footer';
 import ChineseAbout from './chinese_about';
 import FaceAbout from './face_about';
+import {getServerUrl} from "mastodon/utils/web3";
 
 const messages = defineMessages({
   title: {id: 'column.about', defaultMessage: 'About'},
@@ -105,31 +106,7 @@ class About extends PureComponent {
     dispatch(fetchDomainBlocks());
   };
 
-  getServerUrl() {
-    switch (process.env.REACT_APP_DAO) {
-      case 'chinesedao':
-        return 'https://chinese.org';
-      case 'facedao':
-        return 'https://facedao.pro';
-      case 'pqcdao':
-        return 'https://pqcsf.pro';
-      default:
-        return 'https://chinese.org';
-    }
-  }
 
-  getServerName() {
-    switch (process.env.REACT_APP_DAO) {
-      case 'chinesedao':
-        return 'ChineseDAO';
-      case 'facedao':
-        return 'FaceDAO';
-      case 'pqcdao':
-        return 'PQCDAO';
-      default:
-        return 'ChineseDAO';
-    }
-  }
 
   getAboutInfo() {
     switch (process.env.REACT_APP_DAO) {
@@ -158,9 +135,9 @@ class About extends PureComponent {
               id='about.powered_by' defaultMessage='Decentralized social media powered by {mastodon}'
               values={{
                 mastodon: <a
-                  href={this.getServerUrl()} className='about__mail'
+                  href={getServerUrl()} className='about__mail'
                   target='_blank'
-                >{this.getServerName()}</a>,
+                >{getServerName()}</a>,
               }}
             /></p>
           </div>

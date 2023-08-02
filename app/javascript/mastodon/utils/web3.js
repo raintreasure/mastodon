@@ -109,6 +109,32 @@ export const getChainId = () => {
       return '0x89';
   }
 };
+
+export const getServerUrl = () => {
+  switch (process.env.REACT_APP_DAO) {
+    case 'chinesedao':
+      return 'https://chinese.org';
+    case 'facedao':
+      return 'https://facedao.pro';
+    case 'pqcdao':
+      return 'https://pqc.org';
+    default:
+      return 'https://chinese.org';
+  }
+}
+
+export const getServerName = () => {
+  switch (process.env.REACT_APP_DAO) {
+    case 'chinesedao':
+      return 'ChineseDAO';
+    case 'facedao':
+      return 'FaceDAO';
+    case 'pqcdao':
+      return 'PQCDAO';
+    default:
+      return 'ChineseDAO';
+  }
+}
 export const getAmountWithDecimals = (amount, token) => {
   const amountWithDecimals = new BigNumber(amount).multipliedBy(getContractDecimal(token));
   return amountWithDecimals.toFixed(0);

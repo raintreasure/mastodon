@@ -13,6 +13,7 @@ import ShortNumber from 'mastodon/components/short_number';
 import { Skeleton } from 'mastodon/components/skeleton';
 import Account from 'mastodon/containers/account_container';
 import { domain } from 'mastodon/initial_state';
+import {getServerName, getServerUrl} from "mastodon/utils/web3";
 
 
 const mapStateToProps = state => ({
@@ -32,27 +33,6 @@ class ServerBanner extends PureComponent {
     dispatch(fetchServer());
   }
 
-  getServerUrl() {
-    switch (process.env.REACT_APP_DAO) {
-    case 'chinesedao':
-      return 'https://chinese.org';
-    case 'facedao':
-      return 'https://facedao.pro';
-    default:
-      return 'https://chinese.org';
-    }
-  }
-
-  getServerName() {
-    switch (process.env.REACT_APP_DAO) {
-    case 'chinesedao':
-      return 'ChineseDAO';
-    case 'facedao':
-      return 'FaceDAO';
-    default:
-      return 'ChineseDAO';
-    }
-  }
 
   render() {
     const { server } = this.props;
@@ -66,7 +46,7 @@ class ServerBanner extends PureComponent {
             defaultMessage='{domain} is part of the decentralized social network powered by {mastodon}.'
             values={{
               domain: <strong>{domain}</strong>,
-              mastodon: <a href={this.getServerUrl()} target='_blank'>{this.getServerName()}</a>,
+              mastodon: <a href={getServerUrl()} target='_blank'>{getServerName()}</a>,
             }}
           />
         </div>

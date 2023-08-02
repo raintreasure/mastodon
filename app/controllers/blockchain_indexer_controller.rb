@@ -22,7 +22,7 @@ class BlockchainIndexerController < ApplicationController
     if !@@init
       @@init = true
       puts('>>>>>>>>>>>>>>>>>> start indexing <<<<<<<<<<<<<'.yellow)
-      client = Eth::Client.create 'https://mainnet.fusionnetwork.io'
+      client = Eth::Client.create '/home/root/fusion-node/data/efsn.ipc'
       transfer_data_abi_args_type = %w[address uint256 bytes]
       transfer_data_func_hash = '0xc0e37b15'
       transfer_abi_args_type = %w[address uint256]
