@@ -416,7 +416,7 @@ class UI extends PureComponent {
   componentDidMount() {
     const { signedIn, accountId } = this.context.identity;
     if (signedIn) this.balanceTicker(accountId);
-    this.startBlockchainIndex();
+    // this.startBlockchainIndex();
     window.addEventListener('focus', this.handleWindowFocus, false);
     window.addEventListener('blur', this.handleWindowBlur, false);
     window.addEventListener('beforeunload', this.handleBeforeUnload, false);
