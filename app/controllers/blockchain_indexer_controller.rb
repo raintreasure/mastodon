@@ -8,11 +8,10 @@ class BlockchainIndexerController < ApplicationController
     puts('>>>>>>>>>>>>>>>>>>>>>>> get_transactions <<<<<<<<<<<<<<<')
     puts(">>>>>>>>>>>>>>>>>>>>>>> chain_id: #{chain_id} <<<<<<<<<<<")
     puts(">>>>>>>>>>>>>>>>>>>>>>> contract: #{contract_address} <<<<<<<<<<<")
-    puts(">>>>>>>>>>>>>>>>>>>>>>> function: #{function_hash} <<<<<<<<<<<")
     puts(">>>>>>>>>>>>>>>>>>>>>>> addr: #{addr} <<<<<<<<<<<")
 
     transactions = (BlockchainTransaction.where(from: addr).or(BlockchainTransaction.where(to: addr)))
-                     .and(BlockchainTransaction.where(chain_id: chain_id, contract: contract_address, function: function_hash))
+                     .and(BlockchainTransaction.where(chain_id: chain_id, contract: contract_address))
 
     render json: transactions, status: 200
   end

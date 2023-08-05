@@ -7,7 +7,6 @@ export const FETCH_TRANSACTIONS_SUCCESS = 'FETCH_TRANSACTIONS_SUCCESS';
 export const FETCH_MORE_TRANSACTIONS_SUCCESS = 'FETCH_MORE_TRANSACTIONS_SUCCESS';
 const transferDataFuncHash = '0xc0e37b15';
 export function fetchTransactions(accountId, address) {
-  console.log('enter fetchTransactions')
   return (dispatch) => {
     dispatch(fetchTransactionsRequest);
     if (process.env.REACT_APP_DAO === 'chinesedao') {
@@ -17,13 +16,12 @@ export function fetchTransactions(accountId, address) {
       void getBscLoveAndFaceTransactions(accountId, address, dispatch);
     }
     if (process.env.REACT_APP_DAO === 'pqcdao') {
-      void getFSNTransactions(accountId, FSN_USDT_CONTRACT_ADDR, address, dispatch);
+      void getFSNTransactions(accountId, LOVE_CONTRACT_ADDR, address, dispatch);
     }
   };
 }
 
 async function getFSNTransactions(accountId, contract, addr, dispatch) {
-  console.log('enter getFSNTransactions')
   api().get('/get_blockchain_transactions', {
     params: {
       chain_id: '0x7f93',

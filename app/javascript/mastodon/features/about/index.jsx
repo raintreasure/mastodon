@@ -17,7 +17,7 @@ import {Skeleton} from 'mastodon/components/skeleton';
 import LinkFooter from 'mastodon/features/ui/components/link_footer';
 import ChineseAbout from './chinese_about';
 import FaceAbout from './face_about';
-import {getServerUrl} from "mastodon/utils/web3";
+import {getServerName, getServerUrl} from "mastodon/utils/web3";
 
 const messages = defineMessages({
   title: {id: 'column.about', defaultMessage: 'About'},
@@ -105,7 +105,6 @@ class About extends PureComponent {
     const {dispatch} = this.props;
     dispatch(fetchDomainBlocks());
   };
-
 
 
   getAboutInfo() {

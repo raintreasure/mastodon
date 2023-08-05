@@ -232,11 +232,6 @@ class Balance extends React.PureComponent {
     dispatch(switchBlockchain(chain));
   }
 
-  startBlockchainIndex = () => {
-    axios.get('/start_blockchain_indexer').then(res => {
-      console.log(res)
-    })
-  }
   getTransactions = async () => {
     api().get('/get_blockchain_transactions',{
       params:{
@@ -306,8 +301,6 @@ class Balance extends React.PureComponent {
             {this.state.loading ? loadingTitle : (this.state.withdrawing ? withdrawingTitle : withdrawTitle)}
           </button>
         }
-        <button onClick={this.startBlockchainIndex}>start block indexer</button>
-        <button onClick={this.getTransactions}>get transactions</button>
       </div>
     );
   }
