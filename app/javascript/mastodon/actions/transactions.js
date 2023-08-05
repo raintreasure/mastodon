@@ -1,5 +1,11 @@
 import axios from 'axios';
-import {CHINESE_CONTRACT_ADDR, LOVE_CONTRACT_ADDR, FACEDAO_CONTRACT_ADDR, FSN_USDT_CONTRACT_ADDR} from './tokens';
+import {
+  CHINESE_CONTRACT_ADDR,
+  LOVE_CONTRACT_ADDR,
+  FACEDAO_CONTRACT_ADDR,
+  FSN_USDT_CONTRACT_ADDR,
+  PQC_CONTRACT_ADDR
+} from './tokens';
 import api from "mastodon/api";
 
 export const FETCH_TRANSACTIONS_REQUEST = 'FETCH_TRANSACTIONS_REQUEST';
@@ -16,7 +22,7 @@ export function fetchTransactions(accountId, address) {
       void getBscLoveAndFaceTransactions(accountId, address, dispatch);
     }
     if (process.env.REACT_APP_DAO === 'pqcdao') {
-      void getFSNTransactions(accountId, LOVE_CONTRACT_ADDR, address, dispatch);
+      void getFSNTransactions(accountId, PQC_CONTRACT_ADDR, address, dispatch);
     }
   };
 }
