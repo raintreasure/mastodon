@@ -34,7 +34,7 @@ class TransactionsController < ApplicationController
 
   def set_client
     if ENV['REACT_APP_DAO'] == 'chinesedao'
-      set_pol_client
+      set_fsn_client
     end
     if ENV['REACT_APP_DAO'] == 'facedao'
       set_bsc_client
@@ -64,13 +64,13 @@ class TransactionsController < ApplicationController
 
   def is_legacy
     if ENV['REACT_APP_DAO'] == 'chinesedao'
-      return false
+      return true
     end
     if ENV['REACT_APP_DAO'] == 'facedao'
       return true
     end
     if ENV['REACT_APP_DAO'] == 'lovedao'
-      return false
+      return true
     end
     if ENV['REACT_APP_DAO'] == 'pqcdao'
       return true

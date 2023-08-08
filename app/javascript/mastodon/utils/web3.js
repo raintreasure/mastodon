@@ -59,7 +59,7 @@ export const getEarnToken = () => {
 export const getNativeToken = () => {
   switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
-      return 'MATIC';
+      return 'FSN';
     case 'facedao':
       return 'BNB';
     case 'lovedao':
@@ -67,7 +67,7 @@ export const getNativeToken = () => {
     case 'pqcdao':
       return 'FSN';
     default:
-      return 'MATIC';
+      return 'FSN';
   }
 };
 
@@ -97,16 +97,6 @@ export const getContractDecimal = (token) => {
       return PQC_DECIMALS;
     default:
       return CHINESE_DECIMALS;
-  }
-};
-export const getChainId = () => {
-  switch (process.env.REACT_APP_DAO) {
-    case 'chinesedao':
-      return '0x89';
-    case 'facedao':
-      return '0x38';
-    default:
-      return '0x89';
   }
 };
 
@@ -170,10 +160,7 @@ const FSNConf = {
 const getChainConfig = () => {
   switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
-      return {
-        chainNamespace: "eip155",
-        chainId: '0x89',
-      };
+      return FSNConf;
     case 'facedao':
       return {
         chainNamespace: "eip155",

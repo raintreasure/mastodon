@@ -5,11 +5,6 @@ class BlockchainIndexerController < ApplicationController
   @@init = false
 
   def get_transactions
-    puts('>>>>>>>>>>>>>>>>>>>>>>> get_transactions <<<<<<<<<<<<<<<')
-    puts(">>>>>>>>>>>>>>>>>>>>>>> chain_id: #{chain_id} <<<<<<<<<<<")
-    puts(">>>>>>>>>>>>>>>>>>>>>>> contract: #{contract_address} <<<<<<<<<<<")
-    puts(">>>>>>>>>>>>>>>>>>>>>>> addr: #{addr} <<<<<<<<<<<")
-
     transactions = (BlockchainTransaction.where(from: addr).or(BlockchainTransaction.where(to: addr)))
                      .and(BlockchainTransaction.where(chain_id: chain_id, contract: contract_address))
 

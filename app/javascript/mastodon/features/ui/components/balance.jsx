@@ -29,28 +29,28 @@ const mapStateToProps = state => ({
   blockchain: state.getIn(['blockchain', 'chain']),
 });
 
-export const getAirdropToken = () => {
-  switch (process.env.REACT_APP_DAO) {
-    case 'chinesedao':
-      return '0.1 POL';
-    case 'facedao':
-      return '0.001 BNB';
-    default:
-      return '0.1 POL';
-  }
-};
+// export const getAirdropToken = () => {
+//   switch (process.env.REACT_APP_DAO) {
+//     case 'chinesedao':
+//       return '0.1 FSN';
+//     case 'facedao':
+//       return '0.001 BNB';
+//     default:
+//       return '0.1 POL';
+//   }
+// };
 export const getTokenUrl = () => {
   switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
-      return 'https://polygonscan.com/tokenholdings?a=';
+      return 'https://fsnscan.com/tokenholdings/';
     case 'facedao':
       return 'https://bscscan.com/tokenholdings?a=';
     case 'lovedao':
-      return 'https://fsnscan.com/tokenholdings?a=';
+      return 'https://fsnscan.com/tokenholdings/';
     case 'pqcdao':
-      return 'https://fsnscan.com/tokenholdings?a=';
+      return 'https://fsnscan.com/tokenholdings/';
     default:
-      return 'https://polygonscan.com/tokenholdings?a=';
+      return 'https://fsnscan.com/tokenholdings/';
   }
 };
 

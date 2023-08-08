@@ -524,14 +524,14 @@ class Header extends ImmutablePureComponent {
                     >
                       {intl.formatMessage(messages.tab_tokens)}
                     </NavLink>
-                    {process.env.REACT_APP_DAO === 'chinesedao' &&
-                      <NavLink
-                        exact activeClassName='active' to={`/@${account.get('acct')}/nfts`}
-                        title={intl.formatMessage(messages.tab_nfts)}
-                      >
-                        {intl.formatMessage(messages.tab_nfts)}
-                      </NavLink>
-                    }
+                    {/*{process.env.REACT_APP_DAO === 'chinesedao' &&*/}
+                    {/*  <NavLink*/}
+                    {/*    exact activeClassName='active' to={`/@${account.get('acct')}/nfts`}*/}
+                    {/*    title={intl.formatMessage(messages.tab_nfts)}*/}
+                    {/*  >*/}
+                    {/*    {intl.formatMessage(messages.tab_nfts)}*/}
+                    {/*  </NavLink>*/}
+                    {/*}*/}
 
                     <NavLink
                       exact activeClassName='active' to={`/@${account.get('acct')}/earnings`}

@@ -47,9 +47,6 @@ class Auth::SessionsController < Devise::SessionsController
   end
 
   def webauthn_options
-
-    puts('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  webauthn_options')
-
     user = User.find_by(id: session[:attempt_user_id])
 
     if user&.webauthn_enabled?

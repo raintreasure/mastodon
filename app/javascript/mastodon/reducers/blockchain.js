@@ -4,13 +4,15 @@ import {SWITCH_BLOCKCHAIN} from "mastodon/actions/blockchain";
 const getDefaultChain = () => {
   switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
-      return 'bsc';
+      return 'fusion';
     case 'facedao':
-      return 'polygon';
+      return 'bsc';
     case 'lovedao':
-      return 'polygon';
+      return 'fusion';
+    case 'pqcdao':
+      return 'fusion';
     default:
-      return 'polygon';
+      return 'fusion';
 
   }
 };

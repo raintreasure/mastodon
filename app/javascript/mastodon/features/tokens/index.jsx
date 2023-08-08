@@ -191,12 +191,12 @@ class Tokens extends ImmutablePureComponent {
               {process.env.REACT_APP_DAO === 'chinesedao' &&
                 <div className={'token__item'}>
                   <div className={'token__symbol'}>
-                    <img src={POL_ICON} className={'token__icon'} alt={'POL_ICON'} />
-                    <span>MATIC</span>
+                    <img src={FSN_ICON} className={'token__icon'} alt={'FSN_ICON'} />
+                    <span>FSN</span>
                   </div>
                   <div className={'token__nums'}>
-                    <p className={'token__nums__balance'}>{balancePOL}</p>
-                    <p className={'token__nums__value'}>$ {valuePOL}</p>
+                    <p className={'token__nums__balance'}>{balanceFSN}</p>
+                    <p className={'token__nums__value'}>$ {valueFSN}</p>
                   </div>
                 </div>
               }

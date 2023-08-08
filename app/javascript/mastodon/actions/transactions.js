@@ -16,7 +16,7 @@ export function fetchTransactions(accountId, address) {
   return (dispatch) => {
     dispatch(fetchTransactionsRequest);
     if (process.env.REACT_APP_DAO === 'chinesedao') {
-      void getPolChineseTransactions(accountId, address, dispatch);
+      void getFSNTransactions(accountId, CHINESE_CONTRACT_ADDR, address, dispatch);
     }
     if (process.env.REACT_APP_DAO === 'facedao') {
       void getBscLoveAndFaceTransactions(accountId, address, dispatch);

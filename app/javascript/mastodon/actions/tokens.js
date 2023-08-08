@@ -110,7 +110,7 @@ async function getFSNBalance(accountId, address, dispatch) {
 
 async function getCHINESEBalance(accountId, address, dispatch) {
   const Web3 = require('web3');
-  const provider = new Web3.providers.HttpProvider(POL_RPC_URL);
+  const provider = new Web3.providers.HttpProvider(FSN_RPC_URL);
   const web3 = new Web3(provider);
   const contractAddress = CHINESE_CONTRACT_ADDR;
   const contract = new web3.eth.Contract(balanceOfAbi, contractAddress);
@@ -210,8 +210,8 @@ async function getETHBalance(accountId, address, dispatch) {
   let rpc_url = '';
   switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
-      contractAddr = POL_ETH_CONTRACT_ADDR;
-      rpc_url = POL_RPC_URL;
+      contractAddr = FSN_ETH_CONTRACT_ADDR;
+      rpc_url = FSN_RPC_URL;
       break;
     case 'facedao':
       contractAddr = BSC_ETH_CONTRACT_ADDR;
@@ -251,8 +251,8 @@ async function getUSDTBalance(accountId, address, dispatch) {
   let rpc_url = '';
   switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
-      contractAddr = POL_USDT_CONTRACT_ADDR;
-      rpc_url = POL_RPC_URL;
+      contractAddr = FSN_USDT_CONTRACT_ADDR;
+      rpc_url = FSN_RPC_URL;
       break;
     case 'facedao':
       contractAddr = BSC_USDT_CONTRACT_ADDR;
@@ -292,8 +292,8 @@ async function getUSDCBalance(accountId, address, dispatch) {
   let rpc_url = '';
   switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
-      contractAddr = POL_USDC_CONTRACT_ADDR;
-      rpc_url = POL_RPC_URL;
+      contractAddr = FSN_USDC_CONTRACT_ADDR;
+      rpc_url = FSN_RPC_URL;
       break;
     case 'facedao':
       contractAddr = BSC_USDC_CONTRACT_ADDR;
@@ -354,12 +354,12 @@ export function fetchTokens(accountId, address) {
       void getFaceDAOBalance(accountId, address, dispatch);
     }
     if (process.env.REACT_APP_DAO === 'chinesedao') {
-      void getPOLBalance(accountId, address, dispatch);
+      void getFSNBalance(accountId, address, dispatch);
       void getCHINESEBalance(accountId, address, dispatch);
     }
     if (process.env.REACT_APP_DAO === 'lovedao') {
+      void getFSNBalance(accountId, address, dispatch);
       void getLOVEBalance(accountId, address, dispatch);
-      void getCHINESEBalance(accountId, address, dispatch);
     }
     if (process.env.REACT_APP_DAO === 'pqcdao') {
       void getFSNBalance(accountId, address, dispatch);

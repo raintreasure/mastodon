@@ -88,7 +88,7 @@ export const getGasAmountForTransfer = async (fromAddress, toAddress, amount, co
 export function getGasPrice() {
   switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
-      return getPolygonGasPrice;
+      return getFusionGasPrice;
     case 'facedao':
       return getBSCGasPrice;
     case 'lovedao':

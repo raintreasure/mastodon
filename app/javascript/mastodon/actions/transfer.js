@@ -3,7 +3,7 @@ import {toast} from 'react-hot-toast';
 import React from 'react';
 
 import {defineMessages} from 'react-intl';
-import {getAmountWithDecimals, getChainId, getContractAddr, getNativeToken, transferAbi} from '../utils/web3';
+import {getAmountWithDecimals, getContractAddr, getNativeToken, transferAbi} from '../utils/web3';
 
 
 const noAddrMessage = 'wallet address has not loaded, please try again or refresh the page';
