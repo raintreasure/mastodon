@@ -25,11 +25,11 @@ export const fetchServer = () => (dispatch, getState) => {
 
   dispatch(fetchServerRequest());
 
-  api(getState)
-    .get('/api/v2/instance').then(({ data }) => {
-      if (data.contact.account) dispatch(importFetchedAccount(data.contact.account));
-      dispatch(fetchServerSuccess(data));
-    }).catch(err => dispatch(fetchServerFail(err)));
+  // api(getState)
+  //   .get('/api/v2/instance').then(({ data }) => {
+  //     if (data.contact.account) dispatch(importFetchedAccount(data.contact.account));
+  //     dispatch(fetchServerSuccess(data));
+  //   }).catch(err => dispatch(fetchServerFail(err)));
 };
 
 const fetchServerRequest = () => ({
