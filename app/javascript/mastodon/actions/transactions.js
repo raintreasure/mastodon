@@ -131,7 +131,7 @@ async function getBscLoveAndFaceTransactions(accountId, address, dispatch) {
     params: {
       module: 'account',
       action: 'tokentx',
-      contractAddress: LOVE_CONTRACT_ADDR,
+      contractAddress: BSC_LOVE_CONTRACT_ADDR,
       address: address,
       startblock: 0,
       endblock: 99999999,

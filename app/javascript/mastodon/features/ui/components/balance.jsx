@@ -9,19 +9,22 @@ import {openModal} from '../../../actions/modal';
 import api from '../../../api';
 import {me} from '../../../initial_state';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import {getAmountWithDecimals, getEarnToken, getNativeToken, getNativeTokenDecimals, GWei} from '../../../utils/web3';
-import {getGasAmountForTransfer, getGasPrice, switchBlockchain} from '../../../actions/blockchain';
+import {
+  CHAIN_BSC,
+  CHAIN_FUSION,
+  getAmountWithDecimals,
+  getEarnToken,
+  getNativeToken,
+  getNativeTokenDecimals,
+  GWei
+} from '../../../utils/web3';
+import {
+  getGasAmountForTransfer,
+  getGasPrice, getWithdrawContractAddr,
+} from '../../../actions/blockchain';
 import BigNumber from 'bignumber.js';
 import {Select} from 'antd';
-import axios from 'axios';
-const {Option} = Select;
-import {BNB_ICON, POL_ICON} from '../../../../icons/data';
-import {
-  CHINESE_CONTRACT_ADDR,
-  FACEDAO_CONTRACT_ADDR,
-  LOVE_CONTRACT_ADDR,
-  PQC_CONTRACT_ADDR
-} from "mastodon/actions/tokens";
+import BlockchainSelector from "mastodon/features/ui/components/blockchain_selector";
 
 const mapStateToProps = state => ({
   new_balance: state.getIn(['balance', 'new_balance']),
@@ -29,16 +32,6 @@ const mapStateToProps = state => ({
   blockchain: state.getIn(['blockchain', 'chain']),
 });
 
-// export const getAirdropToken = () => {
-//   switch (process.env.REACT_APP_DAO) {
-//     case 'chinesedao':
-//       return '0.1 FSN';
-//     case 'facedao':
-//       return '0.001 BNB';
-//     default:
-//       return '0.1 POL';
-//   }
-// };
 export const getTokenUrl = () => {
   switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
@@ -115,20 +108,7 @@ class Balance extends React.PureComponent {
       this.setState({withdrawing: false});
     });
   };
-  getWithdrawContractAddr = () => {
-    switch (process.env.REACT_APP_DAO) {
-      case 'chinesedao':
-        return CHINESE_CONTRACT_ADDR;
-      case 'facedao':
-        return FACEDAO_CONTRACT_ADDR;
-      case 'lovedao':
-        return LOVE_CONTRACT_ADDR;
-      case 'pqcdao':
-        return PQC_CONTRACT_ADDR;
-      default:
-        return CHINESE_CONTRACT_ADDR;
-    }
-  };
+
   openWithdrawModal = (eth_address, withdrawDipositValue, withdrawDipositValueInWei, gasPrice) => {
     const {intl, dispatch} = this.props;
     const Web3 = require('web3');
@@ -175,7 +155,6 @@ class Balance extends React.PureComponent {
     }));
   };
   handleWithdrawClick = async () => {
-
     const {intl, dispatch, new_balance} = this.props;
     const eth_address = this.props.account.get('eth_address');
     let gasValue = '0.001';
@@ -186,7 +165,7 @@ class Balance extends React.PureComponent {
       this.setState({loading: true});
       const getGasAmountPromise = getGasAmountForTransfer(process.env.REACT_APP_BUFFER_ACCOUNT, eth_address,
         getAmountWithDecimals(new_balance.new_balance, getEarnToken()),
-        this.getWithdrawContractAddr());
+        getWithdrawContractAddr());
       const getGasPricePromise = getGasPrice()();
       Promise.all([getGasAmountPromise, getGasPricePromise]).then(([gasAmount, proposePrice]) => {
         gasPrice = proposePrice;
@@ -227,24 +206,6 @@ class Balance extends React.PureComponent {
     }
   }
 
-
-  handleSelectChain(chain, dispatch) {
-    dispatch(switchBlockchain(chain));
-  }
-
-  getTransactions = async () => {
-    api().get('/get_blockchain_transactions',{
-      params:{
-        chain_id:'0x7f93',
-        contract:'0x9636d3294e45823ec924c8d89dd1f1dffcf044e6',
-        function:'0xc0e37b15',
-        addr:'0xb00dde6ef23e9abbef4add78260ef61a16ac0212'
-      }
-    }).then(res => {
-      console.log(res)
-    })
-  }
-
   render() {
     const {new_balance, is_side_bar, intl, blockchain, dispatch} = this.props;
     let withdrawTitle = intl.formatMessage(messages.withdrawTitle);
@@ -257,24 +218,7 @@ class Balance extends React.PureComponent {
         alignItems: is_side_bar ? 'start' : 'center', gap: 5,
       }}>
         {process.env.REACT_APP_DAO === 'lovedao' &&
-          <Select
-            defaultValue={blockchain}
-            className={is_side_bar ? 'chain__selector__sidebar' : 'chain__selector'}
-            onSelect={(value) => this.handleSelectChain(value, dispatch)}
-          >
-            <Option value='polygon'>
-              <div className={'chain__selector__item'}>
-                <img src={POL_ICON} className={'chain__selector__icon'} alt={'polygon'}/>
-                {is_side_bar ? 'Polygon' : 'POL'}
-              </div>
-            </Option>
-            <Option value='bsc'>
-              <div className={'chain__selector__item'}>
-                <img src={BNB_ICON} className={'chain__selector__icon'} alt={'bsc'}/>
-                BSC
-              </div>
-            </Option>
-          </Select>
+          <BlockchainSelector is_side_bar={is_side_bar}/>
         }
         <div className={is_side_bar ? 'balance_span_sidebar' : 'balance_span'}>
           {is_side_bar && <Icon id={'diamond'} fixedWidth className='column-link__icon'/>}
@@ -301,6 +245,7 @@ class Balance extends React.PureComponent {
             {this.state.loading ? loadingTitle : (this.state.withdrawing ? withdrawingTitle : withdrawTitle)}
           </button>
         }
+
       </div>
     );
   }

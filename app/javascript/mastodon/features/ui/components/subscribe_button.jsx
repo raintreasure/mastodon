@@ -13,6 +13,7 @@ import {toast} from 'react-hot-toast';
 
 const mapStateToProps = state => ({
   account: state.getIn(['accounts', me]),
+  blockchain: state.getIn(['blockchain', 'chain']),
 });
 
 const toAccountNoAddress = 'The account you subscribe has no wallet address, you may remind the account owner to set wallet address';
@@ -46,7 +47,7 @@ class SubscribeButton extends React.PureComponent {
   static contextTypes = {
     identity: PropTypes.object.isRequired,
   };
-  confirmModal = (intl, dispatch, to_account, messages, subscribing) => {
+  confirmModal = (intl, dispatch, to_account, messages, subscribing, blockchain) => {
     const eth_address = to_account.get('eth_address');
     const toAccountId = to_account.get('id');
     const subscriptionFee = to_account.get('subscription_fee');
@@ -78,7 +79,7 @@ class SubscribeButton extends React.PureComponent {
           confirm: subscribing ? intl.formatMessage(messages.undoConfirm) : intl.formatMessage(messages.confirm),
           onConfirm: async () => {
             this.setState({loading: true});
-            transferERC20(eth_address, subscriptionFee).then(() => {
+            transferERC20(eth_address, subscriptionFee, blockchain, dispatch).then(() => {
               const postUrl = subscribing ? `/api/v1/accounts/${toAccountId}/unsubscribe` :
                 `/api/v1/accounts/${toAccountId}/subscribe`;
               if (subscribing) {
@@ -113,8 +114,8 @@ class SubscribeButton extends React.PureComponent {
 
 
   handleClick = () => {
-    const {intl, dispatch, to_account, subscribing} = this.props;
-    this.confirmModal(intl, dispatch, to_account, messages, subscribing);
+    const {intl, dispatch, to_account, subscribing, blockchain} = this.props;
+    this.confirmModal(intl, dispatch, to_account, messages, subscribing, blockchain);
   };
 
   render() {

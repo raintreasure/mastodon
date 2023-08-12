@@ -10,6 +10,7 @@ import DropdownMenuContainer from '../../../containers/dropdown_menu_container';
 
 const mapStateToProps = state => ({
   account: state.getIn(['accounts', me]),
+  blockchain: state.getIn(['blockchain', 'chain']),
 });
 
 const messages = defineMessages({
@@ -33,20 +34,20 @@ class TransferToken extends React.PureComponent {
   };
 
   transferPQCModal = () => {
-    const { intl, dispatch, to_account } = this.props;
-    transferModal(intl, dispatch, to_account, 'PQC');
+    const { intl, dispatch, to_account, blockchain } = this.props;
+    transferModal(intl, dispatch, to_account, 'PQC', blockchain);
   };
   transferCHINESEModal = () => {
-    const { intl, dispatch, to_account } = this.props;
-    transferModal(intl, dispatch, to_account, 'CHINESE');
+    const { intl, dispatch, to_account, blockchain } = this.props;
+    transferModal(intl, dispatch, to_account, 'CHINESE', blockchain);
   };
   transferLOVEModal = () => {
-    const { intl, dispatch, to_account } = this.props;
-    transferModal(intl, dispatch, to_account, 'LOVE');
+    const { intl, dispatch, to_account, blockchain } = this.props;
+    transferModal(intl, dispatch, to_account, 'LOVE', blockchain);
   };
   transferFaceDAOModal = () => {
-    const { intl, dispatch, to_account } = this.props;
-    transferModal(intl, dispatch, to_account, 'FaceDAO');
+    const { intl, dispatch, to_account, blockchain } = this.props;
+    transferModal(intl, dispatch, to_account, 'FaceDAO', blockchain);
   };
 
 

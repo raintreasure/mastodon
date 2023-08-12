@@ -1,10 +1,17 @@
 import axios from 'axios';
-import {transferAbi} from '../utils/web3';
+import {CHAIN_BSC, CHAIN_FUSION, CHAIN_POLYGON, getLoveAddr, transferAbi} from '../utils/web3';
 import BigNumber from 'bignumber.js';
+import {
+  CHINESE_CONTRACT_ADDR,
+  FACEDAO_CONTRACT_ADDR,
+  FSN_LOVE_CONTRACT_ADDR,
+  PQC_CONTRACT_ADDR
+} from "mastodon/actions/tokens";
+
 export const SWITCH_BLOCKCHAIN = 'SWITCH_BLOCKCHAIN';
 
-export const blockchains = new Map();
-blockchains.set('polygon', {
+export const web3authBlockchains = new Map();
+web3authBlockchains.set(CHAIN_POLYGON, {
   chainId: "0x89",
   displayName: "Polygon",
   chainNamespace: "eip155",
@@ -14,52 +21,178 @@ blockchains.set('polygon', {
   rpcTarget: "https://polygon-rpc.com",
   blockExplorer: "https://polygonscan.com/",
 });
-blockchains.set('bsc', {
+web3authBlockchains.set(CHAIN_BSC, {
   chainId: "0x38",
-  displayName: "BSC",
+  displayName: "Binance SmartChain Mainnet",
   chainNamespace: "eip155",
   tickerName: "BNB",
   ticker: "BNB",
   decimals: 18,
-  rpcTarget: "https://bsc-dataseed2.binance.org",
-  blockExplorer: "https://bscscan.com/",
+  rpcTarget: "https://rpc.ankr.com/bsc",
+  blockExplorer: "https://bscscan.com",
 });
+web3authBlockchains.set(CHAIN_FUSION, {
+  chainId: "0x7f93",
+  displayName: "Fusion",
+  chainNamespace: "eip155",
+  tickerName: "FSN",
+  ticker: "FSN",
+  decimals: 18,
+  rpcTarget: "https://mainnet.fusionnetwork.io",
+  blockExplorer: "https://fsnscan.com/",
+});
+
+export const eipBlockchains = new Map();
+eipBlockchains.set(CHAIN_BSC, {
+  "chainId": "0x38",
+  "chainName": "Binance SmartChain Mainnet",
+  "rpcUrls": [
+    "https://rpc.ankr.com/bsc"
+  ],
+  "nativeCurrency": {
+    "name": "BNB",
+    "symbol": "BNB",
+    "decimals": 18
+  },
+  "blockExplorerUrls": [
+    "https://bscscan.com/"
+  ]
+});
+eipBlockchains.set(CHAIN_POLYGON, {
+  "chainId": "0x89",
+  "chainName": "Polygon",
+  "rpcUrls": [
+    "https://polygon-rpc.com"
+  ],
+  "nativeCurrency": {
+    "name": "MATIC",
+    "symbol": "MATIC",
+    "decimals": 18
+  },
+  "blockExplorerUrls": [
+    "https://polygonscan.com/"
+  ]
+});
+eipBlockchains.set(CHAIN_FUSION, {
+  "chainId": "0x7f93",
+  "chainName": "Fusion",
+  "rpcUrls": [
+    "https://mainnet.fusionnetwork.io"
+  ],
+  "nativeCurrency": {
+    "name": "FSN",
+    "symbol": "FSN",
+    "decimals": 18
+  },
+  "blockExplorerUrls": [
+    "https://fsnscan.com/"
+  ]
+});
+
+export const switchToBSC = () => {
+  return async function (dispatch) {
+    const {ethereum} = window;
+    try {
+      ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{chainId: '0x38'}],
+      }).then(()=>{
+        dispatch(switchBlockchainSuccess(CHAIN_BSC));
+      });
+    } catch (switchError) {
+      // This error code indicates that the chain has not been added to MetaMask.
+      if (switchError.code === 4902) {
+        console.log('switch error, should add chain')
+      }
+    }
+  }
+}
+export const switchToFSN = () => {
+  return async function (dispatch) {
+    const {ethereum} = window;
+    try {
+      ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{chainId: '0x7f93'}],
+      }).then(()=>{
+        dispatch(switchBlockchainSuccess(CHAIN_FUSION));
+      });
+    } catch (switchError) {
+      // This error code indicates that the chain has not been added to MetaMask.
+      if (switchError.code === 4902) {
+        console.log('switch error, should add chain')
+      }
+    }
+  }
+}
+export const addBSC = () => {
+  return async function (dispatch) {
+    await window.ethereum.request({
+      "method": "wallet_addEthereumChain",
+      "params": [
+        {
+          "chainId": "0x38",
+          "chainName": "Binance smart chain",
+          "rpcUrls": [
+            "https://bsc-dataseed.binance.org/"
+          ],
+          "nativeCurrency": {
+            "name": "BNB",
+            "symbol": "BNB",
+            "decimals": 18
+          },
+          "blockExplorerUrls": [
+            "https://bscscan.com/"
+          ]
+        }
+      ]
+    });
+  }
+}
 
 export const switchBlockchain = (chain) => {
 
   // console.log(`going to switch to ${'goerli'}`);
   console.log(`going to switch to ${chain}`);
   return async function (dispatch) {
-    await web3auth.connect();
-    // const chainConfig = blockchains.get('goerli');
-    const chainConfig = blockchains.get(chain);
-    console.log(' chain config:', chainConfig);
+    const chainConfig = web3authBlockchains.get(chain);
     if (chainConfig && window.web3auth) {
       console.log(`web3auth is connected: ${window.web3auth.connected}`)
       console.log(`web3auth status: ${window.web3auth.status}`)
-      window.web3auth.switchChain({chainId: chainConfig.chainId}).then(async () => {
-        console.log('first switch success');
-        const Web3 = require('web3');
-        const web3 = new Web3(window.web3auth.provider);
-        const chainId = await web3.eth.getChainId();
-        console.log(`current chainid is ${chainId}`);
-        dispatch(switchBlockchainSuccess(chain));
-      }).catch(async (e) => {
-        console.log('first switch error:', e);
-        await window.web3auth.addChain(chainConfig)
-
+      if (window.web3auth.connected) {
         window.web3auth.switchChain({chainId: chainConfig.chainId}).then(async () => {
-            console.log('second switch success');
-            dispatch(switchBlockchainSuccess(chain));
-            const Web3 = require('web3');
-            const web3 = new Web3(window.web3auth.provider);
-            const chainId = await web3.eth.getChainId();
-            console.log(`current chainid is ${chainId}`);
-          },
-        ).catch(e => {
-          console.log('Failed to switch chain, error:', e);
+          const Web3 = require('web3');
+          const web3 = new Web3(window.web3auth.provider);
+          const chainId = await web3.eth.getChainId();
+          console.log(`current chainid is ${chainId}`);
+          dispatch(switchBlockchainSuccess(chain));
+        }).catch(async (e) => {
+          console.log('try add chain after first switch error:', e);
+          await window.web3auth.addChain(chainConfig)
         });
-      });
+      } else {
+        const {ethereum} = window;
+        const eipChainConfig = eipBlockchains.get(chain)
+        try {
+          ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{chainId: eipChainConfig.chainId}],
+          }).then(()=>{
+            dispatch(switchBlockchainSuccess(chain));
+          });
+        } catch (switchError) {
+          // This error code indicates that the chain has not been added to MetaMask.
+          if (switchError.code === 4902) {
+            console.log('switch error, try add chain')
+            ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [eipChainConfig],
+            }).then(()=>{
+              dispatch(switchBlockchainSuccess(chain));
+            });
+          }
+        }
+      }
     }
   };
 };
@@ -113,9 +246,9 @@ async function getFusionGasPrice() {
           headers: {
             'Content-Type': 'application/json',
           },
-        }).then(res=>{
-          resolve(BigNumber(res.data.result).dividedBy(1e9).toNumber());
-      }).catch(e=>{
+        }).then(res => {
+        resolve(BigNumber(res.data.result).dividedBy(1e9).toNumber());
+      }).catch(e => {
         console.log('get fsn gas price error:', e);
         reject(e);
       })
@@ -158,3 +291,18 @@ async function getPolygonGasPrice() {
     });
   });
 }
+
+export const getWithdrawContractAddr = () => {
+  switch (process.env.REACT_APP_DAO) {
+    case 'chinesedao':
+      return CHINESE_CONTRACT_ADDR;
+    case 'facedao':
+      return FACEDAO_CONTRACT_ADDR;
+    case 'lovedao':
+      return getLoveAddr();
+    case 'pqcdao':
+      return PQC_CONTRACT_ADDR;
+    default:
+      return CHINESE_CONTRACT_ADDR;
+  }
+};

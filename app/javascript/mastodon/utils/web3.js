@@ -1,13 +1,20 @@
 import {
+  BSC_LOVE_CONTRACT_ADDR,
   CHINESE_CONTRACT_ADDR,
   CHINESE_DECIMALS,
-  FACEDAO_CONTRACT_ADDR, FACEDAO_DECIMALS,
+  FACEDAO_CONTRACT_ADDR, FACEDAO_DECIMALS, FSN_LOVE_CONTRACT_ADDR,
   LOVE_CONTRACT_ADDR,
   LOVE_DECIMALS, PQC_CONTRACT_ADDR, PQC_DECIMALS,
 } from '../actions/tokens';
 import BigNumber from 'bignumber.js';
 import {Web3Auth} from "@web3auth/modal";
 import {getIcon} from "mastodon/components/logo";
+import Web3 from "web3";
+import {switchBlockchain} from "mastodon/actions/blockchain";
+
+export const CHAIN_FUSION = 'fusion';
+export const CHAIN_BSC = 'bsc';
+export const CHAIN_POLYGON = 'polygon';
 
 export function minifyAddress(address) {
   if (address.length < 16) return address;
@@ -71,12 +78,22 @@ export const getNativeToken = () => {
   }
 };
 
-export const getContractAddr = (token) => {
+export const getLoveAddr = (blockchain) => {
+  switch (blockchain) {
+    case CHAIN_FUSION:
+      return FSN_LOVE_CONTRACT_ADDR
+    case CHAIN_BSC:
+      return BSC_LOVE_CONTRACT_ADDR
+    default:
+      return FSN_LOVE_CONTRACT_ADDR
+  }
+}
+export const getContractAddr = (token, blockchain) => {
   switch (token) {
     case 'CHINESE':
       return CHINESE_CONTRACT_ADDR;
     case 'LOVE':
-      return LOVE_CONTRACT_ADDR;
+      return getLoveAddr(blockchain);
     case 'FaceDAO':
       return FACEDAO_CONTRACT_ADDR;
     case 'PQC':
@@ -187,4 +204,52 @@ export const initWeb3auth = async () => {
   });
   window.web3auth = web3auth;
   await web3auth.initModal();
+  web3auth.on("DISCONNECT", () => {
+    alert('web3auth disconnected')
+  })
+  web3auth.on("disconnect", () => {
+    alert('web3auth disconnected')
+  })
+  web3auth.on("disconnected", () => {
+    alert('web3auth disconnected')
+  })
+}
+
+export const getWeb3Intance = () => {
+  const Web3 = require('web3');
+  let web3Instance
+  if (window.web3auth && window.web3auth.connected) {
+    web3Instance = new Web3(window.web3auth.provider);
+  } else {
+    web3Instance = new Web3(Web3.givenProvider);
+  }
+  return web3Instance
+}
+export const getCurrentBlockchain = async () => {
+  const web3 = getWeb3Intance();
+  const currentChainId = await web3.eth.getChainId()
+  console.log("current chain id is ", currentChainId)
+  switch (currentChainId) {
+    case 56:
+      return CHAIN_BSC
+    case 138:
+      return CHAIN_POLYGON
+    case 32659:
+      return CHAIN_FUSION
+    default:
+      return CHAIN_FUSION
+  }
+}
+export const supportEIP1559 = (blockchain) => {
+  if (blockchain === CHAIN_BSC || blockchain === CHAIN_FUSION) {
+    return false;
+  }
+  return true
+}
+
+export const switchChainIfNeeded = async (expectedBlockchain, dispatch) => {
+  const currentBlockchain = await getCurrentBlockchain();
+  if (currentBlockchain !== expectedBlockchain) {
+    dispatch(switchBlockchain(expectedBlockchain));
+  }
 }

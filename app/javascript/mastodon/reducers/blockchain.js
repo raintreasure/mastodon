@@ -1,18 +1,19 @@
 import { Map as ImmutableMap } from 'immutable';
 import {SWITCH_BLOCKCHAIN} from "mastodon/actions/blockchain";
+import {CHAIN_BSC, CHAIN_FUSION} from "mastodon/utils/web3";
 
 const getDefaultChain = () => {
   switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
-      return 'fusion';
+      return CHAIN_FUSION;
     case 'facedao':
-      return 'bsc';
+      return CHAIN_BSC;
     case 'lovedao':
-      return 'fusion';
+      return CHAIN_FUSION;
     case 'pqcdao':
-      return 'fusion';
+      return CHAIN_FUSION;
     default:
-      return 'fusion';
+      return CHAIN_FUSION;
 
   }
 };
