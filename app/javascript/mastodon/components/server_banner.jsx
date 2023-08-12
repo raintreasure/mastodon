@@ -13,7 +13,7 @@ import ShortNumber from 'mastodon/components/short_number';
 import { Skeleton } from 'mastodon/components/skeleton';
 import Account from 'mastodon/containers/account_container';
 import { domain } from 'mastodon/initial_state';
-import {getServerName, getServerUrl} from "mastodon/utils/web3";
+import {getServerName, getServerUrl, getThumbnailUrl} from "mastodon/utils/web3";
 
 
 const mapStateToProps = state => ({
@@ -51,18 +51,18 @@ class ServerBanner extends PureComponent {
           />
         </div>
         {/* 左侧server_banner的插图部分*/}
-        <ServerHeroImage blurhash={server.getIn(['thumbnail', 'blurhash'])} src={server.getIn(['thumbnail', 'url'])} className='server-banner__hero' />
+        <ServerHeroImage blurhash={server.getIn(['thumbnail', 'blurhash'])} src={getThumbnailUrl()} className='server-banner__hero' />
 
         <div className='server-banner__description'>
-          {isLoading ? (
-            <>
-              <Skeleton width='100%' />
-              <br />
-              <Skeleton width='100%' />
-              <br />
-              <Skeleton width='70%' />
-            </>
-          ) : server.get('description')}
+          {/*{isLoading ? (*/}
+          {/*  <>*/}
+          {/*    <Skeleton width='100%' />*/}
+          {/*    <br />*/}
+          {/*    <Skeleton width='100%' />*/}
+          {/*    <br />*/}
+          {/*    <Skeleton width='70%' />*/}
+          {/*  </>*/}
+          {/*) : server.get('description')}*/}
         </div>
 
         {/*<div className='server-banner__meta'>*/}

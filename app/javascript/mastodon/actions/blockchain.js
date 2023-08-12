@@ -10,84 +10,88 @@ import {
 
 export const SWITCH_BLOCKCHAIN = 'SWITCH_BLOCKCHAIN';
 
-export const web3authBlockchains = new Map();
-web3authBlockchains.set(CHAIN_POLYGON, {
-  chainId: "0x89",
-  displayName: "Polygon",
-  chainNamespace: "eip155",
-  tickerName: "Matic",
-  ticker: "MATIC",
-  decimals: 18,
-  rpcTarget: "https://polygon-rpc.com",
-  blockExplorer: "https://polygonscan.com/",
-});
-web3authBlockchains.set(CHAIN_BSC, {
-  chainId: "0x38",
-  displayName: "Binance SmartChain Mainnet",
-  chainNamespace: "eip155",
-  tickerName: "BNB",
-  ticker: "BNB",
-  decimals: 18,
-  rpcTarget: "https://rpc.ankr.com/bsc",
-  blockExplorer: "https://bscscan.com",
-});
-web3authBlockchains.set(CHAIN_FUSION, {
-  chainId: "0x7f93",
-  displayName: "Fusion",
-  chainNamespace: "eip155",
-  tickerName: "FSN",
-  ticker: "FSN",
-  decimals: 18,
-  rpcTarget: "https://mainnet.fusionnetwork.io",
-  blockExplorer: "https://fsnscan.com/",
-});
+export const web3authBlockchains = new Map([
+  [CHAIN_POLYGON, {
+    chainId: "0x89",
+    displayName: "Polygon",
+    chainNamespace: "eip155",
+    tickerName: "Matic",
+    ticker: "MATIC",
+    decimals: 18,
+    rpcTarget: "https://polygon-rpc.com",
+    blockExplorer: "https://polygonscan.com/",
+  }],
+  [CHAIN_BSC, {
+    chainId: "0x38",
+    displayName: "Binance SmartChain Mainnet",
+    chainNamespace: "eip155",
+    tickerName: "BNB",
+    ticker: "BNB",
+    decimals: 18,
+    rpcTarget: "https://rpc.ankr.com/bsc",
+    blockExplorer: "https://bscscan.com",
+  }],
+  [CHAIN_FUSION, {
+    chainId: "0x7f93",
+    displayName: "Fusion",
+    chainNamespace: "eip155",
+    tickerName: "FSN",
+    ticker: "FSN",
+    decimals: 18,
+    rpcTarget: "https://mainnet.fusionnetwork.io",
+    blockExplorer: "https://fsnscan.com/",
+  }],
+]);
 
-export const eipBlockchains = new Map();
-eipBlockchains.set(CHAIN_BSC, {
-  "chainId": "0x38",
-  "chainName": "Binance SmartChain Mainnet",
-  "rpcUrls": [
-    "https://rpc.ankr.com/bsc"
-  ],
-  "nativeCurrency": {
-    "name": "BNB",
-    "symbol": "BNB",
-    "decimals": 18
-  },
-  "blockExplorerUrls": [
-    "https://bscscan.com/"
-  ]
-});
-eipBlockchains.set(CHAIN_POLYGON, {
-  "chainId": "0x89",
-  "chainName": "Polygon",
-  "rpcUrls": [
-    "https://polygon-rpc.com"
-  ],
-  "nativeCurrency": {
-    "name": "MATIC",
-    "symbol": "MATIC",
-    "decimals": 18
-  },
-  "blockExplorerUrls": [
-    "https://polygonscan.com/"
-  ]
-});
-eipBlockchains.set(CHAIN_FUSION, {
-  "chainId": "0x7f93",
-  "chainName": "Fusion",
-  "rpcUrls": [
-    "https://mainnet.fusionnetwork.io"
-  ],
-  "nativeCurrency": {
-    "name": "FSN",
-    "symbol": "FSN",
-    "decimals": 18
-  },
-  "blockExplorerUrls": [
-    "https://fsnscan.com/"
-  ]
-});
+
+export const eipBlockchains = new Map([
+  [CHAIN_BSC, {
+    "chainId": "0x38",
+    "chainName": "Binance SmartChain Mainnet",
+    "rpcUrls": [
+      "https://rpc.ankr.com/bsc"
+    ],
+    "nativeCurrency": {
+      "name": "BNB",
+      "symbol": "BNB",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://bscscan.com/"
+    ]
+  }],
+  [CHAIN_FUSION, {
+    "chainId": "0x7f93",
+    "chainName": "Fusion",
+    "rpcUrls": [
+      "https://mainnet.fusionnetwork.io"
+    ],
+    "nativeCurrency": {
+      "name": "FSN",
+      "symbol": "FSN",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://fsnscan.com/"
+    ]
+  }],
+  [CHAIN_POLYGON, {
+    "chainId": "0x89",
+    "chainName": "Polygon",
+    "rpcUrls": [
+      "https://polygon-rpc.com"
+    ],
+    "nativeCurrency": {
+      "name": "MATIC",
+      "symbol": "MATIC",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://polygonscan.com/"
+    ]
+  }],
+]);
+
 
 export const switchToBSC = () => {
   return async function (dispatch) {

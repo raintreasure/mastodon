@@ -17,7 +17,7 @@ import {Skeleton} from 'mastodon/components/skeleton';
 import LinkFooter from 'mastodon/features/ui/components/link_footer';
 import ChineseAbout from './chinese_about';
 import FaceAbout from './face_about';
-import {getServerName, getServerUrl} from "mastodon/utils/web3";
+import {getServerName, getServerUrl, getThumbnailUrl} from "mastodon/utils/web3";
 
 const messages = defineMessages({
   title: {id: 'column.about', defaultMessage: 'About'},
@@ -126,10 +126,10 @@ class About extends PureComponent {
       <Column bindToDocument={!multiColumn} label={intl.formatMessage(messages.title)}>
         <div className='scrollable about'>
           <div className='about__header'>
-            <ServerHeroImage blurhash={server.getIn(['thumbnail', 'blurhash'])} src={server.getIn(['thumbnail', 'url'])}
+            <ServerHeroImage blurhash={server.getIn(['thumbnail', 'blurhash'])} src={getThumbnailUrl()}
                              srcSet={server.getIn(['thumbnail', 'versions'])?.map((value, key) => `${value} ${key.replace('@', '')}`).join(', ')}
                              className='about__header__hero'/>
-            <h1>{isLoading ? <Skeleton width='10ch'/> : server.get('domain')}</h1>
+            {/*<h1>{isLoading ? <Skeleton width='10ch'/> : server.get('domain')}</h1>*/}
             <p><FormattedMessage
               id='about.powered_by' defaultMessage='Decentralized social media powered by {mastodon}'
               values={{
@@ -145,13 +145,13 @@ class About extends PureComponent {
           <Section open title={intl.formatMessage(messages.title)}>
             {extendedDescription.get('isLoading') ? (
               <>
-                <Skeleton width='100%'/>
-                <br/>
-                <Skeleton width='100%'/>
-                <br/>
-                <Skeleton width='100%'/>
-                <br/>
-                <Skeleton width='70%'/>
+                {/*<Skeleton width='100%'/>*/}
+                {/*<br/>*/}
+                {/*<Skeleton width='100%'/>*/}
+                {/*<br/>*/}
+                {/*<Skeleton width='100%'/>*/}
+                {/*<br/>*/}
+                {/*<Skeleton width='70%'/>*/}
               </>
             ) : (
               this.getAboutInfo()

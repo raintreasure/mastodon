@@ -25,6 +25,9 @@ class REST::InstanceSerializer < ActiveModel::Serializer
     if ENV['REACT_APP_DAO'] == 'lovedao'
       return 'media/images/preview-love.png'
     end
+    if ENV['REACT_APP_DAO'] == 'pqcdao'
+      return 'media/images/preview.png'
+    end
   end
   def thumbnail
 

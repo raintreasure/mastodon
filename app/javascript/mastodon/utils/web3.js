@@ -117,12 +117,29 @@ export const getContractDecimal = (token) => {
   }
 };
 
+export const getThumbnailUrl = ()=>{
+  switch (process.env.REACT_APP_DAO) {
+    case 'chinesedao':
+      return 'preview/preview-chinese.png';
+    case 'facedao':
+      return 'preview/preview-face.png';
+    case 'lovedao':
+      return 'preview/preview-love.png';
+    case 'pqcdao':
+      return '/preview/preview.png';
+    default:
+      return 'preview/preview.png';
+  }
+}
+
 export const getServerUrl = () => {
   switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
       return 'https://chinese.org';
     case 'facedao':
       return 'https://facedao.pro';
+    case 'lovedao':
+      return 'https://lovedao.org';
     case 'pqcdao':
       return 'https://pqc.org';
     default:
@@ -136,8 +153,10 @@ export const getServerName = () => {
       return 'ChineseDAO';
     case 'facedao':
       return 'FaceDAO';
+    case 'lovedao':
+      return 'LoveDAO';
     case 'pqcdao':
-      return 'PQCDAO';
+      return 'PQCdao';
     default:
       return 'ChineseDAO';
   }
