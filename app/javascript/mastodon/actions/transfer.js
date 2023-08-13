@@ -7,9 +7,10 @@ import {
   getAmountWithDecimals,
   getContractAddr,
   getNativeToken,
-  getWeb3Intance, supportEIP1559, switchChainIfNeeded,
+  getWeb3Intance, supportEIP1559,
   transferAbi
 } from '../utils/web3';
+import {switchChainIfNeeded} from "mastodon/actions/blockchain";
 
 const noAddrMessage = 'wallet address has not loaded, please try again or refresh the page';
 const toAccountNoAddress = 'The account you transferred to has no wallet address';

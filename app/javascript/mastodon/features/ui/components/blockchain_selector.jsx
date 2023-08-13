@@ -1,7 +1,7 @@
 import React from 'react';
 import {me} from "mastodon/initial_state";
-import {switchBlockchain} from "mastodon/actions/blockchain";
-import {CHAIN_BSC, CHAIN_FUSION, getCurrentBlockchain, getWeb3Intance, switchChainIfNeeded} from "mastodon/utils/web3";
+import {switchBlockchain, switchChainIfNeeded} from "mastodon/actions/blockchain";
+import {CHAIN_BSC, CHAIN_FUSION} from "mastodon/utils/web3";
 import {BNB_ICON, FSN_ICON} from "../../../../icons/data";
 import {Select} from "antd";
 import {injectIntl} from 'react-intl';

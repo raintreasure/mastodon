@@ -1,10 +1,9 @@
 import axios from 'axios';
-import {CHAIN_BSC, CHAIN_FUSION, CHAIN_POLYGON, getLoveAddr, transferAbi} from '../utils/web3';
+import {CHAIN_BSC, CHAIN_FUSION, CHAIN_POLYGON, getCurrentBlockchain, getLoveAddr, transferAbi} from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import {
   CHINESE_CONTRACT_ADDR,
   FACEDAO_CONTRACT_ADDR,
-  FSN_LOVE_CONTRACT_ADDR,
   PQC_CONTRACT_ADDR
 } from "mastodon/actions/tokens";
 
@@ -310,3 +309,10 @@ export const getWithdrawContractAddr = () => {
       return CHINESE_CONTRACT_ADDR;
   }
 };
+
+export const switchChainIfNeeded = async (expectedBlockchain, dispatch) => {
+  const currentBlockchain = await getCurrentBlockchain();
+  if (currentBlockchain !== expectedBlockchain) {
+    dispatch(switchBlockchain(expectedBlockchain));
+  }
+}

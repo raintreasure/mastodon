@@ -3,14 +3,11 @@ import {
   CHINESE_CONTRACT_ADDR,
   CHINESE_DECIMALS,
   FACEDAO_CONTRACT_ADDR, FACEDAO_DECIMALS, FSN_LOVE_CONTRACT_ADDR,
-  LOVE_CONTRACT_ADDR,
   LOVE_DECIMALS, PQC_CONTRACT_ADDR, PQC_DECIMALS,
 } from '../actions/tokens';
 import BigNumber from 'bignumber.js';
 import {Web3Auth} from "@web3auth/modal";
 import {getIcon} from "mastodon/components/logo";
-import Web3 from "web3";
-import {switchBlockchain} from "mastodon/actions/blockchain";
 
 export const CHAIN_FUSION = 'fusion';
 export const CHAIN_BSC = 'bsc';
@@ -264,11 +261,4 @@ export const supportEIP1559 = (blockchain) => {
     return false;
   }
   return true
-}
-
-export const switchChainIfNeeded = async (expectedBlockchain, dispatch) => {
-  const currentBlockchain = await getCurrentBlockchain();
-  if (currentBlockchain !== expectedBlockchain) {
-    dispatch(switchBlockchain(expectedBlockchain));
-  }
 }
