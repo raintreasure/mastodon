@@ -61,7 +61,7 @@ export async function transferERC20(token, address, amount, blockchain, dispatch
       let errMsg = '';
       if (error.data && error.data.message && error.data.message.includes('insufficient funds')) {
         errMsg = error.data.message;
-        suggestion = `please check your ${getNativeToken()} balance`;
+        suggestion = `please check your ${getNativeToken(blockchain)} balance`;
       } else if (!error.data && error.toString().includes('Error: Transaction has been reverted by the EVM')) {
         errMsg = 'Error: Transaction has been reverted by the EVM';
         suggestion = `please check your ${token} balance`;

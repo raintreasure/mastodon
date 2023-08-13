@@ -1,5 +1,13 @@
 import axios from 'axios';
-import {CHAIN_BSC, CHAIN_FUSION, CHAIN_POLYGON, getCurrentBlockchain, getLoveAddr, transferAbi} from '../utils/web3';
+import {
+  CHAIN_BSC,
+  CHAIN_FUSION,
+  CHAIN_POLYGON,
+  getCurrentBlockchain,
+  getLoveAddr,
+  getWeb3Intance,
+  transferAbi
+} from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import {
   CHINESE_CONTRACT_ADDR,
@@ -208,8 +216,7 @@ export function switchBlockchainSuccess(chain) {
 }
 
 export const getGasAmountForTransfer = async (fromAddress, toAddress, amount, contractAddress) => {
-  const Web3 = require('web3');
-  const web3 = new Web3(window.web3auth.provider);
+  const web3 = getWeb3Intance()
   const contract = new web3.eth.Contract(transferAbi, contractAddress);
   return new Promise((resolve, reject) => {
     contract.methods.transfer(toAddress, amount).estimateGas({from: fromAddress}).then(res => {
@@ -221,7 +228,7 @@ export const getGasAmountForTransfer = async (fromAddress, toAddress, amount, co
   });
 };
 
-export function getGasPrice() {
+export function getGasPrice_bak() {
   switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
       return getFusionGasPrice;
@@ -233,6 +240,19 @@ export function getGasPrice() {
       return getFusionGasPrice;
     default:
       return getPolygonGasPrice;
+  }
+}
+
+export function getGasPrice(blockchain) {
+  switch (blockchain) {
+    case CHAIN_FUSION:
+      return getFusionGasPrice;
+    case CHAIN_BSC:
+      return getBSCGasPrice;
+    case CHAIN_POLYGON:
+      return getPolygonGasPrice;
+    default:
+      return getFusionGasPrice;
   }
 }
 

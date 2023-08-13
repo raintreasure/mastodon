@@ -60,16 +60,14 @@ export const getEarnToken = () => {
   }
 };
 
-export const getNativeToken = () => {
-  switch (process.env.REACT_APP_DAO) {
-    case 'chinesedao':
+export const getNativeToken = (blockchain) => {
+  switch (blockchain) {
+    case CHAIN_FUSION:
       return 'FSN';
-    case 'facedao':
+    case CHAIN_BSC:
       return 'BNB';
-    case 'lovedao':
-      return 'FSN';
-    case 'pqcdao':
-      return 'FSN';
+    case CHAIN_POLYGON:
+      return 'POL';
     default:
       return 'FSN';
   }

@@ -11,11 +11,11 @@ import {me} from '../../../initial_state';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import {
   CHAIN_BSC,
-  CHAIN_FUSION,
+  CHAIN_FUSION, CHAIN_POLYGON,
   getAmountWithDecimals,
   getEarnToken,
   getNativeToken,
-  getNativeTokenDecimals,
+  getNativeTokenDecimals, getWeb3Intance,
   GWei
 } from '../../../utils/web3';
 import {
@@ -25,6 +25,7 @@ import {
 import BigNumber from 'bignumber.js';
 import {Select} from 'antd';
 import BlockchainSelector from "mastodon/features/ui/components/blockchain_selector";
+import blockchain from "mastodon/reducers/blockchain";
 
 const mapStateToProps = state => ({
   new_balance: state.getIn(['balance', 'new_balance']),
@@ -32,16 +33,14 @@ const mapStateToProps = state => ({
   blockchain: state.getIn(['blockchain', 'chain']),
 });
 
-export const getTokenUrl = () => {
-  switch (process.env.REACT_APP_DAO) {
-    case 'chinesedao':
+export const getTokenUrl = (blockchain) => {
+  switch (blockchain) {
+    case CHAIN_FUSION:
       return 'https://fsnscan.com/tokenholdings/';
-    case 'facedao':
+    case CHAIN_BSC:
       return 'https://bscscan.com/tokenholdings?a=';
-    case 'lovedao':
-      return 'https://fsnscan.com/tokenholdings/';
-    case 'pqcdao':
-      return 'https://fsnscan.com/tokenholdings/';
+    case  CHAIN_POLYGON:
+      return 'https://polygonscan.com/tokenholdings?a=';
     default:
       return 'https://fsnscan.com/tokenholdings/';
   }
@@ -78,6 +77,7 @@ class Balance extends React.PureComponent {
     dispatch: PropTypes.func.isRequired,
     intl: PropTypes.object.isRequired,
     account: ImmutablePropTypes.map.isRequired,
+    blockchain: PropTypes.string,
   };
   static contextTypes = {
     identity: PropTypes.object.isRequired,
@@ -96,9 +96,9 @@ class Balance extends React.PureComponent {
         return 'chinesedao';
     }
   }
-  withdraw = (intl, to_address, gas_price) => {
+  withdraw = (intl, to_address, gas_price, blockchain) => {
     api().get('/withdraw', {
-      params: {to_address, gas_price},
+      params: {to_address, gas_price, blockchain},
     }).then(() => {
       toast.success(intl.formatMessage(messages.withdrawSuccess));
       this.setState({withdrawing: false});
@@ -110,10 +110,9 @@ class Balance extends React.PureComponent {
   };
 
   openWithdrawModal = (eth_address, withdrawDipositValue, withdrawDipositValueInWei, gasPrice) => {
-    const {intl, dispatch} = this.props;
-    const Web3 = require('web3');
-    const web3 = new Web3(window.web3auth.provider);
-    const link = getTokenUrl() + `${eth_address}`;
+    const {intl, dispatch, blockchain} = this.props;
+    const web3 = getWeb3Intance()
+    const link = getTokenUrl(blockchain) + `${eth_address}`;
     dispatch(openModal({
       modalType: 'CONFIRM',
       modalProps: {
@@ -122,14 +121,14 @@ class Balance extends React.PureComponent {
             <p style={{textAlign: 'left'}}>{intl.formatMessage(messages.withdrawText, {
               rewardToken: getEarnToken(),
               gasValue: withdrawDipositValue,
-              nativeToken: getNativeToken(),
+              nativeToken: getNativeToken(blockchain),
             })}</p>
             <a href={link} target={'_blank'} style={{wordWrap: 'break-word'}}>{link}</a>
           </div>),
         confirm: intl.formatMessage(messages.confirmWithdraw),
         onConfirm: () => {
           this.setState({withdrawing: true});
-          // this.withdraw(intl, eth_address, gasPrice);
+          // this.withdraw(intl, eth_address, gasPrice, blockchain);
           // return;
           web3.eth.sendTransaction(
             {
@@ -141,7 +140,7 @@ class Balance extends React.PureComponent {
             web3.eth.getTransaction(receipt.transactionHash)
               .then(transaction => {
                 if (transaction.value.toString() === withdrawDipositValueInWei) {
-                  this.withdraw(intl, eth_address, gasPrice);
+                  this.withdraw(intl, eth_address, gasPrice, blockchain);
                 }
               }).catch(e => {
               console.log('get transaction error:', e);
@@ -155,7 +154,7 @@ class Balance extends React.PureComponent {
     }));
   };
   handleWithdrawClick = async () => {
-    const {intl, dispatch, new_balance} = this.props;
+    const {intl, dispatch, new_balance, blockchain} = this.props;
     const eth_address = this.props.account.get('eth_address');
     let gasValue = '0.001';
     let gasValueInWei = '1000000000000000';
@@ -166,7 +165,7 @@ class Balance extends React.PureComponent {
       const getGasAmountPromise = getGasAmountForTransfer(process.env.REACT_APP_BUFFER_ACCOUNT, eth_address,
         getAmountWithDecimals(new_balance.new_balance, getEarnToken()),
         getWithdrawContractAddr());
-      const getGasPricePromise = getGasPrice()();
+      const getGasPricePromise = getGasPrice(blockchain)();
       Promise.all([getGasAmountPromise, getGasPricePromise]).then(([gasAmount, proposePrice]) => {
         gasPrice = proposePrice;
         console.log('gas price is:', gasPrice, ' gas amount is :', gasAmount);
@@ -207,7 +206,7 @@ class Balance extends React.PureComponent {
   }
 
   render() {
-    const {new_balance, is_side_bar, intl, blockchain, dispatch} = this.props;
+    const {new_balance, is_side_bar, intl} = this.props;
     let withdrawTitle = intl.formatMessage(messages.withdrawTitle);
     let withdrawingTitle = intl.formatMessage(messages.withdrawingTitle);
     let loadingTitle = intl.formatMessage(messages.loadingTitle);

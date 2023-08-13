@@ -33,16 +33,14 @@ class TransactionsController < ApplicationController
   end
 
   def set_client
-    if ENV['REACT_APP_DAO'] == 'chinesedao'
+    case blockchain
+    when 'fusion'
       set_fsn_client
-    end
-    if ENV['REACT_APP_DAO'] == 'facedao'
+    when 'bsc'
       set_bsc_client
-    end
-    if ENV['REACT_APP_DAO'] == 'lovedao'
-      set_fsn_client
-    end
-    if ENV['REACT_APP_DAO'] == 'pqcdao'
+    when 'polygon'
+      set_pol_client
+    else
       set_fsn_client
     end
   end
@@ -126,6 +124,10 @@ class TransactionsController < ApplicationController
     params[:to_address]
   end
 
+  def blockchain
+    params[:blockchain]
+  end
+
   def gas_price
     params[:gas_price]
   end
@@ -142,7 +144,12 @@ class TransactionsController < ApplicationController
       return '0xb700597d8425CEd17677Bc68042D7d92764ACF59'
     end
     if ENV['REACT_APP_DAO'] == 'lovedao'
-      return '0x6452961D566449Fa5364a182B802a32E17F5cc5f'
+      if blockchain == 'bsc'
+        return '0x6452961D566449Fa5364a182B802a32E17F5cc5f'
+      end
+      if blockchain == 'fusion'
+        return '0xf5c5edf98c47bfe3a1d29c7ffe9a93ffc09a9205'
+      end
     end
     if ENV['REACT_APP_DAO'] == 'pqcdao'
       return '0xbd9749e4da1fb181ce6e413946cf760dec67b415'
