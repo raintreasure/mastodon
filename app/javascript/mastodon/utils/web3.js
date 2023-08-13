@@ -218,15 +218,15 @@ export const initWeb3auth = async () => {
   });
   window.web3auth = web3auth;
   await web3auth.initModal();
-  web3auth.on("DISCONNECT", () => {
-    alert('web3auth disconnected')
-  })
-  web3auth.on("disconnect", () => {
-    alert('web3auth disconnected')
-  })
-  web3auth.on("disconnected", () => {
-    alert('web3auth disconnected')
-  })
+  // web3auth.on("DISCONNECT", () => {
+  //   alert('web3auth disconnected')
+  // })
+  // web3auth.on("disconnect", () => {
+  //   alert('web3auth disconnected')
+  // })
+  // web3auth.on("disconnected", () => {
+  //   alert('web3auth disconnected')
+  // })
 }
 
 export const getWeb3Intance = () => {
