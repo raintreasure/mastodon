@@ -121,7 +121,7 @@ export const getThumbnailUrl = ()=>{
     case 'lovedao':
       return 'preview/preview-love.png';
     case 'pqcdao':
-      return '/preview/preview.png';
+      return '/preview/preview-pqc.jpg';
     default:
       return 'preview/preview.png';
   }
