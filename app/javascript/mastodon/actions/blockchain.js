@@ -164,18 +164,18 @@ export const addBSC = () => {
 export const switchBlockchain = (chain) => {
 
   // console.log(`going to switch to ${'goerli'}`);
-  console.log(`going to switch to ${chain}`);
+  // console.log(`going to switch to ${chain}`);
   return async function (dispatch) {
     const chainConfig = web3authBlockchains.get(chain);
     if (chainConfig && window.web3auth) {
-      console.log(`web3auth is connected: ${window.web3auth.connected}`)
-      console.log(`web3auth status: ${window.web3auth.status}`)
+      // console.log(`web3auth is connected: ${window.web3auth.connected}`)
+      // console.log(`web3auth status: ${window.web3auth.status}`)
       if (window.web3auth.connected) {
         window.web3auth.switchChain({chainId: chainConfig.chainId}).then(async () => {
           const Web3 = require('web3');
           const web3 = new Web3(window.web3auth.provider);
           const chainId = await web3.eth.getChainId();
-          console.log(`current chainid is ${chainId}`);
+          // console.log(`current chainid is ${chainId}`);
           dispatch(switchBlockchainSuccess(chain));
         }).catch(async (e) => {
           console.log('try add chain after first switch error:', e);
@@ -288,7 +288,7 @@ async function getBSCGasPrice() {
         apiKey: process.env.REACT_APP_BSCSCAN_API_KEY,
       },
     }).then(res => {
-      console.log('get bsc gas price:', res.data.result);
+      // console.log('get bsc gas price:', res.data.result);
       resolve(res.data.result.ProposeGasPrice);
     }).catch(e => {
       console.log('get bsc gas price error:', e);
@@ -306,7 +306,7 @@ async function getPolygonGasPrice() {
         apiKey: process.env.REACT_APP_POLYSCAN_API_KEY,
       },
     }).then(res => {
-      console.log('get pol gas price:', res.data);
+      // console.log('get pol gas price:', res.data);
       resolve(res.data.result.ProposeGasPrice);
     }).catch(e => {
       console.log('get pol gas price error:', e);

@@ -242,7 +242,7 @@ export const getWeb3Intance = () => {
 export const getCurrentBlockchain = async () => {
   const web3 = getWeb3Intance();
   const currentChainId = await web3.eth.getChainId()
-  console.log("current chain id is ", currentChainId)
+  // console.log("current chain id is ", currentChainId)
   switch (currentChainId) {
     case 56:
       return CHAIN_BSC

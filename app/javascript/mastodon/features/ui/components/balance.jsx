@@ -59,7 +59,11 @@ const messages = defineMessages({
   withdrawSuccess: {id: 'balance.withdraw.success', defaultMessage: 'Your withdrawal has been successfully processed.'},
   withdrawFail: {
     id: 'balance.withdraw.fail',
-    defaultMessage: 'Withdraw failed, please try again or contact twitter{twitterAccount} for help, error message: ',
+    defaultMessage: 'Withdraw failed, please try again or contact twitter@{twitterAccount} for help, error message: ',
+  },
+  insufficientGas: {
+    id: 'balance.withdraw.insufficientgas',
+    defaultMessage: 'Failed to send gas because of insufficient {token} balance, deposit some {token} first or contact twitter@{twitterAccount} for help',
   },
   willReward: {id: 'balance.reward.hint', defaultMessage: 'you will receive a reward of '},
 
@@ -146,7 +150,11 @@ class Balance extends React.PureComponent {
               console.log('get transaction error:', e);
             });
           }).catch((e) => {
-            console.log('send transaction error:', e);
+            if (e.data.message.includes('insufficient funds')) {
+              toast.error(intl.formatMessage(messages.insufficientGas, {token: getNativeToken(), twitterAccount: this.getTwitterAccount()}));
+            }else {
+              toast.error(intl.formatMessage(messages.withdrawFail, {twitterAccount: this.getTwitterAccount()}) + e.data.message);
+            }
             this.setState({withdrawing: false});
           });
         },
@@ -168,11 +176,11 @@ class Balance extends React.PureComponent {
       const getGasPricePromise = getGasPrice(blockchain)();
       Promise.all([getGasAmountPromise, getGasPricePromise]).then(([gasAmount, proposePrice]) => {
         gasPrice = proposePrice;
-        console.log('gas price is:', gasPrice, ' gas amount is :', gasAmount);
+        // console.log('gas price is:', gasPrice, ' gas amount is :', gasAmount);
         gasValueInWei = new BigNumber(gasAmount).multipliedBy(gasPrice).multipliedBy(GWei);
-        console.log('gasValueInWei:', gasValueInWei);
+        // console.log('gasValueInWei:', gasValueInWei);
         gasValue = gasValueInWei.dividedBy(getNativeTokenDecimals()).toString();
-        console.log('gasValue:', gasValue);
+        // console.log('gasValue:', gasValue);
         this.openWithdrawModal(eth_address, gasValue, gasValueInWei.toFixed(0), gasPrice);
       }).catch(e => {
         console.log(e);

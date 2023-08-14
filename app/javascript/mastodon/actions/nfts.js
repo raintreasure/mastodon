@@ -49,7 +49,7 @@ const getOpenseaAssetsByGraphql = async (address, chain) => {
       headers: { accept: 'application/json', 'X-API-KEY': OPENSEA_API_KEY },
     })
     .then(response => {
-      console.log(response.data);
+      // console.log(response.data);
     })
     .catch(error => {
       console.log(error);

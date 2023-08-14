@@ -174,7 +174,7 @@ async function getPQCBalance(accountId, address, dispatch) {
   const contractAddress = PQC_CONTRACT_ADDR;
   const contract = new web3.eth.Contract(balanceOfAbi, contractAddress);
   const price = await fetchTokenPrice('PQC');
-  console.log('pqc price is ', price);
+  // console.log('pqc price is ', price);
   contract.methods.balanceOf(address).call((error, result) => {
     if (!error && result) {
       const balanceWithDecimals = new BigNumber(result).dividedBy(PQC_DECIMALS).toFixed(TOKEN_SHOWN_DECIMALS);

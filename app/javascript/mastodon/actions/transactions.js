@@ -35,8 +35,8 @@ async function getFSNTransactions(accountId, contract, addr, dispatch) {
       addr: addr.toLowerCase()
     }
   }).then(res => {
-    console.log(res)
-    console.log(res.data)
+    // console.log(res)
+    // console.log(res.data)
     const transactions = res.data.map(d => {
       return {
         hash:d.trx_hash,
