@@ -14,11 +14,13 @@ class Transaction extends ImmutablePureComponent {
     value: PropTypes.string.isRequired,
     token: PropTypes.string.isRequired,
     createTime: PropTypes.string.isRequired,
+    message: PropTypes.string,
   };
 
   render() {
-    const { isIndirection, peerAddress, value, token, createTime } = this.props;
-
+    const { isIndirection, peerAddress, value, token, createTime, message } = this.props;
+    // console.log('message is ', message)
+    // console.log('message type is ', typeof message)
     return (
       <div className={'tokens__transactions'}>
         <div className={'tokens__transactions__info'}>
@@ -30,6 +32,7 @@ class Transaction extends ImmutablePureComponent {
           </div>
           <div className={'tokens__transactions__sender'}>
             <p>{window.innerWidth >= 600 ? peerAddress : minifyAddress(peerAddress)}</p>
+            {message && <p style={{fontWeight:'bold'}}>"{message}"</p>}
             <p className={'tokens__transactions__time'}>{createTime}</p>
           </div>
         </div>

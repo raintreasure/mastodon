@@ -1,18 +1,19 @@
 import axios from 'axios';
 import {
   CHINESE_CONTRACT_ADDR,
-  LOVE_CONTRACT_ADDR,
   FACEDAO_CONTRACT_ADDR,
   FSN_USDT_CONTRACT_ADDR,
-  PQC_CONTRACT_ADDR
+  PQC_CONTRACT_ADDR, FSN_LOVE_CONTRACT_ADDR, BSC_LOVE_CONTRACT_ADDR
 } from './tokens';
 import api from "mastodon/api";
+import {CHAIN_BSC, CHAIN_FUSION} from "mastodon/utils/web3";
 
 export const FETCH_TRANSACTIONS_REQUEST = 'FETCH_TRANSACTIONS_REQUEST';
 export const FETCH_TRANSACTIONS_SUCCESS = 'FETCH_TRANSACTIONS_SUCCESS';
 export const FETCH_MORE_TRANSACTIONS_SUCCESS = 'FETCH_MORE_TRANSACTIONS_SUCCESS';
 const transferDataFuncHash = '0xc0e37b15';
-export function fetchTransactions(accountId, address) {
+
+export function fetchTransactions(accountId, address, blockchain) {
   return (dispatch) => {
     dispatch(fetchTransactionsRequest);
     if (process.env.REACT_APP_DAO === 'chinesedao') {
@@ -23,6 +24,14 @@ export function fetchTransactions(accountId, address) {
     }
     if (process.env.REACT_APP_DAO === 'pqcdao') {
       void getFSNTransactions(accountId, PQC_CONTRACT_ADDR, address, dispatch);
+    }
+    if (process.env.REACT_APP_DAO === 'lovedao') {
+      console.log('enter lovedao branch, start to get transactions, blockchain is ', blockchain)
+      if (blockchain === CHAIN_BSC) {
+        void getBscLoveTransactions(accountId, address, dispatch)
+      }else if (blockchain === CHAIN_FUSION ) {
+        void getFSNTransactions(accountId, FSN_LOVE_CONTRACT_ADDR, address, dispatch);
+      }
     }
   };
 }
@@ -39,11 +48,13 @@ async function getFSNTransactions(accountId, contract, addr, dispatch) {
     // console.log(res.data)
     const transactions = res.data.map(d => {
       return {
-        hash:d.trx_hash,
-        from:d.from,
-        to:d.to,
-        value:d.value,
-        timeStamp:d.timestamp
+        hash: d.trx_hash,
+        from: d.from,
+        to: d.to,
+        value: d.value,
+        timeStamp: d.timestamp,
+        message: d.message,
+        tokenSymbol: 'LOVE',
       }
     })
     dispatch(fetchTransactionsSuccess(accountId, transactions, 1));
@@ -162,6 +173,28 @@ async function getBscLoveAndFaceTransactions(accountId, address, dispatch) {
         console.log('error: ', e);
       });
     },
+  ).catch(e => {
+    console.log('error: ', e);
+  });
+}
+
+async function getBscLoveTransactions(accountId, address, dispatch) {
+  axios.get('https://api.bscscan.com/api', {
+    params: {
+      module: 'account',
+      action: 'tokentx',
+      contractAddress: BSC_LOVE_CONTRACT_ADDR,
+      address: address,
+      startblock: 0,
+      endblock: 99999999,
+      page: 1,
+      offset: 1000,
+      sort: 'desc',
+      apiKey: process.env.REACT_APP_BSCSCAN_API_KEY,
+    },
+  }).then(loveRes => {
+      dispatch(fetchTransactionsSuccess(accountId, loveRes.data.result, 1));
+    }
   ).catch(e => {
     console.log('error: ', e);
   });

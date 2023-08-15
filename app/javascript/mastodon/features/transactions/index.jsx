@@ -41,6 +41,7 @@ const mapStateToProps = (state, { params: { acct, id } }) => {
     isLoading: state.getIn(['tokens', 'transactions', accountId, 'isLoading'], true),
     hidden: getAccountHidden(state, accountId),
     blockedBy: state.getIn(['relationships', accountId, 'blocked_by'], false),
+    blockchain: state.getIn(['blockchain', 'chain']),
   };
 };
 
@@ -71,13 +72,14 @@ class Transactions extends ImmutablePureComponent {
     multiColumn: PropTypes.bool,
     transactions: PropTypes.array,
     currentPage: PropTypes.number,
+    blockchain: PropTypes.string,
   };
 
   _load() {
-    const { accountId, isAccount, dispatch, account } = this.props;
+    const { accountId, isAccount, dispatch, account, blockchain } = this.props;
     if (!isAccount) dispatch(fetchAccount(accountId));
     // dispatch(fetchTransactions(accountId, account.get('eth_address')));
-    dispatch(fetchTransactions(accountId, account.get("eth_address")));
+    dispatch(fetchTransactions(accountId, account.get("eth_address"), blockchain));
   }
 
   componentDidMount() {
@@ -91,9 +93,9 @@ class Transactions extends ImmutablePureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { params: { acct }, accountId, dispatch } = this.props;
+    const { params: { acct }, accountId, dispatch, blockchain } = this.props;
 
-    if (prevProps.accountId !== accountId && accountId) {
+    if (prevProps.accountId !== accountId && accountId || prevProps.blockchain !== blockchain) {
       this._load();
     } else if (prevProps.params.acct !== acct) {
       dispatch(lookupAccount(acct));
@@ -179,6 +181,7 @@ class Transactions extends ImmutablePureComponent {
           peerAddress={t.to === addressInLower ? t.from : t.to} value={t.value}
           token={t.tokenSymbol}
           createTime={this.formatTime(t.timeStamp)}
+          message = {t.message}
         />))}
       </ScrollableList>
     </Column>);

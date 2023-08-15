@@ -1,9 +1,18 @@
 import {
-  BSC_LOVE_CONTRACT_ADDR,
+  BSC_ETH_CONTRACT_ADDR,
+  BSC_LOVE_CONTRACT_ADDR, BSC_USDC_CONTRACT_ADDR,
+  BSC_USDT_CONTRACT_ADDR,
   CHINESE_CONTRACT_ADDR,
   CHINESE_DECIMALS,
-  FACEDAO_CONTRACT_ADDR, FACEDAO_DECIMALS, FSN_LOVE_CONTRACT_ADDR,
-  LOVE_DECIMALS, PQC_CONTRACT_ADDR, PQC_DECIMALS,
+  FACEDAO_CONTRACT_ADDR,
+  FACEDAO_DECIMALS,
+  FSN_ETH_CONTRACT_ADDR,
+  FSN_LOVE_CONTRACT_ADDR,
+  FSN_USDC_CONTRACT_ADDR,
+  FSN_USDT_CONTRACT_ADDR,
+  LOVE_DECIMALS,
+  PQC_CONTRACT_ADDR,
+  PQC_DECIMALS,
 } from '../actions/tokens';
 import BigNumber from 'bignumber.js';
 import {Web3Auth} from "@web3auth/modal";
@@ -12,7 +21,9 @@ import {getIcon} from "mastodon/components/logo";
 export const CHAIN_FUSION = 'fusion';
 export const CHAIN_BSC = 'bsc';
 export const CHAIN_POLYGON = 'polygon';
-
+export const BSC_RPC_URL = 'https://bsc-dataseed2.binance.org';
+export const POL_RPC_URL = 'https://polygon-rpc.com';
+export const FSN_RPC_URL = 'https://mainnet.fusionnetwork.io'
 export function minifyAddress(address) {
   if (address.length < 16) return address;
   const start = address.slice(0, 7);
@@ -72,7 +83,18 @@ export const getNativeToken = (blockchain) => {
       return 'FSN';
   }
 };
-
+export const getGatewayUrl = (blockchain) =>{
+  switch (blockchain) {
+    case CHAIN_FUSION:
+      return FSN_RPC_URL
+    case CHAIN_BSC:
+      return BSC_RPC_URL
+    case CHAIN_POLYGON:
+      return POL_RPC_URL
+    default:
+      return FSN_RPC_URL
+  }
+}
 export const getLoveAddr = (blockchain) => {
   switch (blockchain) {
     case CHAIN_FUSION:
@@ -81,6 +103,36 @@ export const getLoveAddr = (blockchain) => {
       return BSC_LOVE_CONTRACT_ADDR
     default:
       return FSN_LOVE_CONTRACT_ADDR
+  }
+}
+export const getEthAddr = (blockchain) => {
+  switch (blockchain) {
+    case CHAIN_FUSION:
+      return FSN_ETH_CONTRACT_ADDR
+    case CHAIN_BSC:
+      return BSC_ETH_CONTRACT_ADDR
+    default:
+      return FSN_ETH_CONTRACT_ADDR
+  }
+}
+export const getUsdtAddr = (blockchain) => {
+  switch (blockchain) {
+    case CHAIN_FUSION:
+      return FSN_USDT_CONTRACT_ADDR
+    case CHAIN_BSC:
+      return BSC_USDT_CONTRACT_ADDR
+    default:
+      return FSN_USDT_CONTRACT_ADDR
+  }
+}
+export const getUsdcAddr = (blockchain) => {
+  switch (blockchain) {
+    case CHAIN_FUSION:
+      return FSN_USDC_CONTRACT_ADDR
+    case CHAIN_BSC:
+      return BSC_USDC_CONTRACT_ADDR
+    default:
+      return FSN_USDC_CONTRACT_ADDR
   }
 }
 export const getContractAddr = (token, blockchain) => {
@@ -119,7 +171,7 @@ export const getThumbnailUrl = ()=>{
     case 'facedao':
       return 'preview/preview-face.png';
     case 'lovedao':
-      return 'preview/preview-love.png';
+      return 'preview/preview-love.jpg';
     case 'pqcdao':
       return '/preview/preview-pqc.jpg';
     default:

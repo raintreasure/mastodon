@@ -162,28 +162,30 @@ export const addBSC = () => {
 }
 
 export const switchBlockchain = (chain) => {
-
+  // if (!chain) {
+  //   console.log('enter here switchBlockchain')
+  //   return
+  // }
   // console.log(`going to switch to ${'goerli'}`);
-  // console.log(`going to switch to ${chain}`);
   return async function (dispatch) {
+    // console.log(`going to switch to ${chain}`);
     const chainConfig = web3authBlockchains.get(chain);
+    // console.log(`chainConfig is ${chainConfig}`);
     if (chainConfig && window.web3auth) {
       // console.log(`web3auth is connected: ${window.web3auth.connected}`)
       // console.log(`web3auth status: ${window.web3auth.status}`)
       if (window.web3auth.connected) {
         window.web3auth.switchChain({chainId: chainConfig.chainId}).then(async () => {
-          const Web3 = require('web3');
-          const web3 = new Web3(window.web3auth.provider);
-          const chainId = await web3.eth.getChainId();
-          // console.log(`current chainid is ${chainId}`);
           dispatch(switchBlockchainSuccess(chain));
         }).catch(async (e) => {
-          console.log('try add chain after first switch error:', e);
+          // console.log('try add chain after first switch error:', e);
           await window.web3auth.addChain(chainConfig)
+          dispatch(switchBlockchainSuccess(chain));
         });
       } else {
         const {ethereum} = window;
         const eipChainConfig = eipBlockchains.get(chain)
+        // console.log('going to use eip method to switch chain to ', chain)
         try {
           ethereum.request({
             method: 'wallet_switchEthereumChain',
@@ -194,7 +196,7 @@ export const switchBlockchain = (chain) => {
         } catch (switchError) {
           // This error code indicates that the chain has not been added to MetaMask.
           if (switchError.code === 4902) {
-            console.log('switch error, try add chain')
+            // console.log('switch error, try add chain')
             ethereum.request({
               method: 'wallet_addEthereumChain',
               params: [eipChainConfig],

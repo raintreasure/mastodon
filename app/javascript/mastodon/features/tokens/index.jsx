@@ -27,6 +27,7 @@ import {
   LOVE_ICON,
   FSN_ICON, PQC_ICON,
 } from '../../../icons/data';
+import {CHAIN_BSC, CHAIN_FUSION, CHAIN_POLYGON} from "mastodon/utils/web3";
 
 const mapStateToProps = (state, { params: { acct, id } }) => {
   const accountId = id || state.getIn(['accounts_map', normalizeForLookup(acct)]);
@@ -68,6 +69,7 @@ const mapStateToProps = (state, { params: { acct, id } }) => {
     suspended: state.getIn(['accounts', accountId, 'suspended'], false),
     hidden: getAccountHidden(state, accountId),
     blockedBy: state.getIn(['relationships', accountId, 'blocked_by'], false),
+    blockchain: state.getIn(['blockchain', 'chain']),
   };
 };
 
@@ -118,13 +120,14 @@ class Tokens extends ImmutablePureComponent {
     valueFSN: PropTypes.string,
     balancePQC: PropTypes.string,
     valuePQC: PropTypes.string,
+    blockchain: PropTypes.string,
   };
 
   _load() {
-    const { accountId, isAccount, dispatch, account } = this.props;
+    const { accountId, isAccount, dispatch, account, blockchain } = this.props;
 
     if (!isAccount) dispatch(fetchAccount(accountId));
-    dispatch(fetchTokens(accountId, account.get('eth_address')));
+    dispatch(fetchTokens(accountId, account.get('eth_address'),blockchain));
   }
 
   componentDidMount() {
@@ -138,9 +141,9 @@ class Tokens extends ImmutablePureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { params: { acct }, accountId, dispatch } = this.props;
+    const { params: { acct }, accountId, dispatch, blockchain} = this.props;
 
-    if (prevProps.accountId !== accountId && accountId) {
+    if (prevProps.accountId !== accountId && accountId || prevProps.blockchain !== blockchain) {
       this._load();
     } else if (prevProps.params.acct !== acct) {
       dispatch(lookupAccount(acct));
@@ -152,7 +155,7 @@ class Tokens extends ImmutablePureComponent {
       accountId, blockedBy, isAccount, multiColumn, suspended, hidden, remote, remoteUrl,
       balancePOL, balanceBNB, balanceCHINESE, balanceETH, balanceUSDT, balanceUSDC, balanceFaceDAO, balanceLOVE,
       valuePOL, valueBNB, valueCHINESE, valueETH, valueUSDT, valueUSDC, valueLOVE, valueFaceDAO,balanceFSN, valueFSN,
-      balancePQC, valuePQC,
+      balancePQC, valuePQC, blockchain
     } = this.props;
     if (!isAccount) {
       return (
@@ -188,7 +191,7 @@ class Tokens extends ImmutablePureComponent {
           :
           <div className={'token'}>
             <div className={'token__wrapper'}>
-              {process.env.REACT_APP_DAO === 'chinesedao' &&
+              {(blockchain === CHAIN_FUSION) &&
                 <div className={'token__item'}>
                   <div className={'token__symbol'}>
                     <img src={FSN_ICON} className={'token__icon'} alt={'FSN_ICON'} />
@@ -200,7 +203,7 @@ class Tokens extends ImmutablePureComponent {
                   </div>
                 </div>
               }
-              {process.env.REACT_APP_DAO === 'facedao' &&
+              {blockchain === CHAIN_BSC &&
                 <div className={'token__item'}>
                   <div className={'token__symbol'}>
                     <img src={BNB_ICON} className={'token__icon'} alt={'BNB_ICON'} />
@@ -212,18 +215,19 @@ class Tokens extends ImmutablePureComponent {
                   </div>
                 </div>
               }
-              {process.env.REACT_APP_DAO === 'pqcdao' &&
+              {blockchain === CHAIN_POLYGON &&
                 <div className={'token__item'}>
                   <div className={'token__symbol'}>
-                    <img src={FSN_ICON} className={'token__icon'} alt={'FSN_ICON'} />
-                    <span>FSN</span>
+                    <img src={POL_ICON} className={'token__icon'} alt={'POL_ICON'} />
+                    <span>POL</span>
                   </div>
                   <div className={'token__nums'}>
-                    <p className={'token__nums__balance'}>{balanceFSN}</p>
-                    <p className={'token__nums__value'}>$ {valueFSN}</p>
+                    <p className={'token__nums__balance'}>{balancePOL}</p>
+                    <p className={'token__nums__value'}>$ {valuePOL}</p>
                   </div>
                 </div>
               }
+
               {process.env.REACT_APP_DAO === 'chinesedao' &&
                 <div className={'token__item'}>
                   <div className={'token__symbol'}>
@@ -260,7 +264,18 @@ class Tokens extends ImmutablePureComponent {
                   </div>
                 </div>
               }
-
+              {process.env.REACT_APP_DAO === 'lovedao' &&
+                <div className={'token__item'}>
+                  <div className={'token__symbol'}>
+                    <img src={LOVE_ICON} className={'token__icon'} alt={'LOVE_ICON'} />
+                    <span>LOVE</span>
+                  </div>
+                  <div className={'token__nums'}>
+                    <p className={'token__nums__balance'}>{balanceLOVE}</p>
+                    <p className={'token__nums__value'}>$ {valueLOVE}</p>
+                  </div>
+                </div>
+              }
               <div className={'token__item'}>
                 <div className={'token__symbol'}>
                   <img src={ETH_ICON} className={'token__icon'} alt={'ETH_ICON'} />

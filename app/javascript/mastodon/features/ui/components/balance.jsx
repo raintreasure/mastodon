@@ -23,9 +23,7 @@ import {
   getGasPrice, getWithdrawContractAddr,
 } from '../../../actions/blockchain';
 import BigNumber from 'bignumber.js';
-import {Select} from 'antd';
 import BlockchainSelector from "mastodon/features/ui/components/blockchain_selector";
-import blockchain from "mastodon/reducers/blockchain";
 
 const mapStateToProps = state => ({
   new_balance: state.getIn(['balance', 'new_balance']),
@@ -148,12 +146,13 @@ class Balance extends React.PureComponent {
                 }
               }).catch(e => {
               console.log('get transaction error:', e);
+              this.setState({withdrawing: false});
             });
           }).catch((e) => {
-            if (e.data.message.includes('insufficient funds')) {
+            if (e && e.data && e.data.message.includes('insufficient funds')) {
               toast.error(intl.formatMessage(messages.insufficientGas, {token: getNativeToken(), twitterAccount: this.getTwitterAccount()}));
             }else {
-              toast.error(intl.formatMessage(messages.withdrawFail, {twitterAccount: this.getTwitterAccount()}) + e.data.message);
+              toast.error(intl.formatMessage(messages.withdrawFail, {twitterAccount: this.getTwitterAccount()}) + this.parseError(e));
             }
             this.setState({withdrawing: false});
           });
@@ -161,6 +160,17 @@ class Balance extends React.PureComponent {
       }
     }));
   };
+  parseError = (e)=>{
+    if (!e){
+      return ""
+    }
+    if(e.message) {
+      return e.message
+    }
+    if(e.data) {
+      return e.data.message
+    }
+  }
   handleWithdrawClick = async () => {
     const {intl, dispatch, new_balance, blockchain} = this.props;
     const eth_address = this.props.account.get('eth_address');

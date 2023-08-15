@@ -1,4 +1,13 @@
 import Web3 from "web3";
+import {
+  CHAIN_BSC,
+  CHAIN_FUSION,
+  getEthAddr,
+  getGatewayUrl,
+  getLoveAddr,
+  getUsdcAddr,
+  getUsdtAddr
+} from "mastodon/utils/web3";
 
 const axios = require('axios').default;
 
@@ -129,13 +138,14 @@ async function getCHINESEBalance(accountId, address, dispatch) {
 }
 
 
-async function getLOVEBalance(accountId, address, dispatch) {
+async function getLOVEBalance(accountId, address, dispatch, blockchain) {
   const Web3 = require('web3');
-  const provider = new Web3.providers.HttpProvider(BSC_RPC_URL);
+  const provider = new Web3.providers.HttpProvider(getGatewayUrl(blockchain));
   const web3 = new Web3(provider);
-  const contractAddress = LOVE_CONTRACT_ADDR;
+  const contractAddress = getLoveAddr(blockchain);
   const contract = new web3.eth.Contract(balanceOfAbi, contractAddress);
   const price = await fetchTokenPrice('LOVE');
+
   contract.methods.balanceOf(address).call((error, result) => {
     if (!error && result) {
       const balanceWithDecimals = new BigNumber(result).dividedBy(LOVE_DECIMALS).toFixed(TOKEN_SHOWN_DECIMALS);
@@ -206,7 +216,8 @@ async function getPQCBalance(accountId, address, dispatch) {
 //   });
 // }
 
-async function getETHBalance(accountId, address, dispatch) {
+
+async function getETHBalance(accountId, address, dispatch, blockchain) {
   let contractAddr = '';
   let rpc_url = '';
   switch (process.env.REACT_APP_DAO) {
@@ -219,8 +230,8 @@ async function getETHBalance(accountId, address, dispatch) {
       rpc_url = BSC_RPC_URL;
       break;
     case 'lovedao':
-      contractAddr = FSN_ETH_CONTRACT_ADDR;
-      rpc_url = FSN_RPC_URL;
+      contractAddr = getEthAddr(blockchain);
+      rpc_url = getGatewayUrl(blockchain);
       break;
     case 'pqcdao':
       contractAddr = FSN_ETH_CONTRACT_ADDR;
@@ -247,7 +258,7 @@ async function getETHBalance(accountId, address, dispatch) {
   });
 }
 
-async function getUSDTBalance(accountId, address, dispatch) {
+async function getUSDTBalance(accountId, address, dispatch, blockchain) {
   let contractAddr = '';
   let rpc_url = '';
   switch (process.env.REACT_APP_DAO) {
@@ -260,8 +271,8 @@ async function getUSDTBalance(accountId, address, dispatch) {
       rpc_url = BSC_RPC_URL;
       break;
     case 'lovedao':
-      contractAddr = FSN_USDT_CONTRACT_ADDR;
-      rpc_url = FSN_RPC_URL;
+      contractAddr = getUsdtAddr(blockchain);
+      rpc_url = getGatewayUrl(blockchain);
       break;
     case 'pqcdao':
       contractAddr = FSN_USDT_CONTRACT_ADDR;
@@ -288,7 +299,7 @@ async function getUSDTBalance(accountId, address, dispatch) {
   });
 }
 
-async function getUSDCBalance(accountId, address, dispatch) {
+async function getUSDCBalance(accountId, address, dispatch, blockchain) {
   let contractAddr = '';
   let rpc_url = '';
   switch (process.env.REACT_APP_DAO) {
@@ -301,8 +312,8 @@ async function getUSDCBalance(accountId, address, dispatch) {
       rpc_url = BSC_RPC_URL;
       break;
     case 'lovedao':
-      contractAddr = FSN_USDC_CONTRACT_ADDR;
-      rpc_url = FSN_RPC_URL;
+      contractAddr = getUsdcAddr(blockchain)
+      rpc_url = getGatewayUrl(blockchain);
       break;
     case 'pqcdao':
       contractAddr = FSN_USDC_CONTRACT_ADDR;
@@ -346,12 +357,12 @@ const fetchTokenPrice = async (tokenName) => {
   return 0;
 };
 
-export function fetchTokens(accountId, address) {
+export function fetchTokens(accountId, address, blockchain) {
 
   return (dispatch) => {
     if (process.env.REACT_APP_DAO === 'facedao') {
       void getBNBBalance(accountId, address, dispatch);
-      void getLOVEBalance(accountId, address, dispatch);
+      void getLOVEBalance(accountId, address, dispatch, blockchain);
       void getFaceDAOBalance(accountId, address, dispatch);
     }
     if (process.env.REACT_APP_DAO === 'chinesedao') {
@@ -359,17 +370,21 @@ export function fetchTokens(accountId, address) {
       void getCHINESEBalance(accountId, address, dispatch);
     }
     if (process.env.REACT_APP_DAO === 'lovedao') {
-      void getFSNBalance(accountId, address, dispatch);
-      void getLOVEBalance(accountId, address, dispatch);
+      if (blockchain === CHAIN_FUSION) {
+        void getFSNBalance(accountId, address, dispatch);
+      } else if (blockchain === CHAIN_BSC) {
+        void getBNBBalance(accountId, address, dispatch);
+      }
+      void getLOVEBalance(accountId, address, dispatch, blockchain);
     }
     if (process.env.REACT_APP_DAO === 'pqcdao') {
       void getFSNBalance(accountId, address, dispatch);
       void getPQCBalance(accountId, address, dispatch);
     }
     // void getCHNGBalance(accountId, address, dispatch);
-    void getETHBalance(accountId, address, dispatch);
-    void getUSDTBalance(accountId, address, dispatch);
-    void getUSDCBalance(accountId, address, dispatch);
+    void getETHBalance(accountId, address, dispatch, blockchain);
+    void getUSDTBalance(accountId, address, dispatch, blockchain);
+    void getUSDCBalance(accountId, address, dispatch, blockchain);
   };
 }
 
@@ -418,7 +433,7 @@ export function fetchLOVESuccess(accountId, balance, value) {
   };
 }
 
-export function fetchFaceDAOSuccess(accountId, balance, value) {
+export function fetchFaceDAOSuccess (accountId, balance, value) {
   return {
     type: TOKENS_FACEDAO_FETCH_SUCCESS,
     accountId,

@@ -12,23 +12,22 @@ import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 
 const mapStateToProps = state => ({
-  new_balance: state.getIn(['balance', 'new_balance']),
   account: state.getIn(['accounts', me]),
   blockchain: state.getIn(['blockchain', 'chain']),
 });
 
 class BlockchainSelector extends React.PureComponent {
   static propTypes = {
-    new_balance: PropTypes.object,
     is_side_bar: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
     intl: PropTypes.object.isRequired,
     account: ImmutablePropTypes.map.isRequired,
+    blockchain: PropTypes.string,
   };
 
   async switchChainIfNeededWhenMount() {
     const {is_side_bar, blockchain, dispatch} = this.props;
-    if (is_side_bar) {
+    if (is_side_bar && blockchain) {
       await switchChainIfNeeded(blockchain, dispatch)
     }
   }
@@ -47,6 +46,7 @@ class BlockchainSelector extends React.PureComponent {
         defaultValue={blockchain}
         className={is_side_bar ? 'chain__selector__sidebar' : 'chain__selector'}
         onSelect={(value) => this.handleSelectChain(value, dispatch)}
+        value={blockchain}
       >
         <Option value={CHAIN_FUSION}>
           <div className={'chain__selector__item'}>
