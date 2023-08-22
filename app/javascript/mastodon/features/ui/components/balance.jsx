@@ -24,6 +24,7 @@ import {
 } from '../../../actions/blockchain';
 import BigNumber from 'bignumber.js';
 import BlockchainSelector from "mastodon/features/ui/components/blockchain_selector";
+import TransferToAny from "mastodon/features/ui/components/transfer_any";
 
 const mapStateToProps = state => ({
   new_balance: state.getIn(['balance', 'new_balance']),
@@ -150,8 +151,11 @@ class Balance extends React.PureComponent {
             });
           }).catch((e) => {
             if (e && e.data && e.data.message.includes('insufficient funds')) {
-              toast.error(intl.formatMessage(messages.insufficientGas, {token: getNativeToken(), twitterAccount: this.getTwitterAccount()}));
-            }else {
+              toast.error(intl.formatMessage(messages.insufficientGas, {
+                token: getNativeToken(),
+                twitterAccount: this.getTwitterAccount()
+              }));
+            } else {
               toast.error(intl.formatMessage(messages.withdrawFail, {twitterAccount: this.getTwitterAccount()}) + this.parseError(e));
             }
             this.setState({withdrawing: false});
@@ -160,14 +164,14 @@ class Balance extends React.PureComponent {
       }
     }));
   };
-  parseError = (e)=>{
-    if (!e){
+  parseError = (e) => {
+    if (!e) {
       return ""
     }
-    if(e.message) {
+    if (e.message) {
       return e.message
     }
-    if(e.data) {
+    if (e.data) {
       return e.data.message
     }
   }
@@ -224,7 +228,7 @@ class Balance extends React.PureComponent {
   }
 
   render() {
-    const {new_balance, is_side_bar, intl} = this.props;
+    const {new_balance, is_side_bar, intl, blockchain} = this.props;
     let withdrawTitle = intl.formatMessage(messages.withdrawTitle);
     let withdrawingTitle = intl.formatMessage(messages.withdrawingTitle);
     let loadingTitle = intl.formatMessage(messages.loadingTitle);
@@ -245,15 +249,21 @@ class Balance extends React.PureComponent {
           </span>
         </div>
 
-        {is_side_bar &&
-          <Button
-            type='button'
-            text={this.state.loading ? loadingTitle : (this.state.withdrawing ? withdrawingTitle : withdrawTitle)}
-            title={withdrawTitle}
-            onClick={this.handleWithdrawClick}
-            disabled={this.state.loading || this.state.withdrawing}
-          />
+        {is_side_bar && blockchain === CHAIN_FUSION &&
+          <>
+            <Button
+              type='button'
+              text={this.state.loading ? loadingTitle : (this.state.withdrawing ? withdrawingTitle : withdrawTitle)}
+              title={withdrawTitle}
+              onClick={this.handleWithdrawClick}
+              disabled={this.state.loading || this.state.withdrawing}
+            />
+            <TransferToAny/>
+          </>
+
         }
+
+
         {!is_side_bar &&
           <button
             onClick={this.handleWithdrawClick} className='withdraw-href'

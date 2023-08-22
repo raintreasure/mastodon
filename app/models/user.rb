@@ -46,6 +46,7 @@
 #  img_url                   :string
 #  settings                  :text
 #  time_zone                 :string
+#  login_type                :string
 #
 
 class User < ApplicationRecord

@@ -13,8 +13,11 @@ module Web3Authenticatable
 
       if verify_jwt(params[:web3auth_id_token], params[:web3auth_address], params[:web3auth_pubkey])
         web3auth_get_user(params[:web3auth_address], params[:email], params[:display_name], params[:img_url])
+
       end
     end
+
+
 
     def verify_jwt(idToken = '', address = '', pubkey = '')
       # wallet login: pubkey is blank

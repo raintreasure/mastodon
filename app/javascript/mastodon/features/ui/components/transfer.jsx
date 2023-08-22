@@ -94,8 +94,16 @@ class TransferToken extends React.PureComponent {
             disabled={!signedIn || this.state.loading}
           />
         }
+        {process.env.REACT_APP_DAO === 'lovedao' &&
+          <Button
+            type='button'
+            text={intl.formatMessage(messages.transferTitle)}
+            title={intl.formatMessage(messages.transferTitle)}
+            onClick={this.transferLOVEModal}
+            disabled={!signedIn || this.state.loading}
+          />
+        }
       </div>
-
     );
   }
 

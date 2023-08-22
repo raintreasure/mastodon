@@ -2394,6 +2394,7 @@ a.account__display-name {
 .wordmark--light {
   display: none;
 }
+
 $ui-header-height: 85px;
 
 .ui__header {
@@ -7611,6 +7612,20 @@ noscript {
       text-decoration: none;
     }
   }
+}
+.transfer_any_modal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.transfer_any_modal_column {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.transfer_any_modal_input {
+  height: 25px;
 }
 
 .transfer__modal {

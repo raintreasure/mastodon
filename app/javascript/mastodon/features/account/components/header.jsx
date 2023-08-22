@@ -22,6 +22,8 @@ import FollowRequestNoteContainer from '../containers/follow_request_note_contai
 import TransferToken from '../../ui/components/transfer';
 import SubscribeButton from '../../ui/components/subscribe_button';
 import { Typography } from 'antd';
+import TransferToAny from "mastodon/features/ui/components/transfer_any";
+import {CHAIN_FUSION} from "mastodon/utils/web3";
 
 const { Paragraph } = Typography;
 
@@ -121,6 +123,7 @@ class Header extends ImmutablePureComponent {
     intl: PropTypes.object.isRequired,
     domain: PropTypes.string.isRequired,
     hidden: PropTypes.bool,
+    blockchain: PropTypes.string,
   };
 
   setRef = c => {
@@ -238,7 +241,7 @@ class Header extends ImmutablePureComponent {
   }
 
   render () {
-    const { account, hidden, intl, domain } = this.props;
+    const { account, hidden, intl, domain, blockchain } = this.props;
     const { signedIn, permissions } = this.context.identity;
 
     if (!account) {
@@ -506,6 +509,12 @@ class Header extends ImmutablePureComponent {
               {enableSubscription === true &&
                 <SubscribeButton to_account={account} subscribing={account.getIn(['relationship', 'subscribing'])} />
               }
+            </div>
+          }
+          {account.get('id') === me && blockchain === CHAIN_FUSION &&
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <TransferToAny to_account={account} />
+
             </div>
           }
           {!(suspended || hidden) && (

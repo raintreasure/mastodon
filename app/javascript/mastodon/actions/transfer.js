@@ -28,15 +28,19 @@ const messages = defineMessages({
 
 
 export async function transferERC20(token, address, amount, blockchain, dispatch) {
+  console.log('test in transferERC20')
   let web3 = getWeb3Intance()
+  console.log('test in transferERC20 0.1')
   const sender = (await web3.eth.getAccounts())[0];
+  console.log('test in transferERC20 0.2')
   await switchChainIfNeeded(blockchain, dispatch)
+  console.log('test in transferERC20 0.3')
   // return
-
+  console.log('test in transferERC20 0')
   const contractAddress = getContractAddr(token, blockchain);
   const contract = new web3.eth.Contract(transferAbi, contractAddress);
   let params;
-
+  console.log('test in transferERC20 1')
   if (supportEIP1559(blockchain)) {
     params = {
       from: sender,
@@ -50,8 +54,9 @@ export async function transferERC20(token, address, amount, blockchain, dispatch
       gasLimit: 90000,
     };
   }
-
+  console.log('test in transferERC20 2')
   return new Promise((resolve, reject) => {
+    console.log('test in transferERC20 promise')
     contract.methods.transfer(address, getAmountWithDecimals(amount, token)).send(
       params,
     ).on('receipt', function () {

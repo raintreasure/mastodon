@@ -34,6 +34,7 @@ export default class Header extends ImmutablePureComponent {
     hideTabs: PropTypes.bool,
     domain: PropTypes.string.isRequired,
     hidden: PropTypes.bool,
+    blockchain: PropTypes.string,
   };
 
   static contextTypes = {
@@ -113,7 +114,7 @@ export default class Header extends ImmutablePureComponent {
   };
 
   render () {
-    const { account, hidden, hideTabs } = this.props;
+    const { account, hidden, hideTabs, blockchain } = this.props;
 
     if (account === null) {
       return null;
@@ -145,6 +146,7 @@ export default class Header extends ImmutablePureComponent {
           onOpenURL={this.props.onOpenURL}
           domain={this.props.domain}
           hidden={hidden}
+          blockchain={blockchain}
         />
 
         {!(hideTabs || hidden) && (

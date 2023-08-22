@@ -38,6 +38,7 @@ const makeMapStateToProps = () => {
     account: getAccount(state, accountId),
     domain: state.getIn(['meta', 'domain']),
     hidden: getAccountHidden(state, accountId),
+    blockchain: state.getIn(['blockchain', 'chain']),
   });
 
   return mapStateToProps;

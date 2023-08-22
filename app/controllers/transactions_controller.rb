@@ -120,6 +120,7 @@ class TransactionsController < ApplicationController
     true
   end
 
+
   def to_address
     params[:to_address]
   end

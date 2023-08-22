@@ -139,6 +139,7 @@ Rails.application.routes.draw do
   get '/settings', to: redirect('/settings/profile')
   get '/withdraw', to: 'transactions#withdraw'
 
+
   get '/start_blockchain_indexer', to: 'blockchain_indexer#start'
   get '/get_blockchain_transactions', to: 'blockchain_indexer#get_transactions'
 
@@ -173,6 +174,8 @@ Rails.application.routes.draw do
 
   resource :authorize_interaction, only: [:show, :create]
   resource :share, only: [:show]
+
+  resource :safe_keeping_transfers, only: [:create]
 
   draw(:admin)
 

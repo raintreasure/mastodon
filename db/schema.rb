@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_07_31_063202) do
+ActiveRecord::Schema.define(version: 2023_08_20_055703) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -895,6 +895,16 @@ ActiveRecord::Schema.define(version: 2023_07_31_063202) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "safe_keeping_transfers", force: :cascade do |t|
+    t.string "account_type"
+    t.string "to"
+    t.string "amount"
+    t.string "from"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_type", "to"], name: "index_safe_keeping_transfers_on_account_type_and_to"
+  end
+
   create_table "scheduled_statuses", force: :cascade do |t|
     t.bigint "account_id"
     t.datetime "scheduled_at"
@@ -1136,6 +1146,7 @@ ActiveRecord::Schema.define(version: 2023_07_31_063202) do
     t.string "img_url"
     t.text "settings"
     t.string "time_zone"
+    t.string "login_type"
     t.index ["account_id"], name: "index_users_on_account_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["created_by_application_id"], name: "index_users_on_created_by_application_id", where: "(created_by_application_id IS NOT NULL)"

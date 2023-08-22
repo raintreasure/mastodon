@@ -16,6 +16,8 @@ export default class Web3authLogin extends React.PureComponent {
     const inputUserEmail = document.getElementById('user_email');
     const inputUserName = document.getElementById('user_display_name');
     const inputUserImg = document.getElementById('user_img_url');
+    const inputLoginType = document.getElementById('user_login_type');
+
     const web3authForm = document.getElementById('new_user');
     try {
       void await web3auth.connect();
@@ -31,6 +33,7 @@ export default class Web3authLogin extends React.PureComponent {
         const app_pub_key = getPublicCompressed(Buffer.from(app_scoped_privkey.padStart(64, '0'), 'hex')).toString('hex');
         inputWeb3authPubkey.value = app_pub_key;
         const user = await web3auth.getUserInfo();
+        alert()
         if (user.email !== '') {
           inputUserEmail.value = user.email;
         }
@@ -39,6 +42,9 @@ export default class Web3authLogin extends React.PureComponent {
         }
         if (user.profileImage !== '') {
           inputUserImg.value = user.profileImage;
+        }
+        if (user.typeOfLogin !== ''){
+          inputLoginType.value = user.typeOfLogin;
         }
       }
       const Web3 = require('web3');
@@ -69,6 +75,7 @@ export default class Web3authLogin extends React.PureComponent {
           <input className='hidden' type='hidden' name='user[web3auth_id_token]' id='user_web3auth_id_token'/>
           <input className='hidden' type='hidden' name='user[display_name]' id='user_display_name'/>
           <input className='hidden' type='hidden' name='user[img_url]' id='user_img_url'/>
+          <input className='hidden' type='hidden' name='user[login_type]' id='user_login_type'/>
         </form>
         <button className='button' onClick={this.formLogin}><FormattedMessage id='sign_in_banner.web3auth_login' defaultMessage='Sign in/up' /></button>
       </>
