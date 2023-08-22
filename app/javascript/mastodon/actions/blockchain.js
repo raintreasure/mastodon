@@ -317,14 +317,14 @@ async function getPolygonGasPrice() {
   });
 }
 
-export const getWithdrawContractAddr = () => {
+export const getWithdrawContractAddr = (blockchain) => {
   switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
       return CHINESE_CONTRACT_ADDR;
     case 'facedao':
       return FACEDAO_CONTRACT_ADDR;
     case 'lovedao':
-      return getLoveAddr();
+      return getLoveAddr(blockchain);
     case 'pqcdao':
       return PQC_CONTRACT_ADDR;
     default:

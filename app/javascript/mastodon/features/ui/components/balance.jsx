@@ -182,7 +182,7 @@ class Balance extends React.PureComponent {
       this.setState({loading: true});
       const getGasAmountPromise = getGasAmountForTransfer(process.env.REACT_APP_BUFFER_ACCOUNT, eth_address,
         getAmountWithDecimals(new_balance.new_balance, getEarnToken()),
-        getWithdrawContractAddr());
+        getWithdrawContractAddr(blockchain));
       const getGasPricePromise = getGasPrice(blockchain)();
       Promise.all([getGasAmountPromise, getGasPricePromise]).then(([gasAmount, proposePrice]) => {
         gasPrice = proposePrice;
