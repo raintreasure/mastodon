@@ -201,7 +201,7 @@ export const getServerName = () => {
     case 'facedao':
       return 'FaceDAO';
     case 'lovedao':
-      return 'LoveDAO';
+      return 'LOVEDAO';
     case 'pqcdao':
       return 'PQCdao';
     default:
