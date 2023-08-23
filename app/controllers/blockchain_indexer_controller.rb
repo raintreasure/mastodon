@@ -7,6 +7,7 @@ class BlockchainIndexerController < ApplicationController
   def get_transactions
     transactions = (BlockchainTransaction.where(from: addr).or(BlockchainTransaction.where(to: addr)))
                      .and(BlockchainTransaction.where(chain_id: chain_id, contract: contract_address))
+                     .order(:timestamp).reverse
 
     render json: transactions, status: 200
   end
