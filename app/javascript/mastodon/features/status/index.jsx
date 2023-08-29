@@ -159,6 +159,7 @@ const makeMapStateToProps = () => {
       askReplyConfirmation: state.getIn(['compose', 'text']).trim().length !== 0,
       domain: state.getIn(['meta', 'domain']),
       pictureInPicture: getPictureInPicture(state, { id: props.params.statusId }),
+      subscribing_accounts: state.getIn(['accounts', 'subscribing_accounts']),
     };
   };
 
@@ -206,6 +207,7 @@ class Status extends ImmutablePureComponent {
       inUse: PropTypes.bool,
       available: PropTypes.bool,
     }),
+    subscribing_accounts:ImmutablePropTypes.list,
   };
 
   state = {
@@ -611,7 +613,7 @@ class Status extends ImmutablePureComponent {
 
   render () {
     let ancestors, descendants;
-    const { isLoading, status, ancestorsIds, descendantsIds, intl, domain, multiColumn, pictureInPicture } = this.props;
+    const { isLoading, status, ancestorsIds, descendantsIds, intl, domain, multiColumn, pictureInPicture, subscribing_accounts } = this.props;
     const { fullscreen } = this.state;
 
     if (isLoading) {
@@ -663,6 +665,7 @@ class Status extends ImmutablePureComponent {
         />
 
         <ScrollContainer scrollKey='thread'>
+
           <div className={classNames('scrollable', { fullscreen })} ref={this.setRef}>
             {ancestors}
 
@@ -679,6 +682,7 @@ class Status extends ImmutablePureComponent {
                   showMedia={this.state.showMedia}
                   onToggleMediaVisibility={this.handleToggleMediaVisibility}
                   pictureInPicture={pictureInPicture}
+                  subscribing_accounts={subscribing_accounts}
                 />
 
                 <ActionBar

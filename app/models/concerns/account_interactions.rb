@@ -18,8 +18,8 @@ module AccountInteractions
       follow_mapping(Follow.where(account_id: target_account_ids, target_account_id: account_id), :account_id)
     end
     def subscribing_map(target_account_ids, account_id)
-      puts(">>>>>>>>>>>>>>>>>>>>>>>>>>>target_account_ids: #{target_account_ids}, account_id:#{account_id}")
-      puts(">>>>>>>>>>>>>>>>>>>>>>>>mapping res:#{  subscribe_mapping(AccountSubscription.where(account_id: account_id, target_account_id: target_account_ids), :target_account_id)}")
+      # puts(">>>>>>>>>>>>>>>>>>>>>>>>>>>target_account_ids: #{target_account_ids}, account_id:#{account_id}")
+      # puts(">>>>>>>>>>>>>>>>>>>>>>>>mapping res:#{  subscribe_mapping(AccountSubscription.where(account_id: account_id, target_account_id: target_account_ids), :target_account_id)}")
       subscribe_mapping(AccountSubscription.where(account_id: account_id, target_account_id: target_account_ids), :target_account_id)
     end
     def subscribed_by_map(target_account_ids, account_id)
@@ -279,6 +279,14 @@ module AccountInteractions
 
   def endorsed?(account)
     account_pins.where(target_account: account).exists?
+  end
+
+  def subscribing?(other_account)
+    active_subscriptions.where(target_account: other_account).exists?
+  end
+
+  def subscribed_by(other_account)
+    other_account.subscribing?(self)
   end
 
   def status_matches_filters(status)

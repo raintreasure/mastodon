@@ -7,7 +7,11 @@ class Api::V1::Timelines::HomeController < Api::BaseController
 
   def show
     @statuses = load_statuses
-
+    # @statuses.each do |status|
+    #   if status.visibility == 'profitable' && !current_user&.account.subscribing?(status.account_id) && current_user&.account.id != status.account_id
+    #     status.stash_content = true
+    #   end
+    # end
     render json: @statuses,
            each_serializer: REST::StatusSerializer,
            relationships: StatusRelationshipsPresenter.new(@statuses, current_user&.account_id),

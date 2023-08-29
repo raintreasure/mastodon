@@ -29,6 +29,7 @@
 #  ordered_media_attachment_ids :bigint(8)        is an Array
 #  new_balance                  :decimal(, )
 #  balance_increment            :decimal(, )
+#  stash_content                :boolean
 #
 
 class Status < ApplicationRecord
@@ -50,7 +51,7 @@ class Status < ApplicationRecord
 
   update_index('statuses', :proper)
 
-  enum visibility: { public: 0, unlisted: 1, private: 2, direct: 3, limited: 4 }, _suffix: :visibility
+  enum visibility: { public: 0, unlisted: 1, private: 2, direct: 3, limited: 4, profitable: 5 }, _suffix: :visibility
 
   belongs_to :application, class_name: 'Doorkeeper::Application', optional: true
 

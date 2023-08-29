@@ -1530,6 +1530,8 @@ zh-CN:
       private: 仅关注者
       private_long: 只有关注你的用户能看到
       public: 公开
+      profitable: 仅订阅者
+      profitable_long: 只有订阅你的人能看到
       public_long: 所有人可见，并会出现在公共时间轴上
       unlisted: 不公开
       unlisted_long: 所有人可见，但不会出现在公共时间轴上

@@ -102,6 +102,8 @@ module StatusesHelper
       fa_icon 'lock fw'
     when 'direct'
       fa_icon 'at fw'
+    when 'profitable'
+      fa_icon 'money fw'
     end
   end
 

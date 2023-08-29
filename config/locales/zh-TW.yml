@@ -1530,6 +1530,8 @@ zh-TW:
       direct: 私訊
       private: 僅限跟隨者
       private_long: 只有跟隨者能看到
+      profitable: 僅限訂閱者
+      profitable_long: 只有訂閱你的人能看到
       public: 公開
       public_long: 所有人都能看到
       unlisted: 不在公開時間軸顯示

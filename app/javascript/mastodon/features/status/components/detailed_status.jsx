@@ -1,20 +1,20 @@
 import PropTypes from 'prop-types';
 
-import { injectIntl, defineMessages, FormattedDate, FormattedMessage } from 'react-intl';
+import {injectIntl, defineMessages, FormattedDate, FormattedMessage} from 'react-intl';
 
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 
-import { AnimatedNumber } from 'mastodon/components/animated_number';
+import {AnimatedNumber} from 'mastodon/components/animated_number';
 import EditedTimestamp from 'mastodon/components/edited_timestamp';
-import { Icon }  from 'mastodon/components/icon';
+import {Icon} from 'mastodon/components/icon';
 import PictureInPicturePlaceholder from 'mastodon/components/picture_in_picture_placeholder';
 
-import { Avatar } from '../../../components/avatar';
-import { DisplayName } from '../../../components/display_name';
+import {Avatar} from '../../../components/avatar';
+import {DisplayName} from '../../../components/display_name';
 import MediaGallery from '../../../components/media_gallery';
 import StatusContent from '../../../components/status_content';
 import Audio from '../../audio';
@@ -22,12 +22,15 @@ import scheduleIdleTask from '../../ui/util/schedule_idle_task';
 import Video from '../../video';
 
 import Card from './card';
+import {me} from "mastodon/initial_state";
 
 const messages = defineMessages({
-  public_short: { id: 'privacy.public.short', defaultMessage: 'Public' },
-  unlisted_short: { id: 'privacy.unlisted.short', defaultMessage: 'Unlisted' },
-  private_short: { id: 'privacy.private.short', defaultMessage: 'Followers only' },
-  direct_short: { id: 'privacy.direct.short', defaultMessage: 'Mentioned people only' },
+  public_short: {id: 'privacy.public.short', defaultMessage: 'Public'},
+  unlisted_short: {id: 'privacy.unlisted.short', defaultMessage: 'Unlisted'},
+  private_short: {id: 'privacy.private.short', defaultMessage: 'Followers only'},
+  direct_short: {id: 'privacy.direct.short', defaultMessage: 'Mentioned people only'},
+  profitable_short: {id: 'privacy.profitable.short', defaultMessage: 'Subscribers only'},
+  profitable_lock: {id:'privacy.profitable.lock', defaultMessage: 'This post is for subscribers only'},
 });
 
 class DetailedStatus extends ImmutablePureComponent {
@@ -52,6 +55,7 @@ class DetailedStatus extends ImmutablePureComponent {
       available: PropTypes.bool,
     }),
     onToggleMediaVisibility: PropTypes.func,
+    subscribing_accounts: ImmutablePropTypes.list,
   };
 
   state = {
@@ -75,9 +79,9 @@ class DetailedStatus extends ImmutablePureComponent {
     this.props.onToggleHidden(this.props.status);
   };
 
-  _measureHeight (heightJustChanged) {
+  _measureHeight(heightJustChanged) {
     if (this.props.measureHeight && this.node) {
-      scheduleIdleTask(() => this.node && this.setState({ height: Math.ceil(this.node.scrollHeight) + 1 }));
+      scheduleIdleTask(() => this.node && this.setState({height: Math.ceil(this.node.scrollHeight) + 1}));
 
       if (this.props.onHeightChange && heightJustChanged) {
         this.props.onHeightChange();
@@ -90,7 +94,7 @@ class DetailedStatus extends ImmutablePureComponent {
     this._measureHeight();
   };
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     this._measureHeight(prevState.height !== this.state.height);
   }
 
@@ -109,20 +113,20 @@ class DetailedStatus extends ImmutablePureComponent {
   };
 
   handleTranslate = () => {
-    const { onTranslate, status } = this.props;
+    const {onTranslate, status} = this.props;
     onTranslate(status);
   };
 
-  render () {
+  render() {
     const status = (this.props.status && this.props.status.get('reblog')) ? this.props.status.get('reblog') : this.props.status;
-    const outerStyle = { boxSizing: 'border-box' };
-    const { intl, compact, pictureInPicture } = this.props;
+    const outerStyle = {boxSizing: 'border-box'};
+    const {intl, compact, pictureInPicture, subscribing_accounts} = this.props;
 
     if (!status) {
       return null;
     }
 
-    let media           = '';
+    let media = '';
     let applicationLink = '';
     let reblogLink = '';
     let reblogIcon = 'retweet';
@@ -136,7 +140,7 @@ class DetailedStatus extends ImmutablePureComponent {
     const language = status.getIn(['translation', 'language']) || status.get('language');
 
     if (pictureInPicture.get('inUse')) {
-      media = <PictureInPicturePlaceholder />;
+      media = <PictureInPicturePlaceholder/>;
     } else if (status.get('media_attachments').size > 0) {
       if (status.getIn(['media_attachments', 0, 'type']) === 'audio') {
         const attachment = status.getIn(['media_attachments', 0]);
@@ -195,22 +199,26 @@ class DetailedStatus extends ImmutablePureComponent {
         );
       }
     } else if (status.get('spoiler_text').length === 0) {
-      media = <Card sensitive={status.get('sensitive')} onOpenMedia={this.props.onOpenMedia} card={status.get('card', null)} />;
+      media = <Card sensitive={status.get('sensitive')} onOpenMedia={this.props.onOpenMedia}
+                    card={status.get('card', null)}/>;
     }
 
     if (status.get('application')) {
-      applicationLink = <> · <a className='detailed-status__application' href={status.getIn(['application', 'website'])} target='_blank' rel='noopener noreferrer'>{status.getIn(['application', 'name'])}</a></>;
+      applicationLink = <> · <a className='detailed-status__application' href={status.getIn(['application', 'website'])}
+                                target='_blank'
+                                rel='noopener noreferrer'>{status.getIn(['application', 'name'])}</a></>;
     }
 
     const visibilityIconInfo = {
-      'public': { icon: 'globe', text: intl.formatMessage(messages.public_short) },
-      'unlisted': { icon: 'unlock', text: intl.formatMessage(messages.unlisted_short) },
-      'private': { icon: 'lock', text: intl.formatMessage(messages.private_short) },
-      'direct': { icon: 'at', text: intl.formatMessage(messages.direct_short) },
+      'public': {icon: 'globe', text: intl.formatMessage(messages.public_short)},
+      'unlisted': {icon: 'unlock', text: intl.formatMessage(messages.unlisted_short)},
+      'private': {icon: 'lock', text: intl.formatMessage(messages.private_short)},
+      'direct': {icon: 'at', text: intl.formatMessage(messages.direct_short)},
+      'profitable': {icon: 'money', text: intl.formatMessage(messages.profitable_short)},
     };
 
     const visibilityIcon = visibilityIconInfo[status.get('visibility')];
-    const visibilityLink = <> · <Icon id={visibilityIcon.icon} title={visibilityIcon.text} /></>;
+    const visibilityLink = <> · <Icon id={visibilityIcon.icon} title={visibilityIcon.text}/></>;
 
     if (['private', 'direct'].includes(status.get('visibility'))) {
       reblogLink = '';
@@ -218,10 +226,11 @@ class DetailedStatus extends ImmutablePureComponent {
       reblogLink = (
         <>
           {' · '}
-          <Link to={`/@${status.getIn(['account', 'acct'])}/${status.get('id')}/reblogs`} className='detailed-status__link'>
-            <Icon id={reblogIcon} />
+          <Link to={`/@${status.getIn(['account', 'acct'])}/${status.get('id')}/reblogs`}
+                className='detailed-status__link'>
+            <Icon id={reblogIcon}/>
             <span className='detailed-status__reblogs'>
-              <AnimatedNumber value={status.get('reblogs_count')} />
+              <AnimatedNumber value={status.get('reblogs_count')}/>
             </span>
           </Link>
         </>
@@ -230,10 +239,11 @@ class DetailedStatus extends ImmutablePureComponent {
       reblogLink = (
         <>
           {' · '}
-          <a href={`/interact/${status.get('id')}?type=reblog`} className='detailed-status__link' onClick={this.handleModalLink}>
-            <Icon id={reblogIcon} />
+          <a href={`/interact/${status.get('id')}?type=reblog`} className='detailed-status__link'
+             onClick={this.handleModalLink}>
+            <Icon id={reblogIcon}/>
             <span className='detailed-status__reblogs'>
-              <AnimatedNumber value={status.get('reblogs_count')} />
+              <AnimatedNumber value={status.get('reblogs_count')}/>
             </span>
           </a>
         </>
@@ -242,19 +252,21 @@ class DetailedStatus extends ImmutablePureComponent {
 
     if (this.context.router) {
       favouriteLink = (
-        <Link to={`/@${status.getIn(['account', 'acct'])}/${status.get('id')}/favourites`} className='detailed-status__link'>
-          <Icon id='star' />
+        <Link to={`/@${status.getIn(['account', 'acct'])}/${status.get('id')}/favourites`}
+              className='detailed-status__link'>
+          <Icon id='star'/>
           <span className='detailed-status__favorites'>
-            <AnimatedNumber value={status.get('favourites_count')} />
+            <AnimatedNumber value={status.get('favourites_count')}/>
           </span>
         </Link>
       );
     } else {
       favouriteLink = (
-        <a href={`/interact/${status.get('id')}?type=favourite`} className='detailed-status__link' onClick={this.handleModalLink}>
-          <Icon id='star' />
+        <a href={`/interact/${status.get('id')}?type=favourite`} className='detailed-status__link'
+           onClick={this.handleModalLink}>
+          <Icon id='star'/>
           <span className='detailed-status__favorites'>
-            <AnimatedNumber value={status.get('favourites_count')} />
+            <AnimatedNumber value={status.get('favourites_count')}/>
           </span>
         </a>
       );
@@ -264,37 +276,51 @@ class DetailedStatus extends ImmutablePureComponent {
       edited = (
         <>
           {' · '}
-          <EditedTimestamp statusId={status.get('id')} timestamp={status.get('edited_at')} />
+          <EditedTimestamp statusId={status.get('id')} timestamp={status.get('edited_at')}/>
         </>
       );
     }
-
+    const writtenByMe = status.getIn(['account', 'id']) === me;
+    let shouldHideContent = !writtenByMe && status.get('visibility') === 'profitable' && subscribing_accounts && !subscribing_accounts.includes(status.getIn(['account', 'id']))
+    if (shouldHideContent) {
+      media = (
+        <div className={'subscribers_only_stash_block'}>
+          <Icon id={'lock'}/>
+          <span>{intl.formatMessage(messages.profitable_lock)}</span>
+        </div>
+      )
+    }
     return (
       <div style={outerStyle}>
-        <div ref={this.setRef} className={classNames('detailed-status', { compact })}>
+        <div ref={this.setRef} className={classNames('detailed-status', {compact})}>
           {status.get('visibility') === 'direct' && (
             <div className='status__prepend'>
-              <div className='status__prepend-icon-wrapper'><Icon id='at' className='status__prepend-icon' fixedWidth /></div>
-              <FormattedMessage id='status.direct_indicator' defaultMessage='Private mention' />
+              <div className='status__prepend-icon-wrapper'><Icon id='at' className='status__prepend-icon' fixedWidth/>
+              </div>
+              <FormattedMessage id='status.direct_indicator' defaultMessage='Private mention'/>
             </div>
           )}
-          <a href={`/@${status.getIn(['account', 'acct'])}`} onClick={this.handleAccountClick} className='detailed-status__display-name'>
-            <div className='detailed-status__display-avatar'><Avatar account={status.get('account')} size={46} /></div>
-            <DisplayName account={status.get('account')} localDomain={this.props.domain} />
+          <a href={`/@${status.getIn(['account', 'acct'])}`} onClick={this.handleAccountClick}
+             className='detailed-status__display-name'>
+            <div className='detailed-status__display-avatar'><Avatar account={status.get('account')} size={46}/></div>
+            <DisplayName account={status.get('account')} localDomain={this.props.domain}/>
           </a>
-
-          <StatusContent
-            status={status}
-            expanded={!status.get('hidden')}
-            onExpandedToggle={this.handleExpandedToggle}
-            onTranslate={this.handleTranslate}
-          />
+          {!shouldHideContent &&
+            <StatusContent
+              status={status}
+              expanded={!status.get('hidden')}
+              onExpandedToggle={this.handleExpandedToggle}
+              onTranslate={this.handleTranslate}
+            />
+          }
 
           {media}
 
           <div className='detailed-status__meta'>
-            <a className='detailed-status__datetime' href={`/@${status.getIn(['account', 'acct'])}/${status.get('id')}`} target='_blank' rel='noopener noreferrer'>
-              <FormattedDate value={new Date(status.get('created_at'))} hour12={false} year='numeric' month='short' day='2-digit' hour='2-digit' minute='2-digit' />
+            <a className='detailed-status__datetime' href={`/@${status.getIn(['account', 'acct'])}/${status.get('id')}`}
+               target='_blank' rel='noopener noreferrer'>
+              <FormattedDate value={new Date(status.get('created_at'))} hour12={false} year='numeric' month='short'
+                             day='2-digit' hour='2-digit' minute='2-digit'/>
             </a>{edited}{visibilityLink}{applicationLink}{reblogLink} · {favouriteLink}
           </div>
         </div>

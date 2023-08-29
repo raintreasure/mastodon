@@ -1817,7 +1817,7 @@
         "id": "compose_form.hashtag_warning"
       },
       {
-        "defaultMessage": "Posts on Mastodon are not end-to-end encrypted. Do not share any dangerous information over Mastodon.",
+        "defaultMessage": "Posts are not end-to-end encrypted. Do not share any dangerous information.",
         "id": "compose_form.encryption_warning"
       },
       {
@@ -1929,7 +1929,7 @@
         "id": "column.direct"
       },
       {
-        "defaultMessage": "Posts on Mastodon are not end-to-end encrypted. Do not share any dangerous information over Mastodon.",
+        "defaultMessage": "Posts are not end-to-end encrypted. Do not share any dangerous information.",
         "id": "compose_form.encryption_warning"
       },
       {

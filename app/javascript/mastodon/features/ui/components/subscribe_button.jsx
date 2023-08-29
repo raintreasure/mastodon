@@ -112,10 +112,21 @@ class SubscribeButton extends React.PureComponent {
     }
   };
 
+  testHandleSubscription = (subscribing, to_account, dispatch) => {
+    const toAccountId = to_account.get('id');
+    const postUrl = subscribing ? `/api/v1/accounts/${toAccountId}/unsubscribe` :
+      `/api/v1/accounts/${toAccountId}/subscribe`;
+    if (subscribing) {
+      dispatch(subscribeAccount(postUrl, toAccountId));
+    } else {
+      dispatch(unsubscribeAccount(postUrl, toAccountId));
+    }
+  }
 
   handleClick = () => {
     const {intl, dispatch, to_account, subscribing, blockchain} = this.props;
-    this.confirmModal(intl, dispatch, to_account, messages, subscribing, blockchain);
+    // this.confirmModal(intl, dispatch, to_account, messages, subscribing, blockchain);
+    this.testHandleSubscription(subscribing, to_account, dispatch)
   };
 
   render() {

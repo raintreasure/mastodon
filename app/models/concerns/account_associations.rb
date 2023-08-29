@@ -72,5 +72,7 @@ module AccountAssociations
 
     # Imports
     has_many :bulk_imports, inverse_of: :account, dependent: :delete_all
+
+    has_many :account_subscriptions, inverse_of: :account, dependent: :destroy
   end
 end

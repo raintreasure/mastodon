@@ -69,6 +69,7 @@ export function importFetchedStatuses(statuses) {
     const filters = [];
 
     function processStatus(status) {
+      // console.log('process status, status:', status)
       pushUnique(normalStatuses, normalizeStatus(status, getState().getIn(['statuses', status.id])));
       pushUnique(accounts, status.account);
 

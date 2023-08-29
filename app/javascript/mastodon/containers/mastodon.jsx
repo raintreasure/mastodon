@@ -17,6 +17,7 @@ import initialState, {title as siteTitle} from 'mastodon/initial_state';
 import {IntlProvider} from 'mastodon/locales';
 import {store} from 'mastodon/store';
 import {initWeb3auth} from "mastodon/utils/web3";
+import {fetchSubscribingAccounts} from "mastodon/actions/accounts";
 
 const title = process.env.NODE_ENV === 'production' ? siteTitle : `${siteTitle} (Dev)`;
 
@@ -61,6 +62,8 @@ export default class Mastodon extends PureComponent {
     }
     if (this.identity.signedIn) {
       this.disconnect = store.dispatch(connectUserStream());
+      store.dispatch(fetchSubscribingAccounts(this.identity.accountId));
+
     }
   }
 

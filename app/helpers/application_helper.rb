@@ -126,6 +126,8 @@ module ApplicationHelper
       fa_icon('lock', title: I18n.t('statuses.visibilities.private'))
     elsif status.direct_visibility?
       fa_icon('at', title: I18n.t('statuses.visibilities.direct'))
+    elsif status.profitable_visibility?
+      fa_icon('money', title: I18n.t('statuses.visibilities.profitable'))
     end
   end
 

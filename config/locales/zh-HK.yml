@@ -1511,8 +1511,10 @@ zh-HK:
     title: "%{name}：「%{quote}」"
     visibilities:
       direct: 私人訊息
-      private: 關注者觀看
+      private: 僅限關注者
       private_long: 只有關注你的人能看到
+      profitable: 僅限訂閱者
+      profitable_long: 只有訂閱你的人能看到
       public: 公開
       public_long: 所有人都能看到
       unlisted: 公開，但不在公共時間軸顯示

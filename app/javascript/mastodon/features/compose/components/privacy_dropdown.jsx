@@ -21,6 +21,8 @@ const messages = defineMessages({
   private_long: { id: 'privacy.private.long', defaultMessage: 'Visible for followers only' },
   direct_short: { id: 'privacy.direct.short', defaultMessage: 'Mentioned people only' },
   direct_long: { id: 'privacy.direct.long', defaultMessage: 'Visible for mentioned users only' },
+  profitable_short: { id: 'privacy.profitable.short', defaultMessage: 'Subscribers only' },
+  profitable_long: { id: 'privacy.profitable.long', defaultMessage: 'Visible for subscribers only' },
   change_privacy: { id: 'privacy.change', defaultMessage: 'Adjust status privacy' },
 });
 
@@ -225,6 +227,7 @@ class PrivacyDropdown extends PureComponent {
       { icon: 'globe', value: 'public', text: formatMessage(messages.public_short), meta: formatMessage(messages.public_long) },
       { icon: 'unlock', value: 'unlisted', text: formatMessage(messages.unlisted_short), meta: formatMessage(messages.unlisted_long) },
       { icon: 'lock', value: 'private', text: formatMessage(messages.private_short), meta: formatMessage(messages.private_long) },
+      { icon: 'money', value: 'profitable', text: formatMessage(messages.profitable_short), meta: formatMessage(messages.profitable_long) },
     ];
 
     if (!this.props.noDirect) {

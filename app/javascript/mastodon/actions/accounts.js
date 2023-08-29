@@ -88,6 +88,8 @@ export const ACCOUNT_UNSUBSCRIBE_FAIL = 'ACCOUNT_UNSUBSCRIBE_FAIL';
 
 export const ACCOUNT_REVEAL = 'ACCOUNT_REVEAL';
 
+export const FETCH_SUBSCRIBING_ACCOUNTS = 'FETCH_SUBSCRIBING_ACCOUNTS';
+
 export function fetchAccount(id) {
   return (dispatch, getState) => {
     dispatch(fetchRelationships([id]));
@@ -849,4 +851,20 @@ export const unsubscribeAccountSuccess = relationship => ({
 export const unsubscribeAccountFail = id => ({
   type: ACCOUNT_UNSUBSCRIBE_FAIL,
   id,
+});
+export function fetchSubscribingAccounts(id) {
+  return (dispatch, getState) => {
+    api(getState).get(`api/v1/accounts/${id}/account_subscriptions`).then(response => {
+      console.log('fetchSubscribingAccounts:', response)
+      // let res = response.data.map(acc => acc.target_account_id)
+      // console.log(res)
+      dispatch(fetchSubscribingAccountsSuccess(response.data));
+    }).catch(error => {
+      console.log('fetch subscribing accounts failed, error:', error);
+    });
+  };
+}
+export const fetchSubscribingAccountsSuccess = accounts =>({
+  type:FETCH_SUBSCRIBING_ACCOUNTS,
+  accounts,
 });

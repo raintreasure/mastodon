@@ -49,6 +49,7 @@ const makeMapStateToProps = () => {
     status: getStatus(state, props),
     domain: state.getIn(['meta', 'domain']),
     pictureInPicture: getPictureInPicture(state, props),
+    subscribing_accounts: state.getIn(['accounts', 'subscribing_accounts']),
   });
 
   return mapStateToProps;

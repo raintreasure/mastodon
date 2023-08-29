@@ -495,7 +495,7 @@ class Header extends ImmutablePureComponent {
               </small>
             </h1>
 
-            <Paragraph copyable className={'test__paragraph'}>
+            <Paragraph copyable className={'address__paragraph'}>
               {account.get('eth_address')}
             </Paragraph>
 
@@ -503,7 +503,7 @@ class Header extends ImmutablePureComponent {
           {account.get('id') !== me &&
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <TransferToken to_account={account} />
-              {enableSubscription === true &&
+              {process.env.REACT_APP_ENABLE_SUBSCRIPTION === 'true' &&
                 <SubscribeButton to_account={account} subscribing={account.getIn(['relationship', 'subscribing'])} />
               }
             </div>

@@ -201,11 +201,16 @@ class ActionBar extends PureComponent {
     const account = status.get('account');
     transferModal(intl, dispatch, account, 'FaceDAO');
   };
+  transferPQCModal = () => {
+    const {intl, dispatch, status, blockchain} = this.props;
+    const account = status.get('account');
+    transferModal(intl, dispatch, account, 'PQC', blockchain);
+  };
   render() {
     const { status, relationship, intl } = this.props;
     const { signedIn, permissions } = this.context.identity;
 
-    const publicStatus = ['public', 'unlisted'].includes(status.get('visibility'));
+    const publicStatus = ['public', 'unlisted', 'profitable'].includes(status.get('visibility'));
     const pinnableStatus = ['public', 'unlisted', 'private'].includes(status.get('visibility'));
     const mutingConversation = status.get('muted');
     const account = status.get('account');
@@ -357,17 +362,33 @@ class ActionBar extends PureComponent {
           title={intl.formatMessage(messages.bookmark)}
           icon='bookmark' onClick={this.handleBookmarkClick}
         /></div>
-        {process.env.REACT_APP_DAO !== 'facedao' &&
+        {process.env.REACT_APP_DAO === 'chinesedao' &&
           <div className='detailed-status__button'><IconButton
-            className='gift-icon' disabled={!signedIn}
+            className='gift-icon' disabled={!signedIn  || writtenByMe}
             title={intl.formatMessage(messages.gift)} icon='gift'
             onClick={this.transferCHINESEModal}
           /></div>
         }
+        {process.env.REACT_APP_DAO === 'lovedao' &&
+          <div className='detailed-status__button'><IconButton
+            className='gift-icon' disabled={!signedIn  || writtenByMe}
+            title={intl.formatMessage(messages.gift)} icon='gift'
+            onClick={this.transferLOVEModal}
+          /></div>
+        }
+        {process.env.REACT_APP_DAO === 'pqcdao' &&
+          <div className='detailed-status__button'><IconButton
+            className='gift-icon' disabled={!signedIn  || writtenByMe}
+            title={intl.formatMessage(messages.gift)} icon='gift'
+            onClick={this.transferPQCModal}
+          /></div>
+        }
+
+
         {process.env.REACT_APP_DAO === 'facedao' &&
           <div className='detailed-status__button'>
             <DropdownMenuContainer
-              disabled={!signedIn}
+              disabled={!signedIn || writtenByMe }
               items={transferMenu}
               icon='gift'
               size={18}

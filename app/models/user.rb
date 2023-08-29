@@ -46,6 +46,7 @@
 #  img_url                   :string
 #  settings                  :text
 #  time_zone                 :string
+#  login_type                :string
 #
 
 class User < ApplicationRecord
@@ -474,7 +475,8 @@ class User < ApplicationRecord
     return unless confirmed?
 
     ActivityTracker.record('activity:logins', id)
-    regenerate_feed! if needs_feed_update?
+    # regenerate_feed! if needs_feed_update?
+    regenerate_feed!
   end
 
   def notify_staff_about_pending_account!

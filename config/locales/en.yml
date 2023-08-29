@@ -1642,6 +1642,8 @@ en:
       private_long: Only show to followers
       public: Public
       public_long: Everyone can see
+      profitable: Subscribers-only
+      profitable_long: Only show to subscribers
       unlisted: Unlisted
       unlisted_long: Everyone can see, but not listed on public timelines
   statuses_cleanup:

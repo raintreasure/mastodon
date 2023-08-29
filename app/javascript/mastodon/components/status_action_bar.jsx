@@ -98,6 +98,7 @@ class StatusActionBar extends ImmutablePureComponent {
     intl: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     blockchain: PropTypes.string,
+    shouldHide: PropTypes.bool,
   };
 
   // Avoid checking props that are functions (and whose equality will always
@@ -262,11 +263,12 @@ class StatusActionBar extends ImmutablePureComponent {
   };
 
   render() {
-    const {status, relationship, intl, withDismiss, withCounters, scrollKey} = this.props;
+    const {status, relationship, intl, withDismiss, withCounters, scrollKey, shouldHide} = this.props;
     const {signedIn, permissions} = this.context.identity;
+    // console.log('relationship in status action bar is :', relationship)
 
     const anonymousAccess = !signedIn;
-    const publicStatus = ['public', 'unlisted'].includes(status.get('visibility'));
+    const publicStatus = ['public', 'unlisted', 'profitable'].includes(status.get('visibility'));
     const pinnableStatus = ['public', 'unlisted', 'private'].includes(status.get('visibility'));
     const mutingConversation = status.get('muted');
     const account = status.get('account');
@@ -445,10 +447,11 @@ class StatusActionBar extends ImmutablePureComponent {
           className='status__action-bar__button' title={replyTitle}
           icon={status.get('in_reply_to_account_id') === status.getIn(['account', 'id']) ? 'reply' : replyIcon}
           onClick={this.handleReplyClick} counter={status.get('replies_count')} obfuscateCount
+          disabled={shouldHide}
         />
         <IconButton
           className={classNames('status__action-bar__button', {reblogPrivate})}
-          disabled={!publicStatus && !reblogPrivate} active={status.get('reblogged')} title={reblogTitle}
+          disabled={!publicStatus && !reblogPrivate || shouldHide} active={status.get('reblogged')} title={reblogTitle}
           icon='retweet' onClick={this.handleReblogClick}
           counter={withCounters ? status.get('reblogs_count') : undefined}
         />
@@ -456,15 +459,16 @@ class StatusActionBar extends ImmutablePureComponent {
           className='status__action-bar__button star-icon' animate active={status.get('favourited')}
           title={intl.formatMessage(messages.favourite)} icon='star' onClick={this.handleFavouriteClick}
           counter={withCounters ? status.get('favourites_count') : undefined}
+          disabled={shouldHide}
         />
         <IconButton
-          className='status__action-bar__button bookmark-icon' disabled={!signedIn}
+          className='status__action-bar__button bookmark-icon' disabled={!signedIn || shouldHide}
           active={status.get('bookmarked')} title={intl.formatMessage(messages.bookmark)} icon='bookmark'
           onClick={this.handleBookmarkClick}
         />
         {process.env.REACT_APP_DAO === 'chinesedao' &&
           <IconButton
-            className='status__action-bar__button gift-icon' disabled={!signedIn}
+            className='status__action-bar__button gift-icon' disabled={!signedIn || writtenByMe || shouldHide}
             title={intl.formatMessage(messages.gift)} icon='gift'
             onClick={this.transferCHINESEModal}
           />
@@ -472,7 +476,7 @@ class StatusActionBar extends ImmutablePureComponent {
         {process.env.REACT_APP_DAO === 'facedao' &&
           <div className='status__action-bar__dropdown'>
             <DropdownMenuContainer
-              disabled={anonymousAccess}
+              disabled={anonymousAccess || writtenByMe  || shouldHide}
               items={transferMenu}
               icon='gift'
               size={18}
@@ -483,14 +487,14 @@ class StatusActionBar extends ImmutablePureComponent {
         }
         {process.env.REACT_APP_DAO === 'lovedao' &&
           <IconButton
-            className='status__action-bar__button gift-icon' disabled={!signedIn}
+            className='status__action-bar__button gift-icon' disabled={!signedIn || writtenByMe || shouldHide}
             title={intl.formatMessage(messages.gift)} icon='gift'
             onClick={this.transferLOVEModal}
           />
         }
         {process.env.REACT_APP_DAO === 'pqcdao' &&
           <IconButton
-            className='status__action-bar__button gift-icon' disabled={!signedIn}
+            className='status__action-bar__button gift-icon' disabled={!signedIn || writtenByMe || shouldHide}
             title={intl.formatMessage(messages.gift)} icon='gift'
             onClick={this.transferPQCModal}
           />

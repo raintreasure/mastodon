@@ -128,7 +128,7 @@
   "compose.language.change": "Promijeni jezik",
   "compose.language.search": "Pretraži jezike...",
   "compose_form.direct_message_warning_learn_more": "Saznajte više",
-  "compose_form.encryption_warning": "Posts on Mastodon are not end-to-end encrypted. Do not share any dangerous information over Mastodon.",
+  "compose_form.encryption_warning": "Posts are not end-to-end encrypted. Do not share any dangerous information.",
   "compose_form.hashtag_warning": "This post won't be listed under any hashtag as it is unlisted. Only public posts can be searched by hashtag.",
   "compose_form.lock_disclaimer": "Vaš račun nije {locked}. Svatko Vas može pratiti kako bi vidjeli objave namijenjene Vašim pratiteljima.",
   "compose_form.lock_disclaimer.lock": "zaključan",
