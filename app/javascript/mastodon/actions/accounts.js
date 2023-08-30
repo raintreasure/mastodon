@@ -1,6 +1,6 @@
-import api, { getLinks } from '../api';
+import api, {getLinks} from '../api';
 
-import { importFetchedAccount, importFetchedAccounts } from './importer';
+import {importFetchedAccount, importFetchedAccounts} from './importer';
 
 export const ACCOUNT_FETCH_REQUEST = 'ACCOUNT_FETCH_REQUEST';
 export const ACCOUNT_FETCH_SUCCESS = 'ACCOUNT_FETCH_SUCCESS';
@@ -107,7 +107,7 @@ export function fetchAccount(id) {
 export const lookupAccount = acct => (dispatch, getState) => {
   dispatch(lookupAccountRequest(acct));
 
-  api(getState).get('/api/v1/accounts/lookup', { params: { acct } }).then(response => {
+  api(getState).get('/api/v1/accounts/lookup', {params: {acct}}).then(response => {
     dispatch(fetchRelationships([response.data.id]));
     dispatch(importFetchedAccount(response.data));
     dispatch(lookupAccountSuccess());
@@ -154,7 +154,7 @@ export function fetchAccountFail(id, error) {
   };
 }
 
-export function followAccount(id, options = { reblogs: true }) {
+export function followAccount(id, options = {reblogs: true}) {
   return (dispatch, getState) => {
     const alreadyFollowing = getState().getIn(['relationships', id, 'following']);
     const locked = getState().getIn(['accounts', id, 'locked'], false);
@@ -306,7 +306,7 @@ export function muteAccount(id, notifications, duration = 0) {
   return (dispatch, getState) => {
     dispatch(muteAccountRequest(id));
 
-    api(getState).post(`/api/v1/accounts/${id}/mute`, { notifications, duration }).then(response => {
+    api(getState).post(`/api/v1/accounts/${id}/mute`, {notifications, duration}).then(response => {
       // Pass in entire statuses map so we can use it to filter stuff in different parts of the reducers
       dispatch(muteAccountSuccess(response.data, getState().get('statuses')));
     }).catch(error => {
@@ -807,6 +807,14 @@ export function subscribeAccount(url, id) {
 
     api(getState).post(url).then(response => {
       dispatch(subscribeAccountSuccess(response.data));
+      api(getState).get(`api/v1/accounts/${id}/account_subscriptions`).then(response => {
+        // console.log('fetchSubscribingAccounts:', response)
+        // let res = response.data.map(acc => acc.target_account_id)
+        // console.log(res)
+        dispatch(fetchSubscribingAccountsSuccess(response.data));
+      }).catch(error => {
+        console.log('fetch subscribing accounts failed, error:', error);
+      });
     }).catch(error => {
       console.log('subscribe account failed, error:', error);
       dispatch(subscribeAccountFail(id));
@@ -820,6 +828,14 @@ export function unsubscribeAccount(url, id) {
 
     api(getState).post(url).then(response => {
       dispatch(unsubscribeAccountSuccess(response.data));
+      api(getState).get(`api/v1/accounts/${id}/account_subscriptions`).then(response => {
+        // console.log('fetchSubscribingAccounts:', response)
+        // let res = response.data.map(acc => acc.target_account_id)
+        // console.log(res)
+        dispatch(fetchSubscribingAccountsSuccess(response.data));
+      }).catch(error => {
+        console.log('fetch subscribing accounts failed, error:', error);
+      });
     }).catch(error => {
       console.log('unsubscribe account failed, error:', error);
       dispatch(unsubscribeAccountFail(error));
@@ -852,10 +868,11 @@ export const unsubscribeAccountFail = id => ({
   type: ACCOUNT_UNSUBSCRIBE_FAIL,
   id,
 });
+
 export function fetchSubscribingAccounts(id) {
   return (dispatch, getState) => {
     api(getState).get(`api/v1/accounts/${id}/account_subscriptions`).then(response => {
-      console.log('fetchSubscribingAccounts:', response)
+      // console.log('fetchSubscribingAccounts:', response)
       // let res = response.data.map(acc => acc.target_account_id)
       // console.log(res)
       dispatch(fetchSubscribingAccountsSuccess(response.data));
@@ -864,7 +881,8 @@ export function fetchSubscribingAccounts(id) {
     });
   };
 }
-export const fetchSubscribingAccountsSuccess = accounts =>({
-  type:FETCH_SUBSCRIBING_ACCOUNTS,
+
+export const fetchSubscribingAccountsSuccess = accounts => ({
+  type: FETCH_SUBSCRIBING_ACCOUNTS,
   accounts,
 });

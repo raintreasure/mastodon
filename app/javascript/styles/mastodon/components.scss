@@ -1912,6 +1912,19 @@ a.account__display-name {
   }
 }
 
+.status_subscribe_now {
+  color: $primary-text-color;
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-weight: bold;
+  text-decoration: none;
+
+  &:hover{
+    text-decoration: underline;
+  }
+}
+
 .status__avatar {
   width: 46px;
   height: 46px;

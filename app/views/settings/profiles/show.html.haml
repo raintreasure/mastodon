@@ -20,7 +20,7 @@
 
       .fields-group
         = f.input :note, wrapper: :with_block_label, input_html: { maxlength: 500 }
-        - if Setting.enable_subscription
+        - if ENV['REACT_APP_ENABLE_SUBSCRIPTION'] == 'true'
           = f.input :subscription_fee, wrapper: :with_label, input_html: {min:1}, hint: false
 
     .fields-row__column.fields-group.fields-row__column-6

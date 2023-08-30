@@ -26,7 +26,7 @@ export function fetchTransactions(accountId, address, blockchain) {
       void getFSNTransactions(accountId, PQC_CONTRACT_ADDR, address, dispatch);
     }
     if (process.env.REACT_APP_DAO === 'lovedao') {
-      console.log('enter lovedao branch, start to get transactions, blockchain is ', blockchain)
+      // console.log('enter lovedao branch, start to get transactions, blockchain is ', blockchain)
       if (blockchain === CHAIN_BSC) {
         void getBscLoveTransactions(accountId, address, dispatch)
       }else if (blockchain === CHAIN_FUSION ) {

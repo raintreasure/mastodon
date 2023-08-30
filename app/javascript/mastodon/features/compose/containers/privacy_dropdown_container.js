@@ -4,9 +4,11 @@ import { changeComposeVisibility } from '../../../actions/compose';
 import { openModal, closeModal } from '../../../actions/modal';
 import { isUserTouching } from '../../../is_mobile';
 import PrivacyDropdown from '../components/privacy_dropdown';
+import {me} from "mastodon/initial_state";
 
 const mapStateToProps = state => ({
   value: state.getIn(['compose', 'privacy']),
+  account: state.getIn(['accounts', me]),
 });
 
 const mapDispatchToProps = dispatch => ({

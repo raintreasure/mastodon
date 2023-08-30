@@ -6,10 +6,11 @@ import {me} from '../../../initial_state';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Button from '../../../components/button';
 import {openModal} from '../../../actions/modal';
-import {subscribeAccount, unsubscribeAccount} from '../../../actions/accounts';
+import {fetchSubscribingAccounts, subscribeAccount, unsubscribeAccount} from '../../../actions/accounts';
 import classNames from 'classnames';
 import {transferERC20} from '../../../actions/transfer';
 import {toast} from 'react-hot-toast';
+import {getEarnToken} from "mastodon/utils/web3";
 
 const mapStateToProps = state => ({
   account: state.getIn(['accounts', me]),
@@ -35,7 +36,9 @@ const messages = defineMessages({
 });
 
 class SubscribeButton extends React.PureComponent {
-
+  state = {
+    loading: false,
+  }
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -69,9 +72,9 @@ class SubscribeButton extends React.PureComponent {
           message: (
             <div className={'subscription__modal'}>
             <span style={{textAlign: 'center'}}>{
-              (subscribing ? intl.formatMessage(messages.undoText1) : intl.formatMessage(messages.text1)) +
+              (subscribing ? intl.formatMessage(messages.undoText1) : intl.formatMessage(messages.text1)) + ' ' +
               to_account.get('username') +
-              (subscribing ? intl.formatMessage(messages.undoText2) : (intl.formatMessage(messages.text2) + subscriptionFee))
+              (subscribing ? intl.formatMessage(messages.undoText2) : (intl.formatMessage(messages.text2) + subscriptionFee) + getEarnToken())
             }
             </span>
             </div>
@@ -79,20 +82,20 @@ class SubscribeButton extends React.PureComponent {
           confirm: subscribing ? intl.formatMessage(messages.undoConfirm) : intl.formatMessage(messages.confirm),
           onConfirm: async () => {
             this.setState({loading: true});
-            transferERC20(eth_address, subscriptionFee, blockchain, dispatch).then(() => {
-              const postUrl = subscribing ? `/api/v1/accounts/${toAccountId}/unsubscribe` :
-                `/api/v1/accounts/${toAccountId}/subscribe`;
-              if (subscribing) {
+            if (!subscribing) {
+              transferERC20(getEarnToken(), eth_address, subscriptionFee, blockchain, dispatch).then(() => {
+                const postUrl = `/api/v1/accounts/${toAccountId}/subscribe`;
                 dispatch(subscribeAccount(postUrl, toAccountId));
-              } else {
-                dispatch(unsubscribeAccount(postUrl, toAccountId));
-              }
-            }).catch(error => {
-              toast.error(`Subscription failed. ${error}`);
-            }).finally(() => {
+              }).catch(error => {
+                toast.error(`Subscription failed. ${error}`);
+              }).finally(() => {
+                this.setState({loading: false});
+              });
+            } else {
+              const postUrl = `/api/v1/accounts/${toAccountId}/unsubscribe`
+              dispatch(unsubscribeAccount(postUrl, toAccountId));
               this.setState({loading: false});
-            });
-
+            }
           },
         }
       }));
@@ -112,7 +115,7 @@ class SubscribeButton extends React.PureComponent {
     }
   };
 
-  testHandleSubscription = (subscribing, to_account, dispatch) => {
+  testHandleSubscription = (subscribing, to_account, dispatch, account) => {
     const toAccountId = to_account.get('id');
     const postUrl = subscribing ? `/api/v1/accounts/${toAccountId}/unsubscribe` :
       `/api/v1/accounts/${toAccountId}/subscribe`;
@@ -124,9 +127,9 @@ class SubscribeButton extends React.PureComponent {
   }
 
   handleClick = () => {
-    const {intl, dispatch, to_account, subscribing, blockchain} = this.props;
-    // this.confirmModal(intl, dispatch, to_account, messages, subscribing, blockchain);
-    this.testHandleSubscription(subscribing, to_account, dispatch)
+    const {intl, dispatch, to_account, subscribing, blockchain, account} = this.props;
+    this.confirmModal(intl, dispatch, to_account, messages, subscribing, blockchain);
+    // this.testHandleSubscription(subscribing, to_account, dispatch, account)
   };
 
   render() {
@@ -141,6 +144,7 @@ class SubscribeButton extends React.PureComponent {
           className={classNames('logo-button', {
             'button--destructive': subscribing,
           })}
+          disabled={this.state.loading}
         />
       </div>
 

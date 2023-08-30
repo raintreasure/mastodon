@@ -11,6 +11,7 @@ import Overlay from 'react-overlays/Overlay';
 import { Icon }  from 'mastodon/components/icon';
 
 import { IconButton } from '../../../components/icon_button';
+import ImmutablePropTypes from "react-immutable-proptypes";
 
 const messages = defineMessages({
   public_short: { id: 'privacy.public.short', defaultMessage: 'Public' },
@@ -152,6 +153,7 @@ class PrivacyDropdown extends PureComponent {
     container: PropTypes.func,
     disabled: PropTypes.bool,
     intl: PropTypes.object.isRequired,
+    account: ImmutablePropTypes.map.isRequired,
   };
 
   state = {
@@ -221,14 +223,18 @@ class PrivacyDropdown extends PureComponent {
   };
 
   UNSAFE_componentWillMount () {
-    const { intl: { formatMessage } } = this.props;
+    const { intl: { formatMessage }, account } = this.props;
 
     this.options = [
       { icon: 'globe', value: 'public', text: formatMessage(messages.public_short), meta: formatMessage(messages.public_long) },
       { icon: 'unlock', value: 'unlisted', text: formatMessage(messages.unlisted_short), meta: formatMessage(messages.unlisted_long) },
       { icon: 'lock', value: 'private', text: formatMessage(messages.private_short), meta: formatMessage(messages.private_long) },
-      { icon: 'money', value: 'profitable', text: formatMessage(messages.profitable_short), meta: formatMessage(messages.profitable_long) },
     ];
+    if (account.get('subscription_fee') !== null) {
+      this.options.push(
+        { icon: 'money', value: 'profitable', text: formatMessage(messages.profitable_short), meta: formatMessage(messages.profitable_long) },
+      )
+    }
 
     if (!this.props.noDirect) {
       this.options.push(

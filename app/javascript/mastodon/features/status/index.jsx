@@ -60,7 +60,7 @@ import {
 import ColumnHeader from '../../components/column_header';
 import { textForScreenReader, defaultMediaVisibility } from '../../components/status';
 import StatusContainer from '../../containers/status_container';
-import { boostModal, deleteModal } from '../../initial_state';
+import {boostModal, deleteModal, me} from '../../initial_state';
 import { makeGetStatus, makeGetPictureInPicture } from '../../selectors';
 import Column from '../ui/components/column';
 import { attachFullscreenListener, detachFullscreenListener, isFullscreen } from '../ui/util/fullscreen';
@@ -653,6 +653,8 @@ class Status extends ImmutablePureComponent {
       toggleSensitive: this.handleHotkeyToggleSensitive,
       openMedia: this.handleHotkeyOpenMedia,
     };
+    const writtenByMe = status.getIn(['account', 'id']) === me;
+    let shouldHideContent = !writtenByMe && status.get('visibility') === 'profitable' && subscribing_accounts && !subscribing_accounts.includes(status.getIn(['account', 'id']))
 
     return (
       <Column bindToDocument={!multiColumn} label={intl.formatMessage(messages.detailedStatus)}>
@@ -682,7 +684,7 @@ class Status extends ImmutablePureComponent {
                   showMedia={this.state.showMedia}
                   onToggleMediaVisibility={this.handleToggleMediaVisibility}
                   pictureInPicture={pictureInPicture}
-                  subscribing_accounts={subscribing_accounts}
+                  shouldHideContent={shouldHideContent}
                 />
 
                 <ActionBar
@@ -706,6 +708,7 @@ class Status extends ImmutablePureComponent {
                   onReport={this.handleReport}
                   onPin={this.handlePin}
                   onEmbed={this.handleEmbed}
+                  shouldHideContent={shouldHideContent}
                 />
               </div>
             </HotKeys>

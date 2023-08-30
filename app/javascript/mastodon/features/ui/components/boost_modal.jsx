@@ -100,7 +100,8 @@ class BoostModal extends ImmutablePureComponent {
         <div className='boost-modal__container'>
           <div className={classNames('status', `status-${status.get('visibility')}`, 'light')}>
             <div className='status__info'>
-              <a href={`/@${status.getIn(['account', 'acct'])}/${status.get('id')}`} className='status__relative-time' target='_blank' rel='noopener noreferrer'>
+              {/*<a href={`/@${status.getIn(['account', 'acct'])}/${status.get('id')}`} className='status__relative-time' target='_blank' rel='noopener noreferrer'>*/}
+              <a className='status__relative-time' target='_blank' rel='noopener noreferrer'>
                 <span className='status__visibility-icon'><Icon id={visibilityIcon.icon} title={visibilityIcon.text} /></span>
                 <RelativeTimestamp timestamp={status.get('created_at')} />
               </a>
@@ -133,6 +134,7 @@ class BoostModal extends ImmutablePureComponent {
               value={privacy}
               container={this._findContainer}
               onChange={this.props.onChangeBoostPrivacy}
+              account={null}
             />
           )}
           <Button text={intl.formatMessage(buttonText)} onClick={this.handleReblog} ref={this.setRef} />

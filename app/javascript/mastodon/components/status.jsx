@@ -68,7 +68,8 @@ const messages = defineMessages({
   private_short: {id: 'privacy.private.short', defaultMessage: 'Followers only'},
   direct_short: {id: 'privacy.direct.short', defaultMessage: 'Mentioned people only'},
   profitable_short: {id: 'privacy.profitable.short', defaultMessage: 'Subscribers only'},
-  profitable_lock: {id:'privacy.profitable.lock', defaultMessage: 'This post is for subscribers only'},
+  profitable_lock: {id:'privacy.profitable.lock', defaultMessage: 'This post is for subscribers only. '},
+  profitable_now: {id:'privacy.profitable.now', defaultMessage:'Subscribe Now'},
   edited: {id: 'status.edited', defaultMessage: 'Edited {date}'},
 });
 
@@ -579,6 +580,10 @@ class Status extends ImmutablePureComponent {
         <div className={'subscribers_only_stash_block'}>
           <Icon id={'lock'}/>
           <span>{intl.formatMessage(messages.profitable_lock)}</span>
+          <a onClick={this.handlePrependAccountClick} data-id={status.getIn(['account', 'id'])}
+             href={`/@${status.getIn(['account', 'acct'])}`} className='status_subscribe_now'>
+            <strong>{intl.formatMessage(messages.profitable_now)}</strong>
+          </a>
         </div>
       )
     }
@@ -605,7 +610,8 @@ class Status extends ImmutablePureComponent {
 
             {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
             <div onClick={shouldHideContent ? () => {} : this.handleClick} className='status__info'>
-              <a href={`/@${status.getIn(['account', 'acct'])}/${status.get('id')}`} className='status__relative-time'
+              {/*<a href={`/@${status.getIn(['account', 'acct'])}/${status.get('id')}`} className='status__relative-time'*/}
+              <a className='status__relative-time'
                  target='_blank' rel='noopener noreferrer'>
                 <span className='status__visibility-icon'><Icon id={visibilityIcon.icon}
                                                                 title={visibilityIcon.text}/></span>

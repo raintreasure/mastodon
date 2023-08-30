@@ -30,7 +30,9 @@ const messages = defineMessages({
   private_short: {id: 'privacy.private.short', defaultMessage: 'Followers only'},
   direct_short: {id: 'privacy.direct.short', defaultMessage: 'Mentioned people only'},
   profitable_short: {id: 'privacy.profitable.short', defaultMessage: 'Subscribers only'},
-  profitable_lock: {id:'privacy.profitable.lock', defaultMessage: 'This post is for subscribers only'},
+  profitable_lock: {id: 'privacy.profitable.lock', defaultMessage: 'This post is for subscribers only'},
+  profitable_now: {id:'privacy.profitable.now', defaultMessage:'Subscribe Now'},
+
 });
 
 class DetailedStatus extends ImmutablePureComponent {
@@ -55,7 +57,7 @@ class DetailedStatus extends ImmutablePureComponent {
       available: PropTypes.bool,
     }),
     onToggleMediaVisibility: PropTypes.func,
-    subscribing_accounts: ImmutablePropTypes.list,
+    shouldHideContent: PropTypes.bool,
   };
 
   state = {
@@ -120,7 +122,7 @@ class DetailedStatus extends ImmutablePureComponent {
   render() {
     const status = (this.props.status && this.props.status.get('reblog')) ? this.props.status.get('reblog') : this.props.status;
     const outerStyle = {boxSizing: 'border-box'};
-    const {intl, compact, pictureInPicture, subscribing_accounts} = this.props;
+    const {intl, compact, pictureInPicture, shouldHideContent} = this.props;
 
     if (!status) {
       return null;
@@ -280,13 +282,15 @@ class DetailedStatus extends ImmutablePureComponent {
         </>
       );
     }
-    const writtenByMe = status.getIn(['account', 'id']) === me;
-    let shouldHideContent = !writtenByMe && status.get('visibility') === 'profitable' && subscribing_accounts && !subscribing_accounts.includes(status.getIn(['account', 'id']))
     if (shouldHideContent) {
       media = (
         <div className={'subscribers_only_stash_block'}>
           <Icon id={'lock'}/>
           <span>{intl.formatMessage(messages.profitable_lock)}</span>
+          <a onClick={this.handleAccountClick} data-id={status.getIn(['account', 'id'])}
+             href={`/@${status.getIn(['account', 'acct'])}`} className='status_subscribe_now'>
+            <strong>{intl.formatMessage(messages.profitable_now)}</strong>
+          </a>
         </div>
       )
     }
@@ -317,7 +321,8 @@ class DetailedStatus extends ImmutablePureComponent {
           {media}
 
           <div className='detailed-status__meta'>
-            <a className='detailed-status__datetime' href={`/@${status.getIn(['account', 'acct'])}/${status.get('id')}`}
+            {/*<a className='detailed-status__datetime' href={`/@${status.getIn(['account', 'acct'])}/${status.get('id')}`}*/}
+            <a className='detailed-status__datetime'
                target='_blank' rel='noopener noreferrer'>
               <FormattedDate value={new Date(status.get('created_at'))} hour12={false} year='numeric' month='short'
                              day='2-digit' hour='2-digit' minute='2-digit'/>

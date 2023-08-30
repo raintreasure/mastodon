@@ -86,6 +86,7 @@ class ActionBar extends PureComponent {
     onEmbed: PropTypes.func,
     intl: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
+    shouldHideContent: PropTypes.bool,
   };
 
   handleReplyClick = () => {
@@ -207,7 +208,7 @@ class ActionBar extends PureComponent {
     transferModal(intl, dispatch, account, 'PQC', blockchain);
   };
   render() {
-    const { status, relationship, intl } = this.props;
+    const { status, relationship, intl, shouldHideContent } = this.props;
     const { signedIn, permissions } = this.context.identity;
 
     const publicStatus = ['public', 'unlisted', 'profitable'].includes(status.get('visibility'));
@@ -343,10 +344,11 @@ class ActionBar extends PureComponent {
           title={intl.formatMessage(messages.reply)}
           icon={status.get('in_reply_to_account_id') === status.getIn(['account', 'id']) ? 'reply' : replyIcon}
           onClick={this.handleReplyClick}
+          disabled={shouldHideContent}
         /></div>
         <div className='detailed-status__button'><IconButton
           className={classNames({ reblogPrivate })}
-          disabled={!publicStatus && !reblogPrivate}
+          disabled={!publicStatus && !reblogPrivate || shouldHideContent}
           active={status.get('reblogged')} title={reblogTitle}
           icon='retweet' onClick={this.handleReblogClick}
         /></div>
@@ -355,30 +357,31 @@ class ActionBar extends PureComponent {
           active={status.get('favourited')}
           title={intl.formatMessage(messages.favourite)} icon='star'
           onClick={this.handleFavouriteClick}
+          disabled={shouldHideContent}
         /></div>
         <div className='detailed-status__button'><IconButton
-          className='bookmark-icon' disabled={!signedIn}
+          className='bookmark-icon' disabled={!signedIn || shouldHideContent}
           active={status.get('bookmarked')}
           title={intl.formatMessage(messages.bookmark)}
           icon='bookmark' onClick={this.handleBookmarkClick}
         /></div>
         {process.env.REACT_APP_DAO === 'chinesedao' &&
           <div className='detailed-status__button'><IconButton
-            className='gift-icon' disabled={!signedIn  || writtenByMe}
+            className='gift-icon' disabled={!signedIn  || writtenByMe || shouldHideContent}
             title={intl.formatMessage(messages.gift)} icon='gift'
             onClick={this.transferCHINESEModal}
           /></div>
         }
         {process.env.REACT_APP_DAO === 'lovedao' &&
           <div className='detailed-status__button'><IconButton
-            className='gift-icon' disabled={!signedIn  || writtenByMe}
+            className='gift-icon' disabled={!signedIn  || writtenByMe || shouldHideContent}
             title={intl.formatMessage(messages.gift)} icon='gift'
             onClick={this.transferLOVEModal}
           /></div>
         }
         {process.env.REACT_APP_DAO === 'pqcdao' &&
           <div className='detailed-status__button'><IconButton
-            className='gift-icon' disabled={!signedIn  || writtenByMe}
+            className='gift-icon' disabled={!signedIn  || writtenByMe || shouldHideContent}
             title={intl.formatMessage(messages.gift)} icon='gift'
             onClick={this.transferPQCModal}
           /></div>
@@ -388,7 +391,7 @@ class ActionBar extends PureComponent {
         {process.env.REACT_APP_DAO === 'facedao' &&
           <div className='detailed-status__button'>
             <DropdownMenuContainer
-              disabled={!signedIn || writtenByMe }
+              disabled={!signedIn || writtenByMe || shouldHideContent}
               items={transferMenu}
               icon='gift'
               size={18}
