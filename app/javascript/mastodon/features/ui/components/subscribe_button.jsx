@@ -39,7 +39,9 @@ class SubscribeButton extends React.PureComponent {
   state = {
     loading: false,
   }
-
+  static contextTypes = {
+    identity: PropTypes.object,
+  };
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     intl: PropTypes.object.isRequired,
@@ -134,6 +136,8 @@ class SubscribeButton extends React.PureComponent {
 
   render() {
     const {intl, subscribing} = this.props;
+    const { signedIn } = this.context.identity;
+
     return (
       <div>
         <Button
@@ -144,7 +148,7 @@ class SubscribeButton extends React.PureComponent {
           className={classNames('logo-button', {
             'button--destructive': subscribing,
           })}
-          disabled={this.state.loading}
+          disabled={this.state.loading || !signedIn}
         />
       </div>
 

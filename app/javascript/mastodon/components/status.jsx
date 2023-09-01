@@ -574,7 +574,7 @@ class Status extends ImmutablePureComponent {
     // console.log('status beglong to: ', status.getIn(['account', 'id']))
     // console.log('subscrbing status: ', subscribing_accounts.includes(status.getIn(['account', 'id'])))
 
-    let shouldHideContent =  !writtenByMe && status.get('visibility') === 'profitable' && subscribing_accounts && !subscribing_accounts.includes(status.getIn(['account', 'id']))
+    let shouldHideContent =  !writtenByMe && status.get('visibility') === 'profitable' && (!subscribing_accounts || !subscribing_accounts.includes(status.getIn(['account', 'id'])))
     if (shouldHideContent) {
       media = (
         <div className={'subscribers_only_stash_block'}>
