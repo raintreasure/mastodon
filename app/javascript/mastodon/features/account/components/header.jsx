@@ -1,77 +1,78 @@
 import PropTypes from 'prop-types';
 
-import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
+import {defineMessages, injectIntl, FormattedMessage} from 'react-intl';
 import Button from 'mastodon/components/button';
 import ImmutablePureComponent from 'react-immutable-pure-component';
-import { autoPlayGif, me, domain, enableSubscription } from 'mastodon/initial_state';
+import {autoPlayGif, me, domain, enableSubscription} from 'mastodon/initial_state';
 import classNames from 'classnames';
-import { Helmet } from 'react-helmet';
-import { NavLink } from 'react-router-dom';
+import {Helmet} from 'react-helmet';
+import {NavLink} from 'react-router-dom';
 
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import { Avatar } from 'mastodon/components/avatar';
-import { counterRenderer } from 'mastodon/components/common_counter';
-import { Icon }  from 'mastodon/components/icon';
-import { IconButton } from 'mastodon/components/icon_button';
+import {Avatar} from 'mastodon/components/avatar';
+import {counterRenderer} from 'mastodon/components/common_counter';
+import {Icon} from 'mastodon/components/icon';
+import {IconButton} from 'mastodon/components/icon_button';
 import ShortNumber from 'mastodon/components/short_number';
 import DropdownMenuContainer from 'mastodon/containers/dropdown_menu_container';
-import { PERMISSION_MANAGE_USERS, PERMISSION_MANAGE_FEDERATION } from 'mastodon/permissions';
+import {PERMISSION_MANAGE_USERS, PERMISSION_MANAGE_FEDERATION} from 'mastodon/permissions';
 import AccountNoteContainer from '../containers/account_note_container';
 import FollowRequestNoteContainer from '../containers/follow_request_note_container';
 import TransferToken from '../../ui/components/transfer';
 import SubscribeButton from '../../ui/components/subscribe_button';
-import { Typography } from 'antd';
+import {Typography} from 'antd';
 
-const { Paragraph } = Typography;
+const {Paragraph} = Typography;
 
 const messages = defineMessages({
-  unfollow: { id: 'account.unfollow', defaultMessage: 'Unfollow' },
-  follow: { id: 'account.follow', defaultMessage: 'Follow' },
-  cancel_follow_request: { id: 'account.cancel_follow_request', defaultMessage: 'Withdraw follow request' },
-  requested: { id: 'account.requested', defaultMessage: 'Awaiting approval. Click to cancel follow request' },
-  unblock: { id: 'account.unblock', defaultMessage: 'Unblock @{name}' },
-  edit_profile: { id: 'account.edit_profile', defaultMessage: 'Edit profile' },
-  linkVerifiedOn: { id: 'account.link_verified_on', defaultMessage: 'Ownership of this link was checked on {date}' },
+  unfollow: {id: 'account.unfollow', defaultMessage: 'Unfollow'},
+  follow: {id: 'account.follow', defaultMessage: 'Follow'},
+  cancel_follow_request: {id: 'account.cancel_follow_request', defaultMessage: 'Withdraw follow request'},
+  requested: {id: 'account.requested', defaultMessage: 'Awaiting approval. Click to cancel follow request'},
+  unblock: {id: 'account.unblock', defaultMessage: 'Unblock @{name}'},
+  edit_profile: {id: 'account.edit_profile', defaultMessage: 'Edit profile'},
+  linkVerifiedOn: {id: 'account.link_verified_on', defaultMessage: 'Ownership of this link was checked on {date}'},
   account_locked: {
     id: 'account.locked_info',
     defaultMessage: 'This account privacy status is set to locked. The owner manually reviews who can follow them.',
   },
-  mention: { id: 'account.mention', defaultMessage: 'Mention @{name}' },
-  direct: { id: 'account.direct', defaultMessage: 'Privately mention @{name}' },
-  unmute: { id: 'account.unmute', defaultMessage: 'Unmute @{name}' },
-  block: { id: 'account.block', defaultMessage: 'Block @{name}' },
-  mute: { id: 'account.mute', defaultMessage: 'Mute @{name}' },
-  report: { id: 'account.report', defaultMessage: 'Report @{name}' },
-  share: { id: 'account.share', defaultMessage: 'Share @{name}\'s profile' },
-  media: { id: 'account.media', defaultMessage: 'Media' },
-  blockDomain: { id: 'account.block_domain', defaultMessage: 'Block domain {domain}' },
-  unblockDomain: { id: 'account.unblock_domain', defaultMessage: 'Unblock domain {domain}' },
-  hideReblogs: { id: 'account.hide_reblogs', defaultMessage: 'Hide boosts from @{name}' },
-  showReblogs: { id: 'account.show_reblogs', defaultMessage: 'Show boosts from @{name}' },
-  enableNotifications: { id: 'account.enable_notifications', defaultMessage: 'Notify me when @{name} posts' },
-  disableNotifications: { id: 'account.disable_notifications', defaultMessage: 'Stop notifying me when @{name} posts' },
-  pins: { id: 'navigation_bar.pins', defaultMessage: 'Pinned posts' },
-  preferences: { id: 'navigation_bar.preferences', defaultMessage: 'Preferences' },
-  follow_requests: { id: 'navigation_bar.follow_requests', defaultMessage: 'Follow requests' },
-  favourites: { id: 'navigation_bar.favourites', defaultMessage: 'Favourites' },
-  lists: { id: 'navigation_bar.lists', defaultMessage: 'Lists' },
-  followed_tags: { id: 'navigation_bar.followed_tags', defaultMessage: 'Followed hashtags' },
-  blocks: { id: 'navigation_bar.blocks', defaultMessage: 'Blocked users' },
-  domain_blocks: { id: 'navigation_bar.domain_blocks', defaultMessage: 'Blocked domains' },
-  mutes: { id: 'navigation_bar.mutes', defaultMessage: 'Muted users' },
-  endorse: { id: 'account.endorse', defaultMessage: 'Feature on profile' },
-  unendorse: { id: 'account.unendorse', defaultMessage: 'Don\'t feature on profile' },
-  add_or_remove_from_list: { id: 'account.add_or_remove_from_list', defaultMessage: 'Add or Remove from lists' },
-  admin_account: { id: 'status.admin_account', defaultMessage: 'Open moderation interface for @{name}' },
-  admin_domain: { id: 'status.admin_domain', defaultMessage: 'Open moderation interface for {domain}' },
-  languages: { id: 'account.languages', defaultMessage: 'Change subscribed languages' },
-  openOriginalPage: { id: 'account.open_original_page', defaultMessage: 'Open original page' },
-  tab_tokens: { id: 'account.tab_tokens', defaultMessage: 'Tokens' },
-  tab_nfts: { id: 'account.tab_nfts', defaultMessage: 'NFTs' },
-  tab_earnings: { id: 'account.tab_earnings', defaultMessage: 'Earnings' },
-  tab_transactions: { id: 'account.tab_transactions', defaultMessage: 'Transactions' },
-  transfer: { id: 'account.transfer_button', defaultMessage: 'Transfer' },
+  mention: {id: 'account.mention', defaultMessage: 'Mention @{name}'},
+  direct: {id: 'account.direct', defaultMessage: 'Privately mention @{name}'},
+  unmute: {id: 'account.unmute', defaultMessage: 'Unmute @{name}'},
+  block: {id: 'account.block', defaultMessage: 'Block @{name}'},
+  mute: {id: 'account.mute', defaultMessage: 'Mute @{name}'},
+  report: {id: 'account.report', defaultMessage: 'Report @{name}'},
+  share: {id: 'account.share', defaultMessage: 'Share @{name}\'s profile'},
+  media: {id: 'account.media', defaultMessage: 'Media'},
+  blockDomain: {id: 'account.block_domain', defaultMessage: 'Block domain {domain}'},
+  unblockDomain: {id: 'account.unblock_domain', defaultMessage: 'Unblock domain {domain}'},
+  hideReblogs: {id: 'account.hide_reblogs', defaultMessage: 'Hide boosts from @{name}'},
+  showReblogs: {id: 'account.show_reblogs', defaultMessage: 'Show boosts from @{name}'},
+  enableNotifications: {id: 'account.enable_notifications', defaultMessage: 'Notify me when @{name} posts'},
+  disableNotifications: {id: 'account.disable_notifications', defaultMessage: 'Stop notifying me when @{name} posts'},
+  pins: {id: 'navigation_bar.pins', defaultMessage: 'Pinned posts'},
+  preferences: {id: 'navigation_bar.preferences', defaultMessage: 'Preferences'},
+  follow_requests: {id: 'navigation_bar.follow_requests', defaultMessage: 'Follow requests'},
+  favourites: {id: 'navigation_bar.favourites', defaultMessage: 'Favourites'},
+  lists: {id: 'navigation_bar.lists', defaultMessage: 'Lists'},
+  followed_tags: {id: 'navigation_bar.followed_tags', defaultMessage: 'Followed hashtags'},
+  blocks: {id: 'navigation_bar.blocks', defaultMessage: 'Blocked users'},
+  domain_blocks: {id: 'navigation_bar.domain_blocks', defaultMessage: 'Blocked domains'},
+  mutes: {id: 'navigation_bar.mutes', defaultMessage: 'Muted users'},
+  endorse: {id: 'account.endorse', defaultMessage: 'Feature on profile'},
+  unendorse: {id: 'account.unendorse', defaultMessage: 'Don\'t feature on profile'},
+  add_or_remove_from_list: {id: 'account.add_or_remove_from_list', defaultMessage: 'Add or Remove from lists'},
+  admin_account: {id: 'status.admin_account', defaultMessage: 'Open moderation interface for @{name}'},
+  admin_domain: {id: 'status.admin_domain', defaultMessage: 'Open moderation interface for {domain}'},
+  languages: {id: 'account.languages', defaultMessage: 'Change subscribed languages'},
+  openOriginalPage: {id: 'account.open_original_page', defaultMessage: 'Open original page'},
+  tab_tokens: {id: 'account.tab_tokens', defaultMessage: 'Tokens'},
+  tab_nfts: {id: 'account.tab_nfts', defaultMessage: 'NFTs'},
+  tab_earnings: {id: 'account.tab_earnings', defaultMessage: 'Earnings'},
+  tab_transactions: {id: 'account.tab_transactions', defaultMessage: 'Transactions'},
+  transfer: {id: 'account.transfer_button', defaultMessage: 'Transfer'},
+  exchange: {id: 'account.exchange', defaultMessage: 'Exchange'}
 });
 
 const titleFromAccount = account => {
@@ -139,7 +140,7 @@ class Header extends ImmutablePureComponent {
     return !location.pathname.match(/\/(followers|following)\/?$/);
   };
 
-  handleMouseEnter = ({ currentTarget }) => {
+  handleMouseEnter = ({currentTarget}) => {
     if (autoPlayGif) {
       return;
     }
@@ -152,7 +153,7 @@ class Header extends ImmutablePureComponent {
     }
   };
 
-  handleMouseLeave = ({ currentTarget }) => {
+  handleMouseLeave = ({currentTarget}) => {
     if (autoPlayGif) {
       return;
     }
@@ -173,7 +174,7 @@ class Header extends ImmutablePureComponent {
   };
 
   handleShare = () => {
-    const { account } = this.props;
+    const {account} = this.props;
 
     navigator.share({
       url: account.get('url'),
@@ -183,7 +184,7 @@ class Header extends ImmutablePureComponent {
   };
 
   handleHashtagClick = e => {
-    const { router } = this.context;
+    const {router} = this.context;
     const value = e.currentTarget.textContent.replace(/^#/, '');
 
     if (router && e.button === 0 && !(e.ctrlKey || e.metaKey)) {
@@ -193,8 +194,8 @@ class Header extends ImmutablePureComponent {
   };
 
   handleMentionClick = e => {
-    const { router } = this.context;
-    const { onOpenURL } = this.props;
+    const {router} = this.context;
+    const {onOpenURL} = this.props;
 
     if (router && e.button === 0 && !(e.ctrlKey || e.metaKey)) {
       e.preventDefault();
@@ -207,7 +208,7 @@ class Header extends ImmutablePureComponent {
     }
   };
 
-  _attachLinkEvents () {
+  _attachLinkEvents() {
     const node = this.node;
 
     if (!node) {
@@ -229,17 +230,17 @@ class Header extends ImmutablePureComponent {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this._attachLinkEvents();
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     this._attachLinkEvents();
   }
 
-  render () {
-    const { account, hidden, intl, domain } = this.props;
-    const { signedIn, permissions } = this.context.identity;
+  render() {
+    const {account, hidden, intl, domain} = this.props;
+    const {signedIn, permissions} = this.context.identity;
 
     if (!account) {
       return null;
@@ -282,7 +283,7 @@ class Header extends ImmutablePureComponent {
       bellBtn = (<IconButton
         icon={account.getIn(['relationship', 'notifying']) ? 'bell' : 'bell-o'} size={24}
         active={account.getIn(['relationship', 'notifying'])}
-        title={intl.formatMessage(account.getIn(['relationship', 'notifying']) ? messages.disableNotifications : messages.enableNotifications, { name: account.get('username') })}
+        title={intl.formatMessage(account.getIn(['relationship', 'notifying']) ? messages.disableNotifications : messages.enableNotifications, {name: account.get('username')})}
         onClick={this.props.onNotifyToggle}
       />);
     }
@@ -292,7 +293,7 @@ class Header extends ImmutablePureComponent {
         actionBtn = '';
       } else if (account.getIn(['relationship', 'requested'])) {
         actionBtn = (<Button
-          className={classNames('logo-button', { 'button--with-bell': bellBtn !== '' })}
+          className={classNames('logo-button', {'button--with-bell': bellBtn !== ''})}
           text={intl.formatMessage(messages.cancel_follow_request)}
           title={intl.formatMessage(messages.requested)} onClick={this.props.onFollow}
         />);
@@ -309,7 +310,7 @@ class Header extends ImmutablePureComponent {
       } else if (account.getIn(['relationship', 'blocking'])) {
         actionBtn =
           (<Button
-            className='logo-button' text={intl.formatMessage(messages.unblock, { name: account.get('username') })}
+            className='logo-button' text={intl.formatMessage(messages.unblock, {name: account.get('username')})}
             onClick={this.props.onBlock}
           />);
       }
@@ -325,75 +326,102 @@ class Header extends ImmutablePureComponent {
     }
 
     if (account.get('locked')) {
-      lockedIcon = <Icon id='lock' title={intl.formatMessage(messages.account_locked)} />;
+      lockedIcon = <Icon id='lock' title={intl.formatMessage(messages.account_locked)}/>;
     }
 
     if (signedIn && account.get('id') !== me) {
       menu.push({
-        text: intl.formatMessage(messages.mention, { name: account.get('username') }),
+        text: intl.formatMessage(messages.mention, {name: account.get('username')}),
         action: this.props.onMention,
       });
       menu.push({
-        text: intl.formatMessage(messages.direct, { name: account.get('username') }),
+        text: intl.formatMessage(messages.direct, {name: account.get('username')}),
         action: this.props.onDirect,
       });
       menu.push(null);
     }
 
     if (isRemote) {
-      menu.push({ text: intl.formatMessage(messages.openOriginalPage), href: account.get('url') });
+      menu.push({text: intl.formatMessage(messages.openOriginalPage), href: account.get('url')});
       menu.push(null);
     }
 
     if ('share' in navigator) {
-      menu.push({ text: intl.formatMessage(messages.share, { name: account.get('username') }), action: this.handleShare });
+      menu.push({text: intl.formatMessage(messages.share, {name: account.get('username')}), action: this.handleShare});
       menu.push(null);
     }
 
     if (account.get('id') === me) {
-      menu.push({ text: intl.formatMessage(messages.edit_profile), href: '/settings/profile' });
-      menu.push({ text: intl.formatMessage(messages.preferences), href: '/settings/preferences' });
-      menu.push({ text: intl.formatMessage(messages.pins), to: '/pinned' });
+      menu.push({text: intl.formatMessage(messages.edit_profile), href: '/settings/profile'});
+      menu.push({text: intl.formatMessage(messages.preferences), href: '/settings/preferences'});
+      menu.push({text: intl.formatMessage(messages.pins), to: '/pinned'});
       menu.push(null);
-      menu.push({ text: intl.formatMessage(messages.follow_requests), to: '/follow_requests' });
-      menu.push({ text: intl.formatMessage(messages.favourites), to: '/favourites' });
-      menu.push({ text: intl.formatMessage(messages.lists), to: '/lists' });
-      menu.push({ text: intl.formatMessage(messages.followed_tags), to: '/followed_tags' });
+      menu.push({text: intl.formatMessage(messages.follow_requests), to: '/follow_requests'});
+      menu.push({text: intl.formatMessage(messages.favourites), to: '/favourites'});
+      menu.push({text: intl.formatMessage(messages.lists), to: '/lists'});
+      menu.push({text: intl.formatMessage(messages.followed_tags), to: '/followed_tags'});
       menu.push(null);
-      menu.push({ text: intl.formatMessage(messages.mutes), to: '/mutes' });
-      menu.push({ text: intl.formatMessage(messages.blocks), to: '/blocks' });
-      menu.push({ text: intl.formatMessage(messages.domain_blocks), to: '/domain_blocks' });
+      menu.push({text: intl.formatMessage(messages.mutes), to: '/mutes'});
+      menu.push({text: intl.formatMessage(messages.blocks), to: '/blocks'});
+      menu.push({text: intl.formatMessage(messages.domain_blocks), to: '/domain_blocks'});
     } else if (signedIn) {
       if (account.getIn(['relationship', 'following'])) {
         if (!account.getIn(['relationship', 'muting'])) {
           if (account.getIn(['relationship', 'showing_reblogs'])) {
-            menu.push({ text: intl.formatMessage(messages.hideReblogs, { name: account.get('username') }), action: this.props.onReblogToggle });
+            menu.push({
+              text: intl.formatMessage(messages.hideReblogs, {name: account.get('username')}),
+              action: this.props.onReblogToggle
+            });
           } else {
-            menu.push({ text: intl.formatMessage(messages.showReblogs, { name: account.get('username') }), action: this.props.onReblogToggle });
+            menu.push({
+              text: intl.formatMessage(messages.showReblogs, {name: account.get('username')}),
+              action: this.props.onReblogToggle
+            });
           }
 
-          menu.push({ text: intl.formatMessage(messages.languages), action: this.props.onChangeLanguages });
+          menu.push({text: intl.formatMessage(messages.languages), action: this.props.onChangeLanguages});
           menu.push(null);
         }
 
-        menu.push({ text: intl.formatMessage(account.getIn(['relationship', 'endorsed']) ? messages.unendorse : messages.endorse), action: this.props.onEndorseToggle });
-        menu.push({ text: intl.formatMessage(messages.add_or_remove_from_list), action: this.props.onAddToList });
+        menu.push({
+          text: intl.formatMessage(account.getIn(['relationship', 'endorsed']) ? messages.unendorse : messages.endorse),
+          action: this.props.onEndorseToggle
+        });
+        menu.push({text: intl.formatMessage(messages.add_or_remove_from_list), action: this.props.onAddToList});
         menu.push(null);
       }
 
       if (account.getIn(['relationship', 'muting'])) {
-        menu.push({ text: intl.formatMessage(messages.unmute, { name: account.get('username') }), action: this.props.onMute });
+        menu.push({
+          text: intl.formatMessage(messages.unmute, {name: account.get('username')}),
+          action: this.props.onMute
+        });
       } else {
-        menu.push({ text: intl.formatMessage(messages.mute, { name: account.get('username') }), action: this.props.onMute, dangerous: true });
+        menu.push({
+          text: intl.formatMessage(messages.mute, {name: account.get('username')}),
+          action: this.props.onMute,
+          dangerous: true
+        });
       }
 
       if (account.getIn(['relationship', 'blocking'])) {
-        menu.push({ text: intl.formatMessage(messages.unblock, { name: account.get('username') }), action: this.props.onBlock });
+        menu.push({
+          text: intl.formatMessage(messages.unblock, {name: account.get('username')}),
+          action: this.props.onBlock
+        });
       } else {
-        menu.push({ text: intl.formatMessage(messages.block, { name: account.get('username') }), action: this.props.onBlock, dangerous: true });
+        menu.push({
+          text: intl.formatMessage(messages.block, {name: account.get('username')}),
+          action: this.props.onBlock,
+          dangerous: true
+        });
       }
 
-      menu.push({ text: intl.formatMessage(messages.report, { name: account.get('username') }), action: this.props.onReport, dangerous: true });
+      menu.push({
+        text: intl.formatMessage(messages.report, {name: account.get('username')}),
+        action: this.props.onReport,
+        dangerous: true
+      });
     }
 
     if (signedIn && isRemote) {
@@ -402,11 +430,15 @@ class Header extends ImmutablePureComponent {
 
       if (account.getIn(['relationship', 'domain_blocking'])) {
         menu.push({
-          text: intl.formatMessage(messages.unblockDomain, { domain: remoteDomain }),
+          text: intl.formatMessage(messages.unblockDomain, {domain: remoteDomain}),
           action: this.props.onUnblockDomain,
         });
       } else {
-        menu.push({ text: intl.formatMessage(messages.blockDomain, { domain: remoteDomain }), action: this.props.onBlockDomain, dangerous: true });
+        menu.push({
+          text: intl.formatMessage(messages.blockDomain, {domain: remoteDomain}),
+          action: this.props.onBlockDomain,
+          dangerous: true
+        });
       }
     }
 
@@ -414,20 +446,20 @@ class Header extends ImmutablePureComponent {
       menu.push(null);
       if ((permissions & PERMISSION_MANAGE_USERS) === PERMISSION_MANAGE_USERS) {
         menu.push({
-          text: intl.formatMessage(messages.admin_account, { name: account.get('username') }),
+          text: intl.formatMessage(messages.admin_account, {name: account.get('username')}),
           href: `/admin/accounts/${account.get('id')}`,
         });
       }
       if (isRemote && (permissions & PERMISSION_MANAGE_FEDERATION) === PERMISSION_MANAGE_FEDERATION) {
         menu.push({
-          text: intl.formatMessage(messages.admin_domain, { domain: remoteDomain }),
+          text: intl.formatMessage(messages.admin_domain, {domain: remoteDomain}),
           href: `/admin/instances/${remoteDomain}`,
         });
       }
     }
 
-    const content = { __html: account.get('note_emojified') };
-    const displayNameHtml = { __html: account.get('display_name_html') };
+    const content = {__html: account.get('note_emojified')};
+    const displayNameHtml = {__html: account.get('display_name_html')};
     const fields = account.get('fields');
     const isLocal = account.get('acct').indexOf('@') === -1;
     const acct = isLocal && domain ? `${account.get('acct')}@${domain}` : account.get('acct');
@@ -436,21 +468,22 @@ class Header extends ImmutablePureComponent {
     let badge;
 
     if (account.get('bot')) {
-      badge = (<div className='account-role bot'><FormattedMessage id='account.badges.bot' defaultMessage='Automated' /></div>);
+      badge = (
+        <div className='account-role bot'><FormattedMessage id='account.badges.bot' defaultMessage='Automated'/></div>);
     } else if (account.get('group')) {
       badge = (
-        <div className='account-role group'><FormattedMessage id='account.badges.group' defaultMessage='Group' /></div>);
+        <div className='account-role group'><FormattedMessage id='account.badges.group' defaultMessage='Group'/></div>);
     } else {
       badge = null;
     }
 
     return (
       <div
-        className={classNames('account__header', { inactive: !!account.get('moved') })}
+        className={classNames('account__header', {inactive: !!account.get('moved')})}
         onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}
       >
         {!(suspended || hidden || account.get('moved')) && account.getIn(['relationship', 'requested_by']) &&
-          <FollowRequestNoteContainer account={account} />}
+          <FollowRequestNoteContainer account={account}/>}
 
         <div className='account__header__image'>
           <div className='account__header__info'>
@@ -458,7 +491,7 @@ class Header extends ImmutablePureComponent {
           </div>
 
           {!(suspended || hidden) &&
-            <img src={autoPlayGif ? account.get('header') : account.get('header_static')} alt='' className='parallax' />}
+            <img src={autoPlayGif ? account.get('header') : account.get('header_static')} alt='' className='parallax'/>}
         </div>
 
         <div className='account__header__bar'>
@@ -467,7 +500,7 @@ class Header extends ImmutablePureComponent {
               className='avatar' href={account.get('avatar')} rel='noopener noreferrer' target='_blank'
               onClick={this.handleAvatarClick}
             >
-              <Avatar account={suspended || hidden ? undefined : account} size={90} />
+              <Avatar account={suspended || hidden ? undefined : account} size={90}/>
             </a>
 
             {!suspended && (
@@ -489,7 +522,7 @@ class Header extends ImmutablePureComponent {
 
           <div className='account__header__tabs__name'>
             <h1>
-              <span dangerouslySetInnerHTML={displayNameHtml} /> {badge}
+              <span dangerouslySetInnerHTML={displayNameHtml}/> {badge}
               <small>
                 <span>@{acct}</span> {lockedIcon}
               </small>
@@ -500,21 +533,30 @@ class Header extends ImmutablePureComponent {
             </Paragraph>
 
           </div>
+          {signedIn && account.get('id') === me &&
+            <a href={'https://dapp.chainge.finance/'} target={'_blank'}>
+              <Button
+                className={'logo-button'}
+                text={intl.formatMessage(messages.exchange)}
+                title={intl.formatMessage(messages.exchange)}
+              />
+            </a>
+          }
           {account.get('id') !== me &&
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <TransferToken to_account={account} />
+            <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+              <TransferToken to_account={account}/>
               {process.env.REACT_APP_ENABLE_SUBSCRIPTION === 'true' && account.get('subscription_fee') !== null &&
-                <SubscribeButton to_account={account} subscribing={account.getIn(['relationship', 'subscribing'])} />
+                <SubscribeButton to_account={account} subscribing={account.getIn(['relationship', 'subscribing'])}/>
               }
             </div>
           }
           {!(suspended || hidden) && (
             <div className='account__header__extra'>
               <div className='account__header__bio' ref={this.setRef}>
-                {(account.get('id') !== me && signedIn) && <AccountNoteContainer account={account} />}
+                {(account.get('id') !== me && signedIn) && <AccountNoteContainer account={account}/>}
 
                 {account.get('note').length > 0 && account.get('note') !== '<p></p>' &&
-                  <div className='account__header__content translate' dangerouslySetInnerHTML={content} />}
+                  <div className='account__header__content translate' dangerouslySetInnerHTML={content}/>}
                 {account.get('id') === me &&
                   <div className='account__header__extra__tokens'>
                     <NavLink
@@ -552,20 +594,20 @@ class Header extends ImmutablePureComponent {
                     {/*</dl>*/}
 
                     {fields.map((pair, i) => (
-                      <dl key={i} className={classNames({ verified: pair.get('verified_at') })}>
+                      <dl key={i} className={classNames({verified: pair.get('verified_at')})}>
                         <dt
-                          dangerouslySetInnerHTML={{ __html: pair.get('name_emojified') }} title={pair.get('name')}
+                          dangerouslySetInnerHTML={{__html: pair.get('name_emojified')}} title={pair.get('name')}
                           className='translate'
                         />
 
                         <dd className='translate' title={pair.get('value_plain')}>
                           {pair.get('verified_at') &&
                             <span
-                              title={intl.formatMessage(messages.linkVerifiedOn, { date: intl.formatDate(pair.get('verified_at'), dateFormatOptions) })}
-                            ><Icon id='check' className='verified__mark' />
+                              title={intl.formatMessage(messages.linkVerifiedOn, {date: intl.formatDate(pair.get('verified_at'), dateFormatOptions)})}
+                            ><Icon id='check' className='verified__mark'/>
                             </span>
                           }
-                          <span dangerouslySetInnerHTML={{ __html: pair.get('value_emojified') }} />
+                          <span dangerouslySetInnerHTML={{__html: pair.get('value_emojified')}}/>
                         </dd>
                       </dl>
                     ))}
@@ -611,12 +653,12 @@ class Header extends ImmutablePureComponent {
 
         <Helmet>
           <title>{titleFromAccount(account)}</title>
-          <meta name='robots' content={(isLocal && isIndexable) ? 'all' : 'noindex'} />
-          <link rel='canonical' href={account.get('url')} />
+          <meta name='robots' content={(isLocal && isIndexable) ? 'all' : 'noindex'}/>
+          <link rel='canonical' href={account.get('url')}/>
         </Helmet>
       </div>
     )
-    ;
+      ;
   }
 
 }

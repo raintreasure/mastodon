@@ -208,11 +208,36 @@ export const getServerName = () => {
       return 'ChineseDAO';
   }
 }
+export const getAbbrBlockchain = (blockchain) => {
+  switch (blockchain) {
+    case CHAIN_FUSION:
+      return 'FSN';
+    case CHAIN_BSC:
+      return 'BNB';
+    case CHAIN_POLYGON:
+      return 'POL';
+    default:
+      return 'FSN';
+  }
+}
+
 export const getAmountWithDecimals = (amount, token) => {
   const amountWithDecimals = new BigNumber(amount).multipliedBy(getContractDecimal(token));
   return amountWithDecimals.toFixed(0);
 };
 
+export const getTokenUrl = (blockchain) => {
+  switch (blockchain) {
+    case CHAIN_FUSION:
+      return 'https://fsnscan.com/tokenholdings/';
+    case CHAIN_BSC:
+      return 'https://bscscan.com/tokenholdings?a=';
+    case  CHAIN_POLYGON:
+      return 'https://polygonscan.com/tokenholdings?a=';
+    default:
+      return 'https://fsnscan.com/tokenholdings/';
+  }
+};
 export const getNativeTokenDecimals = () => {
   switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':

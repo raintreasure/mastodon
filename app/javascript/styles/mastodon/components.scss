@@ -1624,7 +1624,7 @@ body > [data-popper-placement] {
 }
 
 .balance_span {
-  width: 200px;
+  max-width: 200px;
   overflow-x: scroll;
   overflow-y: hidden;
 }
@@ -1923,6 +1923,31 @@ a.account__display-name {
   &:hover{
     text-decoration: underline;
   }
+}
+
+.deposit_modal{
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: start;
+}
+
+.deposit_heading{
+  font-weight: bolder;
+  padding-top: 20px;
+}
+
+.deposit_content {
+  padding-left: 10px;
+}
+
+.deposit_disabled {
+  color: lightgrey;
+}
+
+.deposit_qrcode {
+  width: 100px;
+  height: 100px;
 }
 
 .status__avatar {
