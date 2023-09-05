@@ -807,7 +807,7 @@ export function subscribeAccount(url, id) {
 
     api(getState).post(url).then(response => {
       dispatch(subscribeAccountSuccess(response.data));
-      api(getState).get(`api/v1/accounts/${id}/account_subscriptions`).then(response => {
+      api(getState).get(`/api/v1/accounts/${id}/account_subscriptions`).then(response => {
         // console.log('fetchSubscribingAccounts:', response)
         // let res = response.data.map(acc => acc.target_account_id)
         // console.log(res)
@@ -828,7 +828,7 @@ export function unsubscribeAccount(url, id) {
 
     api(getState).post(url).then(response => {
       dispatch(unsubscribeAccountSuccess(response.data));
-      api(getState).get(`api/v1/accounts/${id}/account_subscriptions`).then(response => {
+      api(getState).get(`/api/v1/accounts/${id}/account_subscriptions`).then(response => {
         // console.log('fetchSubscribingAccounts:', response)
         // let res = response.data.map(acc => acc.target_account_id)
         // console.log(res)
@@ -871,7 +871,7 @@ export const unsubscribeAccountFail = id => ({
 
 export function fetchSubscribingAccounts(id) {
   return (dispatch, getState) => {
-    api(getState).get(`api/v1/accounts/${id}/account_subscriptions`).then(response => {
+    api(getState).get(`/api/v1/accounts/${id}/account_subscriptions`).then(response => {
       // console.log('fetchSubscribingAccounts:', response)
       // let res = response.data.map(acc => acc.target_account_id)
       // console.log(res)
