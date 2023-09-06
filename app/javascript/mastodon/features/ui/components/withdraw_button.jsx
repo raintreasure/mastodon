@@ -48,6 +48,8 @@ class WithdrawButton extends React.PureComponent {
   state = {
     withdrawing: false,
     loading: false,
+    gasPrice: -1,
+    gasAmount: -1,
   };
 
   static propTypes = {
@@ -152,6 +154,23 @@ class WithdrawButton extends React.PureComponent {
       return e.data.message
     }
   }
+
+  componentDidMount() {
+    const {blockchain, account} = this.props;
+    const eth_address = account.get('eth_address');
+
+    getGasPrice(blockchain)().then(price => {
+      // console.log('gas price when component mounted:', price)
+      this.setState({gasPrice: price})
+    })
+    getGasAmountForTransfer(process.env.REACT_APP_BUFFER_ACCOUNT, eth_address,
+      getAmountWithDecimals(10000, getEarnToken()),
+      getWithdrawContractAddr(blockchain)).then(amount => {
+      // console.log('gas amount when component mounted:', amount)
+      this.setState({gasAmount: amount})
+    })
+  }
+
   handleWithdrawClick = async () => {
     if (this.state.loading || this.state.withdrawing) {
       return
@@ -164,10 +183,17 @@ class WithdrawButton extends React.PureComponent {
 
     if (eth_address) {
       this.setState({loading: true});
-      const getGasAmountPromise = getGasAmountForTransfer(process.env.REACT_APP_BUFFER_ACCOUNT, eth_address,
-        getAmountWithDecimals(new_balance.new_balance, getEarnToken()),
-        getWithdrawContractAddr(blockchain));
-      const getGasPricePromise = getGasPrice(blockchain)();
+
+      let getGasPricePromise, getGasAmountPromise;
+      if (this.state.gasPrice !== -1 && this.state.gasAmount !== -1) {
+        getGasPricePromise = new Promise(resolve => resolve(this.state.gasPrice));
+        getGasAmountPromise = new Promise(resolve => resolve(this.state.gasAmount));
+      } else {
+        getGasPricePromise = getGasPrice(blockchain)();
+        getGasAmountPromise = getGasAmountForTransfer(process.env.REACT_APP_BUFFER_ACCOUNT, eth_address,
+          getAmountWithDecimals(new_balance.new_balance, getEarnToken()),
+          getWithdrawContractAddr(blockchain));
+      }
       Promise.all([getGasAmountPromise, getGasPricePromise]).then(([gasAmount, proposePrice]) => {
         gasPrice = proposePrice;
         // console.log('gas price is:', gasPrice, ' gas amount is :', gasAmount);
@@ -198,7 +224,6 @@ class WithdrawButton extends React.PureComponent {
   };
 
 
-
   render() {
     const {intl, is_side_bar} = this.props;
     let withdrawTitle = intl.formatMessage(messages.withdrawTitle);
@@ -216,7 +241,7 @@ class WithdrawButton extends React.PureComponent {
           />
         }
         {!is_side_bar &&
-          <p onClick={()=>this.handleWithdrawClick()} >{intl.formatMessage(messages.withdrawTitle)}</p>
+          <p onClick={() => this.handleWithdrawClick()}>{intl.formatMessage(messages.withdrawTitle)}</p>
         }
       </>
     );
