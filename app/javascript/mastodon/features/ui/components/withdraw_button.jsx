@@ -155,7 +155,7 @@ class WithdrawButton extends React.PureComponent {
     }
   }
 
-  componentDidMount() {
+  preCalculate() {
     const {blockchain, account} = this.props;
     const eth_address = account.get('eth_address');
 
@@ -169,6 +169,15 @@ class WithdrawButton extends React.PureComponent {
       // console.log('gas amount when component mounted:', amount)
       this.setState({gasAmount: amount})
     })
+  }
+
+  componentDidMount() {
+   this.preCalculate();
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.blockchain !== prevProps.blockchain){
+      this.preCalculate();
+    }
   }
 
   handleWithdrawClick = async () => {
