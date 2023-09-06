@@ -8,7 +8,6 @@ import Button from "mastodon/components/button";
 import {openModal} from "mastodon/actions/modal";
 import {getAbbrBlockchain, getEarnToken} from "mastodon/utils/web3";
 import {Typography} from 'antd';
-import {LOVE_ICON} from "../../../../icons/data";
 import {QRCodeSVG} from 'qrcode.react';
 
 const {Paragraph} = Typography;
@@ -21,11 +20,14 @@ const messages = defineMessages({
   depositTitle: {id: 'deposit.title', defaultMessage: 'Deposit'},
   confirm: {id: 'deposit.modal.confirm', defaultMessage: 'Confirm'},
   modalHeading: {id: 'deposit.modal.heading', defaultMessage: 'There are total 3 ways to deposit {token}'},
+  modalHeadingLovedao: {id: 'deposit.modal.lovedao.heading', defaultMessage: 'There are total 3 ways to get {token}'},
   modalExchangeDesc: {id: 'deposit.exchange.desc', defaultMessage: '1. Exchange other token into {token}:'},
+  modalExchangeDescLovedao: {id: 'deposit.exchange.lovedao.desc', defaultMessage: '1. Use other token to get {token}:'},
   modalTransferDesc: {id: 'deposit.transfer.desc', defaultMessage: '2. Transfer {token} from your other wallet:'},
   modalTransferCopy: {id: 'deposit.transfer.copy', defaultMessage: 'Copy the address'},
   modalTransferQR: {id: 'deposit.transfer.qrcode', defaultMessage: 'Or scan the QR code'},
   modalFiatDesc: {id: 'deposit.fiat.desc', defaultMessage: '3. Use Fiat to buy {token}:'},
+  modalFiatDescLovedao: {id: 'deposit.fiat.lovedao.desc', defaultMessage: '3. Donate Fiat to get {token}:'},
   modalFiatDisable: {id: 'deposit.fiat.disable', defaultMessage: 'Not available yet'},
 });
 
@@ -47,15 +49,18 @@ class DepositButton extends React.PureComponent {
     const abbrBlockchain = getAbbrBlockchain(blockchain);
 
     const link = `https://dapp.chainge.finance/?fromChain=${abbrBlockchain}&toChain=${abbrBlockchain}&fromToken=USDT&toToken=${getEarnToken()}&fromAmount=10`;
+    const modalHeading = process.env.REACT_APP_DAO === 'lovedao' ? intl.formatMessage(messages.modalHeadingLovedao, {token: getEarnToken()}) : intl.formatMessage(messages.modalHeading, {token: getEarnToken()});
+    const modalExchangeDesc = process.env.REACT_APP_DAO === 'lovedao' ? intl.formatMessage(messages.modalExchangeDescLovedao, {token: getEarnToken()}) : intl.formatMessage(messages.modalExchangeDesc, {token: getEarnToken()});
+    const modalFiatDesc = process.env.REACT_APP_DAO === 'lovedao' ? intl.formatMessage(messages.modalFiatDescLovedao, {token: getEarnToken()}) : intl.formatMessage(messages.modalFiatDesc, {token: getEarnToken()});
 
     dispatch(openModal({
       modalType: 'CONFIRM',
       modalProps: {
         message: (
           <div className={'deposit_modal'}>
-            <p className={'deposit_heading'}>{intl.formatMessage(messages.modalHeading, {token: getEarnToken()})}</p>
+            <p className={'deposit_heading'}>{modalHeading}</p>
             <p
-              className={'deposit_heading'}>{intl.formatMessage(messages.modalExchangeDesc, {token: getEarnToken()})}</p>
+              className={'deposit_heading'}>{modalExchangeDesc}</p>
             <a className={'deposit_content'} href={link} target={'_blank'} style={{wordWrap: 'break-word'}}>{link}</a>
 
             <p
@@ -66,7 +71,7 @@ class DepositButton extends React.PureComponent {
             <QRCodeSVG value={'ethereum:' + eth_address} className={'deposit_content deposit_qrcode'}/>
             {/*<img className={'deposit_content'} src={LOVE_ICON} style={{width:50, height:50}}/>*/}
 
-            <p className={'deposit_heading'}>{intl.formatMessage(messages.modalFiatDesc, {token: getEarnToken()})}</p>
+            <p className={'deposit_heading'}>{modalFiatDesc}</p>
             <p className={'deposit_content deposit_disabled'}>{intl.formatMessage(messages.modalFiatDisable)}</p>
           </div>),
         confirm: intl.formatMessage(messages.confirm),

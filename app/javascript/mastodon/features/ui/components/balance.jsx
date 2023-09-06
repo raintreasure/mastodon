@@ -7,9 +7,10 @@ import {toast} from 'react-hot-toast';
 import {getEarnToken} from '../../../utils/web3';
 import BlockchainSelector from "mastodon/features/ui/components/blockchain_selector";
 import DepositButton from "mastodon/features/ui/components/deposit_button";
-import {IconButton} from "mastodon/components/icon_button";
+// import {IconButton} from "mastodon/components/icon_button";
 import {Dropdown} from 'antd';
 import WithdrawButton from "mastodon/features/ui/components/withdraw_button";
+import Button from "mastodon/components/button";
 
 const mapStateToProps = state => ({
   new_balance: state.getIn(['balance', 'new_balance']),
@@ -17,6 +18,7 @@ const mapStateToProps = state => ({
 
 const messages = defineMessages({
   willReward: {id: 'balance.reward.hint', defaultMessage: 'you will receive a reward of '},
+  depositWithdraw: {id: 'balance.dw.title', defaultMessage: 'D/W'},
 });
 
 class Balance extends React.PureComponent {
@@ -37,7 +39,7 @@ class Balance extends React.PureComponent {
   }
 
   render() {
-    const {new_balance, is_side_bar} = this.props;
+    const {new_balance, is_side_bar, intl} = this.props;
     const items = [
       {
         label: <DepositButton is_side_bar={false}/>,
@@ -74,7 +76,13 @@ class Balance extends React.PureComponent {
           <Dropdown
             menu={{items}}
             trigger={['click']}>
-            <IconButton icon={'bars'} title={'operations'}/>
+            {/*<IconButton icon={'bars'} title={'operations'}/>*/}
+            <Button
+              type='button'
+              text={intl.formatMessage(messages.depositWithdraw)}
+              title={intl.formatMessage(messages.depositWithdraw)}
+            />
+
           </Dropdown>
 
         }
