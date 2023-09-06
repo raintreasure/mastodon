@@ -167,15 +167,15 @@ export const getContractDecimal = (token) => {
 export const getThumbnailUrl = ()=>{
   switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
-      return 'preview/preview-chinese.png';
+      return '/preview/preview-chinese.png';
     case 'facedao':
-      return 'preview/preview-face.png';
+      return '/preview/preview-face.png';
     case 'lovedao':
-      return 'preview/preview-love.jpg';
+      return '/preview/preview-love.jpg';
     case 'pqcdao':
       return '/preview/preview-pqc.jpg';
     default:
-      return 'preview/preview.png';
+      return '/preview/preview.png';
   }
 }
 
