@@ -7,11 +7,9 @@ import {toast} from 'react-hot-toast';
 import {getEarnToken} from '../../../utils/web3';
 import BlockchainSelector from "mastodon/features/ui/components/blockchain_selector";
 import DepositButton from "mastodon/features/ui/components/deposit_button";
-// import {IconButton} from "mastodon/components/icon_button";
-import {Dropdown} from 'antd';
 import WithdrawButton from "mastodon/features/ui/components/withdraw_button";
-import Button from "mastodon/components/button";
 import ExchangeButton from "mastodon/components/exchange_button";
+import DepositWithdrawButton from "mastodon/components/dw_dropdown";
 
 const mapStateToProps = state => ({
   new_balance: state.getIn(['balance', 'new_balance']),
@@ -43,11 +41,11 @@ class Balance extends React.PureComponent {
     const {new_balance, is_side_bar, intl} = this.props;
     const items = [
       {
-        label: <DepositButton is_side_bar={false}/>,
+        label: <DepositButton render_button={false}/>,
         key: '0',
       },
       {
-        label: <WithdrawButton is_side_bar={false} new_balance={new_balance}/>,
+        label: <WithdrawButton render_button={false} new_balance={new_balance}/>,
         key: '1',
       }
     ];
@@ -68,24 +66,14 @@ class Balance extends React.PureComponent {
         </div>
 
         {is_side_bar &&
-          <div>
-            <DepositButton is_side_bar={true}/>
-            <WithdrawButton is_side_bar={true} new_balance={new_balance}/>
+          <div style={{display: 'flex', flexDirection: 'column', gap: 3}}>
+            <DepositWithdrawButton/>
+            <ExchangeButton/>
           </div>
         }
         {!is_side_bar &&
-          <div style={{display:'flex', flexDirection:'row', gap:3 }}>
-            <Dropdown
-              menu={{items}}
-              trigger={['click']}>
-              {/*<IconButton icon={'bars'} title={'operations'}/>*/}
-              <Button
-                type='button'
-                text={intl.formatMessage(messages.depositWithdraw)}
-                title={intl.formatMessage(messages.depositWithdraw)}
-              />
-
-            </Dropdown>
+          <div style={{display: 'flex', flexDirection: 'row', gap: 3}}>
+            <DepositWithdrawButton/>
             <ExchangeButton/>
           </div>
         }

@@ -38,7 +38,7 @@ class DepositButton extends React.PureComponent {
   };
 
   static propTypes = {
-    is_side_bar: PropTypes.bool.isRequired,
+    render_button: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
     intl: PropTypes.object.isRequired,
     account: ImmutablePropTypes.map.isRequired,
@@ -82,12 +82,12 @@ class DepositButton extends React.PureComponent {
 
 
   render() {
-    const {intl, is_side_bar} = this.props;
+    const {intl, render_button} = this.props;
 
     let depositTitle = intl.formatMessage(messages.depositTitle);
     return (
       <>
-        {is_side_bar &&
+        {render_button &&
           <Button
             type='button'
             text={depositTitle}
@@ -95,7 +95,7 @@ class DepositButton extends React.PureComponent {
             onClick={this.openModal}
           />
         }
-        {!is_side_bar &&
+        {!render_button &&
           <p onClick={this.openModal}>{intl.formatMessage(messages.depositTitle)}</p>
         }
       </>

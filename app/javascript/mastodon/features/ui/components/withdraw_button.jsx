@@ -54,7 +54,7 @@ class WithdrawButton extends React.PureComponent {
 
   static propTypes = {
     new_balance: PropTypes.object,
-    is_side_bar: PropTypes.bool.isRequired,
+    render_button: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
     intl: PropTypes.object.isRequired,
     account: ImmutablePropTypes.map.isRequired,
@@ -234,13 +234,13 @@ class WithdrawButton extends React.PureComponent {
 
 
   render() {
-    const {intl, is_side_bar} = this.props;
+    const {intl, render_button} = this.props;
     let withdrawTitle = intl.formatMessage(messages.withdrawTitle);
     let withdrawingTitle = intl.formatMessage(messages.withdrawingTitle);
     let loadingTitle = intl.formatMessage(messages.loadingTitle);
     return (
       <>
-        {is_side_bar &&
+        {render_button &&
           <Button
             type='button'
             text={this.state.loading ? loadingTitle : (this.state.withdrawing ? withdrawingTitle : withdrawTitle)}
@@ -249,7 +249,7 @@ class WithdrawButton extends React.PureComponent {
             disabled={this.state.loading || this.state.withdrawing}
           />
         }
-        {!is_side_bar &&
+        {!render_button &&
           <p onClick={() => this.handleWithdrawClick()}>{intl.formatMessage(messages.withdrawTitle)}</p>
         }
       </>
