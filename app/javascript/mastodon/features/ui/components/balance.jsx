@@ -68,10 +68,10 @@ class Balance extends React.PureComponent {
         </div>
 
         {is_side_bar &&
-          <>
+          <div>
             <DepositButton is_side_bar={true}/>
             <WithdrawButton is_side_bar={true} new_balance={new_balance}/>
-          </>
+          </div>
         }
         {!is_side_bar &&
           <div style={{display:'flex', flexDirection:'row', gap:3 }}>

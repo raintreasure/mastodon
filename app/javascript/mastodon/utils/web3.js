@@ -213,9 +213,9 @@ export const getAbbrBlockchain = (blockchain) => {
     case CHAIN_FUSION:
       return 'FSN';
     case CHAIN_BSC:
-      return 'BNB';
+      return 'BSC';
     case CHAIN_POLYGON:
-      return 'POL';
+      return 'MATIC';
     default:
       return 'FSN';
   }
