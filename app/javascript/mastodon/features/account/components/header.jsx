@@ -22,6 +22,8 @@ import FollowRequestNoteContainer from '../containers/follow_request_note_contai
 import TransferToken from '../../ui/components/transfer';
 import SubscribeButton from '../../ui/components/subscribe_button';
 import {Typography} from 'antd';
+import {getAbbrBlockchain, getEarnToken} from "mastodon/utils/web3";
+import ExchangeButton from "mastodon/components/exchange_button";
 
 const {Paragraph} = Typography;
 
@@ -122,6 +124,7 @@ class Header extends ImmutablePureComponent {
     intl: PropTypes.object.isRequired,
     domain: PropTypes.string.isRequired,
     hidden: PropTypes.bool,
+    blockchain: PropTypes.string,
   };
 
   setRef = c => {
@@ -239,7 +242,7 @@ class Header extends ImmutablePureComponent {
   }
 
   render() {
-    const {account, hidden, intl, domain} = this.props;
+    const {account, hidden, intl, domain, blockchain} = this.props;
     const {signedIn, permissions} = this.context.identity;
 
     if (!account) {
@@ -534,13 +537,14 @@ class Header extends ImmutablePureComponent {
 
           </div>
           {signedIn && account.get('id') === me &&
-            <a href={'https://dapp.chainge.finance/'} target={'_blank'}>
-              <Button
-                className={'logo-button'}
-                text={intl.formatMessage(messages.exchange)}
-                title={intl.formatMessage(messages.exchange)}
-              />
-            </a>
+            // <a href={'https://dapp.chainge.finance/'} target={'_blank'}>
+            //   <Button
+            //     className={'logo-button'}
+            //     text={intl.formatMessage(messages.exchange)}
+            //     title={intl.formatMessage(messages.exchange)}
+            //   />
+            // </a>
+            <ExchangeButton/>
           }
           {account.get('id') !== me &&
             <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>

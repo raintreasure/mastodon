@@ -11,6 +11,7 @@ import DepositButton from "mastodon/features/ui/components/deposit_button";
 import {Dropdown} from 'antd';
 import WithdrawButton from "mastodon/features/ui/components/withdraw_button";
 import Button from "mastodon/components/button";
+import ExchangeButton from "mastodon/components/exchange_button";
 
 const mapStateToProps = state => ({
   new_balance: state.getIn(['balance', 'new_balance']),
@@ -73,18 +74,20 @@ class Balance extends React.PureComponent {
           </>
         }
         {!is_side_bar &&
-          <Dropdown
-            menu={{items}}
-            trigger={['click']}>
-            {/*<IconButton icon={'bars'} title={'operations'}/>*/}
-            <Button
-              type='button'
-              text={intl.formatMessage(messages.depositWithdraw)}
-              title={intl.formatMessage(messages.depositWithdraw)}
-            />
+          <div style={{display:'flex', flexDirection:'row', gap:3 }}>
+            <Dropdown
+              menu={{items}}
+              trigger={['click']}>
+              {/*<IconButton icon={'bars'} title={'operations'}/>*/}
+              <Button
+                type='button'
+                text={intl.formatMessage(messages.depositWithdraw)}
+                title={intl.formatMessage(messages.depositWithdraw)}
+              />
 
-          </Dropdown>
-
+            </Dropdown>
+            <ExchangeButton/>
+          </div>
         }
       </div>
     );

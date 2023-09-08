@@ -62,7 +62,6 @@ class DepositButton extends React.PureComponent {
             <p
               className={'deposit_heading'}>{modalExchangeDesc}</p>
             <a className={'deposit_content'} href={link} target={'_blank'} style={{wordWrap: 'break-word'}}>{link}</a>
-
             <p
               className={'deposit_heading'}>{intl.formatMessage(messages.modalTransferDesc, {token: getEarnToken()})}</p>
             <p className={'deposit_content'}>{intl.formatMessage(messages.modalTransferCopy)}</p>
