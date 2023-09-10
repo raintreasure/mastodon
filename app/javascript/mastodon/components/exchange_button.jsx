@@ -14,6 +14,11 @@ const messages = defineMessages({
   buyTitle: {id: 'exchange.buy.title', defaultMessage: 'Buy {token}'},
   sellTitle: {id: 'exchange.sell.title', defaultMessage: 'Sell {token}'},
   exchangeTitle: {id: 'exchange.title', defaultMessage: 'Exchange'},
+
+  buyTitleLovedao: {id: 'exchange.lovedao.buy.title', defaultMessage: 'Get {token}'},
+  sellTitleLovedao: {id: 'exchange.lovedao.sell.title', defaultMessage: 'Redeem'},
+  exchangeTitleLovedao: {id: 'exchange.lovedao.title', defaultMessage: 'Convert'},
+
 });
 
 class ExchangeButton extends React.PureComponent {
@@ -35,13 +40,16 @@ class ExchangeButton extends React.PureComponent {
     const items = [
       {
         label: <a href={buyUrl} target={'_blank'}>
-          <span>{intl.formatMessage(messages.buyTitle, {token: getEarnToken()})}</span>
+          <span>{intl.formatMessage(process.env.REACT_APP_DAO === 'lovedao' ? messages.buyTitleLovedao : messages.buyTitle,
+            {token: getEarnToken()})}
+          </span>
         </a>,
         key: '0',
       },
       {
         label: <a href={sellUrl} target={'_blank'}>
-          <span>{intl.formatMessage(messages.sellTitle, {token: getEarnToken()})}</span>
+          <span>{intl.formatMessage(process.env.REACT_APP_DAO === 'lovedao' ? messages.sellTitleLovedao : messages.sellTitle,
+            {token: getEarnToken()})}</span>
         </a>,
         key: '1',
       }
@@ -55,8 +63,8 @@ class ExchangeButton extends React.PureComponent {
           disabled={!signedIn}>
           <Button
             type='button'
-            text={intl.formatMessage(messages.exchangeTitle)}
-            title={intl.formatMessage(messages.exchangeTitle)}
+            text={intl.formatMessage(process.env.REACT_APP_DAO === 'lovedao' ? messages.exchangeTitleLovedao : messages.exchangeTitle)}
+            title={intl.formatMessage(process.env.REACT_APP_DAO === 'lovedao' ? messages.exchangeTitleLovedao : messages.exchangeTitle)}
           />
 
         </Dropdown>

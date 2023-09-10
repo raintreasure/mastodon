@@ -38,17 +38,8 @@ class Balance extends React.PureComponent {
   }
 
   render() {
-    const {new_balance, is_side_bar, intl} = this.props;
-    const items = [
-      {
-        label: <DepositButton render_button={false}/>,
-        key: '0',
-      },
-      {
-        label: <WithdrawButton render_button={false} new_balance={new_balance}/>,
-        key: '1',
-      }
-    ];
+    const {new_balance, is_side_bar} = this.props;
+
     return (
       <div className='balance-text' style={{
         display: 'flex', flexDirection: is_side_bar ? 'column' : 'row',
