@@ -32,7 +32,10 @@ class TransferToken extends React.PureComponent {
   static contextTypes = {
     identity: PropTypes.object.isRequired,
   };
-
+  transferSEXYModal = () => {
+    const { intl, dispatch, to_account, blockchain } = this.props;
+    transferModal(intl, dispatch, to_account, 'SEXY', blockchain);
+  };
   transferPQCModal = () => {
     const { intl, dispatch, to_account, blockchain } = this.props;
     transferModal(intl, dispatch, to_account, 'PQC', blockchain);
@@ -100,6 +103,15 @@ class TransferToken extends React.PureComponent {
             text={intl.formatMessage(messages.transferTitle)}
             title={intl.formatMessage(messages.transferTitle)}
             onClick={this.transferLOVEModal}
+            disabled={!signedIn || this.state.loading}
+          />
+        }
+        {process.env.REACT_APP_DAO === 'sexy' &&
+          <Button
+            type='button'
+            text={intl.formatMessage(messages.transferTitle)}
+            title={intl.formatMessage(messages.transferTitle)}
+            onClick={this.transferSEXYModal}
             disabled={!signedIn || this.state.loading}
           />
         }

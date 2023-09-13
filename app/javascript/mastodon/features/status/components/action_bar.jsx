@@ -207,6 +207,11 @@ class ActionBar extends PureComponent {
     const account = status.get('account');
     transferModal(intl, dispatch, account, 'PQC', blockchain);
   };
+  transferSEXYModal = () => {
+    const {intl, dispatch, status, blockchain} = this.props;
+    const account = status.get('account');
+    transferModal(intl, dispatch, account, 'SEXY', blockchain);
+  };
   render() {
     const { status, relationship, intl, shouldHideContent } = this.props;
     const { signedIn, permissions } = this.context.identity;
@@ -386,7 +391,13 @@ class ActionBar extends PureComponent {
             onClick={this.transferPQCModal}
           /></div>
         }
-
+        {process.env.REACT_APP_DAO === 'sexydao' &&
+          <div className='detailed-status__button'><IconButton
+            className='gift-icon' disabled={!signedIn  || writtenByMe || shouldHideContent}
+            title={intl.formatMessage(messages.gift)} icon='gift'
+            onClick={this.transferSEXYModal}
+          /></div>
+        }
 
         {process.env.REACT_APP_DAO === 'facedao' &&
           <div className='detailed-status__button'>

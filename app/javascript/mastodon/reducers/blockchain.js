@@ -12,6 +12,8 @@ const getDefaultChain = () => {
       return CHAIN_FUSION;
     case 'pqcdao':
       return CHAIN_FUSION;
+    case 'sexydao':
+      return CHAIN_FUSION;
     default:
       return CHAIN_FUSION;
 

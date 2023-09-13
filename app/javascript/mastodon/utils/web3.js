@@ -12,7 +12,7 @@ import {
   FSN_USDT_CONTRACT_ADDR,
   LOVE_DECIMALS,
   PQC_CONTRACT_ADDR,
-  PQC_DECIMALS,
+  PQC_DECIMALS, SEXY_CONTRACT_ADDR, SEXY_DECIMALS,
 } from '../actions/tokens';
 import BigNumber from 'bignumber.js';
 import {Web3Auth} from "@web3auth/modal";
@@ -66,6 +66,8 @@ export const getEarnToken = () => {
       return 'LOVE';
     case 'pqcdao':
       return 'PQC';
+    case 'sexydao':
+      return 'SEXY';
     default:
       return 'CHINESE';
   }
@@ -145,6 +147,8 @@ export const getContractAddr = (token, blockchain) => {
       return FACEDAO_CONTRACT_ADDR;
     case 'PQC':
       return PQC_CONTRACT_ADDR;
+    case 'SEXY':
+      return SEXY_CONTRACT_ADDR;
     default:
       return CHINESE_CONTRACT_ADDR;
   }
@@ -159,6 +163,8 @@ export const getContractDecimal = (token) => {
       return FACEDAO_DECIMALS;
     case 'PQC':
       return PQC_DECIMALS;
+    case 'SEXY':
+      return SEXY_DECIMALS;
     default:
       return CHINESE_DECIMALS;
   }
@@ -174,6 +180,8 @@ export const getThumbnailUrl = ()=>{
       return '/preview/preview-love.jpg';
     case 'pqcdao':
       return '/preview/preview-pqc.jpg';
+    case 'sexydao':
+      return '/preview/preview-sexy.webp';
     default:
       return '/preview/preview.png';
   }
@@ -189,6 +197,8 @@ export const getServerUrl = () => {
       return 'https://lovedao.org';
     case 'pqcdao':
       return 'https://pqc.org';
+    case 'sexydao':
+      return 'https://sexy.org';
     default:
       return 'https://chinese.org';
   }
@@ -204,6 +214,8 @@ export const getServerName = () => {
       return 'LOVEDAO';
     case 'pqcdao':
       return 'PQCdao';
+    case 'sexydao':
+      return 'SEXYDAO';
     default:
       return 'ChineseDAO';
   }
@@ -248,6 +260,8 @@ export const getNativeTokenDecimals = () => {
       return 1e18;
     case 'pqcdao':
       return 1e18;
+    case 'sexydao':
+      return 1e6;
     default:
       return 1e18;
   }
@@ -277,6 +291,8 @@ const getChainConfig = () => {
     case 'lovedao':
       return FSNConf;
     case 'pqcdao':
+      return FSNConf;
+    case 'sexydao':
       return FSNConf;
     default:
       return FSNConf;

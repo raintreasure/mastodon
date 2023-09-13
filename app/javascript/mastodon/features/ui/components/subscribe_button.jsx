@@ -6,7 +6,7 @@ import {me} from '../../../initial_state';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Button from '../../../components/button';
 import {openModal} from '../../../actions/modal';
-import {fetchSubscribingAccounts, subscribeAccount, unsubscribeAccount} from '../../../actions/accounts';
+import {subscribeAccount, unsubscribeAccount} from '../../../actions/accounts';
 import classNames from 'classnames';
 import {transferERC20} from '../../../actions/transfer';
 import {toast} from 'react-hot-toast';

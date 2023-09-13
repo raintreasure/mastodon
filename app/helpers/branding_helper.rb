@@ -19,6 +19,8 @@ module BrandingHelper
       image_tag('love-wordmark-dark.png', alt: 'lovedao.com', class: 'logo logo--wordmark')
     elsif ENV['REACT_APP_DAO'] === 'pqcdao'
       image_tag('pqc-wordmark-dark.png', alt: 'pqcdao.com', class: 'logo logo--wordmark')
+    elsif ENV['REACT_APP_DAO'] === 'sexydao'
+      image_tag('sexy-wordmark-dark.png', alt: 'sexydao.com', class: 'logo logo--wordmark')
     else
       image_tag('chinese-wordmark-dark.png', alt: 'chinese.org', class: 'logo logo--wordmark')
     end
@@ -33,6 +35,8 @@ module BrandingHelper
       image_tag('love-icon.png', alt: 'lovedao.com', class: 'logo logo--icon')
     elsif ENV['REACT_APP_DAO'] === 'pqcdao'
       image_tag('pqc-icon.png', alt: 'pqcdao.com', class: 'logo logo--icon')
+    elsif ENV['REACT_APP_DAO'] === 'sexydao'
+      image_tag('sexy-icon.png', alt: 'sexydao.com', class: 'logo logo--icon')
     else
       image_tag('chinese-icon.png', alt: 'chinese.org', class: 'logo logo--icon')
     end
@@ -48,6 +52,8 @@ module BrandingHelper
       image_pack_tag('love-icon.png', alt: 'lovedao.com', class: 'logo logo--icon')
     elsif ENV['REACT_APP_DAO'] === 'pqcdao'
       image_pack_tag('pqc-icon.png', alt: 'pqcdao.com', class: 'logo logo--icon')
+    elsif ENV['REACT_APP_DAO'] === 'sexydao'
+      image_pack_tag('sexy-icon.png', alt: 'sexydao.com', class: 'logo logo--icon')
     else
       image_pack_tag('chinese-icon.png', alt: 'chinese.org', class: 'logo logo--icon')
     end
@@ -65,6 +71,8 @@ module BrandingHelper
                'love-icon.png'
              elsif ENV['REACT_APP_DAO'] === 'pqcdao'
                'pqc-icon.png'
+             elsif ENV['REACT_APP_DAO'] === 'sexydao'
+               'sexy-icon.png'
              else
                'chinese-icon.png'
              end
@@ -76,8 +84,10 @@ module BrandingHelper
                'face-wordmark-dark.png'
              elsif ENV['REACT_APP_DAO'] === 'lovedao'
                'love-wordmark-dark.png'
-             elsif ENV['REACT_APP_DAO'] === 'lovedao'
+             elsif ENV['REACT_APP_DAO'] === 'pqcdao'
                'pqc-wordmark-dark.png'
+             elsif ENV['REACT_APP_DAO'] === 'sexydao'
+               'sexy-wordmark-dark.png'
              else
                'chinese-wordmark-dark.png'
              end

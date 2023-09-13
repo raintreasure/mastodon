@@ -25,7 +25,7 @@ import {
   BNB_ICON,
   FACEDAO_ICON,
   LOVE_ICON,
-  FSN_ICON, PQC_ICON,
+  FSN_ICON, PQC_ICON, SEXY_ICON,
 } from '../../../icons/data';
 import {CHAIN_BSC, CHAIN_FUSION, CHAIN_POLYGON} from "mastodon/utils/web3";
 
@@ -66,6 +66,8 @@ const mapStateToProps = (state, { params: { acct, id } }) => {
     valueFSN: state.getIn(['user_lists', 'tokens', accountId, 'value', 'FSN'], '0'),
     balancePQC: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'PQC'], '0'),
     valuePQC: state.getIn(['user_lists', 'tokens', accountId, 'value', 'PQC'], '0'),
+    balanceSEXY: state.getIn(['user_lists', 'tokens', accountId, 'balance', 'SEXY'], '0'),
+    valueSEXY: state.getIn(['user_lists', 'tokens', accountId, 'value', 'SEXY'], '0'),
     suspended: state.getIn(['accounts', accountId, 'suspended'], false),
     hidden: getAccountHidden(state, accountId),
     blockedBy: state.getIn(['relationships', accountId, 'blocked_by'], false),
@@ -121,6 +123,8 @@ class Tokens extends ImmutablePureComponent {
     balancePQC: PropTypes.string,
     valuePQC: PropTypes.string,
     blockchain: PropTypes.string,
+    balanceSEXY: PropTypes.string,
+    valueSEXY: PropTypes.string,
   };
 
   _load() {
@@ -155,7 +159,7 @@ class Tokens extends ImmutablePureComponent {
       accountId, blockedBy, isAccount, multiColumn, suspended, hidden, remote, remoteUrl,
       balancePOL, balanceBNB, balanceCHINESE, balanceETH, balanceUSDT, balanceUSDC, balanceFaceDAO, balanceLOVE,
       valuePOL, valueBNB, valueCHINESE, valueETH, valueUSDT, valueUSDC, valueLOVE, valueFaceDAO,balanceFSN, valueFSN,
-      balancePQC, valuePQC, blockchain
+      balancePQC, valuePQC, blockchain, balanceSEXY, valueSEXY,
     } = this.props;
     if (!isAccount) {
       return (
@@ -273,6 +277,18 @@ class Tokens extends ImmutablePureComponent {
                   <div className={'token__nums'}>
                     <p className={'token__nums__balance'}>{balanceLOVE}</p>
                     <p className={'token__nums__value'}>$ {valueLOVE}</p>
+                  </div>
+                </div>
+              }
+              {process.env.REACT_APP_DAO === 'sexydao' &&
+                <div className={'token__item'}>
+                  <div className={'token__symbol'}>
+                    <img src={SEXY_ICON} className={'token__icon'} alt={'SEXY_ICON'} />
+                    <span>SEXY</span>
+                  </div>
+                  <div className={'token__nums'}>
+                    <p className={'token__nums__balance'}>{balanceSEXY}</p>
+                    <p className={'token__nums__value'}>$ {valueSEXY}</p>
                   </div>
                 </div>
               }

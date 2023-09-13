@@ -51,6 +51,9 @@ export const FACEDAO_DECIMALS = 1e18;
 export const TOKENS_PQC_FETCH_SUCCESS = 'TOKENS_PQC_FETCH_SUCCESS';
 export const PQC_CONTRACT_ADDR = '0xbd9749e4da1fb181ce6e413946cf760dec67b415';
 export const PQC_DECIMALS = 1e18;
+export const TOKENS_SEXY_FETCH_SUCCESS = 'TOKENS_SEXY_FETCH_SUCCESS';
+export const SEXY_CONTRACT_ADDR = '0x05038f190eb986e8bbfc2708806026174fb4bebe';
+export const SEXY_DECIMALS = 1e6;
 
 // export const TOKENS_CHNG_FETCH_SUCCESS = 'TOKENS_CHNG_FETCH_SUCCESS';
 // export const CHNG_CONTRACT_ADDR = '0x05573124c64c69d85687152b2942bcb0a3b26d99';
@@ -106,6 +109,7 @@ async function getBNBBalance(accountId, address, dispatch) {
   const value = new BigNumber(balanceWithDecimals).multipliedBy(price).toFixed(VALUE_SHOWN_DECIMALS);
   dispatch(fetchBNBSuccess(accountId, balanceWithDecimals, value));
 }
+
 async function getFSNBalance(accountId, address, dispatch) {
   const Web3 = require('web3');
   const provider = new Web3.providers.HttpProvider(FSN_RPC_URL);
@@ -196,6 +200,26 @@ async function getPQCBalance(accountId, address, dispatch) {
     }
   });
 }
+async function getSEXYBalance(accountId, address, dispatch) {
+  const Web3 = require('web3');
+  const provider = new Web3.providers.HttpProvider(FSN_RPC_URL);
+  const web3 = new Web3(provider);
+  const contractAddress = SEXY_CONTRACT_ADDR;
+  const contract = new web3.eth.Contract(balanceOfAbi, contractAddress);
+  const price = await fetchTokenPrice('SEXY');
+  // console.log('sexy price is ', price);
+  contract.methods.balanceOf(address).call((error, result) => {
+    if (!error && result) {
+      const balanceWithDecimals = new BigNumber(result).dividedBy(SEXY_DECIMALS).toFixed(TOKEN_SHOWN_DECIMALS);
+      const value = new BigNumber(balanceWithDecimals).multipliedBy(price).toFixed(VALUE_SHOWN_DECIMALS);
+      dispatch(fetchSEXYSuccess(accountId, balanceWithDecimals, value));
+    }
+    if (error) {
+      console.log('get SEXY balance error:', error);
+    }
+  });
+}
+
 
 // async function getCHNGBalance(accountId, address, dispatch) {
 //   const Web3 = require('web3');
@@ -234,6 +258,10 @@ async function getETHBalance(accountId, address, dispatch, blockchain) {
       rpc_url = getGatewayUrl(blockchain);
       break;
     case 'pqcdao':
+      contractAddr = FSN_ETH_CONTRACT_ADDR;
+      rpc_url = FSN_RPC_URL;
+      break;
+    case 'sexydao':
       contractAddr = FSN_ETH_CONTRACT_ADDR;
       rpc_url = FSN_RPC_URL;
       break;
@@ -278,6 +306,10 @@ async function getUSDTBalance(accountId, address, dispatch, blockchain) {
       contractAddr = FSN_USDT_CONTRACT_ADDR;
       rpc_url = FSN_RPC_URL;
       break;
+    case 'sexydao':
+      contractAddr = FSN_USDT_CONTRACT_ADDR;
+      rpc_url = FSN_RPC_URL;
+      break;
     default:
       contractAddr = POL_USDT_CONTRACT_ADDR;
       rpc_url = POL_RPC_URL;
@@ -316,6 +348,10 @@ async function getUSDCBalance(accountId, address, dispatch, blockchain) {
       rpc_url = getGatewayUrl(blockchain);
       break;
     case 'pqcdao':
+      contractAddr = FSN_USDC_CONTRACT_ADDR;
+      rpc_url = FSN_RPC_URL;
+      break;
+    case 'sexydao':
       contractAddr = FSN_USDC_CONTRACT_ADDR;
       rpc_url = FSN_RPC_URL;
       break;
@@ -381,6 +417,10 @@ export function fetchTokens(accountId, address, blockchain) {
       void getFSNBalance(accountId, address, dispatch);
       void getPQCBalance(accountId, address, dispatch);
     }
+    if (process.env.REACT_APP_DAO === 'sexydao') {
+      void getFSNBalance(accountId, address, dispatch);
+      void getSEXYBalance(accountId, address, dispatch);
+    }
     // void getCHNGBalance(accountId, address, dispatch);
     void getETHBalance(accountId, address, dispatch, blockchain);
     void getUSDTBalance(accountId, address, dispatch, blockchain);
@@ -433,7 +473,7 @@ export function fetchLOVESuccess(accountId, balance, value) {
   };
 }
 
-export function fetchFaceDAOSuccess (accountId, balance, value) {
+export function fetchFaceDAOSuccess(accountId, balance, value) {
   return {
     type: TOKENS_FACEDAO_FETCH_SUCCESS,
     accountId,
@@ -453,6 +493,14 @@ export function fetchFaceDAOSuccess (accountId, balance, value) {
 export function fetchPQCSuccess(accountId, balance, value) {
   return {
     type: TOKENS_PQC_FETCH_SUCCESS,
+    accountId,
+    balance,
+    value,
+  };
+}
+export function fetchSEXYSuccess(accountId, balance, value) {
+  return {
+    type: TOKENS_SEXY_FETCH_SUCCESS,
     accountId,
     balance,
     value,

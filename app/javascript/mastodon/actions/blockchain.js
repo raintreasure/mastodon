@@ -12,7 +12,7 @@ import BigNumber from 'bignumber.js';
 import {
   CHINESE_CONTRACT_ADDR,
   FACEDAO_CONTRACT_ADDR,
-  PQC_CONTRACT_ADDR
+  PQC_CONTRACT_ADDR, SEXY_CONTRACT_ADDR
 } from "mastodon/actions/tokens";
 
 export const SWITCH_BLOCKCHAIN = 'SWITCH_BLOCKCHAIN';
@@ -240,6 +240,8 @@ export function getGasPrice_bak() {
       return getPolygonGasPrice;
     case 'pqcdao':
       return getFusionGasPrice;
+    case 'sexydao':
+      return getFusionGasPrice;
     default:
       return getPolygonGasPrice;
   }
@@ -327,6 +329,8 @@ export const getWithdrawContractAddr = (blockchain) => {
       return getLoveAddr(blockchain);
     case 'pqcdao':
       return PQC_CONTRACT_ADDR;
+    case 'sexydao':
+      return SEXY_CONTRACT_ADDR;
     default:
       return CHINESE_CONTRACT_ADDR;
   }

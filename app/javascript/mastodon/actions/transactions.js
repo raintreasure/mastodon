@@ -3,7 +3,7 @@ import {
   CHINESE_CONTRACT_ADDR,
   FACEDAO_CONTRACT_ADDR,
   FSN_USDT_CONTRACT_ADDR,
-  PQC_CONTRACT_ADDR, FSN_LOVE_CONTRACT_ADDR, BSC_LOVE_CONTRACT_ADDR
+  PQC_CONTRACT_ADDR, FSN_LOVE_CONTRACT_ADDR, BSC_LOVE_CONTRACT_ADDR, SEXY_CONTRACT_ADDR
 } from './tokens';
 import api from "mastodon/api";
 import {CHAIN_BSC, CHAIN_FUSION} from "mastodon/utils/web3";
@@ -32,6 +32,9 @@ export function fetchTransactions(accountId, address, blockchain) {
       }else if (blockchain === CHAIN_FUSION ) {
         void getFSNTransactions(accountId, FSN_LOVE_CONTRACT_ADDR, address, dispatch);
       }
+    }
+    if (process.env.REACT_APP_DAO === 'sexydao') {
+      void getFSNTransactions(accountId, SEXY_CONTRACT_ADDR, address, dispatch);
     }
   };
 }

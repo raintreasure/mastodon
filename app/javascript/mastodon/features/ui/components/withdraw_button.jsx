@@ -66,13 +66,15 @@ class WithdrawButton extends React.PureComponent {
   getTwitterAccount = () => {
     switch (process.env.REACT_APP_DAO) {
       case 'chinesedao':
-        return 'chinesedao';
+        return 'chinesedaocom';
       case 'facedao':
         return 'facedaocom';
       case 'lovedao':
-        return 'lovedao';
+        return 'lovedaocom';
       case 'pqcdao':
-        return 'pqcdao';
+        return 'pqcdaocom';
+      case 'sexydao':
+        return 'sexydaocom';
       default:
         return 'chinesedao';
     }

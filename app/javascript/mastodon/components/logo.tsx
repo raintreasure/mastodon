@@ -8,6 +8,8 @@ const getDarkWordmark = () => {
       return '/images/love-wordmark-dark.png';
     case 'pqcdao':
       return '/images/pqc-wordmark-dark.png';
+    case 'sexydao':
+      return '/images/sexy-wordmark-dark.png';
     default:
       return '/images/chinese-wordmark-dark.png';
   }
@@ -22,6 +24,8 @@ const getLightWordmark = () => {
       return '/images/love-wordmark-light.png';
     case 'pqcdao':
       return '/images/pqc-wordmark-light.png';
+    case 'sexydao':
+      return '/images/sexy-wordmark-light.png';
     default:
       return '/images/chinese-wordmark-light.png';
   }
@@ -41,6 +45,8 @@ export const getIcon = () => {
       return '/images/love-icon.png';
     case 'pqcdao':
       return '/images/pqc-icon.png';
+    case 'sexydao':
+      return '/images/sexy-icon.png';
     default:
       return '/images/chinese-icon.png';
   }

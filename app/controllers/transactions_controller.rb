@@ -58,6 +58,9 @@ class TransactionsController < ApplicationController
     if ENV['REACT_APP_DAO'] == 'pqcdao'
       return 'FRC759Token'
     end
+    if ENV['REACT_APP_DAO'] == 'sexydao'
+      return 'ChaingeWrappedToken'
+    end
   end
 
   def is_legacy
@@ -71,6 +74,9 @@ class TransactionsController < ApplicationController
       return true
     end
     if ENV['REACT_APP_DAO'] == 'pqcdao'
+      return true
+    end
+    if ENV['REACT_APP_DAO'] == 'sexydao'
       return true
     end
   end
@@ -153,6 +159,9 @@ class TransactionsController < ApplicationController
     end
     if ENV['REACT_APP_DAO'] == 'pqcdao'
       return '0xbd9749e4da1fb181ce6e413946cf760dec67b415'
+    end
+    if ENV['REACT_APP_DAO'] == 'sexydao'
+      return '0x05038f190EB986e8Bbfc2708806026174fb4beBe'
     end
   end
 

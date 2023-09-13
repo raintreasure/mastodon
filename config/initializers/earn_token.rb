@@ -8,6 +8,8 @@ def getPublishReward
     200
   when 'pqcdao'
     2
+  when 'sexydao'
+    200
   end
 end
 
@@ -21,6 +23,8 @@ def getFavouriteReward
     100
   when 'pqcdao'
     1
+  when 'sexydao'
+    100
   end
 end
 
@@ -34,6 +38,8 @@ def getBookmarkReward
     100
   when 'pqcdao'
     1
+  when 'sexydao'
+    100
   end
 end
 
@@ -47,6 +53,8 @@ def getRetweetReward
     100
   when 'pqcdao'
     1
+  when 'sexydao'
+    100
   end
 end
 
@@ -60,6 +68,8 @@ def getFollowReward
     100
   when 'pqcdao'
     1
+  when 'sexydao'
+    100
   end
 end
 
@@ -73,6 +83,8 @@ def getOnlineReward
     1
   when 'pqcdao'
     0.01
+  when 'sexydao'
+    0.1
   end
 end
 
@@ -86,6 +98,8 @@ def getDailyRewardLimit
     10000
   when 'pqcdao'
     100
+  when 'sexydao'
+    10000
   end
 end
 
@@ -99,5 +113,7 @@ def geInitialBalance
     100000
   when 'pqcdao'
     100
+  when 'sexydao'
+    100000
   end
 end

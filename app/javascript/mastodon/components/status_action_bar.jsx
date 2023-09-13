@@ -261,6 +261,11 @@ class StatusActionBar extends ImmutablePureComponent {
     const account = status.get('account');
     transferModal(intl, dispatch, account, 'PQC', blockchain);
   };
+  transferSEXYModal = () => {
+    const {intl, dispatch, status, blockchain} = this.props;
+    const account = status.get('account');
+    transferModal(intl, dispatch, account, 'SEXY', blockchain);
+  };
 
   render() {
     const {status, relationship, intl, withDismiss, withCounters, scrollKey, shouldHide} = this.props;
@@ -499,6 +504,13 @@ class StatusActionBar extends ImmutablePureComponent {
             onClick={this.transferPQCModal}
           />
         }
+        {process.env.REACT_APP_DAO === 'sexydao' &&
+        <IconButton
+          className='status__action-bar__button gift-icon' disabled={!signedIn || writtenByMe || shouldHide}
+          title={intl.formatMessage(messages.gift)} icon='gift'
+          onClick={this.transferSEXYModal}
+        />
+      }
 
         {filterButton}
 
