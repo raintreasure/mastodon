@@ -9,19 +9,19 @@ namespace :branding do
 
   desc 'Generate PNG icons and logos for e-mail templates'
   task generate_mailer_assets: :environment do
-    rsvg_convert = Terrapin::CommandLine.new('rsvg-convert', '-h :size --keep-aspect-ratio :input -o :output')
-    output_dest  = Rails.root.join('app', 'javascript', 'images', 'mailer')
+    # rsvg_convert = Terrapin::CommandLine.new('rsvg-convert', '-h :size --keep-aspect-ratio :input -o :output')
+    # output_dest  = Rails.root.join('app', 'javascript', 'images', 'mailer')
 
     # Displayed size is 64px, at 3x it's 192px
-    Dir[Rails.root.join('app', 'javascript', 'images', 'icons', '*.svg')].each do |path|
-      rsvg_convert.run(input: path, size: 192, output: output_dest.join("#{File.basename(path, '.svg')}.png"))
-    end
+    # Dir[Rails.root.join('app', 'javascript', 'images', 'icons', '*.svg')].each do |path|
+    #   rsvg_convert.run(input: path, size: 192, output: output_dest.join("#{File.basename(path, '.svg')}.png"))
+    # end
 
     # Displayed size is 34px, at 3x it's 102px
-    rsvg_convert.run(input: Rails.root.join('app', 'javascript', 'images', 'logo-symbol-wordmark.svg'), size: 102, output: output_dest.join('wordmark.png'))
+    # rsvg_convert.run(input: Rails.root.join('app', 'javascript', 'images', 'logo-symbol-wordmark.svg'), size: 102, output: output_dest.join('wordmark.png'))
 
     # Displayed size is 24px, at 3x it's 72px
-    rsvg_convert.run(input: Rails.root.join('app', 'javascript', 'images', 'logo-symbol-icon.svg'), size: 72, output: output_dest.join('logo.png'))
+    # rsvg_convert.run(input: Rails.root.join('app', 'javascript', 'images', 'logo-symbol-icon.svg'), size: 72, output: output_dest.join('logo.png'))
   end
 
   desc 'Generate light/dark logotypes for GitHub'
@@ -69,11 +69,11 @@ namespace :branding do
 
   desc 'Generate badge icon from SVG source files'
   task generate_app_badge: :environment do
-    rsvg_convert = Terrapin::CommandLine.new('rsvg-convert', '--stylesheet :stylesheet -w :size -h :size --keep-aspect-ratio :input -o :output')
-    badge_source = Rails.root.join('app', 'javascript', 'images', 'logo-symbol-icon.svg')
-    output_dest  = Rails.public_path
-    stylesheet   = Rails.root.join('lib', 'assets', 'wordmark.light.css')
+    # rsvg_convert = Terrapin::CommandLine.new('rsvg-convert', '--stylesheet :stylesheet -w :size -h :size --keep-aspect-ratio :input -o :output')
+    # badge_source = Rails.root.join('app', 'javascript', 'images', 'logo-symbol-icon.svg')
+    # output_dest  = Rails.public_path
+    # stylesheet   = Rails.root.join('lib', 'assets', 'wordmark.light.css')
 
-    rsvg_convert.run(stylesheet: stylesheet, input: badge_source, size: 192, output: output_dest.join('badge.png'))
+    # rsvg_convert.run(stylesheet: stylesheet, input: badge_source, size: 192, output: output_dest.join('badge.png'))
   end
 end
