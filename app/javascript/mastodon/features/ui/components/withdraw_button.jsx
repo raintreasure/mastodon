@@ -166,7 +166,7 @@ class WithdrawButton extends React.PureComponent {
       this.setState({gasPrice: price})
     })
     getGasAmountForTransfer(process.env.REACT_APP_BUFFER_ACCOUNT, eth_address,
-      getAmountWithDecimals(10000, getEarnToken()),
+      getAmountWithDecimals(100, getEarnToken()),
       getWithdrawContractAddr(blockchain)).then(amount => {
       // console.log('gas amount when component mounted:', amount)
       this.setState({gasAmount: amount})
@@ -174,10 +174,11 @@ class WithdrawButton extends React.PureComponent {
   }
 
   componentDidMount() {
-   this.preCalculate();
+    this.preCalculate();
   }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.blockchain !== prevProps.blockchain){
+    if (this.props.blockchain !== prevProps.blockchain) {
       this.preCalculate();
     }
   }
@@ -194,30 +195,31 @@ class WithdrawButton extends React.PureComponent {
 
     if (eth_address) {
       this.setState({loading: true});
-
-      let getGasPricePromise, getGasAmountPromise;
-      if (this.state.gasPrice !== -1 && this.state.gasAmount !== -1) {
-        getGasPricePromise = new Promise(resolve => resolve(this.state.gasPrice));
-        getGasAmountPromise = new Promise(resolve => resolve(this.state.gasAmount));
-      } else {
-        getGasPricePromise = getGasPrice(blockchain)();
-        getGasAmountPromise = getGasAmountForTransfer(process.env.REACT_APP_BUFFER_ACCOUNT, eth_address,
-          getAmountWithDecimals(new_balance.new_balance, getEarnToken()),
-          getWithdrawContractAddr(blockchain));
-      }
-      Promise.all([getGasAmountPromise, getGasPricePromise]).then(([gasAmount, proposePrice]) => {
-        gasPrice = proposePrice;
-        // console.log('gas price is:', gasPrice, ' gas amount is :', gasAmount);
-        gasValueInWei = new BigNumber(gasAmount).multipliedBy(gasPrice).multipliedBy(GWei);
-        // console.log('gasValueInWei:', gasValueInWei);
-        gasValue = gasValueInWei.dividedBy(getNativeTokenDecimals()).toString();
-        // console.log('gasValue:', gasValue);
-        this.openWithdrawModal(eth_address, gasValue, gasValueInWei.toFixed(0), gasPrice);
-      }).catch(e => {
+      try {
+        let getGasPricePromise, getGasAmountPromise;
+        if (this.state.gasPrice !== -1 && this.state.gasAmount !== -1) {
+          getGasPricePromise = new Promise(resolve => resolve(this.state.gasPrice));
+          getGasAmountPromise = new Promise(resolve => resolve(this.state.gasAmount));
+        } else {
+          getGasPricePromise = getGasPrice(blockchain)();
+          getGasAmountPromise = getGasAmountForTransfer(process.env.REACT_APP_BUFFER_ACCOUNT, eth_address,
+            getAmountWithDecimals(new_balance.new_balance, getEarnToken()),
+            getWithdrawContractAddr(blockchain));
+        }
+        Promise.all([getGasAmountPromise, getGasPricePromise]).then(([gasAmount, proposePrice]) => {
+          gasPrice = proposePrice;
+          // console.log('gas price is:', gasPrice, ' gas amount is :', gasAmount);
+          gasValueInWei = new BigNumber(gasAmount).multipliedBy(gasPrice).multipliedBy(GWei);
+          // console.log('gasValueInWei:', gasValueInWei);
+          gasValue = gasValueInWei.dividedBy(getNativeTokenDecimals()).toString();
+          // console.log('gasValue:', gasValue);
+          this.openWithdrawModal(eth_address, gasValue, gasValueInWei.toFixed(0), gasPrice);
+        });
+      } catch (e) {
         console.log(e);
-      }).finally(() => {
+      } finally {
         this.setState({loading: false});
-      });
+      }
     } else {
       dispatch(openModal({
         modalType: 'CONFIRM',

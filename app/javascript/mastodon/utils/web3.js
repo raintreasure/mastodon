@@ -261,7 +261,7 @@ export const getNativeTokenDecimals = () => {
     case 'pqcdao':
       return 1e18;
     case 'sexydao':
-      return 1e6;
+      return 1e18;
     default:
       return 1e18;
   }

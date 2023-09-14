@@ -83,7 +83,7 @@
   "account.subscribe.undo_title": "取消訂閲",
   "account.subscribe.undo_text_1": "您將取消訂閲",
   "account.subscribe.undo_text_2": "您的訂閲費用將不會退還",
-  "account.subscribe.undo_confirm": "取消",
+  "account.subscribe.undo_confirm": "不再訂閲",
   "account.tab_tokens": "代幣",
   "account.tab_nfts": "NFT",
   "account.tab_earnings": "獎勵",

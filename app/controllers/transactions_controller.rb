@@ -61,6 +61,7 @@ class TransactionsController < ApplicationController
     if ENV['REACT_APP_DAO'] == 'sexydao'
       return 'ChaingeWrappedToken'
     end
+    return 'FRC759Token';
   end
 
   def is_legacy
@@ -79,6 +80,25 @@ class TransactionsController < ApplicationController
     if ENV['REACT_APP_DAO'] == 'sexydao'
       return true
     end
+    return true;
+  end
+  def get_earn_token_decimal
+    if ENV['REACT_APP_DAO'] == 'chinesedao'
+      return 1e18;
+    end
+    if ENV['REACT_APP_DAO'] == 'facedao'
+      return 1e18;
+    end
+    if ENV['REACT_APP_DAO'] == 'lovedao'
+      return 1;
+    end
+    if ENV['REACT_APP_DAO'] == 'pqcdao'
+      return 1e18;
+    end
+    if ENV['REACT_APP_DAO'] == 'sexydao'
+      return 1e6;
+    end
+    return 1e18;
   end
 
   def transfer_native_token
@@ -106,7 +126,7 @@ class TransactionsController < ApplicationController
       current_balance = current_account.balance
       chain_balance = @client.call(erc20_contract, 'balanceOf', to_address)
       hash = @client.transact_and_wait(erc20_contract, 'transfer', to_address,
-                                       BigDecimal(current_balance).mult(ENV['REACT_APP_DAO'] == 'lovedao' ? 1 : Eth::Unit::ETHER, 0).round,
+                                       BigDecimal(current_balance).mult(get_earn_token_decimal, 0).round,
                                        sender_key: buffer_account_private_key, gas_limit: 80000, legacy: is_legacy)
 
       sleep(1)
