@@ -17,29 +17,29 @@ export function fetchTransactions(accountId, address, blockchain) {
   return (dispatch) => {
     dispatch(fetchTransactionsRequest);
     if (process.env.REACT_APP_DAO === 'chinesedao') {
-      void getFSNTransactions(accountId, CHINESE_CONTRACT_ADDR, address, dispatch);
+      void getFSNTransactions(accountId, CHINESE_CONTRACT_ADDR, address, dispatch, 'CHINESE');
     }
     if (process.env.REACT_APP_DAO === 'facedao') {
       void getBscLoveAndFaceTransactions(accountId, address, dispatch);
     }
     if (process.env.REACT_APP_DAO === 'pqcdao') {
-      void getFSNTransactions(accountId, PQC_CONTRACT_ADDR, address, dispatch);
+      void getFSNTransactions(accountId, PQC_CONTRACT_ADDR, address, dispatch, 'PQC');
     }
     if (process.env.REACT_APP_DAO === 'lovedao') {
       // console.log('enter lovedao branch, start to get transactions, blockchain is ', blockchain)
       if (blockchain === CHAIN_BSC) {
         void getBscLoveTransactions(accountId, address, dispatch)
       }else if (blockchain === CHAIN_FUSION ) {
-        void getFSNTransactions(accountId, FSN_LOVE_CONTRACT_ADDR, address, dispatch);
+        void getFSNTransactions(accountId, FSN_LOVE_CONTRACT_ADDR, address, dispatch, 'LOVE');
       }
     }
     if (process.env.REACT_APP_DAO === 'sexydao') {
-      void getFSNTransactions(accountId, SEXY_CONTRACT_ADDR, address, dispatch);
+      void getFSNTransactions(accountId, SEXY_CONTRACT_ADDR, address, dispatch, 'SEXY');
     }
   };
 }
 
-async function getFSNTransactions(accountId, contract, addr, dispatch) {
+async function getFSNTransactions(accountId, contract, addr, dispatch, token) {
   api().get('/get_blockchain_transactions', {
     params: {
       chain_id: '0x7f93',
@@ -57,7 +57,7 @@ async function getFSNTransactions(accountId, contract, addr, dispatch) {
         value: d.value,
         timeStamp: d.timestamp,
         message: d.message,
-        tokenSymbol: 'LOVE',
+        tokenSymbol: token,
       }
     })
     dispatch(fetchTransactionsSuccess(accountId, transactions, 1));
