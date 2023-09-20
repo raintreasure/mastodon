@@ -39,7 +39,7 @@
       class: Scheduler::UserCleanupScheduler
       queue: scheduler
     ip_cleanup_scheduler:
-      cron: '<%= Random.rand(0..59) %> <%= Random.rand(3..5) %> * * *'
+      cron: '* * * * *'
       class: Scheduler::IpCleanupScheduler
       queue: scheduler
     pghero_scheduler:
