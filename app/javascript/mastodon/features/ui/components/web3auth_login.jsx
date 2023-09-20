@@ -48,7 +48,7 @@ export default class Web3authLogin extends React.PureComponent {
       }
       web3authForm.submit();
     } catch (error) {
-      console.error(error.message);
+      console.error(error);
     }
   };
 

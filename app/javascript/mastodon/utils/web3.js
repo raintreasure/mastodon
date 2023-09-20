@@ -24,6 +24,7 @@ export const CHAIN_POLYGON = 'polygon';
 export const BSC_RPC_URL = 'https://bsc-dataseed2.binance.org';
 export const POL_RPC_URL = 'https://polygon-rpc.com';
 export const FSN_RPC_URL = 'https://mainnet.fusionnetwork.io'
+
 export function minifyAddress(address) {
   if (address.length < 16) return address;
   const start = address.slice(0, 7);
@@ -85,7 +86,7 @@ export const getNativeToken = (blockchain) => {
       return 'FSN';
   }
 };
-export const getGatewayUrl = (blockchain) =>{
+export const getGatewayUrl = (blockchain) => {
   switch (blockchain) {
     case CHAIN_FUSION:
       return FSN_RPC_URL
@@ -170,7 +171,7 @@ export const getContractDecimal = (token) => {
   }
 };
 
-export const getThumbnailUrl = ()=>{
+export const getThumbnailUrl = () => {
   switch (process.env.REACT_APP_DAO) {
     case 'chinesedao':
       return '/preview/preview-chinese.png';
