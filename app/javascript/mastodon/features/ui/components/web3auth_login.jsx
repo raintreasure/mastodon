@@ -1,7 +1,7 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
-import { getPublicCompressed } from '@toruslabs/eccrypto';
+import {getPublicCompressed} from '@toruslabs/eccrypto';
 
 export default class Web3authLogin extends React.PureComponent {
   formLogin = async () => {
@@ -53,6 +53,9 @@ export default class Web3authLogin extends React.PureComponent {
   };
 
   render() {
+    if (window.web3auth) {
+      window.web3auth.logout();
+    }
     return (
       <>
         <button className='button button--block' onClick={this.formLogin}><FormattedMessage

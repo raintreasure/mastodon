@@ -92,7 +92,7 @@ zh-HK:
         invalid_resource_owner: 資源擁有者的登入資訊無效、或者無法找到該資源擁有者
         invalid_scope: 你所請求的權限範圍 (scope) 無效、未知、或格式錯誤。
         invalid_token:
-          expired: 存取憑證 (access token) 已過期
+          expired: 登錄狀態已過期，請登出后重新登錄
           revoked: 存取憑證 (access token) 已被撤銷
           unknown: 存取憑證 (access token) 無效
         resource_owner_authenticator_not_configured: 無法找到資源擁有者，原因是 Doorkeeper.configure.resource_owner_authenticator 沒有設定。

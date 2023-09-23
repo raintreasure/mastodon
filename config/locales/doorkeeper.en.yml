@@ -92,7 +92,7 @@ en:
         invalid_resource_owner: The provided resource owner credentials are not valid, or resource owner cannot be found
         invalid_scope: The requested scope is invalid, unknown, or malformed.
         invalid_token:
-          expired: The access token expired
+          expired: The access token expired, please log out and then log in again
           revoked: The access token was revoked
           unknown: The access token is invalid
         resource_owner_authenticator_not_configured: Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfiged.

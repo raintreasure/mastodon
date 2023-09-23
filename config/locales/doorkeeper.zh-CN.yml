@@ -92,7 +92,7 @@ zh-CN:
         invalid_resource_owner: 资源所有者认证无效，或找不到所有者
         invalid_scope: 请求的权限范围无效、未知或格式不正确
         invalid_token:
-          expired: 访问令牌已过期
+          expired: 登录状态已过期，请登出后重新登录
           revoked: 访问令牌已被吊销
           unknown: 访问令牌无效
         resource_owner_authenticator_not_configured: 由于 Doorkeeper.configure.resource_owner_authenticator 尚未配置，查找资源所有者失败。

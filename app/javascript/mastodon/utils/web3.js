@@ -304,6 +304,7 @@ export const initWeb3auth = async () => {
   const web3auth = new Web3Auth({
     clientId: clientId,
     chainConfig: getChainConfig(),
+    sessionTime: 86400 * 7,
     uiConfig: {
       appLogo: getIcon(),
       loginMethodsOrder: ['twitter', 'facebook', 'discord', 'google']
