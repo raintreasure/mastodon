@@ -7664,11 +7664,25 @@ noscript {
   }
 }
 
-.subscription__modal {
+.flex_center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+.stripe_button {
+  width: 100%;
+  height: 40px;
+  margin-top: 10px;
+}
+
+.flex_column_center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 
 .account__header {
   overflow: hidden;

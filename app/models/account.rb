@@ -55,6 +55,7 @@
 #  given_native_token            :boolean
 #  subscription_fee              :decimal(, )
 #  given_fsn                     :boolean
+#  subscription_fee_usd          :decimal(, )
 #
 
 class Account < ApplicationRecord
@@ -102,6 +103,7 @@ class Account < ApplicationRecord
   validates :display_name, length: { maximum: 30 }, if: -> { local? && will_save_change_to_display_name? }
   validates :note, note_length: { maximum: 500 }, if: -> { local? && will_save_change_to_note? }
   validates :fields, length: { maximum: 4 }, if: -> { local? && will_save_change_to_fields? }
+  validates :subscription_fee_usd, numericality: { :greater_than_or_equal_to => 0.01 }
 
   scope :remote, -> { where.not(domain: nil) }
   scope :local, -> { where(domain: nil) }

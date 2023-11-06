@@ -186,6 +186,8 @@ zh-HK:
         max_uses: 最大使用次數
         new_password: 新密碼
         note: 簡介
+        subscription_fee_token: 訂閲費用(代幣)
+        subscription_fee_usd: 訂閲費用(美元)
         subscription_fee: 訂閲費用
         otp_attempt: 雙重認證碼
         password: 密碼

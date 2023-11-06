@@ -24,6 +24,7 @@ import SubscribeButton from '../../ui/components/subscribe_button';
 import {Typography} from 'antd';
 import {getAbbrBlockchain, getEarnToken} from "mastodon/utils/web3";
 import ExchangeButton from "mastodon/components/exchange_button";
+import {showSubscriptionFeature} from "mastodon/utils/account";
 
 const {Paragraph} = Typography;
 
@@ -549,7 +550,7 @@ class Header extends ImmutablePureComponent {
           {account.get('id') !== me &&
             <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
               <TransferToken to_account={account}/>
-              {process.env.REACT_APP_ENABLE_SUBSCRIPTION === 'true' && account.get('subscription_fee') !== null &&
+              {showSubscriptionFeature(account) &&
                 <SubscribeButton to_account={account} subscribing={account.getIn(['relationship', 'subscribing'])}/>
               }
             </div>

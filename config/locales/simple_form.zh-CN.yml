@@ -188,6 +188,8 @@ zh-CN:
         new_password: 新密码
         note: 简介
         subscription_fee: 订阅费用
+        subscription_fee_token: 订阅费用(代币)
+        subscription_fee_usd: 订阅费用(美元)
         otp_attempt: 双重认证代码
         password: 密码
         phrase: 关键词

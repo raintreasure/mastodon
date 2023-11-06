@@ -187,6 +187,8 @@ en-GB:
         max_uses: Max number of uses
         new_password: New password
         note: Bio
+        subscription_fee_token: Subscription Fee (in token)
+        subscription_fee_usd: Subscription Fee(in USD)
         otp_attempt: Two-factor code
         password: Password
         phrase: Keyword or phrase

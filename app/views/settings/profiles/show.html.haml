@@ -21,7 +21,9 @@
       .fields-group
         = f.input :note, wrapper: :with_block_label, input_html: { maxlength: 500 }
         - if ENV['REACT_APP_ENABLE_SUBSCRIPTION'] == 'true'
-          = f.input :subscription_fee, wrapper: :with_label, input_html: {min:1}, hint: false
+          = f.input :subscription_fee, wrapper: :with_label, input_html: {min:1}, hint: false, label: t('simple_form.labels.defaults.subscription_fee_token')
+          = f.input :subscription_fee_usd, wrapper: :with_label, input_html: {min:0.01, step:0.01}, hint: false, label: t('simple_form.labels.defaults.subscription_fee_usd')
+
 
     .fields-row__column.fields-group.fields-row__column-6
       .input.with_block_label

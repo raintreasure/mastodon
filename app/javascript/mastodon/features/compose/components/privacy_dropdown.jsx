@@ -12,6 +12,7 @@ import { Icon }  from 'mastodon/components/icon';
 
 import { IconButton } from '../../../components/icon_button';
 import ImmutablePropTypes from "react-immutable-proptypes";
+import {showSubscriptionFeature} from "mastodon/utils/account";
 
 const messages = defineMessages({
   public_short: { id: 'privacy.public.short', defaultMessage: 'Public' },
@@ -230,7 +231,7 @@ class PrivacyDropdown extends PureComponent {
       { icon: 'unlock', value: 'unlisted', text: formatMessage(messages.unlisted_short), meta: formatMessage(messages.unlisted_long) },
       { icon: 'lock', value: 'private', text: formatMessage(messages.private_short), meta: formatMessage(messages.private_long) },
     ];
-    if (account.get('subscription_fee') !== null) {
+    if (showSubscriptionFeature(account)) {
       this.options.push(
         { icon: 'money', value: 'profitable', text: formatMessage(messages.profitable_short), meta: formatMessage(messages.profitable_long) },
       )

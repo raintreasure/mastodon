@@ -31,6 +31,7 @@ import ImageModal from './image_modal';
 import MediaModal from './media_modal';
 import ModalLoading from './modal_loading';
 import VideoModal from './video_modal';
+import CancelableModal from "mastodon/features/ui/components/cancelable_modal";
 
 export const MODAL_COMPONENTS = {
   'MEDIA': () => Promise.resolve({ default: MediaModal }),
@@ -39,6 +40,7 @@ export const MODAL_COMPONENTS = {
   'IMAGE': () => Promise.resolve({ default: ImageModal }),
   'BOOST': () => Promise.resolve({ default: BoostModal }),
   'CONFIRM': () => Promise.resolve({ default: ConfirmationModal }),
+  'CANCELABLE': () => Promise.resolve({ default: CancelableModal }),
   'MUTE': MuteModal,
   'BLOCK': BlockModal,
   'REPORT': ReportModal,
@@ -86,7 +88,7 @@ export default class ModalRoot extends PureComponent {
   };
 
   renderLoading = modalId => () => {
-    return ['MEDIA', 'VIDEO', 'BOOST', 'CONFIRM', 'ACTIONS'].indexOf(modalId) === -1 ? <ModalLoading /> : null;
+    return ['MEDIA', 'VIDEO', 'BOOST', 'CONFIRM', 'ACTIONS', 'CANCELABLE'].indexOf(modalId) === -1 ? <ModalLoading /> : null;
   };
 
   renderError = (props) => {
