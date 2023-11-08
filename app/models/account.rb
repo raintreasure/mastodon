@@ -55,6 +55,8 @@
 #  given_native_token            :boolean
 #  subscription_fee              :decimal(, )
 #  given_fsn                     :boolean
+#  subscription_fee_usd          :decimal(, )
+#  membership                    :integer          default(0)
 #
 
 class Account < ApplicationRecord

@@ -189,6 +189,10 @@
   position: relative;
 }
 
+.test {
+  color: b;
+}
+
 .icon-button {
   display: inline-block;
   padding: 0;
@@ -1920,19 +1924,19 @@ a.account__display-name {
   font-weight: bold;
   text-decoration: none;
 
-  &:hover{
+  &:hover {
     text-decoration: underline;
   }
 }
 
-.deposit_modal{
+.deposit_modal {
   display: flex;
   flex-direction: column;
   gap: 3px;
   text-align: start;
 }
 
-.deposit_heading{
+.deposit_heading {
   font-weight: bolder;
   padding-top: 20px;
 }

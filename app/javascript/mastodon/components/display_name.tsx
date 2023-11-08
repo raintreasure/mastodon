@@ -6,7 +6,9 @@ import type { Account } from '../../types/resources';
 import { autoPlayGif } from '../initial_state';
 
 import { Skeleton } from './skeleton';
-
+import VipBronzeIcon from '../../images/vip_bronze_icon.svg';
+import VipSilverIcon from '../../images/vip_silver_icon.svg';
+import VipGoldIcon from '../../images/vip_gold_icon.svg';
 interface Props {
   account?: Account;
   others?: List<Account>;
@@ -83,12 +85,17 @@ export class DisplayName extends React.PureComponent<Props> {
       }
 
       displayName = (
-        <bdi>
+        <bdi style={{ display: 'flex', alignItems: 'center' }}>
           <strong
             className='display-name__html'
             dangerouslySetInnerHTML={{
               __html: account.get('display_name_html'),
             }}
+          />
+          <img
+            src={VipBronzeIcon}
+            alt={'vip icon'}
+            style={{ width: 20, height: 20 }}
           />
         </bdi>
       );

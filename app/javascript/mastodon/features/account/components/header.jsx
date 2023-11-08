@@ -24,6 +24,8 @@ import SubscribeButton from '../../ui/components/subscribe_button';
 import {Typography} from 'antd';
 import {getAbbrBlockchain, getEarnToken} from "mastodon/utils/web3";
 import ExchangeButton from "mastodon/components/exchange_button";
+import VipBronzeIcon from "../../../../images/vip_bronze_icon.svg";
+import React from "react";
 
 const {Paragraph} = Typography;
 
@@ -525,7 +527,11 @@ class Header extends ImmutablePureComponent {
 
           <div className='account__header__tabs__name'>
             <h1>
-              <span dangerouslySetInnerHTML={displayNameHtml}/> {badge}
+              <div style={{display:'flex', alignItems:'center'}}>
+                <span dangerouslySetInnerHTML={displayNameHtml}/> {badge}
+                <img src={VipBronzeIcon} alt={'vip icon'} style={{width:25, height:25}}/>
+              </div>
+
               <small>
                 <span>@{acct}</span> {lockedIcon}
               </small>
