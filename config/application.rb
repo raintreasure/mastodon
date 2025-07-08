@@ -1,6 +1,8 @@
 require_relative 'boot'
 
 require 'rails'
+require 'active_support/logger' # 确保手动加载必要模块
+require 'active_support/all' 
 
 require 'active_record/railtie'
 #require 'active_storage/engine'
